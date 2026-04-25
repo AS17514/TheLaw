@@ -8,6 +8,6 @@ public abstract class DiceBase
     public int sides;
     public int value;
     public int index;
-    public int isValid;
+    public bool isValid;
     public abstract void Roll();
 }
