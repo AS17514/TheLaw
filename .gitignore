@@ -15,6 +15,7 @@
 
 # 李毕自己加的：
 .vscode/
+.idea/
 Temp.meta
 
 # 用来仅上传Temp文件夹
