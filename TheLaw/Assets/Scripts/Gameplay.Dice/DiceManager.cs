@@ -197,153 +197,61 @@ public List<DiceBase> selectedDice=new List<DiceBase>();
 /// </summary>
 /// <param name="conditions"></param>
 /// <returns></returns>
-    public bool IsSelectionValid(params DiceCondition[] conditions)
+public bool IsSelectionValid(params DiceCondition[] conditions)
+{
+    if (conditions == null || conditions.Length == 0) return false;
+    if (selectedDice == null || selectedDice.Count == 0) return false;
+    if (conditions.Length != selectedDice.Count)
     {
-        if (conditions == null || conditions.Length == 0)
-        {
-            Debug.Log("conditions为空");
-            return false;
-        }
-
-        if (selectedDice == null || selectedDice.Count == 0)
-        {
-            Debug.Log("selectedDice为空");
-            return false;
-        }
-
-        if (conditions.Length != selectedDice.Count)
-        {
-            Debug.Log("老大，selectedDice数量与conditions数量对不上喵");
-            return false;
-        }
-        int count = conditions.Length;
-        List<DiceBase> timeDiceList = new List<DiceBase>();
-        List<DiceBase> actionDiceList = new List<DiceBase>();
-        List<DiceBase> mindDiceList = new List<DiceBase>();
-        List<DiceBase> wildDiceList = new List<DiceBase>();
-        foreach (var dice in selectedDice)
-        {
-            switch (dice.type)
-            {
-                case E_DiceType.Action:
-                    actionDiceList.Add(dice);
-                    break;
-                case E_DiceType.Mind:
-                    mindDiceList.Add(dice);
-                    break;
-                case E_DiceType.Time1:
-                case E_DiceType.Time2:
-                case E_DiceType.Time3:
-                case E_DiceType.Time4:
-                    timeDiceList.Add(dice);
-                    break;
-                case E_DiceType.Wild:
-                    wildDiceList.Add(dice);
-                    break;
-                default:
-                    Debug.Log("DiceManager的IsSelectionValid有问题喵");
-                    break;
-            }
-        }
-        int actionConditionsLength = 0;
-        int mindConditionsLength = 0;
-        int wildConditionsLength = 0;
-        int timeConditionsLength = 0;
-        List<DiceCondition> actionConditions=new List<DiceCondition>();
-        List<DiceCondition> mindConditions = new List<DiceCondition>();
-        List<DiceCondition> wildConditions = new List<DiceCondition>();
-        List<DiceCondition> timeConditions = new List<DiceCondition>();
-        foreach (DiceCondition condition in conditions)
-        {
-            switch (condition.type)
-            {
-                case E_DiceType.Action:
-                    actionConditionsLength++;
-                    actionConditions.Add(condition);
-                    break;
-                case E_DiceType.Mind:
-                    mindConditionsLength++;
-                    mindConditions.Add(condition);
-                    break;
-                case E_DiceType.Time1:
-                case E_DiceType.Time2:
-                case E_DiceType.Time3:
-                case E_DiceType.Time4:
-                    timeConditionsLength++;
-                    timeConditions.Add(condition);
-                    break;
-                case E_DiceType.Wild:
-                    wildConditionsLength++;
-                    wildConditions.Add(condition);
-                    break;
-            }
-        }
-        DiceCondition[] actionConditionsArray =actionConditions.ToArray();
-        DiceCondition[] mindConditionsArray = mindConditions.ToArray();
-        DiceCondition[] wildConditionsArray = wildConditions.ToArray();
-        DiceCondition[] timeConditionsArray = timeConditions.ToArray();
-        bool[] actionOption=new bool[actionConditionsLength];
-        bool[] mindOption=new bool[mindConditionsLength];
-        bool[] wildOption=new bool[wildConditionsLength];
-        bool[] timeOption=new bool[timeConditionsLength];
-        int[] index=new int[]{actionConditionsLength,mindConditionsLength,timeConditionsLength,wildConditionsLength};
-        for (int i =0;i<actionConditionsLength;i++)
-        {
-            actionOption[i]=false;
-        }
-
-        for (int i = 0; i < mindConditionsLength; i++)
-        {
-            mindOption[i]=false;
-        }
-
-        for (int i = 0; i < wildConditionsLength; i++)
-        {
-            wildOption[i]=false;
-        }
-
-        for (int i = 0; i < timeConditionsLength; i++)
-        {
-            timeOption[i]=false;
-        }
-        bool result1 = false;
-        bool result2 = false;
-        bool result3 = false;
-        bool result4 = false;
-        if (actionConditionsLength > 0)
-        {
-            result1 = BackTrack(actionOption, index, actionConditionsArray);
-        }
-        else
-        {
-            result1 = true;
-        }
-        if (mindConditionsLength > 0)
-        {
-            result2 = BackTrack(mindOption, index, mindConditionsArray);;
-        }
-        else
-        {
-            result2 = true;
-        }
-        if (timeConditionsLength > 0)
-        {
-            result3 = BackTrack(timeOption, index, timeConditionsArray);;
-        }
-        else
-        {
-            result3 = true;
-        }
-        if (wildConditionsLength > 0)
-        {
-            result4 = BackTrack(wildOption, index, wildConditionsArray);;
-        }
-        else
-        {
-            result4 = true;
-        }
-        return result1 && result2 && result3 && result4;
+        Debug.Log("老大，selectedDice数量与conditions数量对不上喵");
+        return false;
     }
+
+    // 全局重置状态
+    foreach (var dice in selectedDice) dice.isValid = false;
+    return GlobalDFS(0, conditions, selectedDice);
+}
+/// <summary>
+/// 一个内部辅助方法，用来迭代穷举所有选项的可能性,比较结束之后返回一个bool值,IsSelectionValid使用
+/// </summary>
+/// <param name="currentConditionIndex"></param>
+/// <param name="conditions"></param>
+/// <param name="availableDice"></param>
+/// <returns></returns>
+private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, List<DiceBase> availableDice)
+{
+    if (currentConditionIndex >= conditions.Length) return true;
+        
+    DiceCondition condition = conditions[currentConditionIndex];
+
+    for (int i = 0; i < availableDice.Count; i++)
+    {
+        DiceBase dice = availableDice[i];
+            
+        // 判断类型是否匹配（或者是万能骰子）
+        bool isTypeMatch = (dice.type == condition.type || dice.type == E_DiceType.Wild);
+            
+        if (dice.isValid == false && isTypeMatch)
+        {
+            // 如果是万能骰子，直接判定数值通过；否则进行数学比较
+            bool isValueMatch = (dice.type == E_DiceType.Wild) || CompareToMath(condition.mode, condition.value, dice.value);
+                
+            if (isValueMatch)
+            {
+                dice.isValid = true; // 做出选择
+                    
+                // 递归匹配下一个条件
+                if (GlobalDFS(currentConditionIndex + 1, conditions, availableDice))
+                {
+                    return true; // 如果后续全通了，直接返回
+                }
+                    
+                dice.isValid = false; 
+            }
+        }
+    }
+    return false;
+}
 /// <summary>
 /// 一个内部辅助方法，用来把比较的枚举转化成对应的数学模式,比较结束之后返回一个bool值,IsSelectionValid使用
 /// </summary>
@@ -376,87 +284,6 @@ public List<DiceBase> selectedDice=new List<DiceBase>();
         }
         return result;
     }
-/// <summary>
-/// 一个内部辅助方法，用来迭代穷举所有选项的可能性，并且判断能不能用,比较结束之后返回一个bool值,IsSelectionValid使用
-/// </summary>
-/// <param name="options"></param>
-/// <param name="conditions">某一种类的条件，比如说所有涉及行动骰子的条件。</param>
-/// <param name="tempIndex">长度必须为4，是IsSelectionValid中的int[] index</param>
-    private bool BackTrack(bool[] options,int[] tempIndex,params DiceCondition[] conditions)
-    {
-        //
-        if (tempIndex == null || tempIndex.Length == 0||tempIndex.Length>4)
-        {
-            return false;
-        }
-        if (conditions == null || conditions.Length == 0)
-            return false;
-        if (options == null || options.Length == 0)
-            return false;
-        if(options.Length!=conditions.Length)
-            return false;
-        //
-        //
-        List<DiceBase> tempDiceList = new List<DiceBase>();
-        switch (conditions[0].type)
-        {
-            case E_DiceType.Action:
-                List<DiceBase> tempActionDiceList = selectedDice.GetRange(0, tempIndex[0]);
-                tempDiceList=tempActionDiceList;
-                break;
-            case E_DiceType.Mind:
-                List<DiceBase> tempMindDiceList = selectedDice.GetRange(tempIndex[0], tempIndex[1]);
-                tempDiceList=tempMindDiceList;
-                break;
-            case E_DiceType.Time1:
-            case E_DiceType.Time2:
-            case E_DiceType.Time3:
-            case E_DiceType.Time4:
-                List<DiceBase> tempTimeDiceList = selectedDice.GetRange(tempIndex[0]+tempIndex[1], tempIndex[2]);
-                tempDiceList=tempTimeDiceList;
-                break;
-            case E_DiceType.Wild:
-                List<DiceBase> tempWildDiceList = selectedDice.GetRange(tempIndex[0]+tempIndex[1]+tempIndex[2], tempIndex[3]);
-                tempDiceList=tempWildDiceList;
-                break;
-        }
-        foreach (var dice in tempDiceList)
-        {
-            dice.isValid = false; 
-        }
-        return DFS(0, conditions, tempDiceList);
-    }
-/// <summary>
-/// 一个内部辅助方法，用来具体帮助BackTrack实现迭代穷举所有选项的可能性,比较结束之后返回一个bool值,IsSelectionValid的BackTrack使用
-/// </summary>
-/// <param name="currentConditionIndex"></param>
-/// <param name="conditions"></param>
-/// <param name="availableDice"></param>
-/// <returns></returns>
-    private bool DFS(int currentConditionIndex, DiceCondition[] conditions, List<DiceBase> availableDice)
-    {
-        if (currentConditionIndex >= conditions.Length)
-        {
-            return true;
-        }
-        DiceCondition condition = conditions[currentConditionIndex];
-        for (int i = 0; i < availableDice.Count; i++)
-        {
-            DiceBase dice = availableDice[i];
-            if (dice.isValid == false && CompareToMath(condition.mode, condition.value, dice.value))
-            {
-                dice.isValid = true;
-                if (DFS(currentConditionIndex + 1, conditions, availableDice))
-                {
-                    return true;
-                }
-                dice.isValid = false;
-            }
-
-        }
-        return false;
-    }
-
 /// <summary>
 /// 按顺序整理选中骰子列表,先行动，再思维，再时间，再万能,每种类型内部的顺序是从小到大。
 /// </summary>
