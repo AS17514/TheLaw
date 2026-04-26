@@ -34,6 +34,10 @@ public class UIManager : ManagerBase<UIManager>
         uiCanvas = Object.Instantiate(Resources.Load<Canvas>("Prefabs/UI/Canvas")).GetComponent<Canvas>();
         uiCanvas.worldCamera = uiCamera;
         uiEventSystem = Object.Instantiate(Resources.Load<EventSystem>("Prefabs/UI/EventSystem")).GetComponent<EventSystem>();
+        // 设置不移除
+        Object.DontDestroyOnLoad(uiCamera);
+        Object.DontDestroyOnLoad(uiCanvas);
+        Object.DontDestroyOnLoad(uiEventSystem);
         // 添加层级
         loadingLayer = uiCanvas.transform.Find("Loading");
         topLayer = uiCanvas.transform.Find("Top");
@@ -60,11 +64,15 @@ public class UIManager : ManagerBase<UIManager>
     /// <typeparam name="T"></typeparam>
     public void CreatPanel<T>(E_UILayer layer = E_UILayer.Bottom) where T : PanelBase
     {
-        GameObject panel = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/UI/Panels/{typeof(T).Name}"), GetUILayer(layer), false);
-        panel.AddComponent<T>();
-        T panelComponent = panel.GetComponent<T>();
-        panels.Add(typeof(T).Name, panelComponent);
-        panels[typeof(T).Name].ShowSelf();
+        string name = typeof(T).Name;
+        if (!panels.ContainsKey(name))
+        {
+            GameObject panel = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/UI/Panels/{name}"), GetUILayer(layer), false);
+            panel.AddComponent<T>();
+            T panelComponent = panel.GetComponent<T>();
+            panels.Add(name, panelComponent);
+        }
+        panels[name].ShowSelf();
     }
 
     /// <summary>
@@ -74,9 +82,12 @@ public class UIManager : ManagerBase<UIManager>
     public void RemovePanel<T>() where T : PanelBase
     {
         string name = typeof(T).Name;
-        T panel = panels[name] as T;
-        panel.HideSelf(() => { Object.Destroy(panel.gameObject); });
-        panels.Remove(name);
+        if (panels.ContainsKey(name))
+        {
+            T panel = panels[name] as T;
+            panel.HideSelf(() => { Object.Destroy(panel.gameObject); });
+            panels.Remove(name);
+        }
     }
     /// <summary>
     /// 获取面板层级对象的transform组件
