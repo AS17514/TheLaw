@@ -359,6 +359,89 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
             dicePool[type][i].index = i;
         }
     }
+    //E_ComboType
+    //MindActionPair, // 1思1行 (点数相同)
+    //DoubleMind,     // 2思 (点数相同)
+    //DoubleAction,   // 2行 (点数相同)
+    //Quadruple       // 4个思/行 (点数相同)
+    /// <summary>
+    /// IsSelectionValid的重构，用来实现第三关的判断点数是否相同
+    /// </summary>
+    /// <param name="comboType"></param>
+    /// <returns></returns>
+    public bool IsSelectionValid(E_ComboType comboType)
+    {
+        if (selectedDice == null || selectedDice.Count == 0) return false;
+
+        // 分支4需要4个骰子，其余需要2个
+        int requiredCount = (comboType == E_ComboType.Quadruple) ? 4 : 2;
+        if (selectedDice.Count != requiredCount) return false;
+
+        // 验证前重置状态
+        foreach (var dice in selectedDice) dice.isValid = false;
+
+        int actionCount = 0;
+        int mindCount = 0;
+        int targetValue = -1; // 记录基准点数
+        
+        foreach (var dice in selectedDice)
+        {
+            // 防止时间骰子混进来
+            if (dice.type == E_DiceType.Time1 || dice.type == E_DiceType.Time2 || 
+                dice.type == E_DiceType.Time3 || dice.type == E_DiceType.Time4)
+            {
+                return false;
+            }
+
+            if (dice.type == E_DiceType.Action) actionCount++;
+            if (dice.type == E_DiceType.Mind) mindCount++;
+
+            // 如果不是万能骰子，则用来确定或核对基准点数
+            if (dice.type != E_DiceType.Wild)
+            {
+                if (targetValue == -1) 
+                {
+                    targetValue = dice.value; // 第一颗非万能骰子定下基准点数
+                }
+                else if (targetValue != dice.value) 
+                {
+                    return false; // 发现点数不一致的，直接判定失败
+                }
+            }
+        }
+
+        // 根据类型进行最终判定
+        bool isMatch = false;
+        switch (comboType)
+        {
+            case E_ComboType.MindActionPair:
+                // 需要 1行1思。如果是 2行 或者 2思 就失败。
+                // 只要行动<=1，且思维<=1，剩余哪怕全是万能骰子也能完美变成1行1思！
+                isMatch = (actionCount <= 1 && mindCount <= 1);
+                break;
+            case E_ComboType.DoubleMind:
+                // 需要 2思。不能有行动骰子混进来
+                isMatch = (actionCount == 0);
+                break;
+            case E_ComboType.DoubleAction:
+                // 需要 2行。不能有思维骰子混进来
+                isMatch = (mindCount == 0);
+                break;
+            case E_ComboType.Quadruple:
+                // 需要 4个。只要上面没被时间骰子或点数不同给拦截，能到这一步就已经匹配成功了
+                isMatch = true; 
+                break;
+        }
+
+        // 如果匹配成功，全部标记为已使用
+        if (isMatch)
+        {
+            foreach (var dice in selectedDice) dice.isValid = true;
+            return true;
+        }
+
+        return false;
+    }
 /// <summary>
 /// 不能删
 /// </summary>
