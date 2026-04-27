@@ -14,6 +14,7 @@ public class DiceManager : ManagerBase<DiceManager>
         { E_DiceType.Mind,new List<DiceBase>() },
         { E_DiceType.Wild,new List<DiceBase>() }
 };
+    
 
 public List<DiceBase> selectedDice=new List<DiceBase>();
     /// <summary>
@@ -445,6 +446,103 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         }
 
         return false;
+    }
+
+    public int GetSelectedActionDiceMount()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Action)
+                {
+                Count++;
+                }
+        }
+        return Count;
+    }
+    public int GetSelectedMindDiceMount()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+            {
+                if (dice.type == E_DiceType.Mind)
+
+                {
+                    Count++;
+                }
+            }
+        return Count;
+    }
+
+    public int GetSelectedTime1DiceAction()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time1)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedTime2DiceAction()
+    {
+        
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time2)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedTime3DiceAction()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time3)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedTime4DiceAction()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time4)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedWildDiceAction()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Wild)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
     }
 /// <summary>
 /// 不能删
