@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Part : CharacterBase
 {
+    public override bool IsPlayer => false;
     public bool isDestroyed=false;
     public string name;
     public Entity owner;

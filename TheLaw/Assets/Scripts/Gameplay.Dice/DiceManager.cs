@@ -518,6 +518,11 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         }
         return Count;
     }
+
+    public List<DiceBase> UpdateSelectedDice()
+    {
+        return selectedDice;
+    }
 /// <summary>
 /// 不能删
 /// </summary>

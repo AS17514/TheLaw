@@ -4,8 +4,39 @@ using UnityEngine;
 
 public class Player : CharacterBase
 {
+    
+    #region 用于计算buff管理器内部的逻辑
+    private Dictionary<E_BuffType, int> buffs = new Dictionary<E_BuffType, int>
+    {
+        {E_BuffType.Desire,0 },
+        {E_BuffType.Tatters,0}
+    };
+    public override bool IsPlayer => true;
+    public void AddBuff(E_BuffType type, int amount)
+    {
+        if (!buffs.ContainsKey(type)) buffs[type] = 0;
+            buffs[type] += amount;
+
+
+        // 数值一变，立刻通过事件中心广播出去
+        EventCenter.Instance.EventTrigger(E_EventType.ChangeBuff);
+    }
+    /// <summary>
+    /// 提供给管理器的查询buff方法
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public int GetBuff(E_BuffType type)
+    {
+        return buffs.ContainsKey(type) ? buffs[type] : 0;
+    }
+    #endregion
     public  Dictionary<E_WishType,bool> wishUnlockProgress=new Dictionary<E_WishType,bool>();
-    public int initialDesire;
+    private void Awake()
+    {
+        // 出生时登记
+        BuffManager.Instance.Register(this);
+    }
     public override void Die()
     {
         
@@ -45,7 +76,7 @@ public class Player : CharacterBase
     /// <param name="initialDesire"></param>
     public void InitPlayer(int  initialDesire=0,int maxHp=10)
     {
-        this.initialDesire = initialDesire;
+        AddBuff(E_BuffType.Desire,initialDesire);
         this.maxHp = maxHp;
         this.hp = maxHp;
     }

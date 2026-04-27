@@ -1,14 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Entity : CharacterBase
+/// <summary>
+/// 改成了抽象类，防止某个地方创建了这个脚本，导致它生命周期当中自动挂载的效果生效。 所有的怪物都会继承这个抽象类。
+/// </summary>
+public abstract class  Entity : CharacterBase
 {
+    #region 用于计算buff管理器内部的逻辑
+
+    private Dictionary<E_BuffType, int> buffs = new Dictionary<E_BuffType, int>
+    {
+        {E_BuffType.Desire,0 },
+        {E_BuffType.Tatters,0}
+    };
+    public override bool IsPlayer => false;
+    public void AddBuff(E_BuffType type, int amount)
+    {
+        if (!buffs.ContainsKey(type)) buffs[type] = 0;
+        
+        buffs[type] += amount;
+
+        // 数值一变，立刻通过事件中心广播出去
+        EventCenter.Instance.EventTrigger();
+    }
+    /// <summary>
+    /// 提供给管理器的查询buff方法
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public int GetBuff(E_BuffType type)
+    {
+        return buffs.ContainsKey(type) ? buffs[type] : 0;
+    }
+    #endregion
     public List<Part> parts=new List<Part>();
-    public int initialDesire;
     public string name;
     public override void Die()
     {
         
+    }
+    public virtual void InitEntity(int  initialDesire=0,int maxHp=10)
+    {
+        AddBuff(E_BuffType.Desire,initialDesire);
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+    }
+    private void Awake()
+    {
+        // 游戏一开始，就把自己交到管理器手里
+        BuffManager.Instance.Register(this);
+    }
+    private void OnDestroy()
+    {
+        // 死亡时，主动告诉管理器删除
+        if (BuffManager.Instance != null) 
+        {
+            BuffManager.Instance.Unregister(this);
+        }
     }
 }

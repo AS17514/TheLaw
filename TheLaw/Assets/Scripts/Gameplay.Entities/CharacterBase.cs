@@ -7,7 +7,7 @@ public abstract class CharacterBase : MonoBehaviour
     public int hp;
     public int maxHp;
     public abstract void Die();
-
+    public abstract bool IsPlayer { get; }
     public virtual void TakeDamage(int damage)
     {
         if (damage <= 0)
