@@ -447,34 +447,8 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
 
         return false;
     }
-
-    public int GetSelectedActionDiceMount()
-    {
-        int Count = 0;
-        foreach (var dice in selectedDice)
-        {
-            if (dice.type == E_DiceType.Action)
-                {
-                Count++;
-                }
-        }
-        return Count;
-    }
-    public int GetSelectedMindDiceMount()
-    {
-        int Count = 0;
-        foreach (var dice in selectedDice)
-            {
-                if (dice.type == E_DiceType.Mind)
-
-                {
-                    Count++;
-                }
-            }
-        return Count;
-    }
-
-    public int GetSelectedTime1DiceAction()
+    
+    public int GetSelectedTime1DiceCount()
     {
         int Count = 0;
         foreach (var dice in selectedDice)
@@ -488,7 +462,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         return Count;
     }
 
-    public int GetSelectedTime2DiceAction()
+    public int GetSelectedTime2DiceCount()
     {
         
         int Count = 0;
@@ -503,7 +477,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         return Count;
     }
 
-    public int GetSelectedTime3DiceAction()
+    public int GetSelectedTime3DiceCount()
     {
         int Count = 0;
         foreach (var dice in selectedDice)
@@ -517,7 +491,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         return Count;
     }
 
-    public int GetSelectedTime4DiceAction()
+    public int GetSelectedTime4DiceConut()
     {
         int Count = 0;
         foreach (var dice in selectedDice)
@@ -531,7 +505,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         return Count;
     }
 
-    public int GetSelectedWildDiceAction()
+    public int GetSelectedWildDiceCount()
     {
         int Count = 0;
         foreach (var dice in selectedDice)
