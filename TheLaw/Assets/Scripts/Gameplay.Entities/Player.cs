@@ -19,7 +19,7 @@ public class Player : CharacterBase
 
 
         // 数值一变，立刻通过事件中心广播出去
-        EventCenter.Instance.EventTrigger(E_EventType.ChangeBuff);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerBuff, buffs);
     }
     /// <summary>
     /// 提供给管理器的查询buff方法

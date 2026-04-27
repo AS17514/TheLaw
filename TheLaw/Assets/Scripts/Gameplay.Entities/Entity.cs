@@ -21,7 +21,7 @@ public abstract class  Entity : CharacterBase
         buffs[type] += amount;
 
         // 数值一变，立刻通过事件中心广播出去
-        EventCenter.Instance.EventTrigger();
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityBuff, buffs);
     }
     /// <summary>
     /// 提供给管理器的查询buff方法
