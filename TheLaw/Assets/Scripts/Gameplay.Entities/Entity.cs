@@ -9,6 +9,6 @@ public class Entity : CharacterBase
     public string name;
     public override void Die()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

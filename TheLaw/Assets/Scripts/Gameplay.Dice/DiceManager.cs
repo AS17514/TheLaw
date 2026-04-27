@@ -142,7 +142,11 @@ public List<DiceBase> selectedDice=new List<DiceBase>();
         }
         SortPoolByValue(type);
     }
-
+/// <summary>
+/// 将指定骰子对象的值进行变动
+/// </summary>
+/// <param name="dice"></param>
+/// <param name="change"></param>
     public void ModifyDieValue(DiceBase dice, int change)
     {
         switch (dice.type)
