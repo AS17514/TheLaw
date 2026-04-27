@@ -19,7 +19,6 @@ public enum E_EventType
     UI_Update_TimeDice4Count,
     UI_Update_TimeDice4SelectedCount,
     UI_Update_WildDiceCount,
-    UI_Update_WildDiceSelectedCount,
     UI_Update_ActionDice,
     UI_Update_MindDice,
     UI_Update_IsConditionNotMet,
