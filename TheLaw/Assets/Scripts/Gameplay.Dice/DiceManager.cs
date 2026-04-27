@@ -14,6 +14,7 @@ public class DiceManager : ManagerBase<DiceManager>
         { E_DiceType.Mind,new List<DiceBase>() },
         { E_DiceType.Wild,new List<DiceBase>() }
 };
+    
 
 public List<DiceBase> selectedDice=new List<DiceBase>();
     /// <summary>
@@ -142,7 +143,11 @@ public List<DiceBase> selectedDice=new List<DiceBase>();
         }
         SortPoolByValue(type);
     }
-
+/// <summary>
+/// 将指定骰子对象的值进行变动
+/// </summary>
+/// <param name="dice"></param>
+/// <param name="change"></param>
     public void ModifyDieValue(DiceBase dice, int change)
     {
         switch (dice.type)
@@ -441,6 +446,82 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         }
 
         return false;
+    }
+    
+    public int GetSelectedTime1DiceCount()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time1)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedTime2DiceCount()
+    {
+        
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time2)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedTime3DiceCount()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time3)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedTime4DiceConut()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Time4)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public int GetSelectedWildDiceCount()
+    {
+        int Count = 0;
+        foreach (var dice in selectedDice)
+        {
+            if (dice.type == E_DiceType.Wild)
+
+            {
+                Count++;
+            }
+        }
+        return Count;
+    }
+
+    public List<DiceBase> UpdateSelectedDice()
+    {
+        return selectedDice;
     }
 /// <summary>
 /// 不能删

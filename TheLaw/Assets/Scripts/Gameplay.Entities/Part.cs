@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Part : CharacterBase
 {
+    public override bool IsPlayer => false;
     public bool isDestroyed=false;
     public string name;
     public Entity owner;
     public override void Die()
     {
         this.isDestroyed = true;
-        throw new System.NotImplementedException();
+        
         //重写死亡的函数在里面增加部位破坏的逻辑，即hp将要变为零0时。
     }
 
