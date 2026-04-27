@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class ProgressManager : ManagerBase<ProgressManager>
     public void SetCurrentTimeProgress(int currentTimeProgress)
     {
         this.currentTimeProgress = currentTimeProgress;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress,this.currentTimeProgress);
     }
 /// <summary>
 /// 时间段（当前回合数）加一
@@ -36,5 +38,15 @@ public class ProgressManager : ManagerBase<ProgressManager>
     public void AddPhase()
     {
         ++this.phase;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase,this.phase);
+    }
+/// <summary>
+/// 改变时间进度
+/// </summary>
+/// <param name="add"></param>
+    public void AddTimeProgress(int add)
+    {
+        timeProgress=Math.Clamp(timeProgress+add,0,this.currentTimeProgress);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress,this.timeProgress);
     }
 }

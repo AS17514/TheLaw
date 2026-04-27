@@ -36,12 +36,20 @@ public class Player : CharacterBase
     {
         // 出生时登记
         BuffManager.Instance.Register(this);
+        InitPlayer();
     }
     public override void Die()
     {
         
     }
-/// <summary>
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP,hp);
+    }
+
+    /// <summary>
 /// 执行固有行动
 /// </summary>
 /// <param name="inherentActionType"></param>

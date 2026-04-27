@@ -18,6 +18,7 @@ public class StateManager : ManagerBase<StateManager>
             currentState = newState;
             currentActionIndex = 0; // 重置行为队列
             currentExecutableMethod = stateActions[currentState][currentActionIndex];
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState,currentState);
         }
     }
     /// <summary>

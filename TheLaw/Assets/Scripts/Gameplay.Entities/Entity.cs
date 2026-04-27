@@ -39,6 +39,13 @@ public abstract class  Entity : CharacterBase
     {
         
     }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP, hp);
+    }
+
     public virtual void InitEntity(int  initialDesire=0,int maxHp=10)
     {
         AddBuff(E_BuffType.Desire,initialDesire);

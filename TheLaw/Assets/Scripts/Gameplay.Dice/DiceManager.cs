@@ -214,7 +214,10 @@ public bool IsSelectionValid(params DiceCondition[] conditions)
 
     // 全局重置状态
     foreach (var dice in selectedDice) dice.isValid = false;
-    return GlobalDFS(0, conditions, selectedDice);
+    bool result= GlobalDFS(0, conditions, selectedDice);
+    if(result==false)
+        EventCenter.Instance.EventTrigger(E_EventType. UI_Update_IsConditionNotMet);
+    return result;
 }
 /// <summary>
 /// 一个内部辅助方法，用来迭代穷举所有选项的可能性,比较结束之后返回一个bool值,IsSelectionValid使用
@@ -287,8 +290,11 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
                 Debug.Log("DiceManageer的CompareToMath问题喵");
                 break;
         }
+        if(result==false)
+            EventCenter.Instance.EventTrigger(E_EventType. UI_Update_IsConditionNotMet);
         return result;
     }
+
 /// <summary>
 /// 按顺序整理选中骰子列表,先行动，再思维，再时间，再万能,每种类型内部的顺序是从小到大。
 /// </summary>
@@ -310,6 +316,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
                 // 3. 如果类型相同，按点数从小到大排
                 return a.value.CompareTo(b.value);
             });
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDice);
     }
 /// <summary>
 ///  一个内部辅助方法，用来定义优先级,SortSelectedByValue使用
@@ -362,6 +369,31 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         for (int i = 0; i < dicePool[type].Count; i++)
         {
             dicePool[type][i].index = i;
+        }
+
+        switch (type)
+        {
+            case E_DiceType.Action:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_ActionDice);
+                break;
+            case E_DiceType.Mind:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice);
+                break;
+            case E_DiceType.Time1:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1Count,dicePool[type].Count);
+                break;
+            case E_DiceType.Time2:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2Count,dicePool[type].Count);
+                break;
+            case E_DiceType.Time3:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3Count,dicePool[type].Count);
+                break;
+            case E_DiceType.Time4:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4Count,dicePool[type].Count);
+                break;
+            case E_DiceType.Wild:
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceCount,dicePool[type].Count);
+                break;
         }
     }
     //E_ComboType
