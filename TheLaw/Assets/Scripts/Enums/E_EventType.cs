@@ -4,6 +4,9 @@ using UnityEngine;
 
 public enum E_EventType
 {
-
+    #region 存档
+    SaveData,
+    LoadData,
+    #endregion
 }
-    
+

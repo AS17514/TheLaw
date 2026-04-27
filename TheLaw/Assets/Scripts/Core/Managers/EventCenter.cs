@@ -4,37 +4,38 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// 事件中心模块 
+/// 事件中心模块
 /// </summary>
 public class EventCenter : ManagerBase<EventCenter>
 {
-    //用于记录对应事件 关联的 对应的逻辑
-    private Dictionary<EventType, UnityAction<object>> eventDic = new Dictionary<EventType, UnityAction<object>>();
+    //存储事件对应的委托
+    private Dictionary<E_EventType, UnityAction<object>> eventDic = new Dictionary<E_EventType, UnityAction<object>>();
 
     private EventCenter() { }
 
     /// <summary>
-    /// 触发事件 
+    /// 向事件中心通知此事件被触发
     /// </summary>
-    /// <param name="eventName">事件名字</param>
-    public void EventTrigger(EventType eventName, object info = null)
+    /// <param name="eventName">对应事件</param>
+    /// <param name="info">为事件监听者传回的参数</param>
+    public void EventTrigger(E_EventType eventName, object info = null)
     {
-        //存在关心我的人 才通知别人去处理逻辑
-        if(eventDic.ContainsKey(eventName))
+        //判断是否记录了对应事件的委托
+        if (eventDic.ContainsKey(eventName))
         {
-            //去执行对应的逻辑
+            // 判断是否为空后，执行委托
             eventDic[eventName]?.Invoke(info);
         }
     }
 
     /// <summary>
-    /// 添加事件监听者
+    /// 向事件中心添加事件监听
     /// </summary>
-    /// <param name="eventName"></param>
-    /// <param name="func"></param>
-    public void AddEventListener(EventType eventName, UnityAction<object> func)
+    /// <param name="eventName">想要监听的事件</param>
+    /// <param name="func">事件触发后要执行的委托</param>
+    public void AddEventListener(E_EventType eventName, UnityAction<object> func)
     {
-        //如果已经存在关心事件的委托记录 直接添加即可
+        //判断是否已经存储了对应事件，没有则新建
         if (eventDic.ContainsKey(eventName))
             eventDic[eventName] += func;
         else
@@ -42,15 +43,15 @@ public class EventCenter : ManagerBase<EventCenter>
             eventDic.Add(eventName, null);
             eventDic[eventName] += func;
         }
-            
+
     }
 
     /// <summary>
-    /// 移除事件监听者
+    /// 移除对应事件监听中的某委托（仅一次）
     /// </summary>
-    /// <param name="eventName"></param>
-    /// <param name="func"></param>
-    public void RemoveEventListener(EventType eventName, UnityAction<object> func)
+    /// <param name="eventName">想要移除对应委托的事件</param>
+    /// <param name="func">想要从中移除的委托</param>
+    public void RemoveEventListener(E_EventType eventName, UnityAction<object> func)
     {
         if (eventDic.ContainsKey(eventName))
             eventDic[eventName] -= func;
@@ -67,8 +68,8 @@ public class EventCenter : ManagerBase<EventCenter>
     /// <summary>
     /// 清除指定某一个事件的所有监听
     /// </summary>
-    /// <param name="eventName"></param>
-    public void ClearEventListeners(EventType eventName)
+    /// <param name="eventName">事件名</param>
+    public void ClearEventListeners(E_EventType eventName)
     {
         if (eventDic.ContainsKey(eventName))
             eventDic.Remove(eventName);
