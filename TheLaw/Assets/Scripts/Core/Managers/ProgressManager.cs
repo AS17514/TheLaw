@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProgressManager : ManagerBase<ProgressManager>
+public class ProgressManager : ManagerMonoBase<ProgressManager>
 {
     public int level ;//当前关卡
     public int phase;//当前时间段（当前回合数)
