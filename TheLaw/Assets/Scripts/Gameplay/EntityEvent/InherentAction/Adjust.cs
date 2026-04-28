@@ -30,7 +30,8 @@ public class Adjust : OptionBase
         {
             return new DiceCondition[]
             {
-                new DiceCondition(E_DiceType.TimeAny,4,E_CompareType.Less)
+                new DiceCondition(E_DiceType.TimeAny,4,E_CompareType.Less),
+                new DiceCondition(E_DiceType.ActionOrMind, 0, E_CompareType.Any)
             };
         }
     }
@@ -53,12 +54,22 @@ public class Adjust : OptionBase
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
-            if(DiceManager.Instance.changedDice==null||DiceManager.Instance.changedDice.Count != 1)
-                result=false;
             if (result && optionContext is AdjustOptionContext adjustCtx)
             {
-                DiceManager.Instance.ModifyDieValue(DiceManager.Instance.selectedDice[0], 1);
-                DiceManager.Instance.ModifyDieValue(DiceManager.Instance.changedDice[0], adjustCtx.change);
+                foreach (var dice in DiceManager.Instance.selectedDice)
+                {
+                    if (dice.type == E_DiceType.Time1 || dice.type == E_DiceType.Time2 ||
+                        dice.type == E_DiceType.Time3 || dice.type == E_DiceType.Time4)
+                    {
+                        DiceManager.Instance.ModifyDieValue(dice, 1);
+                    }
+                    else
+                    {
+                        DiceManager.Instance.ModifyDieValue(dice, adjustCtx.change);
+                    }
+                }
+                // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.selectedDice[0], 1);
+                // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.changedDice[0], adjustCtx.change);
             }
             else
             {

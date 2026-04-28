@@ -13,4 +13,6 @@ public enum E_DiceType
     Time4,
     // 【新增】这是一个虚拟类型，池子里永远不会有这种骰子，仅用于技能条件判断
     TimeAny,
+    // 【新增】这是一个虚拟类型，池子里永远不会有这种骰子，仅用于技能条件判断
+    ActionOrMind,
 }
