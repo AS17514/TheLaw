@@ -24,26 +24,19 @@ public List<DiceBase> changedDice=new List<DiceBase>();
     /// <param name="type"></param>
     public void AddDice(E_DiceType type,DiceBase dice=null)
     {
-        switch (type)
+        if (dice != null)
         {
-            case E_DiceType.Time1:
-                this.dicePool[type].Add(new TimeDice());
-                break;
-            case E_DiceType.Time2:
-            case E_DiceType.Time3:
-            case E_DiceType.Time4:
-                if (dice != null)
-                    this.dicePool[type].Add(dice);
-                break;
-            case E_DiceType.Action:
-                this.dicePool[type].Add(new ActionDice());
-                break;
-            case E_DiceType.Mind:
-                this.dicePool[type].Add(new MindDice());
-                break;
-            case E_DiceType.Wild:
-                this.dicePool[type].Add(new WildDice());
-                break;
+            this.dicePool[type].Add(dice);
+        }
+        else
+        {
+            switch (type)
+            {
+                case E_DiceType.Time1: this.dicePool[type].Add(new TimeDice()); break;
+                case E_DiceType.Action: this.dicePool[type].Add(new ActionDice()); break;
+                case E_DiceType.Mind: this.dicePool[type].Add(new MindDice()); break;
+                case E_DiceType.Wild: this.dicePool[type].Add(new WildDice()); break;
+            }
         }
         
         SortPoolByValue(type);
@@ -188,8 +181,8 @@ public List<DiceBase> changedDice=new List<DiceBase>();
         dice.type = newType;
         dicePool[newType].Add(dice);
         dicePool[tempType].Remove(dice);
-        SortPoolByValue(tempType);
-        SortPoolByValue(dice.type);
+        // SortPoolByValue(tempType);
+        // SortPoolByValue(dice.type);
         if (newType == E_DiceType.Wild)
         {
             if(dice is WildDice wildDice)
@@ -246,8 +239,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         if (!isTypeMatch)
         {
             // 判断这个技能条件是否在索要时间骰子（不管索要的是1还是4）
-            bool isConditionTime = (condition.type == E_DiceType.Time1 || condition.type == E_DiceType.Time2 || 
-                                    condition.type == E_DiceType.Time3 || condition.type == E_DiceType.Time4);
+            bool isConditionTime = (condition.type == E_DiceType.TimeAny);
     
             // 判断当前拿来核对的这个骰子，是不是时间骰子
             bool isDiceTime = (dice.type == E_DiceType.Time1 || dice.type == E_DiceType.Time2 || 
@@ -368,6 +360,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         {
             list.Clear();
         }
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
     }
 /// <summary>
 /// 清空选中骰子
@@ -375,6 +368,7 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
     public void ClearSelected()
     {
         selectedDice.Clear();
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
     }
 /// <summary>
 /// 把某一类骰子的列表按从小到大排序，并初始化或更新索引值index

@@ -13,42 +13,13 @@ public abstract class OptionBase
     public virtual string OptionDescription { get; protected set; }
     public virtual E_OptionType OptionType { get; protected set; }
     public virtual bool IsVisible { get; protected set; }
-    public virtual bool IsDiceConditionsHave
-    {
-        get
-        {
-            return true;
-        }
-        protected set
-        {
-            IsSpecialConditionsHave=true;
-        }
-    }
+    public virtual bool IsDiceConditionsHave{ get; protected set; }=true;
     public E_ComboType ComboType { get; protected set; }
-    public virtual bool IsUseDiceCombo
-    {
-        get
-        {
-            return false;
-        }
-        protected set
-        {
-            IsSpecialConditionsHave=false;
-        }
-    }
+    public virtual bool IsUseDiceCombo{ get; protected set; }=false;
     public virtual DiceCondition[] DiceCost { get; protected set; }
 
-    public virtual bool IsSpecialConditionsHave
-    {
-        get
-        {
-            return false;
-        }
-        protected set
-        {
-            IsSpecialConditionsHave=false;
-        }
-    }
+    public virtual bool IsSpecialConditionsHave{ get; protected set; }=false;
+
     public virtual E_SpecialOptionConditions specialConditions{ get; protected set; }
     public virtual int fatherID { get; protected set; }
     public virtual int sonID { get; protected set; }

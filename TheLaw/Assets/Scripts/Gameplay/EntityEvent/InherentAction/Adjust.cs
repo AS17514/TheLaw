@@ -3,17 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prepare : OptionBase
+public class Adjust : OptionBase
 {
     public override int OptionID
     {
-        get { return 0; }
+        get { return 1; }
         
     }
-
     public override string OptionDescription
     {
-        get { return "准备，选择消耗一个时间骰子，选择行动或思维，投掷并获得一个对应的骰子；推进时间进度"; }
+        get { return "调整，选择一个时间般点数+1，令一个行动或思维骰的点数+1或-1(不可超出范围)"; }
     }
 
     public override bool IsVisible 
@@ -25,44 +24,16 @@ public class Prepare : OptionBase
     {
         get{return E_OptionType.Player_InherentAction;}
     }
-
     public override DiceCondition[] DiceCost
     {
         get
         {
             return new DiceCondition[]
             {
-                new DiceCondition(E_DiceType.TimeAny,1,E_CompareType.Any)
+                new DiceCondition(E_DiceType.TimeAny,4,E_CompareType.Less)
             };
         }
     }
-    
-    public override Action ExecuteLogic
-    {
-        get
-        {
-            return () => 
-            {
-                // 找出真正被选中且符合条件的那个骰子
-                int timeValue = 0;
-                foreach (var dice in DiceManager.Instance.selectedDice)
-                {
-                    if (dice.isValid) // IsSelectionValid 验证成功时打的标记
-                    {
-                        timeValue = dice.value;
-                        break; 
-                    }
-                }
-
-                // 任务 1：推进时间
-                ProgressManager.Instance.AddTimeProgress(timeValue);
-                // 任务 2：消耗骰子
-                DiceManager.Instance.ConsumeValidSelectedDice(); 
-            };
-        }
-
-    }
-
     public override void TriggerOption(OptionContext optionContext = null)
     {
         if (IsVisible)
@@ -82,11 +53,12 @@ public class Prepare : OptionBase
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
-
-            if (result&&optionContext is PrepareOptionContext)
+            if(DiceManager.Instance.changedDice==null||DiceManager.Instance.changedDice.Count != 1)
+                result=false;
+            if (result && optionContext is AdjustOptionContext adjustCtx)
             {
-                DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
-                ExecuteLogic?.Invoke();
+                DiceManager.Instance.ModifyDieValue(DiceManager.Instance.selectedDice[0], 1);
+                DiceManager.Instance.ModifyDieValue(DiceManager.Instance.changedDice[0], adjustCtx.change);
             }
             else
             {
