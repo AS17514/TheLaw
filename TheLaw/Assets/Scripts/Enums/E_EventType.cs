@@ -6,6 +6,17 @@ using UnityEngine;
 /// </summary>
 public enum E_EventType
 {
+    #region Audio
+    #region 音频播放
+    Audio_Play_BGM,
+    Audio_Play_SFX,
+    #endregion
+    #region 音频更新
+    Audio_Update_BGMVolume,
+    Audio_Update_SFXVolume,
+    #endregion
+    #endregion
+
     #region UI更新
     #region 战斗界面
     // 骰子

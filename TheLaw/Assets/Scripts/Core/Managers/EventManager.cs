@@ -16,7 +16,7 @@ public class EventManager : ManagerBase<EventManager>
         switch (specialConditions)
         {
             case E_SpecialOptionConditions.Tatters1:
-                if(BuffManager.Instance.player.GetBuff(E_BuffType.Tatters)>=7)
+                if (BuffManager.Instance.player.GetBuff(E_BuffType.Tatters) >= 7)
                     return true;
                 break;
         }

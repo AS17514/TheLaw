@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ManagerBase<T> where T:class
+public class ManagerBase<T> where T : class
 {
     private static T instance;
 
@@ -19,11 +19,9 @@ public class ManagerBase<T> where T:class
             return instance;
         }
     }
-/// <summary>
-/// 用于供子类执行一些在脚本刚生成就执行的逻辑,有需要就重写这个方法
-/// </summary>
+    // 用于供子类执行一些在脚本刚生成就执行的逻辑,有需要就重写这个方法
     protected virtual void Init()
     {
-        
+
     }
 }

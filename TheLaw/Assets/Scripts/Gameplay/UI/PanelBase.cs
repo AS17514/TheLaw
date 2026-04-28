@@ -11,7 +11,6 @@ using UnityEngine.UI;
 // 面板基类
 public abstract class PanelBase : MonoBehaviour
 {
-
     protected virtual void Awake()
     {
         // 淡入淡出，创建canvasgroup组件

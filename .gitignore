@@ -18,6 +18,9 @@
 .idea/
 Temp.meta
 
+# 用来忽略超过100M的字体文件，不然github不让上传
+TheLaw/Assets/TextMesh Pro/Resources/Fonts & Materials/*SDF.asset
+# TheLaw/Assets/TextMesh Pro/Resources/Fonts & Materials/MiSans-Regular SDF.asset
 # 用来仅上传Temp文件夹
 Assets/Temp/**
 !Assets/Temp/
