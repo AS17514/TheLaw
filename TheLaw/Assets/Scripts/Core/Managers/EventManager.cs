@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EventManager : ManagerBase<EventManager>
 {
-    public Dictionary<E_OptionType, OptionBase> optionPool = new Dictionary<E_OptionType, OptionBase>();
+    public Dictionary<E_OptionType, OptionBase[]> optionPool = new Dictionary<E_OptionType, OptionBase[]>();
     /// <summary>
     /// 选项是否满足特殊条件
     /// </summary>
@@ -21,5 +21,10 @@ public class EventManager : ManagerBase<EventManager>
                 break;
         }
         return false;
+    }
+
+    public OptionBase[] GetOptionPoolByType(E_OptionType type)
+    {
+        return optionPool[type];
     }
 }

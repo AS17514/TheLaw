@@ -17,6 +17,7 @@ public class DiceManager : ManagerBase<DiceManager>
     
 
 public List<DiceBase> selectedDice=new List<DiceBase>();
+public List<DiceBase> changedDice=new List<DiceBase>();
     /// <summary>
     /// 向指定列表加股子
     /// </summary>
@@ -237,7 +238,27 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         DiceBase dice = availableDice[i];
             
         // 判断类型是否匹配（或者是万能骰子）
+        // 1. 常规判断：类型是否严格匹配（或者是万能骰子）
         bool isTypeMatch = (dice.type == condition.type || dice.type == E_DiceType.Wild);
+
+        // 2. 【新增的微调逻辑：时间骰子豁免权】
+        // 如果常规判断没通过，我们额外检查一下是不是“时间通用”的情况
+        if (!isTypeMatch)
+        {
+            // 判断这个技能条件是否在索要时间骰子（不管索要的是1还是4）
+            bool isConditionTime = (condition.type == E_DiceType.Time1 || condition.type == E_DiceType.Time2 || 
+                                    condition.type == E_DiceType.Time3 || condition.type == E_DiceType.Time4);
+    
+            // 判断当前拿来核对的这个骰子，是不是时间骰子
+            bool isDiceTime = (dice.type == E_DiceType.Time1 || dice.type == E_DiceType.Time2 || 
+                               dice.type == E_DiceType.Time3 || dice.type == E_DiceType.Time4);
+    
+            // 如果技能要的是时间，玩家塞进来的也是时间，强行让保安放行
+            if (isConditionTime && isDiceTime)
+            {
+                isTypeMatch = true;
+            }
+        }
             
         if (dice.isValid == false && isTypeMatch)
         {
@@ -551,9 +572,45 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
         return Count;
     }
 
+    
+    
     public List<DiceBase> UpdateSelectedDice()
     {
         return selectedDice;
+    }
+
+    public List<DiceBase> GetChangedDice()
+    {
+        return changedDice;
+    }
+    
+    /// <summary>
+    /// 消耗掉选中的、且通过验证的骰子
+    /// </summary>
+    public void ConsumeValidSelectedDice()
+    {
+        // 倒序遍历或者克隆一个列表遍历，防止在遍历过程中移除元素导致索引错乱
+        List<DiceBase> dicesToConsume = new List<DiceBase>();
+        foreach (var dice in selectedDice)
+        {
+            if (dice.isValid) 
+            {
+                dicesToConsume.Add(dice);
+            }
+        }
+
+        // 从总池子里正式移除
+        foreach (var dice in dicesToConsume)
+        {
+            dicePool[dice.type].Remove(dice);
+            SortPoolByValue(dice.type); // 更新池子和触发UI刷新
+        
+            // 如果你的骰子在场景中有实际的 GameObject，这里可能还需要销毁它
+            // GameObject.Destroy(dice.gameObject); 
+        }
+
+        // 最后清空购物车
+        ClearSelected();
     }
 /// <summary>
 /// 不能删
