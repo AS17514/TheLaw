@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -105,6 +104,7 @@ public abstract class PanelBase : MonoBehaviour
                 }
             }
             // 设置监听
+            // 因为不经过事件中心所以会自己销毁
             if (childrenControls[i] is Button)
             {
                 (childrenControls[i] as Button).onClick.AddListener(() =>

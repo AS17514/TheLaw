@@ -20,7 +20,6 @@ public class SettingsPanel : PanelBase
         switch (buttonName)
         {
             case "Button_QuitSettings":
-                print("chufa");
                 EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM, new object[] { E_BGM.Dongbeak, true });
                 break;
             default:
