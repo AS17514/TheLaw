@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Adjust : OptionBase
 {
+    public override string OptionName { get; protected set; } = "调整";
     public override int OptionID
     {
         get { return 1; }
@@ -12,7 +13,7 @@ public class Adjust : OptionBase
     }
     public override string OptionDescription
     {
-        get { return "调整，选择一个时间般点数+1，令一个行动或思维骰的点数+1或-1(不可超出范围)"; }
+        get { return "选择一个时间般点数+1，令一个行动或思维骰的点数+1或-1(不可超出范围)"; }
     }
 
     public override bool IsVisible 
@@ -65,7 +66,12 @@ public class Adjust : OptionBase
                     }
                     else
                     {
-                        DiceManager.Instance.ModifyDieValue(dice, adjustCtx.change);
+                        if(adjustCtx.change==-1||adjustCtx.change==1)
+                            DiceManager.Instance.ModifyDieValue(dice, adjustCtx.change);
+                        else
+                        {
+                            Debug.Log("传的参数必须是-1或-1。");
+                        }
                     }
                 }
                 // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.selectedDice[0], 1);

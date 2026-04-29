@@ -40,6 +40,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     {
         ++this.phase;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase,this.phase);
+        //更新许愿为可用状态
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
     }
 /// <summary>
 /// 改变时间进度
@@ -92,7 +94,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
         nowEntitie  = managerObj.AddComponent<Entity2>();
-
+        
+        //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
     }
     public void initLevel3()
     {
@@ -102,7 +107,11 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
         nowEntitie = managerObj.AddComponent<Entity3>();
-
+        
+        //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish2ToUnlocked);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
     }
     public void initLevel4()
     {
@@ -112,6 +121,12 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
         nowEntitie = managerObj.AddComponent<Entity4>();
+        
+        //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish2ToUnlocked);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish3ToUnlocked);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
     }
 }

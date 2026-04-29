@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Overturn : OptionBase
 {
+    public override string OptionName { get; protected set; } = "推翻";
     public override int OptionID
     {
         get { return 2; }
@@ -11,7 +12,7 @@ public class Overturn : OptionBase
     }
     public override string OptionDescription
     {
-        get { return "推翻，选择一个时间般点数+1，选择自己一个思维骰子，将其重新投掷"; }
+        get { return "选择一个时间般点数+1，选择自己一个思维骰子，将其重新投掷"; }
     }
 
     public override bool IsVisible 

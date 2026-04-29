@@ -114,6 +114,7 @@ public List<DiceBase> selectedDice=new List<DiceBase>();
 /// <param name="types"></param>
     public void GetRandomDice(params E_DiceType[] types)
     {
+        if (types == null || types.Length == 0) return;
         int count = types.Length;
         int i = Random.Range(0, count);
         AddDice(types[i]);

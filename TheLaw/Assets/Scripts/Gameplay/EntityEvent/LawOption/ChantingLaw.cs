@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChantingLaw : OptionBase
 {
+    public override string OptionName { get; protected set; } = "念诵诗句时呼吸的节奏";
     public override int OptionID
     {
         get { return 0; }
@@ -11,7 +12,7 @@ public class ChantingLaw : OptionBase
     }
     public override string OptionDescription
     {
-        get { return "念诵诗句时呼吸的节奏，选择一个时间般点数+l，选择一个行动或思维骰，将其转化成另一种骰子"; }
+        get { return "选择一个时间般点数+l，选择一个行动或思维骰，将其转化成另一种骰子"; }
     }
 
     public override bool IsVisible 

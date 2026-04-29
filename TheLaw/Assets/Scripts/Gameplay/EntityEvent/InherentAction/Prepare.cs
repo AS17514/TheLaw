@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Prepare : OptionBase
 {
+    public override string OptionName { get; protected set; } = "准备";
     public override int OptionID
     {
         get { return 0; }
@@ -13,7 +14,7 @@ public class Prepare : OptionBase
 
     public override string OptionDescription
     {
-        get { return "准备，选择消耗一个时间骰子，选择行动或思维，投掷并获得一个对应的骰子；推进时间进度"; }
+        get { return "选择消耗一个时间骰子，选择行动或思维，投掷并获得一个对应的骰子；推进时间进度"; }
     }
 
     public override bool IsVisible 

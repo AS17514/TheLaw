@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GunArt3 : OptionBase
 {
+    public override string OptionName { get; protected set; } = "“枪械”艺术装置3";
     public override int OptionID
     {
         get { return 1; }
@@ -11,7 +12,7 @@ public class GunArt3 : OptionBase
     }
     public override string OptionDescription
     {
-        get { return "“枪械”艺术装置3，选择个时间骰子点数+2，选择自己一个行动骰子点数-1，并获得1个点数为1的行动骰子"; }
+        get { return "选择一个时间骰子点数+2，选择自己一个行动骰子点数-1，并获得1个点数为1的行动骰子"; }
     }
 
     public override bool IsVisible 

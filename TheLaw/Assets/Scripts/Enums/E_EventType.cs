@@ -50,6 +50,11 @@ public enum E_EventType
     UI_Update_TimeDicePerPhase,
     // 事件
     UI_Update_Events,
+    UI_Update_WishToAvailable,
+    UI_Update_WishToUnavailable,
+    UI_Update_Wish1ToUnlocked,
+    UI_Update_Wish2ToUnlocked,
+    UI_Update_Wish3ToUnlocked,
     #endregion
     #endregion
     #region 存档

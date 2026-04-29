@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Atk : OptionBase
 {
-public override int OptionID
+    public override string OptionName { get; protected set; } = "攻击";
+    public override int OptionID
     {
         get { return 3; } 
     }
 
     public override string OptionDescription
     {
-        get { return "攻击，选择消耗自己2个行动骰子，造成差值的伤害(无法使用百搭骰子)"; }
+        get { return "选择消耗自己2个行动骰子，造成差值的伤害(无法使用百搭骰子)"; }
     }
 
     public override bool IsVisible 

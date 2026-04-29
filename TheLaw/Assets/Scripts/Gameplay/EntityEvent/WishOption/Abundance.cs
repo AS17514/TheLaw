@@ -2,36 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShatteredStars : OptionBase
+public class Abundance : OptionBase
 {
-    public override string OptionName { get; protected set; } = "画下的星星将破碎地放光";
+    public override string OptionName { get; protected set; } = "富足";
     public override int OptionID
     {
-        get { return 2; }
+        get { return 0; }
         
     }
     public override string OptionDescription
     {
-        get { return "选择一个时间骰点数+3，获得一个百搭骰子"; }
+        get { return "随机投掷并获得3个行动或思维骰子,骰子的类型和数值都随机。"; }
     }
 
     public override bool IsVisible 
     {
-        get { return true; }
+        get
+        {
+            if(ProgressManager.Instance.level>1)
+                return true;
+            else
+            {
+                return false;
+            }
+        }
     }
 
     public override E_OptionType OptionType
     {
-        get{return E_OptionType.Player_Law;}
+        get{return E_OptionType.Player_Wish;}
     }
     public override DiceCondition[] DiceCost
     {
         get
         {
-            return new DiceCondition[]
-            {
-                new DiceCondition(E_DiceType.TimeAny,4,E_CompareType.Less),
-            };
+            return null;
         }
     }
 
@@ -57,15 +62,10 @@ public class ShatteredStars : OptionBase
 
             if (result)
             {
-                foreach (var dice in DiceManager.Instance.selectedDice)
-                {
-                    if (dice.type == E_DiceType.Time1 || dice.type == E_DiceType.Time2 ||
-                        dice.type == E_DiceType.Time3 || dice.type == E_DiceType.Time4)
-                    {
-                        DiceManager.Instance.ModifyDieValue(dice, 3);
-                        DiceManager.Instance.AddDice(E_DiceType.Wild);
-                    }
-                }
+                DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
+                DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
+                DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToUnavailable);
             }
             else
             {
