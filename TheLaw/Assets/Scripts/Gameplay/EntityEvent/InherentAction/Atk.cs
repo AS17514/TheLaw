@@ -41,7 +41,7 @@ public class Atk : OptionBase
         List<DiceBase> selected = DiceManager.Instance.selectedDice;
 
         // 2. 验证：必须刚好选中 2 颗骰子
-        if (result && selected != null && selected.Count == 2)
+        if (result && selected != null && selected.Count == 2&& optionContext is AtkOptionContext atkCtx)
         {
             DiceBase dice1 = selected[0];
             DiceBase dice2 = selected[1];
@@ -52,16 +52,23 @@ public class Atk : OptionBase
             {
                 // 4. 计算差值伤害 (用 Mathf.Abs 取绝对值，防止负数)
                 int damage = Mathf.Abs(dice1.value - dice2.value);
+                if (atkCtx.index<5&&atkCtx.index>0&&ProgressManager.Instance.nowEntities[atkCtx.index]!=null)
+                {
+                    // 扣血逻辑 
+                    ProgressManager.Instance.nowEntities[atkCtx.index].BeAttacked(damage);
 
-                // 扣血逻辑 
-                ProgressManager.Instance.nowEntitie.BeAttacked(damage);
+                    // 5. 将选中的骰子标记为“合法”，然后调用管理器的统一消耗方法
+                    dice1.isValid = true;
+                    dice2.isValid = true;
+                    DiceManager.Instance.ConsumeValidSelectedDice();
 
-                // 5. 将选中的骰子标记为“合法”，然后调用管理器的统一消耗方法
-                dice1.isValid = true;
-                dice2.isValid = true;
-                DiceManager.Instance.ConsumeValidSelectedDice(); 
-                
-                return; // 技能顺利执行完毕，退出
+                    return; // 技能顺利执行完毕，退出
+                }
+                else
+                {
+                    Debug.Log("传的参数必须是0~4");
+                    return;
+                }
             }
         }
 

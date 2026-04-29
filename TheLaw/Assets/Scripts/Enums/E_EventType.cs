@@ -42,6 +42,7 @@ public enum E_EventType
     UI_Update_EntityPartHP,
     UI_Update_EntityPartBreakState,
     UI_Update_EntityState,
+    UI_Update_EntityPartIsVisible,
     UI_Update_EntityIntent,
     // 时间
     UI_Update_Phase,

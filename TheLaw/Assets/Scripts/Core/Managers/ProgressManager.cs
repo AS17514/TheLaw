@@ -10,7 +10,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public int initialTimeProgress;//本关初始时间进度上限
     public int currentTimeProgress;//本关当前时间进度上限
     public int timeProgress;//当前时间进度
-    public Entity nowEntitie;
+    public CharacterBase[] nowEntities=new CharacterBase[4];
     public ProgressManager()
     {
     }
@@ -84,7 +84,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntitie = managerObj.AddComponent<Entity1>();
+        nowEntities[0] = managerObj.AddComponent<Entity1>();
     }
     public void initLevel2()
     {
@@ -93,7 +93,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntitie  = managerObj.AddComponent<Entity2>();
+        nowEntities[0]  = managerObj.AddComponent<Entity2>();
         
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
@@ -106,7 +106,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntitie = managerObj.AddComponent<Entity3>();
+        nowEntities[0] = managerObj.AddComponent<Entity3>();
         
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
@@ -120,7 +120,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntitie = managerObj.AddComponent<Entity4>();
+        nowEntities[0] = managerObj.AddComponent<Entity4>();
         
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
