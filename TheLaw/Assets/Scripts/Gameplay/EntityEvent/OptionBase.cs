@@ -8,6 +8,7 @@ public abstract class OptionBase
 {
     #region 属性定义区
     // 外部可读，但仅允许子类在内部赋值
+    public virtual int LevelID { get; protected set; }//我新增的，想着说用来标记怪物的选项，然后它到底是属于第几关的怪物
     public virtual int OptionID { get; protected set; }
     public virtual string OptionName { get; protected set; }
     public virtual string OptionDescription { get; protected set; }

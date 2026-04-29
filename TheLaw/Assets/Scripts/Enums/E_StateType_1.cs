@@ -5,5 +5,6 @@ using UnityEngine;
 
 public enum E_StateType_1
 {
-
+    normal,
+    exhausted,
 }
