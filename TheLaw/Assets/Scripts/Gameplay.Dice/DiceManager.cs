@@ -14,7 +14,7 @@ public class DiceManager : ManagerBase<DiceManager>
         { E_DiceType.Mind,new List<DiceBase>() },
         { E_DiceType.Wild,new List<DiceBase>() }
 };
-    
+    public List<EntityDice> entityDicePool = new List<EntityDice>();
 
 public List<DiceBase> selectedDice=new List<DiceBase>();
     /// <summary>
@@ -365,6 +365,8 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
             list.Clear();
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+        entityDicePool.Clear(); 
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
     }
 /// <summary>
 /// 清空选中骰子
@@ -576,7 +578,11 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
     {
         return selectedDice;
     }
-    
+
+    public List<EntityDice> UpdateEntityDice()
+    {
+        return entityDicePool;
+    }
     
     /// <summary>
     /// 消耗掉选中的、且通过验证的骰子
@@ -613,4 +619,105 @@ private bool GlobalDFS(int currentConditionIndex, DiceCondition[] conditions, Li
     {
         
     }
+
+    #region 怪物骰子逻辑
+
+    /// <summary>
+    /// 向实体/怪物骰子池添加骰子
+    /// </summary>
+    public void AddEntityDice(EntityDice dice = null)
+    {
+        if (dice != null)
+        {
+            entityDicePool.Add(dice);
+        }
+        else
+        {
+            entityDicePool.Add(new EntityDice()); 
+        }
+        SortEntityPoolByValue();
+    }
+
+    /// <summary>
+    /// 修改实体骰子的点数
+    /// </summary>
+    public void ModifyEntityDieValue(EntityDice dice, int change)
+    {
+        if (entityDicePool.Contains(dice))
+        {
+            int newValue = dice.value + change;
+            dice.value = Mathf.Clamp(newValue, 1, 6); // 假设怪物骰子也是 1-6 点
+            SortEntityPoolByValue();
+        }
+        else
+        {
+            Debug.LogWarning("该骰子不在 entityDicePool 中！");
+        }
+    }
+
+    /// <summary>
+    /// 移除实体骰子池中指定位置的骰子
+    /// </summary>
+    public void RemoveEntityDie(int index)
+    {
+        if (index >= 0 && index < entityDicePool.Count)
+        {
+            entityDicePool.RemoveAt(index);
+            SortEntityPoolByValue();
+        }
+        else
+        {
+            Debug.Log("DiceManager的RemoveEntityDie索引越界");
+        }
+    }
+
+    /// <summary>
+    /// 整理实体骰子池并更新索引
+    /// </summary>
+    public void SortEntityPoolByValue()
+    {
+        if (entityDicePool == null || entityDicePool.Count == 0) return;
+    
+        // 按点数从小到大排
+        entityDicePool.Sort((a, b) => a.value.CompareTo(b.value));
+    
+        // 更新索引
+        for (int i = 0; i < entityDicePool.Count; i++)
+        {
+            entityDicePool[i].index = i;
+        }
+
+        // 触发实体骰子的UI刷新事件
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice); 
+    }
+    /// <summary>
+    /// 清空怪物骰子池
+    /// </summary>
+    public void ClearEntityPool()
+    {
+        entityDicePool.Clear(); 
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+    }
+    /// <summary>
+    /// 第一关怪物骰子池专用方法，去掉那些已经被应对的骰子。
+    /// </summary>
+    public void ConsumeValidEntityDice()
+    {
+        List<EntityDice> dicesToConsume = new List<EntityDice>();
+        foreach (var dice in entityDicePool)
+        {
+            if (dice.isValid) 
+            {
+                dicesToConsume.Add(dice);
+            }
+        }
+
+        // 从总池子里正式移除
+        foreach (var dice in dicesToConsume)
+        {
+            entityDicePool.Remove(dice);
+            SortEntityPoolByValue();
+        }
+    }
+    #endregion
 }

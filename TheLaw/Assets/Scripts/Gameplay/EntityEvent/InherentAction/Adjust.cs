@@ -79,6 +79,7 @@ public class Adjust : OptionBase
             }
             else
             {
+                DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
             

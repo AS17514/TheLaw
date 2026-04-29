@@ -73,6 +73,7 @@ public class Atk : OptionBase
         }
 
         // 只要数量不对、或者混进了百搭/其他骰子，统一触发报错提示
+        DiceManager.Instance.ClearSelected();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
     }
 }

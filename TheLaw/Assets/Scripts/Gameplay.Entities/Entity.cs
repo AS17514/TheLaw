@@ -8,7 +8,7 @@ public abstract class  Entity : CharacterBase
 {
     #region 用于计算buff管理器内部的逻辑
 
-    private Dictionary<E_BuffType, int> buffs = new Dictionary<E_BuffType, int>
+    protected Dictionary<E_BuffType, int> buffs = new Dictionary<E_BuffType, int>
     {
         {E_BuffType.Desire,0 },
         {E_BuffType.Tatters,0}
