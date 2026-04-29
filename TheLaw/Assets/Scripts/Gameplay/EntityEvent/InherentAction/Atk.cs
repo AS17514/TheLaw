@@ -52,10 +52,8 @@ public override int OptionID
                 // 4. 计算差值伤害 (用 Mathf.Abs 取绝对值，防止负数)
                 int damage = Mathf.Abs(dice1.value - dice2.value);
 
-                // --- 👇 这里替换成你游戏实际的扣血逻辑 ---
-                Debug.Log($"【Atk技能触发】消耗了两个行动骰({dice1.value}和{dice2.value})，造成了 {damage} 点伤害！");
-                // EnemyManager.Instance.TakeDamage(damage); 
-                // ----------------------------------------
+                // 扣血逻辑 
+                ProgressManager.Instance.nowEntitie.BeAttacked(damage);
 
                 // 5. 将选中的骰子标记为“合法”，然后调用管理器的统一消耗方法
                 dice1.isValid = true;
