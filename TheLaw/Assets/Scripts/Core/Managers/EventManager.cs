@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class EventManager : ManagerBase<EventManager>
 {
-    public Dictionary<E_OptionType, OptionBase[]> optionPool = new Dictionary<E_OptionType, OptionBase[]>();
+    public Dictionary<E_OptionType, OptionBase[]> optionPool = new Dictionary<E_OptionType, OptionBase[]>
+    {
+        { E_OptionType.Level1_Option, new OptionBase[] { new EntityEvent_1_01() } }
+    };
     /// <summary>
     /// 选项是否满足特殊条件
     /// </summary>

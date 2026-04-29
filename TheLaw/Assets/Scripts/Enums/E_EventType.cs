@@ -33,6 +33,7 @@ public enum E_EventType
     UI_Update_ActionDice,
     UI_Update_MindDice,
     UI_Update_IsConditionNotMet,
+    UI_Update_EntityDice,
     // 玩家
     UI_Update_PlayerHP,
     UI_Update_PlayerBuff,

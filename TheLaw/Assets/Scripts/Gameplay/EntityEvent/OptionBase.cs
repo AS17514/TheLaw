@@ -13,7 +13,7 @@ public abstract class OptionBase
     public virtual string OptionName { get; protected set; }
     public virtual string OptionDescription { get; protected set; }
     public virtual E_OptionType OptionType { get; protected set; }
-    public virtual bool IsVisible { get; protected set; }
+    public virtual bool IsVisible { get;  set; }=false;
     public virtual bool IsDiceConditionsHave{ get; protected set; }=true;
     public E_ComboType ComboType { get; protected set; }
     public virtual bool IsUseDiceCombo{ get; protected set; }=false;
@@ -54,6 +54,7 @@ public abstract class OptionBase
                 ExecuteLogic?.Invoke();
             else
             {
+                DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
             
