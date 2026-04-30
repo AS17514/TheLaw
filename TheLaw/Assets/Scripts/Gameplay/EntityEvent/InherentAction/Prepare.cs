@@ -56,6 +56,7 @@ public class Prepare : OptionBase
                 }
 
                 // 任务 1：推进时间
+                ProgressManager.Instance.AdvancePhase(1);
                 ProgressManager.Instance.AddTimeProgress(timeValue);
                 // 任务 2：消耗骰子
                 DiceManager.Instance.ConsumeValidSelectedDice(); 

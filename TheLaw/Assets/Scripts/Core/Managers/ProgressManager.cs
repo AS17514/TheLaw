@@ -10,6 +10,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public int initialTimeProgress;//本关初始时间进度上限
     public int currentTimeProgress;//本关当前时间进度上限
     public int timeProgress;//当前时间进度
+    public int maxPhaseDice;//当前时间段骰子消耗上限数量
     public int phaseDice;//当前时间段骰子数量，用完了就结束当前时间段。
     public CharacterBase[] nowEntities=new CharacterBase[4];
     public Player player;
@@ -26,6 +27,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     {
         this.initialTimeProgress = initialTimeProgress;
         this.currentTimeProgress = currentTimeProgress;
+        maxPhaseDice=phaseDice;
         this.phase = phaseDice;
     }
 /// <summary>
@@ -38,14 +40,44 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress,this.currentTimeProgress);
     }
 /// <summary>
+/// 消耗时间骰子的时候调用，推进时间段的进行
+/// </summary>
+/// <param name="timeValue"></param>
+    public void AdvancePhase(int timeMount)
+    {
+        phaseDice=Math.Clamp(phaseDice-timeMount,0,maxPhaseDice);
+        if (phaseDice == 0)
+        {
+            AddPhase();
+        }
+    }
+/// <summary>
 /// 时间段（当前回合数）加一
 /// </summary>
     public void AddPhase()
     {
         ++this.phase;
+        phaseDice = maxPhaseDice;
+        StateManager.Instance.ExecuteCurrentDesire();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase,this.phase);
         //更新许愿为可用状态
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
+        if (level == 1)
+        {
+            if (nowEntities[0] is Entity1 entity1)
+            {
+                if (entity1.isDesire_UrgentUse==true)
+                {
+                    entity1.isDesire_UrgentUse = false;
+                    SetCurrentTimeProgress(initialTimeProgress);
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress, initialTimeProgress);
+                }
+            }
+            else
+            {
+                Debug.Log("nowEntities[0] 不是 Entity1，吱吱吱吱，这不应该啊。。。。不好，我的代码。。。");
+            }
+        }
     }
 /// <summary>
 /// 改变时间进度
@@ -54,9 +86,16 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void AddTimeProgress(int add)
     {
         timeProgress=Math.Clamp(timeProgress+add,0,this.currentTimeProgress);
+        if (timeProgress == currentTimeProgress)
+        {
+            StateManager.Instance.ExecuteCurrentAction();
+            timeProgress=currentTimeProgress;
+        }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress,this.timeProgress);
+
     }
 
+    #region IntoNewLevel
     public void intoNewLevel(int level)
     {
         if (level <= 4 && level > 0)
@@ -152,4 +191,5 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
     }
+    #endregion
 }
