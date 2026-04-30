@@ -23,11 +23,9 @@ public abstract class PanelBase : MonoBehaviour
         SetControlsByType<Button>();
         SetControlsByType<Toggle>();
         SetControlsByType<Slider>();
-        SetControlsByType<InputField>();
         SetControlsByType<ScrollRect>();
         SetControlsByType<Dropdown>();
         // 普通组件后进入
-        SetControlsByType<Text>();
         SetControlsByType<TextMeshProUGUI>();
         SetControlsByType<Image>();
     }
@@ -60,7 +58,7 @@ public abstract class PanelBase : MonoBehaviour
     public Dictionary<string, UIBehaviour> controls = new Dictionary<string, UIBehaviour>();
 
     // 组件默认名，用来筛选默认名组件，默认名组件不会进入字典
-    private static List<string> defaultNames = new List<string>()
+    static List<string> defaultNames = new List<string>()
     {
         "Image",
         "RawImage",
@@ -82,7 +80,7 @@ public abstract class PanelBase : MonoBehaviour
     /// 寻找子对象组件，塞入字典并按类型设置对应监听
     /// </summary>
     /// <typeparam name="T">需要加入字典的组件种类</typeparam>
-    private void SetControlsByType<T>() where T : UIBehaviour
+    void SetControlsByType<T>() where T : UIBehaviour
     {
         // 得到所有子对象组件
         T[] childrenControls = GetComponentsInChildren<T>(true);
@@ -94,13 +92,15 @@ public abstract class PanelBase : MonoBehaviour
             if (!defaultNames.Contains(currentName))
             {
                 // 如果字典没有同名组件，才进入字典，防报错
-                try
+                // 加入字典前拼接组件类型，防止重复添加，缺点是不能直接用键调值，只能通过方法获取组件
+                string keyName = $"{typeof(T)}_{currentName}";
+                if (!controls.ContainsKey(keyName))
                 {
-                    controls.Add(currentName, childrenControls[i]);
+                    controls.Add(keyName, childrenControls[i]);
                 }
-                catch (Exception e)
+                else
                 {
-                    print(e);
+                    print(keyName + " 重复添加");
                 }
             }
             // 设置监听
@@ -136,10 +136,10 @@ public abstract class PanelBase : MonoBehaviour
     #region 面板显隐时执行的方法
     // 淡入淡出
     public bool isShow = false;
-    private CanvasGroup canvasGroup;
-    private int alphaSpeed = 5;
+    CanvasGroup canvasGroup;
+    int alphaSpeed = 2;
     // 隐藏后让管理器销毁自己
-    private UnityAction hideCallBack;
+    UnityAction hideCallBack;
     /// <summary>
     /// 淡入
     /// </summary>
@@ -169,9 +169,10 @@ public abstract class PanelBase : MonoBehaviour
     /// <returns>特定种类的组件对象，没有返回空</returns>
     public T GetControl<T>(string name) where T : UIBehaviour
     {
-        if (controls.ContainsKey(name))
+        string keyName = $"{typeof(T)}_{name}";
+        if (controls.ContainsKey(keyName))
         {
-            T control = controls[name] as T;
+            T control = controls[keyName] as T;
             if (control == null)
             {
                 Debug.LogError($"请求的{name}组件存在，但不是请求所需的{typeof(T)}类型");

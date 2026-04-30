@@ -19,7 +19,7 @@ public enum E_EventType
 
     #region UI更新
     #region 战斗界面
-    // 骰子
+    #region  骰子
     UI_Update_SelectedDice,
     UI_Update_TimeDice1Count,
     UI_Update_TimeDice1SelectedCount,
@@ -34,10 +34,12 @@ public enum E_EventType
     UI_Update_MindDice,
     UI_Update_IsConditionNotMet,
     UI_Update_EntityDice,
-    // 玩家
+    #endregion
+    #region 玩家
     UI_Update_PlayerHP,
     UI_Update_PlayerBuff,
-    // 怪
+    #endregion
+    #region 怪
     UI_Update_EntityHP,
     UI_Update_EntityBuff,
     UI_Update_EntityPartHP,
@@ -45,18 +47,21 @@ public enum E_EventType
     UI_Update_EntityState,
     UI_Update_EntityPartIsVisible,
     UI_Update_EntityIntent,
-    // 时间
+    #endregion
+    #region 时间
     UI_Update_Phase,
     UI_Update_TimeProgress,
     UI_Update_MaxTimeProgress,
     UI_Update_TimeDicePerPhase,
-    // 事件
+    #endregion
+    #region 事件
     UI_Update_Events,
     UI_Update_WishToAvailable,
     UI_Update_WishToUnavailable,
     UI_Update_Wish1ToUnlocked,
     UI_Update_Wish2ToUnlocked,
     UI_Update_Wish3ToUnlocked,
+    #endregion
     #endregion
     #endregion
     #region 存档

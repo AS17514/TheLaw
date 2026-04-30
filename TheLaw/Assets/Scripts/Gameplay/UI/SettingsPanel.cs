@@ -9,6 +9,10 @@ public class SettingsPanel : PanelBase
     protected override void Awake()
     {
         base.Awake();
+        Init();
+    }
+    void Init()
+    {
         GetControl<Slider>("Slider_BGMVolume").value = AudioManager.Instance.BGMVolume;
         GetControl<Slider>("Slider_SFXVolume").value = AudioManager.Instance.SFXVolume;
         GetControl<Slider>("Slider_TipSize").value = 0;

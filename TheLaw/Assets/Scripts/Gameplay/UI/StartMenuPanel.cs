@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class StartMenuPanel : PanelBase
 {
-    void Start()
-    {
-
-    }
     protected override void ButtonOnClick(string buttonName)
     {
         switch (buttonName)
