@@ -10,10 +10,10 @@ public class DiceManager : ManagerBase<DiceManager>
         { E_DiceType.Time2, new List<DiceBase>() },
         { E_DiceType.Time3, new List<DiceBase>() },
         { E_DiceType.Time4, new List<DiceBase>() },
-        {E_DiceType.Action,new List<DiceBase>() },
+        { E_DiceType.Action, new List<DiceBase>() },
         { E_DiceType.Mind,new List<DiceBase>() },
         { E_DiceType.Wild,new List<DiceBase>() }
-};
+    };
     public List<EntityDice> entityDicePool = new List<EntityDice>();
 
     public List<DiceBase> selectedDice = new List<DiceBase>();
