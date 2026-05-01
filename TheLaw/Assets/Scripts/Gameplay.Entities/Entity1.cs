@@ -49,6 +49,7 @@ public class Entity1 : Entity
             DiceManager.Instance.AddEntityDice();
         }
         EventManager.Instance.optionPool[E_OptionType.Level1_Option][0].IsVisible=true;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
 
     public void exhausted_Action_Eat()
@@ -77,12 +78,23 @@ public class Entity1 : Entity
                         part2.isDestroyed = false;
                         part2.hp = Math.Clamp(this.hp + 5, 0, maxHp);
                         this.hp = Math.Clamp(this.hp + 5, 0, maxHp);
+                        
                     }
                     else if (!part2.isDestroyed)
                     {
                         isDesire_FeedUse = true;//回正
                         StateManager.Instance.ChangeState(E_StateType_1.normal);
                         ProgressManager.Instance.SetCurrentTimeProgress(5);
+                        if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
+                            EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
+                        {
+                            if (e3.IsVisible == true)//怪物切换状态的话，取消诱导选项的可选。
+                            {
+                                e3.IsVisible=false;
+                                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                                isEntity_1_03HadFound=true;
+                            }
+                        }
                     }
                 }
             }
@@ -91,6 +103,7 @@ public class Entity1 : Entity
         #endregion
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP,hp);
     }
+    public bool isEntity_1_03HadFound=false;
     #endregion
 
     #region 欲望
@@ -105,8 +118,19 @@ public class Entity1 : Entity
     {
         isDesire_UrgentUse=true;
         ProgressManager.Instance.SetCurrentTimeProgress(3);
+        
+        if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复诱导选项的可选。
+        {
+            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
+                EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
+            {
+                e3.IsVisible=true;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            }
+        }
+        
     }
-    public bool isDesire_UrgentUse=false;
+    public bool isDesire_UrgentUse=false;//用于诱导选项的标记是否已解锁
 
     public void exhausted_Desire_Feed()
     {

@@ -38,6 +38,7 @@ public enum E_EventType
     #region 玩家
     UI_Update_PlayerHP,
     UI_Update_PlayerBuff,
+    UI_Update_PlayerDied,
     #endregion
     #region 怪
     UI_Update_EntityHP,
@@ -47,6 +48,7 @@ public enum E_EventType
     UI_Update_EntityState,
     UI_Update_EntityPartIsVisible,
     UI_Update_EntityIntent,
+    UI_Update_EntiyiDied,
     #endregion
     #region 时间
     UI_Update_Phase,

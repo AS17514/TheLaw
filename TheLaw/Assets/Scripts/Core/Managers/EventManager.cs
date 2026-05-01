@@ -7,7 +7,7 @@ public class EventManager : ManagerBase<EventManager>
 {
     public Dictionary<E_OptionType, OptionBase[]> optionPool = new Dictionary<E_OptionType, OptionBase[]>
     {
-        { E_OptionType.Level1_Option, new OptionBase[] { new EntityEvent_1_01() } }
+        { E_OptionType.Level1_Option, new OptionBase[] { new EntityEvent_1_01() , new EntityEvent_1_02(), new EntityEvent_1_03() } },
     };
     /// <summary>
     /// 选项是否满足特殊条件
