@@ -19,7 +19,7 @@ public class EntityEvent_1_01:OptionBase
     #region 本身属性
     E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.CopeWith_Dodge;
     
-
+ 
     #endregion
 
     public override void TriggerOption(OptionContext optionContext = null)
@@ -55,7 +55,28 @@ public class EntityEvent_1_01:OptionBase
         if (DiceManager.Instance.entityDicePool!=null||DiceManager.Instance.entityDicePool.Count>0)
         {
             int hit = DiceManager.Instance.entityDicePool.Count;
-            ProgressManager.Instance.player.BeAttacked(hit*5);
+            int tempAtk = 5;
+            if (ProgressManager.Instance.nowEntities[1]!=null)
+            {
+                if (ProgressManager.Instance.nowEntities[1] is Part1_1 part1)
+                {
+                    if (part1.isDestroyed = true)
+                    {
+                        tempAtk--;
+                    }
+                }
+            }
+            if (ProgressManager.Instance.nowEntities[2]!=null)
+            {
+                if (ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
+                {
+                    if (part2.isDestroyed = true)
+                    {
+                        tempAtk--;
+                    }
+                }
+            }
+            ProgressManager.Instance.player.BeAttacked(hit*tempAtk);
         }
         DiceManager.Instance.ConsumeValidSelectedDice();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);

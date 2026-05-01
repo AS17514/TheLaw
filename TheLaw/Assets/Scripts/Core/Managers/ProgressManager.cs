@@ -140,6 +140,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         nowEntities[0] = managerObj.AddComponent<Entity1>();
 
         Init(5, 5, 4);
+        
     }
     public void initLevel2()
     {
