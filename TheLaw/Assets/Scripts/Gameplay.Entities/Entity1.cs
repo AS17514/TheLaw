@@ -85,16 +85,36 @@ public class Entity1 : Entity
                         isDesire_FeedUse = true;//回正
                         StateManager.Instance.ChangeState(E_StateType_1.normal);
                         ProgressManager.Instance.SetCurrentTimeProgress(5);
+                        //怪物切换状态的话，取消诱导选项的可选。
+                        #region Induce
                         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
                             EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
                         {
-                            if (e3.IsVisible == true)//怪物切换状态的话，取消诱导选项的可选。
+                            if (e3.IsVisible == true)
                             {
                                 e3.IsVisible=false;
                                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                                 isEntity_1_03HadFound=true;
                             }
                         }
+                        #endregion
+                        #region Think
+
+                        if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+                            EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
+                        {
+                            e6.IsVisible=false;
+                        }
+                        #endregion
+
+                        #region Snatch
+
+                        if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
+                            EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
+                        {
+                            e7.IsVisible=false;
+                        }
+                        #endregion
                     }
                 }
             }
@@ -119,14 +139,45 @@ public class Entity1 : Entity
         isDesire_UrgentUse=true;
         ProgressManager.Instance.SetCurrentTimeProgress(3);
         
-        if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复诱导选项的可选。
+        if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复选项的可选。
         {
+            #region Induce
             if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
                 EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
             {
                 e3.IsVisible=true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             }
+            #endregion
+
+            #region Think
+            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+                EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
+            {
+                if (e6.isThinkHadUse==false)
+                {
+                    e6.IsVisible = true;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                }
+            }
+            #endregion
+            
+            #region Snatch
+            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+                EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
+            {
+                if (e6_2.isSnatchHadFound)
+                {
+                    if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
+                        EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
+                    {
+                        e7.IsVisible=true;
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                    }
+                }
+            }
+            #endregion
+            
         }
         
     }

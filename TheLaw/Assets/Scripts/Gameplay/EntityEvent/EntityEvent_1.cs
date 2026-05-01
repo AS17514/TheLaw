@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,8 @@ enum E_EntityEvent_1
     CopeWith_Dodge,
     Communicate,
     Induce,
-    Observe,
-    AtkEntiyi,
+    Observe1,
+    Observe2,
     Think,
     Snatch,
     Eat,
@@ -256,5 +257,364 @@ public class EntityEvent_1_03 : OptionBase
             
         }
     
+    }
+}
+
+public class EntityEvent_1_04 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 1;
+    public override int OptionID { get; protected set; } = 4;
+    public override string OptionName { get; protected set; } = "观察";
+
+    public override string OptionDescription { get; protected set; } =
+        "观察";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
+    public override bool IsVisible { get; set; } = true;
+
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Mind, 2, E_CompareType.Greater),
+            };
+        }
+    }
+
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.Observe1;
+
+    #endregion
+
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                Part1_1.PartApear();
+                IsVisible=false;
+                if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][4] != null &&
+                    EventManager.Instance.optionPool[E_OptionType.Level1_Option][4] is EntityEvent_1_05 e5)
+                {
+                    e5.IsVisible=true;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
+                }
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+            
+        }
+        
+    }
+}
+public class EntityEvent_1_05 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 1;
+    public override int OptionID { get; protected set; } = 5;
+    public override string OptionName { get; protected set; } = "观察";
+
+    public override string OptionDescription { get; protected set; } =
+    "观察";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
+    // public override bool IsVisible { get; set; } = true;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Mind, 3, E_CompareType.Greater),
+            };
+        }
+    }
+
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.Observe2;
+
+    #endregion
+
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                Part1_2.PartApear();
+                IsVisible=false;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+            
+        }
+    }
+}
+
+public class EntityEvent_1_06 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 1;
+    public override int OptionID { get; protected set; } = 6;
+    public override string OptionName { get; protected set; } = "思考";
+
+    public override string OptionDescription { get; protected set; } = "思考";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
+    // public override bool IsVisible { get; set; } = true;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Mind, 4, E_CompareType.Less),
+            };
+        }
+    }
+
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.Think;
+    public bool isThinkHadUse=false;
+    public bool isSnatchHadFound=false;
+    #endregion
+
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                IsVisible=false;
+                isThinkHadUse=true;    
+                isSnatchHadFound=true;
+                if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
+                    EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
+                {
+                    e7.IsVisible=true;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
+                }
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+            
+        }
+    }
+}
+
+public class EntityEvent_1_07 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 1;
+    public override int OptionID { get; protected set; } = 7;
+    public override string OptionName { get; protected set; } = "抢夺";
+
+    public override string OptionDescription { get; protected set; } = "抢夺";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
+    // public override bool IsVisible { get; set; } = true;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 1, E_CompareType.Any),
+            };
+        }
+    }
+
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.Snatch;
+
+    #endregion
+
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                DiceManager.Instance.AddDice(E_DiceType.Action);
+                DiceManager.Instance.AddDice(E_DiceType.Action);//投掷并获得二个行动骰子
+                ProgressManager.Instance.AddTimeProgress(2);//对象时间进度-2
+                if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] != null &&
+                    EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] is EntityEvent_1_08 e8)
+                {
+                    e8.IsVisible=true;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
+                }
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+            
+        }
+    } 
+}
+
+public class EntityEvent_1_08 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 1;
+    public override int OptionID { get; protected set; } = 8;
+    public override string OptionName { get; protected set; } = "吃";
+
+    public override string OptionDescription { get; protected set; } = "吃";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
+    // public override bool IsVisible { get; set; } = true;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 1, E_CompareType.Greater),
+            };
+        }
+    }
+
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.Eat;
+
+    #endregion
+
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                //自己恢复3点生命
+                ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 3,
+                    ProgressManager.Instance.player.hp, ProgressManager.Instance.player.maxHp);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
+                IsVisible=false;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+            
+        }
     }
 }

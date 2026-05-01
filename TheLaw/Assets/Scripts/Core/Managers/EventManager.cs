@@ -7,7 +7,14 @@ public class EventManager : ManagerBase<EventManager>
 {
     public Dictionary<E_OptionType, OptionBase[]> optionPool = new Dictionary<E_OptionType, OptionBase[]>
     {
-        { E_OptionType.Level1_Option, new OptionBase[] { new EntityEvent_1_01() , new EntityEvent_1_02(), new EntityEvent_1_03() } },
+        {
+            E_OptionType.Level1_Option, new OptionBase[]
+            { 
+                new EntityEvent_1_01() , new EntityEvent_1_02(), new EntityEvent_1_03(), //交流
+                new EntityEvent_1_04(), new EntityEvent_1_05(),//观察
+                new EntityEvent_1_06(), new EntityEvent_1_07(),new EntityEvent_1_08(),//对象在许下"装满食物"愿望后
+            }
+        },
     };
     /// <summary>
     /// 选项是否满足特殊条件
