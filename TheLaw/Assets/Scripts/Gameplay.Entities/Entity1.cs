@@ -59,7 +59,6 @@ public class Entity1 : Entity
 
         if (isDesire_FeedUse)
         {
-            this.hp = Math.Clamp(this.hp + 5, 0, maxHp);
             AddBuff(E_BuffType.Desire, -1);
             if (ProgressManager.Instance.nowEntities[1] != null &&
                 ProgressManager.Instance.nowEntities[1] is Part1_1 part1)
@@ -67,6 +66,8 @@ public class Entity1 : Entity
                 if (part1.isDestroyed)
                 {
                     part1.isDestroyed = false;
+                    part1.hp = Math.Clamp(this.hp + 5, 0, maxHp);
+                    this.hp = Math.Clamp(this.hp + 5, 0, maxHp);
                 }
                 else if (ProgressManager.Instance.nowEntities[2] != null &&
                          ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
@@ -74,6 +75,8 @@ public class Entity1 : Entity
                     if (part2.isDestroyed)
                     {
                         part2.isDestroyed = false;
+                        part2.hp = Math.Clamp(this.hp + 5, 0, maxHp);
+                        this.hp = Math.Clamp(this.hp + 5, 0, maxHp);
                     }
                     else if (!part2.isDestroyed)
                     {
