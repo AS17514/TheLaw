@@ -38,6 +38,13 @@ public class Player : CharacterBase
         BuffManager.Instance.Register(this);
         InitPlayer();
     }
+    private void OnDestroy()
+    {
+        if (BuffManager.Instance != null)
+        {
+            BuffManager.Instance.Unregister(this);
+        }
+    }
     public override void Die()
     {
         
@@ -84,8 +91,18 @@ public class Player : CharacterBase
     /// <param name="initialDesire"></param>
     public void InitPlayer(int  initialDesire=0,int maxHp=10)
     {
+        //清空上一关的buff
+        List<E_BuffType> keys = new List<E_BuffType>(buffs.Keys);
+        foreach (var key in keys)
+        {
+            buffs[key] = 0;
+        }
+        
+        // 赋予初始欲望（AddBuff 内部会自动触发 UI_Update_PlayerBuff 广播，这样所有归零的 Buff 也会同步刷新给 UI）
         AddBuff(E_BuffType.Desire,initialDesire);
+        
         this.maxHp = maxHp;
         this.hp = maxHp;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP, this.hp);
     }
 }

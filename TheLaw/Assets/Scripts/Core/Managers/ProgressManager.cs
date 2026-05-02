@@ -12,7 +12,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public int timeProgress;//当前时间进度
     public int maxPhaseDice;//当前时间段骰子消耗上限数量
     public int phaseDice;//当前时间段骰子数量，用完了就结束当前时间段。
-    public CharacterBase[] nowEntities = new CharacterBase[4];
+    public CharacterBase[] nowEntities = new CharacterBase[5];
     public Player player;
     public ProgressManager()
     {
@@ -100,6 +100,12 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     {
         if (level <= 4 && level > 0)
         {
+            // 在进入新关卡、生成新怪物之前，先彻底清理上一关的残留数据
+            ClearOldEntities();
+            // 清空上一关遗留的骰子数据
+            DiceManager.Instance.ClearPool();       // 清空基础骰子池、怪物骰子池并刷新对应UI
+            DiceManager.Instance.ClearSelected();   // 清空选中区的骰子并刷新对应UI
+            
             this.level = level;
             switch (level)
             {
@@ -127,8 +133,29 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             GameObject managerObj = new GameObject("Player");
             player = managerObj.AddComponent<Player>();
         }
+        else
+        {
+            player.InitPlayer();//重新初始化玩家,回血，重置欲望之类的。
+        }
     }
-
+    /// <summary>
+    /// 清理上一关残留的所有实体数据，并销毁对应的游戏物体
+    /// </summary>
+    public void ClearOldEntities()
+    {
+        for (int i = 0; i < nowEntities.Length; i++)
+        {
+            if (nowEntities[i] != null)
+            {
+                // 1. 销毁实体挂载的整个 GameObject。
+                // 这一步非常关键！它会将物体从场景中彻底移除，并且触发该物体上所有脚本的 OnDestroy 方法。
+                Destroy(nowEntities[i].gameObject); 
+                
+                // 2. 将数组里的引用置空，防止其他脚本拿到了已经被销毁的物体的引用（报 MissingReferenceException）
+                nowEntities[i] = null;
+            }
+        }
+    }
     public void initLevel1()
     {
         AddPlayer();

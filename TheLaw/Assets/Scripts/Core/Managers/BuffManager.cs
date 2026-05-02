@@ -20,7 +20,7 @@ public class BuffManager : ManagerBase<BuffManager>
         else
             entity = (buffEntity as Entity);
     }
-    public void Unregister(Entity buffEntity)
+    public void Unregister(CharacterBase buffEntity)
     {
         if (buffEntity.IsPlayer)
         {
