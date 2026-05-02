@@ -1,9 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//呼呼，伊利哇啦——
 public class Main : MonoBehaviour
 {
+    void Awake()
+    {
+        _=EventCenter.Instance;
+        _=EventManager.Instance;
+        _=StateManager.Instance;
+        _=BuffManager.Instance;
+        _ =DiceManager.Instance;
+        _ =ProgressManager.Instance;
+    }
     void Start()
     {
         // 初始化管理器

@@ -9,13 +9,7 @@ public class BuffManager : ManagerBase<BuffManager>
     {
 
     }
-
-    protected override void Init()
-    {
-        base.Init();
-
-    }
-
+    
     public Entity entity;
     public Player player;
     public void Register(CharacterBase buffEntity)
