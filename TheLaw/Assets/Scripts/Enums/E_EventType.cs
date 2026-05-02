@@ -47,7 +47,8 @@ public enum E_EventType
     UI_Update_EntityPartBreakState,
     UI_Update_EntityState,
     UI_Update_EntityPartIsVisible,
-    UI_Update_EntityIntent,
+    UI_Update_EntityAction,
+    UI_Update_EntityWish,
     UI_Update_EntiyiDied,
     #endregion
     #region 时间

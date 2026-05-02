@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+public class DesireNode
+{
+    
+    public E_DesireType Desire; // 给 UI 看的数据
+    public Action ExecuteLogic; // 给 StateManager 执行的逻辑
+
+    // 构造函数方便快速实例化
+    public DesireNode(E_DesireType desire, Action logic)
+    {
+        Desire = desire;
+        ExecuteLogic = logic;
+    }
+
+}

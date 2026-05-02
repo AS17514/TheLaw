@@ -1,8 +1,135 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class Entity2 : Entity
 {
+    #region 特殊效果
+    //当双方受到伤害>=1的攻击时，会使“欲望”-1并免疫此次伤害
+    public override void BeAttacked(int atk)
+    {
+        if (GetBuff(E_BuffType.Desire) >= 0)
+        {
+            AddBuff(E_BuffType.Desire, -1);
+        }
+        else
+            base.BeAttacked(atk);
+    }
 
+    #endregion
+    public override void InitEntity(int initialDesire = 0, int maxHp = 10)
+    {
+        AddBuff(E_BuffType.Desire,initialDesire);
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+    }
+    void Start() 
+    {
+        #region 状态管理器
+        
+        // 第一关怪物清空旧数据（或者在关卡管理器里清空）
+        StateManager.Instance.ClearStates();
+
+        // 把当前怪物的所有状态注册进去
+        StateManager.Instance.RegisterStateData(
+            E_StateType_2.normal, 
+            new ActionNode[]{// new ActionNode(E_IntentType., normal_Action_ScorchingSun)
+                             },
+            new DesireNode[]
+            {
+                //new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
+                
+            }
+            
+            // new Action[] { normal_Action_LightRain,normal_Action_ScorchingSun,}, 
+            // new Action[] { }
+        );
+        StateManager.Instance.RegisterStateData(
+            E_StateType_2.ashamed, 
+            new ActionNode[]{ //new ActionNode(E_IntentType.Entity1_Atk, normal_Action_ScorchingSun)
+                              },
+            new DesireNode[]
+            {
+                //new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
+                
+            }
+        );
+        
+        // 默认进入初始状态
+        StateManager.Instance.ChangeState(E_StateType_2.normal);
+        
+        #endregion
+
+        InitEntity(7,6);
+        
+    }
+
+    #region 行动
+
+    public void normal_Action_LightRain()
+    {
+        // 准备一个列表，用来统一收集减到0需要被移除（变成破布）的骰子
+        // 这样可以避免在 foreach 遍历过程中直接 Remove 导致的集合报错
+        List<DiceBase> dicesToTransform = new List<DiceBase>();
+
+        // 1. 处理行动骰子 (Action)
+        foreach (var actionDice in DiceManager.Instance.dicePool[E_DiceType.Action])
+        {
+            if (actionDice.value == 1)
+            {
+                actionDice.isValid = true; // 标记为将要变成破布
+                dicesToTransform.Add(actionDice);
+            }
+            else
+            {
+                actionDice.isValid = false; // 不转化为破布
+                actionDice.value -= 1;      // 点数减1
+            }
+        }
+
+        // 2. 处理思维骰子 (Mind)
+        foreach (var mindDice in DiceManager.Instance.dicePool[E_DiceType.Mind])
+        {
+            if (mindDice.value == 1)
+            {
+                mindDice.isValid = true; // 标记为将要变成破布
+                dicesToTransform.Add(mindDice);
+            }
+            else
+            {
+                mindDice.isValid = false; // 不转化为破布
+                mindDice.value -= 1;      // 点数减1
+            }
+        }
+        
+        int tatterCount = 0;//玩家破布增加数
+        // 3. 统一将变为0（isValid = true）的骰子从池子中移除，并给自己添加Buff
+        foreach (var dice in dicesToTransform)
+        {
+            // 从对应的骰子池中移除它
+            DiceManager.Instance.dicePool[dice.type].Remove(dice);
+    
+            //加玩家破布数
+            tatterCount++;
+        }
+        
+        //增加玩家破布
+        ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, tatterCount);
+        
+        // 4. 数据变动完毕后，重新排序并触发UI刷新
+        DiceManager.Instance.SortPoolByValue(E_DiceType.Action);
+        DiceManager.Instance.SortPoolByValue(E_DiceType.Mind);
+    }
+
+    public void normal_Action_ScorchingSun()
+    {
+        if (EventManager.Instance.optionPool[E_OptionType.Level2_Option][0] != null &&
+            EventManager.Instance.optionPool[E_OptionType.Level2_Option][0] is EntityEvent_2_01 e1)
+        {
+            e1.IsVisible=true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        }
+    }
+
+    #endregion
 }

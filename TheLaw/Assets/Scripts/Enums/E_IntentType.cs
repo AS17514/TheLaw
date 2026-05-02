@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum E_StateType_2
+public enum E_IntentType
 {
-    normal,
-    ashamed,
-    composed,
+    Entity1_Atk,//攻击
+    Entity1_Eat,//吃
+    
 }

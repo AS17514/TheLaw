@@ -18,7 +18,7 @@ public class DiceManager : ManagerBase<DiceManager>
 
     public List<DiceBase> selectedDice = new List<DiceBase>();
     /// <summary>
-    /// 向指定列表加股子
+    /// 向指定列表加骰子
     /// </summary>
     /// <param name="type"></param>
     public void AddDice(E_DiceType type, DiceBase dice = null)

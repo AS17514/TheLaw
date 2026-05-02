@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class StateManager : ManagerBase<StateManager>
 {
-    private Dictionary<System.Enum, Action[]> stateActions = new Dictionary<System.Enum, Action[]>();
-    private Dictionary<System.Enum, Action[]> stateDesires = new Dictionary<System.Enum, Action[]>();
+    private Dictionary<System.Enum, ActionNode[]> stateActions = new Dictionary<System.Enum, ActionNode[]>();
+    private Dictionary<System.Enum, DesireNode[]> stateDesires = new Dictionary<System.Enum, DesireNode[]>();
     //System.Enum放E_StateType
     private System.Enum currentState;//当前的状态。
     private int currentActionIndex = 0;//当前状态内行为执行到第几个了
-    private Action currentExecutableAction;
+    private ActionNode currentExecutableAction;
     private int currentDesireIndex = 0;
-    private Action currentExecutableDesire;
+    private DesireNode currentExecutableDesire;
     public void ChangeState(System.Enum newState)
     {
         // 确保字典里有这个状态，并且新状态和当前状态不一样
@@ -24,10 +24,13 @@ public class StateManager : ManagerBase<StateManager>
                 ? stateActions[currentState][0] : null;
             
             currentDesireIndex = 0;// 重置愿望队列
-            currentExecutableDesire = (stateDesires.ContainsKey(currentState) && stateDesires[currentState] != null && stateDesires[currentState].Length > 0) 
+            currentExecutableDesire = (stateDesires.ContainsKey(currentState) && stateDesires[currentState] != null 
+                                                                              && stateDesires[currentState].Length > 0) 
                 ? stateDesires[currentState][0] : null;
             
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState,currentState);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish,currentExecutableDesire.Desire);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction,currentExecutableAction.Intent);
         }
     }
     /// <summary>
@@ -37,7 +40,7 @@ public class StateManager : ManagerBase<StateManager>
     {
         if (currentExecutableAction != null)
         {
-            currentExecutableAction.Invoke(); 
+            currentExecutableAction.ExecuteLogic?.Invoke(); 
             currentActionIndex++;             
             
             // 行为轮流循环
@@ -47,6 +50,7 @@ public class StateManager : ManagerBase<StateManager>
             }
             
             currentExecutableAction = stateActions[currentState][currentActionIndex];
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction,currentExecutableAction.Intent);
         }
     }
     /// <summary>
@@ -56,7 +60,7 @@ public class StateManager : ManagerBase<StateManager>
     {
         if (currentExecutableDesire != null)
         {
-            currentExecutableDesire.Invoke();
+            currentExecutableDesire.ExecuteLogic?.Invoke();
             currentDesireIndex++;
 
             if (currentDesireIndex >= stateDesires[currentState].Length)
@@ -64,6 +68,7 @@ public class StateManager : ManagerBase<StateManager>
                 currentDesireIndex = 0;
             }
             currentExecutableDesire = stateDesires[currentState][currentDesireIndex];
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish,currentExecutableDesire.Desire);
         }
     }
     /// <summary>
@@ -84,7 +89,7 @@ public class StateManager : ManagerBase<StateManager>
     /// <param name="state"></param>
     /// <param name="actions">行动</param>
     /// <param name="desires">欲望</param>
-    public void RegisterStateData(System.Enum state, Action[] actions, Action[] desires)
+    public void RegisterStateData(System.Enum state, ActionNode[] actions, DesireNode[] desires)
     {
         stateActions[state] = actions;
         stateDesires[state] = desires;

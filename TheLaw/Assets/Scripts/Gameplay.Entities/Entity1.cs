@@ -21,13 +21,20 @@ public class Entity1 : Entity
         // 把当前怪物的所有状态注册进去
         StateManager.Instance.RegisterStateData(
             E_StateType_1.normal, 
-            new Action[] { normal_Action_Atk}, 
-            new Action[] { normal_Desire_FilledWithFood,normal_Desire_Urgent}
+            new ActionNode[]{ new ActionNode(E_IntentType.Entity1_Atk, normal_Action_Atk)},
+            new DesireNode[]
+            {
+                new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
+                new DesireNode(E_DesireType.Entity1_Urgent,normal_Desire_Urgent)
+            }
         );
         StateManager.Instance.RegisterStateData(
             E_StateType_1.exhausted, 
-            new Action[] { exhausted_Action_Eat}, 
-            new Action[] { exhausted_Desire_Feed}
+            new ActionNode[]{ new ActionNode(E_IntentType.Entity1_Eat, exhausted_Action_Eat)},
+            new DesireNode[]
+            {
+                new DesireNode(E_DesireType.Entity1_Feed,exhausted_Desire_Feed)
+            }
         );
         
         // 默认进入初始状态
@@ -41,7 +48,7 @@ public class Entity1 : Entity
 
     #region 行动
 
-    private void normal_Action_Atk()
+    public void normal_Action_Atk()
     {
         int temp = this.buffs[E_BuffType.Desire];
         for (int i = 0; i < temp; i++)
