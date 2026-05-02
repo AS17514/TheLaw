@@ -9,7 +9,8 @@ public class EventManager : ManagerBase<EventManager>
     {
         {
             E_OptionType.Level1_Option, new OptionBase[]
-            { 
+            {
+                // 狩猎结束！ 把你们统统解体！
                 new EntityEvent_1_01() , //应对——闪避ε=ε=ε=(ﾟ◇ﾟﾉ)ﾉ
                 new EntityEvent_1_02(), new EntityEvent_1_03(), //交流
                 new EntityEvent_1_04(), new EntityEvent_1_05(),//观察

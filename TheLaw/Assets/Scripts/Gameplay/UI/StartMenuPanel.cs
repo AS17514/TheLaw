@@ -10,8 +10,8 @@ public class StartMenuPanel : PanelBase
         switch (buttonName)
         {
             case "Button_StartGame":
-                UIManager.Instance.RemovePanel<StartMenuPanel>();
-                UIManager.Instance.CreatPanel<BattlePanel>(E_UILayer.Middle);
+                ProgressManager.Instance.intoNewLevel(1);
+                UIManager.Instance.ChangePanel<StartMenuPanel, BattlePanel>();
                 break;
             case "Button_QuitGame":
                 // 编辑器下停止运行

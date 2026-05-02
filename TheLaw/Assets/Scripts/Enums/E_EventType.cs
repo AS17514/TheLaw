@@ -49,7 +49,7 @@ public enum E_EventType
     UI_Update_EntityPartIsVisible,
     UI_Update_EntityAction,
     UI_Update_EntityWish,
-    UI_Update_EntiyiDied,
+    UI_Update_EntityDied,
     #endregion
     #region 时间
     UI_Update_Phase,
@@ -64,6 +64,7 @@ public enum E_EventType
     UI_Update_Wish1ToUnlocked,
     UI_Update_Wish2ToUnlocked,
     UI_Update_Wish3ToUnlocked,
+    UI_Update_Wish4ToUnlocked,
     #endregion
     #endregion
     #endregion

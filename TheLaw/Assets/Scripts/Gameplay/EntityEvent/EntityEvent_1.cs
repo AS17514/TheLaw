@@ -14,20 +14,20 @@ enum E_EntityEvent_1
     Snatch,
     Eat,
 }
-public class EntityEvent_1_01:OptionBase
+public class EntityEvent_1_01 : OptionBase
 {
     #region OptionBase属性
     public override int LevelID { get; protected set; } = 1;
     public override int OptionID { get; protected set; } = 1;
     public override string OptionName { get; protected set; } = "闪避";
-    public override string OptionDescription { get; protected set; }="行动>=投掷的单个骰子的点数,所有骰子可以单独应对，每个未成功应对的骰子将对自己造成4点伤害）";
+    public override string OptionDescription { get; protected set; } = "行动>=投掷的单个骰子的点数,所有骰子可以单独应对，每个未成功应对的骰子将对自己造成4点伤害）";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
     #endregion
 
     #region 本身属性
     E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.CopeWith_Dodge;
-    
- 
+
+
     #endregion
 
     public override void TriggerOption(OptionContext optionContext = null)
@@ -47,7 +47,7 @@ public class EntityEvent_1_01:OptionBase
             {
                 foreach (var entityDice in DiceManager.Instance.entityDicePool)
                 {
-                    if(!dice.isValid&&!entityDice.isValid)
+                    if (!dice.isValid && !entityDice.isValid)
                     {
                         if (dice.value >= entityDice.value)
                         {
@@ -60,11 +60,11 @@ public class EntityEvent_1_01:OptionBase
         }
 
         DiceManager.Instance.ConsumeValidEntityDice();
-        if (DiceManager.Instance.entityDicePool!=null||DiceManager.Instance.entityDicePool.Count>0)
+        if (DiceManager.Instance.entityDicePool != null || DiceManager.Instance.entityDicePool.Count > 0)
         {
             int hit = DiceManager.Instance.entityDicePool.Count;
             int tempAtk = 5;
-            if (ProgressManager.Instance.nowEntities[1]!=null)
+            if (ProgressManager.Instance.nowEntities[1] != null)
             {
                 if (ProgressManager.Instance.nowEntities[1] is Part1_1 part1)
                 {
@@ -74,7 +74,7 @@ public class EntityEvent_1_01:OptionBase
                     }
                 }
             }
-            if (ProgressManager.Instance.nowEntities[2]!=null)
+            if (ProgressManager.Instance.nowEntities[2] != null)
             {
                 if (ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
                 {
@@ -84,11 +84,11 @@ public class EntityEvent_1_01:OptionBase
                     }
                 }
             }
-            ProgressManager.Instance.player.BeAttacked(hit*tempAtk);
+            ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
         }
         DiceManager.Instance.ConsumeValidSelectedDice();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
-        
+
     }
 }
 
@@ -105,7 +105,7 @@ public class EntityEvent_1_02 : OptionBase
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
     public override bool IsVisible { get; set; } = true;
-    public override DiceCondition[] DiceCost 
+    public override DiceCondition[] DiceCost
     {
         get
         {
@@ -125,7 +125,7 @@ public class EntityEvent_1_02 : OptionBase
 
     #endregion
 
-    public override  void TriggerOption(OptionContext optionContext = null)
+    public override void TriggerOption(OptionContext optionContext = null)
     {
         if (IsVisible)
         {
@@ -155,7 +155,7 @@ public class EntityEvent_1_02 : OptionBase
                         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
                             EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
                         {
-                            e3.IsVisible=true;
+                            e3.IsVisible = true;
                             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                             DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
                         }
@@ -177,7 +177,7 @@ public class EntityEvent_1_02 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }
@@ -195,7 +195,7 @@ public class EntityEvent_1_03 : OptionBase
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
     public override bool IsVisible { get; set; } = true;
-    public override DiceCondition[] DiceCost 
+    public override DiceCondition[] DiceCost
     {
         get
         {
@@ -244,8 +244,8 @@ public class EntityEvent_1_03 : OptionBase
                     if (entity1.isDesire_FeedUse)
                     {
                         entity1.hp = 0;
-                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
-                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntiyiDied);
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP, entity1.hp);
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                     }
                 }
             }
@@ -254,9 +254,9 @@ public class EntityEvent_1_03 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
-    
+
     }
 }
 
@@ -316,11 +316,11 @@ public class EntityEvent_1_04 : OptionBase
             if (result)
             {
                 Part1_1.PartApear();
-                IsVisible=false;
+                IsVisible = false;
                 if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][4] != null &&
                     EventManager.Instance.optionPool[E_OptionType.Level1_Option][4] is EntityEvent_1_05 e5)
                 {
-                    e5.IsVisible=true;
+                    e5.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
                 }
             }
@@ -329,9 +329,9 @@ public class EntityEvent_1_04 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
-        
+
     }
 }
 public class EntityEvent_1_05 : OptionBase
@@ -389,7 +389,7 @@ public class EntityEvent_1_05 : OptionBase
             if (result)
             {
                 Part1_2.PartApear();
-                IsVisible=false;
+                IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
             }
             else
@@ -397,7 +397,7 @@ public class EntityEvent_1_05 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }
@@ -430,8 +430,8 @@ public class EntityEvent_1_06 : OptionBase
     #region 本身属性
 
     E_EntityEvent_1 entityEvent_1Type = E_EntityEvent_1.Think;
-    public bool isThinkHadUse=false;
-    public bool isSnatchHadFound=false;
+    public bool isThinkHadUse = false;
+    public bool isSnatchHadFound = false;
     #endregion
 
     public override void TriggerOption(OptionContext optionContext = null)
@@ -456,13 +456,13 @@ public class EntityEvent_1_06 : OptionBase
 
             if (result)
             {
-                IsVisible=false;
-                isThinkHadUse=true;    
-                isSnatchHadFound=true;
+                IsVisible = false;
+                isThinkHadUse = true;
+                isSnatchHadFound = true;
                 if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
                     EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
                 {
-                    e7.IsVisible=true;
+                    e7.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
                 }
             }
@@ -471,7 +471,7 @@ public class EntityEvent_1_06 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }
@@ -535,7 +535,7 @@ public class EntityEvent_1_07 : OptionBase
                 if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] != null &&
                     EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] is EntityEvent_1_08 e8)
                 {
-                    e8.IsVisible=true;
+                    e8.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
                 }
             }
@@ -544,9 +544,9 @@ public class EntityEvent_1_07 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
-    } 
+    }
 }
 
 public class EntityEvent_1_08 : OptionBase
@@ -606,7 +606,7 @@ public class EntityEvent_1_08 : OptionBase
                 ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 3,
                     ProgressManager.Instance.player.hp, ProgressManager.Instance.player.maxHp);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
-                IsVisible=false;
+                IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             }
             else
@@ -614,7 +614,7 @@ public class EntityEvent_1_08 : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }

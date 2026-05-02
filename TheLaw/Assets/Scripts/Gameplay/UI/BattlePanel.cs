@@ -1,20 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
-/// 布豪，终于要开始写这一坨了吗
+/// 怎么，打不中吗（指找不着bug）
 /// </summary>
-enum E_UI_Dice
-{
-    // 选中的骰子
-    // 正常骰子
-}
 
 public class BattlePanel : PanelBase
 {
+    // 记录一下这是第几关
+    int level;
     // 资源加载
     Dictionary<string, GameObject> resources = new Dictionary<string, GameObject>();
     void LoadAllResources()
@@ -28,6 +28,7 @@ public class BattlePanel : PanelBase
             }
         }
     }
+    #region Dice
     // 更新选中骰
     void UpdateSelectedDice(List<DiceBase> selectedDice)
     {
@@ -187,10 +188,261 @@ public class BattlePanel : PanelBase
             tmp.text = entityDie.value.ToString();
         }
     }
+    #endregion
+    #region Player
+    void UpdatePlayerHP(int num)
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_PlayerHP").text = num.ToString();
+        GetControl<Slider>("Slider_PlayerHP").value = num;
+    }
+    void UpdatePlayerBuff(Dictionary<E_BuffType, int> keyValuePairs)
+    {
+        Transform content = GetControl<ScrollRect>("Scroll View_PlayerBuff").content;
+        foreach (Transform item in content)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (KeyValuePair<E_BuffType, int> item in keyValuePairs)
+        {
+            if (item.Value != 0)
+            {
+                GameObject buff = Instantiate<GameObject>(resources[$"Buff_{item.Key}"], content);
+                buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
+            }
+        }
+    }
+    #endregion
+    #region Entity
+    void UpdateEntityState(Enum state)
+    {
+        TextMeshProUGUI entityState = GetControl<TextMeshProUGUI>("Text (TMP)_EntityState");
+        if (state is E_StateType_1)
+        {
+            switch ((E_StateType_1)state)
+            {
+                case E_StateType_1.normal:
+                    entityState.text = "正常";
+                    break;
+                case E_StateType_1.exhausted:
+                    entityState.text = "疲惫";
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+    void UpdateEntityAction(E_IntentType actionType)
+    {
+        TextMeshProUGUI action = GetControl<TextMeshProUGUI>("Text (TMP)_EntityAction");
+        switch (actionType)
+        {
+            case E_IntentType.Entity1_Atk:
+                action.text = "攻击";
+                break;
+            case E_IntentType.Entity1_Eat:
+                action.text = "吃";
+                break;
+            default:
+                return;
+        }
+    }
+    void UpdateEntityWish(E_DesireType wishType)
+    {
+        TextMeshProUGUI wish = GetControl<TextMeshProUGUI>("Text (TMP)_EntityWish");
+        switch (wishType)
+        {
+            case E_DesireType.Entity1_FilledWithFood:
+                wish.text = "装满食物";
+                break;
+            case E_DesireType.Entity1_Urgent:
+                wish.text = "迫切";
+                break;
+            case E_DesireType.Entity1_Feed:
+                wish.text = "进食";
+                break;
+            default:
+                return;
+        }
+    }
+    void UpdateEntityBuff(Dictionary<E_BuffType, int> keyValuePairs)
+    {
+        Transform content = GetControl<ScrollRect>("Scroll View_EntityBuff").content;
+        foreach (Transform item in content)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (KeyValuePair<E_BuffType, int> item in keyValuePairs)
+        {
+            if (item.Value != 0)
+            {
+                GameObject buff = Instantiate<GameObject>(resources[$"Buff_{item.Key}"], content);
+                buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
+            }
+        }
+    }
+    void UpdateEntityPart(CharacterBase[] Parts)
+    {
+        for (int index = 1; index < 5; index++)
+        {
+            Part part = (Part)Parts[index];
+            if (part == null)
+            {
+                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
+                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = "???";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
+                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
+                slider.maxValue = 1;
+                slider.value = 1;
+                continue;
+            }
+            if (part.IsVisible)
+            {
+                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = true;
+                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = part.name;
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
+                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
+                slider.maxValue = part.maxHp;
+                slider.value = part.hp;
+            }
+            else if (part.isDestroyed)
+            {
+                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
+                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = $"{part.name} (已破坏)";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
+                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
+                slider.maxValue = part.maxHp;
+                slider.value = part.hp;
+            }
+            else if (!part.IsVisible)
+            {
+                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
+                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = "???";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
+                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
+                slider.maxValue = 1;
+                slider.value = 1;
+            }
+        }
+    }
+    void UpdateEntityHP(int num)
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = num.ToString();
+        GetControl<Slider>("Slider_EntityHP").value = num;
+    }
+    #endregion
+    // Events
+    void UpdateEvents(Dictionary<E_OptionType, OptionBase[]> eventDic)
+    {
+        Transform grid = GetControl<ScrollRect>("Scroll View_Event").content.GetChild(0);
+        ToggleGroup toggleGroup = grid.GetComponent<ToggleGroup>();
+        foreach (Transform item in grid)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (OptionBase option in eventDic[(E_OptionType)(level + 2)])
+        {
+            if (option.IsVisible)
+            {
+                GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
+                eventObj.GetComponentInChildren<Toggle>().group = toggleGroup;
+                foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
+                {
+                    switch (item.gameObject.name)
+                    {
+                        case "Name":
+                            item.text = option.OptionName;
+                            break;
+                        case "Description":
+                            item.text = option.OptionDescription;
+                            break;
+                        default:
+                            return;
+                    }
+                }
+                Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
+                foreach (DiceCondition item in option.DiceCost)
+                {
+                    GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"]);
+                    if (!(item.mode == E_CompareType.Any))
+                    {
+                        dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
+                    }
+                }
+            }
+        }
+    }
+    // 许愿
+    void UnlockedWish()
+    {
+        switch (level)
+        {
+            case 5:
+                Button btn4 = GetControl<Button>("Button_Wish_Null4");
+                btn4.interactable = true;
+                btn4.GetComponentInChildren<TextMeshProUGUI>().text = "null4";
+                goto case 4;
+            case 4:
+                Button btn3 = GetControl<Button>("Button_Wish_Null3");
+                btn3.interactable = true;
+                btn3.GetComponentInChildren<TextMeshProUGUI>().text = "null3";
+                goto case 3;
+            case 3:
+                Button btn2 = GetControl<Button>("Button_Wish_Vibrancy");
+                btn2.interactable = true;
+                btn2.GetComponentInChildren<TextMeshProUGUI>().text = "鲜艳";
+                goto case 2;
+            case 2:
+                Button btn1 = GetControl<Button>("Button_Wish_Abundance");
+                btn1.interactable = true;
+                btn1.GetComponentInChildren<TextMeshProUGUI>().text = "富足";
+                break;
+            default:
+                return;
+        }
+    }
+    void LockWish()
+    {
+        Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").GetComponentsInChildren<Button>();
+        foreach (Button item in buttons)
+        {
+            item.interactable = false;
+        }
+    }
 
     void InitEvents()
     {
         EventCenter eventCenter = EventCenter.Instance;
+        #region Progress
+        // 时间段，似乎需要+1
+        eventCenter.AddEventListener(E_EventType.UI_Update_Phase, (obj) =>
+        {
+            GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = ((int)obj + 1).ToString();
+        });
+        // 时间进度
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeProgress, (obj) =>
+        {
+            GetControl<TextMeshProUGUI>("Text (TMP)_TimeProgress").text = ((int)obj).ToString();
+            Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
+            Slider_TimeProgress.value = (int)obj;
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_MaxTimeProgress, (obj) =>
+        {
+            GetControl<TextMeshProUGUI>("Text (TMP)_MaxTimeProgress").text = ((int)obj).ToString();
+            Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
+            Slider_TimeProgress.maxValue = (int)obj;
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDicePerPhase, (obj) =>
+        {
+            GetControl<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhase").text = ((int)obj).ToString();
+        });
+        // 时间骰
+
+        #endregion
+        #region Dice
         #region 选中、行动、思维
         // 更新选中骰
         eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, (obj) =>
@@ -252,6 +504,90 @@ public class BattlePanel : PanelBase
         {
             UpdateEntityDice((List<EntityDice>)obj);
         });
+        #endregion
+        #region Player
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerHP, (obj) =>
+        {
+            UpdatePlayerHP((int)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerBuff, (obj) =>
+        {
+            UpdatePlayerBuff((Dictionary<E_BuffType, int>)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerDied, (obj) =>
+        {
+            UIManager.Instance.CreatPanel<DiePanel>(E_UILayer.Top);
+        });
+        #endregion
+        #region Entity
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityState, (obj) =>
+        {
+            UpdateEntityState((Enum)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityAction, (obj) =>
+        {
+            UpdateEntityAction((E_IntentType)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityWish, (obj) =>
+        {
+            UpdateEntityWish((E_DesireType)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityBuff, (obj) =>
+        {
+            UpdateEntityBuff((Dictionary<E_BuffType, int>)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPartHP, (obj) =>
+        {
+            UpdateEntityPart((CharacterBase[])obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPartIsVisible, (obj) =>
+        {
+            UpdateEntityPart((CharacterBase[])obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPartBreakState, (obj) =>
+        {
+            UpdateEntityPart((CharacterBase[])obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityHP, (obj) =>
+        {
+            UpdateEntityHP((int)obj);
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDied, (obj) =>
+        {
+            UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
+        });
+        #endregion
+        // Events
+        eventCenter.AddEventListener(E_EventType.UI_Update_Events, (obj) =>
+        {
+            UpdateEvents((Dictionary<E_OptionType, OptionBase[]>)obj);
+        });
+        #region Wish
+        eventCenter.AddEventListener(E_EventType.UI_Update_Wish1ToUnlocked, (obj) =>
+            {
+                UnlockedWish();
+            });
+        eventCenter.AddEventListener(E_EventType.UI_Update_Wish2ToUnlocked, (obj) =>
+        {
+            UnlockedWish();
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_Wish3ToUnlocked, (obj) =>
+            {
+                UnlockedWish();
+            });
+        eventCenter.AddEventListener(E_EventType.UI_Update_Wish4ToUnlocked, (obj) =>
+        {
+            UnlockedWish();
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, (obj) =>
+            {
+                UnlockedWish();
+            });
+        eventCenter.AddEventListener(E_EventType.UI_Update_WishToUnavailable, (obj) =>
+        {
+            LockWish();
+        });
+        #endregion
     }
     void Init()
     {
@@ -267,13 +603,38 @@ public class BattlePanel : PanelBase
         // 时间骰
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhase").text = ProgressManager.Instance.phaseDice.ToString();
         #endregion
-        #region 玩家骰面板
+        #region 许愿
+        UnlockedWish();
+        #endregion
+        #region 玩家/骰面板
         UpdateDice<ActionDice>(DiceManager.Instance.dicePool[E_DiceType.Action]);
         UpdateDice<MindDice>(DiceManager.Instance.dicePool[E_DiceType.Mind]);
         UpdateEntityDice(DiceManager.Instance.entityDicePool);
+        UpdatePlayerHP(BuffManager.Instance.player.hp);
         #endregion
     }
-
+    protected override void ButtonOnClick(string buttonName)
+    {
+        switch (buttonName)
+        {
+            // Other
+            case "Button_Explanation":
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
+                break;
+            case "Button_Settings":
+                UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top);
+                break;
+            case "Button_ReplayLevel":
+                ProgressManager.Instance.intoNewLevel(ProgressManager.Instance.level);
+                UIManager.Instance.ChangePanel<BattlePanel, BattlePanel>();
+                break;
+            case "Button_ExitLevel":
+                UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
+                break;
+            default:
+                return;
+        }
+    }
     protected override void Awake()
     {
         #region 假装往管理器里塞了东西
@@ -290,6 +651,7 @@ public class BattlePanel : PanelBase
         #endregion
         base.Awake();
         // 初始化所有东西
+        level = ProgressManager.Instance.level;
         LoadAllResources();
         Init();
         InitEvents();

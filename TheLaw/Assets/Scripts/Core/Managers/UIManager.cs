@@ -91,6 +91,20 @@ public class UIManager : ManagerBase<UIManager>
         }
     }
     /// <summary>
+    /// 删除指定面板，添加指定新面板，加入Loading面板过渡，默认新生成在中层
+    /// </summary>
+    /// <param name="layer">新生成面板的层级</param>
+    /// <typeparam name="T">删除的面板</typeparam>
+    /// <typeparam name="K">生成的面板</typeparam>
+    /// <returns></returns>
+    public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle) where T : PanelBase where K : PanelBase
+    {
+        CreatPanel<LoadingPanel>(E_UILayer.Loading);
+        RemovePanel<T>();
+        CreatPanel<K>(layer);
+        RemovePanel<LoadingPanel>();
+    }
+    /// <summary>
     /// 获取面板层级对象的transform组件
     /// </summary>
     /// <param name="layer">层级枚举</param>
