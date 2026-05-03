@@ -7,21 +7,21 @@ public class Entity1 : Entity
 {
     public override void InitEntity(int initialDesire = 0, int maxHp = 10)
     {
-        AddBuff(E_BuffType.Desire,initialDesire);
+        AddBuff(E_BuffType.Desire, initialDesire);
         this.maxHp = maxHp;
         this.hp = maxHp;
     }
-    void Start() 
+    void Start()
     {
         #region 状态管理器
-        
+
         // 第一关怪物清空旧数据（或者在关卡管理器里清空）
         StateManager.Instance.ClearStates();
 
         // 把当前怪物的所有状态注册进去
         StateManager.Instance.RegisterStateData(
-            E_StateType_1.normal, 
-            new ActionNode[]{ new ActionNode(E_IntentType.Entity1_Atk, normal_Action_Atk)},
+            E_StateType_1.normal,
+            new ActionNode[] { new ActionNode(E_IntentType.Entity1_Atk, normal_Action_Atk) },
             new DesireNode[]
             {
                 new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
@@ -29,22 +29,22 @@ public class Entity1 : Entity
             }
         );
         StateManager.Instance.RegisterStateData(
-            E_StateType_1.exhausted, 
-            new ActionNode[]{ new ActionNode(E_IntentType.Entity1_Eat, exhausted_Action_Eat)},
+            E_StateType_1.exhausted,
+            new ActionNode[] { new ActionNode(E_IntentType.Entity1_Eat, exhausted_Action_Eat) },
             new DesireNode[]
             {
                 new DesireNode(E_DesireType.Entity1_Feed,exhausted_Desire_Feed)
             }
         );
-        
+
         // 默认进入初始状态
         StateManager.Instance.ChangeState(E_StateType_1.normal);
-        
+
         #endregion
 
-        InitEntity(1,25);
+        InitEntity(1, 25);
     }
-    
+
 
     #region 行动
 
@@ -55,13 +55,13 @@ public class Entity1 : Entity
         {
             DiceManager.Instance.AddEntityDice();
         }
-        EventManager.Instance.optionPool[E_OptionType.Level1_Option][0].IsVisible=true;
+        EventManager.Instance.optionPool[E_OptionType.Level1_Option][0].IsVisible = true;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
 
     public void exhausted_Action_Eat()
     {
-        this.hp=Math.Clamp(this.hp+4,0,maxHp);
+        this.hp = Math.Clamp(this.hp + 4, 0, maxHp);
 
         #region 欲望效果
 
@@ -85,7 +85,7 @@ public class Entity1 : Entity
                         part2.isDestroyed = false;
                         part2.hp = Math.Clamp(this.hp + 5, 0, maxHp);
                         this.hp = Math.Clamp(this.hp + 5, 0, maxHp);
-                        
+
                     }
                     else if (!part2.isDestroyed)
                     {
@@ -99,9 +99,9 @@ public class Entity1 : Entity
                         {
                             if (e3.IsVisible == true)
                             {
-                                e3.IsVisible=false;
+                                e3.IsVisible = false;
                                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                                isEntity_1_03HadFound=true;
+                                isEntity_1_03HadFound = true;
                             }
                         }
                         #endregion
@@ -110,7 +110,7 @@ public class Entity1 : Entity
                         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
                             EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
                         {
-                            e6.IsVisible=false;
+                            e6.IsVisible = false;
                         }
                         #endregion
 
@@ -119,7 +119,7 @@ public class Entity1 : Entity
                         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
                             EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
                         {
-                            e7.IsVisible=false;
+                            e7.IsVisible = false;
                         }
                         #endregion
                     }
@@ -128,31 +128,31 @@ public class Entity1 : Entity
         }
 
         #endregion
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP,hp);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP, hp);
     }
-    public bool isEntity_1_03HadFound=false;
+    public bool isEntity_1_03HadFound = false;
     #endregion
 
     #region 欲望
 
     public void normal_Desire_FilledWithFood()
     {
-        AddBuff(E_BuffType.Desire,1);
-        isDesire_UrgentUse=false;//回正
+        AddBuff(E_BuffType.Desire, 1);
+        isDesire_UrgentUse = false;//回正
     }
 
     public void normal_Desire_Urgent()
     {
-        isDesire_UrgentUse=true;
+        isDesire_UrgentUse = true;
         ProgressManager.Instance.SetCurrentTimeProgress(3);
-        
+
         if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复选项的可选。
         {
             #region Induce
             if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
                 EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
             {
-                e3.IsVisible=true;
+                e3.IsVisible = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             }
             #endregion
@@ -161,14 +161,14 @@ public class Entity1 : Entity
             if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
                 EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
             {
-                if (e6.isThinkHadUse==false)
+                if (e6.isThinkHadUse == false)
                 {
                     e6.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 }
             }
             #endregion
-            
+
             #region Snatch
             if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
                 EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
@@ -178,24 +178,24 @@ public class Entity1 : Entity
                     if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
                         EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
                     {
-                        e7.IsVisible=true;
+                        e7.IsVisible = true;
                         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                     }
                 }
             }
             #endregion
-            
+
         }
-        
+
     }
-    public bool isDesire_UrgentUse=false;//用于诱导选项的标记是否已解锁
+    public bool isDesire_UrgentUse = false;//用于诱导选项的标记是否已解锁
 
     public void exhausted_Desire_Feed()
     {
-        isDesire_FeedUse=true;
+        isDesire_FeedUse = true;
         ProgressManager.Instance.SetCurrentTimeProgress(2);
     }
-    public bool isDesire_FeedUse=false;
+    public bool isDesire_FeedUse = false;
     #endregion
 }
 

@@ -287,19 +287,20 @@ public class BattlePanel : PanelBase
             Part part = (Part)Parts[index];
             if (part == null)
             {
+                ;
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = "???";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = 1;
-                slider.value = 1;
+                slider.value = 0;
                 continue;
             }
             if (part.IsVisible)
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = true;
-                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = part.name;
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.name;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
@@ -309,7 +310,7 @@ public class BattlePanel : PanelBase
             else if (part.isDestroyed)
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = $"{part.name} (已破坏)";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = $"{part.name} (已破坏)";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
@@ -319,12 +320,12 @@ public class BattlePanel : PanelBase
             else if (!part.IsVisible)
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Toggle_EntityPart{index}").text = "???";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = 1;
-                slider.value = 1;
+                slider.value = 0;
             }
         }
     }
@@ -589,16 +590,19 @@ public class BattlePanel : PanelBase
         UpdatePlayerHP(BuffManager.Instance.player.hp);
         #endregion
         #region Entity
-        // Max hp
+        // hp
         GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = ProgressManager.Instance.nowEntities[0].maxHp.ToString();
         GetControl<Slider>("Slider_EntityHP").maxValue = ProgressManager.Instance.nowEntities[0].maxHp;
+        UpdateEntityHP(ProgressManager.Instance.nowEntities[0].hp);
         // other
         UpdateEntityState(StateManager.Instance.UI_currentState);
         UpdateEntityAction(StateManager.Instance.UI_currentExecutableAction);
         UpdateEntityWish(StateManager.Instance.UI_currentExecutableDesire);
-        UpdateEntityBuff(BuffManager.Instance.entity.UI_buffs);
         UpdateEntityPart(ProgressManager.Instance.nowEntities);
-        UpdateEntityHP(ProgressManager.Instance.nowEntities[0].hp);
+        print(BuffManager.Instance.entity);
+        UpdateEntityBuff(BuffManager.Instance.entity.UI_buffs);
+
+
 
         #endregion
     }
@@ -624,7 +628,7 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    protected override void Awake()
+    public void Start()
     {
         #region 假装往管理器里塞了东西
         ProgressManager.Instance.intoNewLevel(1);
@@ -638,7 +642,6 @@ public class BattlePanel : PanelBase
         DiceManager.Instance.AddEntityDice();
         DiceManager.Instance.AddEntityDice();
         #endregion
-        base.Awake();
         // 初始化所有东西
         level = ProgressManager.Instance.level;
         LoadAllResources();

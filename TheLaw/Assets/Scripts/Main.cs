@@ -6,12 +6,12 @@ public class Main : MonoBehaviour
 {
     void Awake()
     {
-        _=EventCenter.Instance;
-        _=EventManager.Instance;
-        _=StateManager.Instance;
-        _=BuffManager.Instance;
-        _ =DiceManager.Instance;
-        _ =ProgressManager.Instance;
+        _ = EventCenter.Instance;
+        _ = EventManager.Instance;
+        _ = StateManager.Instance;
+        _ = BuffManager.Instance;
+        _ = DiceManager.Instance;
+        _ = ProgressManager.Instance;
         SkillManager.InitSkills();
     }
     void Start()

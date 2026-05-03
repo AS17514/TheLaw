@@ -130,7 +130,7 @@ public class UIManager : ManagerBase<UIManager>
     /// </summary>
     /// <typeparam name="T">面板类型</typeparam>
     /// <returns>有类型返回对应面板，没有返回空</returns>
-    public PanelBase GetPanel<T>() where T : PanelBase
+    public T GetPanel<T>() where T : PanelBase
     {
         if (panels.ContainsKey(typeof(T).Name))
         {
