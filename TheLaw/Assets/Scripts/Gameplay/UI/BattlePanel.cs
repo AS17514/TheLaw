@@ -563,22 +563,6 @@ public class BattlePanel : PanelBase
             UpdateEvents((Dictionary<E_OptionType, OptionBase[]>)obj);
         });
         #region Wish
-        eventCenter.AddEventListener(E_EventType.UI_Update_Wish1ToUnlocked, (obj) =>
-            {
-                UnlockedWish();
-            });
-        eventCenter.AddEventListener(E_EventType.UI_Update_Wish2ToUnlocked, (obj) =>
-        {
-            UnlockedWish();
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_Wish3ToUnlocked, (obj) =>
-            {
-                UnlockedWish();
-            });
-        eventCenter.AddEventListener(E_EventType.UI_Update_Wish4ToUnlocked, (obj) =>
-        {
-            UnlockedWish();
-        });
         eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, (obj) =>
             {
                 UnlockedWish();
@@ -611,6 +595,10 @@ public class BattlePanel : PanelBase
         UpdateDice<MindDice>(DiceManager.Instance.dicePool[E_DiceType.Mind]);
         UpdateEntityDice(DiceManager.Instance.entityDicePool);
         UpdatePlayerHP(BuffManager.Instance.player.hp);
+        #endregion
+        #region Entity
+        UpdateEntityHP(ProgressManager.Instance.nowEntities[0].hp);
+        UpdateEntityPart(ProgressManager.Instance.nowEntities);
         #endregion
     }
     protected override void ButtonOnClick(string buttonName)
