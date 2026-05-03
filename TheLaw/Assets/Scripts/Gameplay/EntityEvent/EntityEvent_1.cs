@@ -17,6 +17,8 @@ enum E_EntityEvent_1
 public class EntityEvent_1_01 : OptionBase
 {
     #region OptionBase属性
+
+    public override bool IsResponseOption { get; } = true;
     public override int LevelID { get; protected set; } = 1;
     public override int OptionID { get; protected set; } = 1;
     public override string OptionName { get; protected set; } = "闪避";
