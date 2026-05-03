@@ -12,6 +12,7 @@ public class Main : MonoBehaviour
         _=BuffManager.Instance;
         _ =DiceManager.Instance;
         _ =ProgressManager.Instance;
+        SkillManager.InitSkills();
     }
     void Start()
     {

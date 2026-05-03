@@ -7,7 +7,7 @@ public class Abundance : OptionBase
     public override string OptionName { get; protected set; } = "富足";
     public override int OptionID
     {
-        get { return 0; }
+        get { return 7; }
         
     }
     public override string OptionDescription

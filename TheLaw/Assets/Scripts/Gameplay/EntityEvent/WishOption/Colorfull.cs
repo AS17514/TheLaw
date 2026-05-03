@@ -8,7 +8,7 @@ public class Colorfull : OptionBase
 
     public override int OptionID
     {
-        get { return 1; }
+        get { return 8; }
         
     }
     public override string OptionDescription

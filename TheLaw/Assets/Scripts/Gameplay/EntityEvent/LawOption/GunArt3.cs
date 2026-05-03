@@ -7,7 +7,7 @@ public class GunArt3 : OptionBase
     public override string OptionName { get; protected set; } = "“枪械”艺术装置3";
     public override int OptionID
     {
-        get { return 1; }
+        get { return 5; }
         
     }
     public override string OptionDescription

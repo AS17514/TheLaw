@@ -7,7 +7,7 @@ public class ShatteredStars : OptionBase
     public override string OptionName { get; protected set; } = "画下的星星将破碎地放光";
     public override int OptionID
     {
-        get { return 2; }
+        get { return 6; }
         
     }
     public override string OptionDescription

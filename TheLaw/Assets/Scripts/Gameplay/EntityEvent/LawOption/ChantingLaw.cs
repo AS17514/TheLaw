@@ -7,7 +7,7 @@ public class ChantingLaw : OptionBase
     public override string OptionName { get; protected set; } = "念诵诗句时呼吸的节奏";
     public override int OptionID
     {
-        get { return 0; }
+        get { return 4; }
         
     }
     public override string OptionDescription
