@@ -23,45 +23,42 @@ public class Entity2 : Entity
         this.maxHp = maxHp;
         this.hp = maxHp;
     }
-    void Start() 
+    
+    public override void ManualInit()
     {
+        base.ManualInit(); // 必须先调用父类，把自己注册进 BuffManager
+
         #region 状态管理器
-        
-        // 第一关怪物清空旧数据（或者在关卡管理器里清空）
         StateManager.Instance.ClearStates();
 
-        // 把当前怪物的所有状态注册进去
         StateManager.Instance.RegisterStateData(
             E_StateType_2.normal, 
-            new ActionNode[]{// new ActionNode(E_IntentType., normal_Action_ScorchingSun)
-                             },
+            new ActionNode[]{ 
+                new ActionNode(E_IntentType.Entity2_LightRain,normal_Action_LightRain),
+                new ActionNode(E_IntentType.Entity2_ScorchingSun, normal_Action_ScorchingSun)
+            },
             new DesireNode[]
             {
                 //new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
                 
             }
-            
-            // new Action[] { normal_Action_LightRain,normal_Action_ScorchingSun,}, 
-            // new Action[] { }
         );
         StateManager.Instance.RegisterStateData(
             E_StateType_2.ashamed, 
             new ActionNode[]{ //new ActionNode(E_IntentType.Entity1_Atk, normal_Action_ScorchingSun)
-                              },
+            },
             new DesireNode[]
             {
                 //new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
                 
             }
         );
-        
-        // 默认进入初始状态
+
         StateManager.Instance.ChangeState(E_StateType_2.normal);
-        
         #endregion
 
-        InitEntity(7,6);
-        
+        // 最后进行数值初始化
+        InitEntity(7, 6);
     }
 
     #region 行动
@@ -128,6 +125,11 @@ public class Entity2 : Entity
         {
             e1.IsVisible=true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            
+            //防御性编程，先移除一下防止里面原本就有NeverRespond了
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespond);
+            
         }
     }
 

@@ -24,6 +24,7 @@ public abstract class OptionBase
     public virtual E_SpecialOptionConditions specialConditions{ get; protected set; }
     public virtual int fatherID { get; protected set; }
     public virtual int sonID { get; protected set; }
+    public virtual bool IsResponseOption { get; } = false;//专门用来进行应对选项有关的判断。
     #endregion
     // --- 委托定义区 ---
     // 用 Action 储存无返回值的方法。如果需要传参，可以用 Action<T>

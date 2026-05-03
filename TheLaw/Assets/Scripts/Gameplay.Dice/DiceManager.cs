@@ -587,7 +587,7 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <summary>
     /// 消耗掉选中的、且通过验证的骰子
     /// </summary>
-    public void ConsumeValidSelectedDice()
+    public void ConsumeValidSelectedDice(bool isResponse = false)
     {
         // 倒序遍历或者克隆一个列表遍历，防止在遍历过程中移除元素导致索引错乱
         List<DiceBase> dicesToConsume = new List<DiceBase>();
@@ -611,6 +611,11 @@ public class DiceManager : ManagerBase<DiceManager>
 
         // 最后清空购物车
         ClearSelected();
+        
+        if (!isResponse)
+        {
+            EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
+        }
     }
     /// <summary>
     /// 不能删

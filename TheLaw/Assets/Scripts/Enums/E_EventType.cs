@@ -67,6 +67,10 @@ public enum E_EventType
     LoadData,
     #endregion
 
+    #region 后端
+    Logic_PlayerActionExecuted
+    #endregion
+
 
 }
 

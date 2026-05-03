@@ -32,7 +32,7 @@ public class EntityEvent_1_01 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-        // bool result = false;
+        bool result = true;
         DiceManager.Instance.SortSelectedByValue();
         DiceManager.Instance.SortEntityPoolByValue();
         foreach (var dice in DiceManager.Instance.selectedDice)
@@ -42,6 +42,7 @@ public class EntityEvent_1_01 : OptionBase
                 DiceManager.Instance.ClearEntityPool();
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                result=false;
             }
             else
             {
@@ -59,38 +60,61 @@ public class EntityEvent_1_01 : OptionBase
             }
         }
 
-        DiceManager.Instance.ConsumeValidEntityDice();
-        if (DiceManager.Instance.entityDicePool != null || DiceManager.Instance.entityDicePool.Count > 0)
+        if (result)
         {
-            int hit = DiceManager.Instance.entityDicePool.Count;
-            int tempAtk = 5;
-            if (ProgressManager.Instance.nowEntities[1] != null)
+            DiceManager.Instance.ConsumeValidEntityDice();
+            if (DiceManager.Instance.entityDicePool != null && DiceManager.Instance.entityDicePool.Count > 0)
             {
-                if (ProgressManager.Instance.nowEntities[1] is Part1_1 part1)
+                int hit = DiceManager.Instance.entityDicePool.Count;
+                int tempAtk = 4;
+                if (ProgressManager.Instance.nowEntities[1] != null)
                 {
-                    if (part1.isDestroyed == true)
+                    if (ProgressManager.Instance.nowEntities[1] is Part1_1 part1)
                     {
-                        tempAtk--;
+                        if (part1.isDestroyed == true)
+                        {
+                            tempAtk--;
+                        }
                     }
                 }
-            }
-            if (ProgressManager.Instance.nowEntities[2] != null)
-            {
-                if (ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
-                {
-                    if (part2.isDestroyed == true)
-                    {
-                        tempAtk--;
-                    }
-                }
-            }
-            ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
-        }
-        DiceManager.Instance.ConsumeValidSelectedDice();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
 
+                if (ProgressManager.Instance.nowEntities[2] != null)
+                {
+                    if (ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
+                    {
+                        if (part2.isDestroyed == true)
+                        {
+                            tempAtk--;
+                        }
+                    }
+                }
+
+                ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
+            }
+
+            DiceManager.Instance.ConsumeValidSelectedDice(true);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+            //应对完之后取消该选项的显示。
+            this.IsVisible = false;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        }
+    }
+    
+    public void NeverRespond(object info = null)
+    {
+        int hit = DiceManager.Instance.entityDicePool.Count;
+        int tempAtk = 4;
+        ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
+        //之后取消该选项的显示。
+        this.IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+        
     }
 }
+
+
 
 public class EntityEvent_1_02 : OptionBase
 {
