@@ -6038,7 +6038,7 @@ GameObject:
   - component: {fileID: 1905371321165070208}
   - component: {fileID: 6702830858767184783}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Time2Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6450,7 +6450,7 @@ GameObject:
   - component: {fileID: 8368837168275535419}
   - component: {fileID: 4631570210830222043}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Time1Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6810,7 +6810,7 @@ GameObject:
   - component: {fileID: 4765331964870998800}
   - component: {fileID: 569228010655733743}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Time3Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12317,7 +12317,7 @@ GameObject:
   - component: {fileID: 5145307846210937922}
   - component: {fileID: 6340508722398780024}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Time4Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

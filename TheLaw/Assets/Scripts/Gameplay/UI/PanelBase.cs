@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -126,12 +127,44 @@ public abstract class PanelBase : MonoBehaviour
                     ToggleOnValueChanged(currentName, value);
                 });
             }
+            else if (childrenControls[i] is Image)
+            {
+                ImageOnClick(childrenControls[i] as Image, currentName);
+            }
         }
+    }
+    // 事件触发器的方法
+    private void ImageOnClick(Image image, string imageName)
+    {
+        EventTrigger eventTrigger = image.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = image.AddComponent<EventTrigger>();
+        }
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((data) =>
+        {
+            switch (((PointerEventData)data).button)
+            {
+                case PointerEventData.InputButton.Left:
+                    ImageOnLeftClick(imageName);
+                    break;
+                case PointerEventData.InputButton.Right:
+                    ImageOnRightClick(imageName);
+                    break;
+                default:
+                    return;
+            }
+        });
+        eventTrigger.triggers.Add(entry);
     }
     // 不同组件添加监听的虚方法
     protected virtual void ButtonOnClick(string buttonName) { }
     protected virtual void SliderOnValueChanged(string sliderName, float value) { }
     protected virtual void ToggleOnValueChanged(string toggleName, bool value) { }
+    protected virtual void ImageOnLeftClick(string imageName) { }
+    protected virtual void ImageOnRightClick(string imageName) { }
     #endregion
     #region 面板显隐时执行的方法
     // 淡入淡出

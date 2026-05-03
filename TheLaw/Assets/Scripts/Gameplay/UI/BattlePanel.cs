@@ -428,7 +428,6 @@ public class BattlePanel : PanelBase
             item.interactable = false;
         }
     }
-
     void InitEvents()
     {
         EventCenter eventCenter = EventCenter.Instance;
@@ -602,6 +601,7 @@ public class BattlePanel : PanelBase
         UpdateDice<ActionDice>(DiceManager.Instance.dicePool[E_DiceType.Action]);
         UpdateDice<MindDice>(DiceManager.Instance.dicePool[E_DiceType.Mind]);
         UpdatePlayerHP(BuffManager.Instance.player.hp);
+        UpdateTimeDiceCount(E_DiceType.Time1, DiceManager.Instance.dicePool[E_DiceType.Time1].Count);
         #endregion
         #region Entity
         // hp
@@ -692,6 +692,135 @@ public class BattlePanel : PanelBase
                 break;
             case "Button_ExitLevel":
                 UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
+                break;
+            default:
+                return;
+        }
+    }
+    protected override void ImageOnLeftClick(string imageName)
+    {
+        switch (imageName)
+        {
+            case "Image_Time1Dice":
+                if (DiceManager.Instance.GetSelectedTime1DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time1].Count)
+                {
+                    return;
+                }
+                DiceManager.Instance.selectedDice.Add(new TimeDice
+                {
+                    type = E_DiceType.Time1,
+                    sides = 4,
+                    value = 1
+                });
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1SelectedCount, DiceManager.Instance.GetSelectedTime1DiceCount());
+                break;
+            case "Image_Time2Dice":
+                if (DiceManager.Instance.GetSelectedTime2DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time2].Count)
+                {
+                    return;
+                }
+                DiceManager.Instance.selectedDice.Add(new TimeDice
+                {
+                    type = E_DiceType.Time2,
+                    sides = 4,
+                    value = 2
+                });
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2SelectedCount, DiceManager.Instance.GetSelectedTime2DiceCount());
+                break;
+            case "Image_Time3Dice":
+                if (DiceManager.Instance.GetSelectedTime3DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time3].Count)
+                {
+                    return;
+                }
+                DiceManager.Instance.selectedDice.Add(new TimeDice
+                {
+                    type = E_DiceType.Time3,
+                    sides = 4,
+                    value = 3
+                });
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3SelectedCount, DiceManager.Instance.GetSelectedTime3DiceCount());
+                break;
+            case "Image_Time4Dice":
+                if (DiceManager.Instance.GetSelectedTime4DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time4].Count)
+                {
+                    return;
+                }
+                DiceManager.Instance.selectedDice.Add(new TimeDice
+                {
+                    type = E_DiceType.Time4,
+                    sides = 4,
+                    value = 4
+                });
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4SelectedCount, DiceManager.Instance.GetSelectedTime4DiceCount());
+                break;
+            default:
+                return;
+        }
+
+    }
+    protected override void ImageOnRightClick(string imageName)
+    {
+        switch (imageName)
+        {
+            case "Image_Time1Dice":
+                if (DiceManager.Instance.GetSelectedTime1DiceCount() <= 0)
+                {
+                    return;
+                }
+                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                {
+                    if (item.type == E_DiceType.Time1)
+                    {
+                        DiceManager.Instance.selectedDice.Remove(item);
+                        break;
+                    }
+                }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1SelectedCount, DiceManager.Instance.GetSelectedTime1DiceCount());
+                break;
+            case "Image_Time2Dice":
+                if (DiceManager.Instance.GetSelectedTime2DiceCount() <= 0)
+                {
+                    return;
+                }
+                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                {
+                    if (item.type == E_DiceType.Time2)
+                    {
+                        DiceManager.Instance.selectedDice.Remove(item);
+                        break;
+                    }
+                }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2SelectedCount, DiceManager.Instance.GetSelectedTime2DiceCount());
+                break;
+            case "Image_Time3Dice":
+                if (DiceManager.Instance.GetSelectedTime3DiceCount() <= 0)
+                {
+                    return;
+                }
+                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                {
+                    if (item.type == E_DiceType.Time3)
+                    {
+                        DiceManager.Instance.selectedDice.Remove(item);
+                        break;
+                    }
+                }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3SelectedCount, DiceManager.Instance.GetSelectedTime3DiceCount());
+                break;
+            case "Image_Time4Dice":
+                if (DiceManager.Instance.GetSelectedTime4DiceCount() <= 0)
+                {
+                    return;
+                }
+                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                {
+                    if (item.type == E_DiceType.Time4)
+                    {
+                        DiceManager.Instance.selectedDice.Remove(item);
+                        break;
+                    }
+                }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4SelectedCount, DiceManager.Instance.GetSelectedTime4DiceCount());
                 break;
             default:
                 return;
