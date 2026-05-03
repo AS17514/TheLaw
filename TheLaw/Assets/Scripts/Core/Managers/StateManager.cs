@@ -35,6 +35,23 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish, currentExecutableDesire.Desire);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction, currentExecutableAction.Intent);
         }
+
+        #region Level2特殊逻辑
+
+        if (ProgressManager.Instance.level == 2)
+        {
+            if (currentState is E_StateType_2.composed)//坦然状态:时间进度变为1
+            {
+                ProgressManager.Instance.SetCurrentTimeProgress(1);
+            }
+            else
+            {
+                ProgressManager.Instance.SetCurrentTimeProgress(4);
+            }
+        }
+        
+
+        #endregion
     }
     /// <summary>
     /// 外部调用，用来执行怪物的行为。（时间进度结束时调用）

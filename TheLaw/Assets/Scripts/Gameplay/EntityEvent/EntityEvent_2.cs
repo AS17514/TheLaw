@@ -81,7 +81,7 @@ public class EntityEvent_2_01 : OptionBase
         }
     }
 
-    public void NeverRespond(object info = null)
+    public void NeverRespondToScorchingSun(object info = null)
     {
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Desire) >0)
         {
@@ -97,7 +97,27 @@ public class EntityEvent_2_01 : OptionBase
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToScorchingSun);
         
+    }
+
+    public void NeverRespondToStress(object info = null)
+    {
+        int atk=ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters);
+        int playerDesire=ProgressManager.Instance.player.GetBuff(E_BuffType.Desire);
+        if (playerDesire > 0)
+        {
+            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
+        }
+        else
+        {
+            ProgressManager.Instance.player.BeAttacked(atk);
+        }
+        //取消该选项的显示。
+        this.IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToStress);
+
     }
 }

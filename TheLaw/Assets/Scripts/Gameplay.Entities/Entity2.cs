@@ -35,22 +35,46 @@ public class Entity2 : Entity
             E_StateType_2.normal, 
             new ActionNode[]{ 
                 new ActionNode(E_IntentType.Entity2_LightRain,normal_Action_LightRain),
-                new ActionNode(E_IntentType.Entity2_ScorchingSun, normal_Action_ScorchingSun)
+                new ActionNode(E_IntentType.Entity2_ScorchingSun, normal_Action_ScorchingSun),
+                new ActionNode(E_IntentType.Entity2_Gale,normal_Action_Gale)
             },
             new DesireNode[]
             {
-                //new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
+                new DesireNode(E_DesireType.Entity2_HiddenBehindTheClothes,normal_Desire_HiddenBehindTheClothes),
                 
             }
         );
         StateManager.Instance.RegisterStateData(
             E_StateType_2.ashamed, 
-            new ActionNode[]{ //new ActionNode(E_IntentType.Entity1_Atk, normal_Action_ScorchingSun)
+            new ActionNode[]{ 
+                new ActionNode(E_IntentType.Entity2_Stress, ashamed_Action_Stress)
             },
             new DesireNode[]
             {
-                //new DesireNode(E_DesireType.Entity1_FilledWithFood,normal_Desire_FilledWithFood),
-                
+                new DesireNode(E_DesireType.Entity2_IfThatCountsAsMyClothesToo,ashamed_Desire_IfThatCountsAsMyClothesToo),
+                new DesireNode(E_DesireType.Entity2_IfThoseCouldBeSofter,ashamed_Desire_IfThoseCouldBeSofter)
+            }
+        );
+        StateManager.Instance.RegisterStateData(
+            E_StateType_2.hysterial,
+            new ActionNode[]
+            {
+                new ActionNode(E_IntentType.Entity2_HysterialStress,hysterial_Action_HysterialStress)
+            }, 
+            new DesireNode[]
+            {
+                new DesireNode(E_DesireType.Entity2_PleaseTearThoseTornTattersApart,hysterial_Desire_PleaseTearThoseTornTattersApart)
+            }
+        );
+        StateManager.Instance.RegisterStateData(
+            E_StateType_2.composed,
+            new ActionNode[]
+            {
+                new ActionNode(E_IntentType.Entity2_Rainstorm,hysterial_Action_Rainstorm)
+            }, 
+            new DesireNode[]
+            {
+                new DesireNode(E_DesireType.Entity2_ThereAreNoMoreWishesLeft,composed_Desire_ThereAreNoMoreWishesLeft)
             }
         );
 
@@ -127,11 +151,99 @@ public class Entity2 : Entity
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             
             //防御性编程，先移除一下防止里面原本就有NeverRespond了
-            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
-            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespond);
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToScorchingSun);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespondToScorchingSun);
             
         }
     }
 
+    public void normal_Action_Gale()
+    {
+        ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters,3);
+    }
+
+    public void ashamed_Action_Stress()
+    {
+        if (EventManager.Instance.optionPool[E_OptionType.Level2_Option][0] != null &&
+            EventManager.Instance.optionPool[E_OptionType.Level2_Option][0] is EntityEvent_2_01 e1)
+        {
+            e1.IsVisible=true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            
+            //防御性编程，先移除一下防止里面原本就有NeverRespond了
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToStress);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespondToStress);
+            
+        }
+    }
+
+    public void hysterial_Action_HysterialStress()//无法应对
+    {
+        int atk=ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters);
+        int playerDesire=ProgressManager.Instance.player.GetBuff(E_BuffType.Desire);
+        if (playerDesire > 0)
+        {
+            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
+        }
+        else
+        {
+            ProgressManager.Instance.player.BeAttacked(atk);
+        }
+    }
+
+    public void hysterial_Action_Rainstorm()
+    {
+        //玩家破布增加数
+        int tatterCount = DiceManager.Instance.dicePool[E_DiceType.Action].Count +
+                          DiceManager.Instance.dicePool[E_DiceType.Mind].Count;
+        
+        //增加玩家破布
+        ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, tatterCount);
+        
+        DiceManager.Instance.dicePool[E_DiceType.Action].Clear();
+        DiceManager.Instance.dicePool[E_DiceType.Mind].Clear();
+        
+        // 数据变动完毕后，重新排序并触发UI刷新
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_ActionDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice);
+    }
+    #endregion
+
+    #region 欲望
+
+    public void normal_Desire_HiddenBehindTheClothes()
+    {
+       AddBuff(E_BuffType.Tatters,3);
+       
+       normal_Action_LightRain();//立即执行一次“行动”：“小雨”
+    }
+
+    public void ashamed_Desire_IfThatCountsAsMyClothesToo()
+    {
+        AddBuff(E_BuffType.Desire,ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters));
+        normal_Action_LightRain();
+    }
+
+    public void ashamed_Desire_IfThoseCouldBeSofter()
+    {
+        ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters,4);
+    }
+
+    public void hysterial_Desire_PleaseTearThoseTornTattersApart()
+    {
+        int atk=ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters);
+        int playerDesire=ProgressManager.Instance.player.GetBuff(E_BuffType.Desire);
+        if (playerDesire > 0)
+        {
+            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
+        }
+        else
+        {
+            ProgressManager.Instance.player.BeAttacked(atk);
+        }
+    }
+
+    public void composed_Desire_ThereAreNoMoreWishesLeft()
+    {}
     #endregion
 }
