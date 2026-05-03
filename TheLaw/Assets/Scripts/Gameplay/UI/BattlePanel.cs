@@ -33,6 +33,11 @@ public class BattlePanel : PanelBase
     void UpdateSelectedDice(List<DiceBase> selectedDice)
     {
         Transform content = GetControl<ScrollRect>("Scroll View_SelectedDice").content;
+        if (selectedDice == null)
+        {
+            Debug.Log("选中骰列表为空");
+            return;
+        }
         // 清除ui上所有选中骰
         foreach (Transform item in content)
         {
@@ -88,6 +93,11 @@ public class BattlePanel : PanelBase
     {
         List<DiceBase> selectedList = DiceManager.Instance.selectedDice;
         Transform content = GetControl<ScrollRect>($"Scroll View_{typeof(T).Name}").content;
+        if (Dice == null)
+        {
+            Debug.Log("更新骰列表为空");
+            return;
+        }
         // 清除ui上所有骰
         foreach (Transform item in content)
         {
@@ -178,6 +188,11 @@ public class BattlePanel : PanelBase
     void UpdateEntityDice(List<EntityDice> entityDice)
     {
         Transform content = GetControl<ScrollRect>("Scroll View_PublicDice").content;
+        if (entityDice == null)
+        {
+            Debug.Log("公共骰列表为空");
+            return;
+        }
         foreach (Transform item in content)
         {
             Destroy(item.gameObject);
@@ -367,7 +382,7 @@ public class BattlePanel : PanelBase
                 Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
                 foreach (DiceCondition item in option.DiceCost)
                 {
-                    GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"]);
+                    GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"], content);
                     if (!(item.mode == E_CompareType.Any))
                     {
                         dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
@@ -586,7 +601,6 @@ public class BattlePanel : PanelBase
         #region 玩家/骰面板
         UpdateDice<ActionDice>(DiceManager.Instance.dicePool[E_DiceType.Action]);
         UpdateDice<MindDice>(DiceManager.Instance.dicePool[E_DiceType.Mind]);
-        UpdateEntityDice(DiceManager.Instance.entityDicePool);
         UpdatePlayerHP(BuffManager.Instance.player.hp);
         #endregion
         #region Entity
@@ -599,11 +613,66 @@ public class BattlePanel : PanelBase
         UpdateEntityAction(StateManager.Instance.UI_currentExecutableAction);
         UpdateEntityWish(StateManager.Instance.UI_currentExecutableDesire);
         UpdateEntityPart(ProgressManager.Instance.nowEntities);
-        print(BuffManager.Instance.entity);
         UpdateEntityBuff(BuffManager.Instance.entity.UI_buffs);
+        #endregion
+        // event
+        UpdateEvents(EventManager.Instance.optionPool);
+    }
+    // 面板移除时同时移除监听
+    protected override void AfterRemove()
+    {
+        EventCenter eventCenter = EventCenter.Instance;
 
+        #region Progress
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_Phase);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeProgress);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_MaxTimeProgress);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDicePerPhase);
+        #endregion
 
+        #region Dice
+        #region 选中、行动、思维
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_SelectedDice);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_ActionDice);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_MindDice);
+        #endregion
 
+        #region 时间
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice1Count);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice2Count);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice3Count);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice4Count);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice1SelectedCount);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice2SelectedCount);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice3SelectedCount);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice4SelectedCount);
+        #endregion
+
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_WildDiceCount);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityDice);
+        #endregion
+
+        #region Player
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_PlayerHP);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_PlayerBuff);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_PlayerDied);
+        #endregion
+
+        #region Entity
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityState);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityAction);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityWish);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityBuff);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityPart);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityHP);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityDied);
+        #endregion
+
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_Events);
+
+        #region Wish
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_WishToAvailable);
+        eventCenter.ClearEventListeners(E_EventType.UI_Update_WishToUnavailable);
         #endregion
     }
     protected override void ButtonOnClick(string buttonName)
@@ -618,7 +687,7 @@ public class BattlePanel : PanelBase
                 UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top);
                 break;
             case "Button_ReplayLevel":
-                ProgressManager.Instance.intoNewLevel(ProgressManager.Instance.level);
+                ProgressManager.Instance.intoNewLevel(level);
                 UIManager.Instance.ChangePanel<BattlePanel, BattlePanel>();
                 break;
             case "Button_ExitLevel":
@@ -631,21 +700,15 @@ public class BattlePanel : PanelBase
     public void Start()
     {
         #region 假装往管理器里塞了东西
-        ProgressManager.Instance.intoNewLevel(1);
-        DiceManager.Instance.ClearPool();
-        DiceManager.Instance.ClearSelected();
         DiceManager.Instance.AddTimeDice(4);
         DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
         DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
         DiceManager.Instance.AddDice(E_DiceType.Mind, new MindDice());
-        DiceManager.Instance.ClearEntityPool();
-        DiceManager.Instance.AddEntityDice();
-        DiceManager.Instance.AddEntityDice();
         #endregion
         // 初始化所有东西
         level = ProgressManager.Instance.level;
         LoadAllResources();
-        Init();
         InitEvents();
+        Init();
     }
 }

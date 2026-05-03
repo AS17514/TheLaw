@@ -24,6 +24,7 @@ public class EventCenter : ManagerBase<EventCenter>
         if (eventDic.ContainsKey(eventName))
         {
             // 判断是否为空后，执行委托
+            // Debug.Log($"invoke {eventName}");
             eventDic[eventName]?.Invoke(info);
         }
     }

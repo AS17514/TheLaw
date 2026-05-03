@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
@@ -13,7 +14,7 @@ public enum E_UILayer
     Bottom
 }
 
-public class UIManager : ManagerBase<UIManager>
+public class UIManager : ManagerMonoBase<UIManager>
 {
 
     private Camera uiCamera;
@@ -28,17 +29,17 @@ public class UIManager : ManagerBase<UIManager>
     /// <summary>
     /// // 初始化必要对象及组件
     /// </summary>
-    private UIManager()
+    private void Awake()
     {
         // 初始化对象 们
-        uiCamera = Object.Instantiate(Resources.Load<Camera>("Prefabs/UI/UI Camera")).GetComponent<Camera>();
-        uiCanvas = Object.Instantiate(Resources.Load<Canvas>("Prefabs/UI/Canvas")).GetComponent<Canvas>();
+        uiCamera = Instantiate(Resources.Load<Camera>("Prefabs/UI/UI Camera")).GetComponent<Camera>();
+        uiCanvas = Instantiate(Resources.Load<Canvas>("Prefabs/UI/Canvas")).GetComponent<Canvas>();
         uiCanvas.worldCamera = uiCamera;
-        uiEventSystem = Object.Instantiate(Resources.Load<EventSystem>("Prefabs/UI/EventSystem")).GetComponent<EventSystem>();
+        uiEventSystem = Instantiate(Resources.Load<EventSystem>("Prefabs/UI/EventSystem")).GetComponent<EventSystem>();
         // 设置不移除
-        Object.DontDestroyOnLoad(uiCamera);
-        Object.DontDestroyOnLoad(uiCanvas);
-        Object.DontDestroyOnLoad(uiEventSystem);
+        DontDestroyOnLoad(uiCamera);
+        DontDestroyOnLoad(uiCanvas);
+        DontDestroyOnLoad(uiEventSystem);
         // 添加层级
         loadingLayer = uiCanvas.transform.Find("Loading");
         topLayer = uiCanvas.transform.Find("Top");
@@ -68,7 +69,7 @@ public class UIManager : ManagerBase<UIManager>
         string name = typeof(T).Name;
         if (!panels.ContainsKey(name))
         {
-            GameObject panel = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/UI/Panels/{name}"), GetUILayer(layer), false);
+            GameObject panel = Instantiate(Resources.Load<GameObject>($"Prefabs/UI/Panels/{name}"), GetUILayer(layer), false);
             panel.AddComponent<T>();
             T panelComponent = panel.GetComponent<T>();
             panels.Add(name, panelComponent);
@@ -80,18 +81,22 @@ public class UIManager : ManagerBase<UIManager>
     /// 隐藏指定类型的面板，然后将其删除并从字典中移除
     /// </summary>
     /// <typeparam name="T">面板类型</typeparam>
-    public void RemovePanel<T>() where T : PanelBase
+    public void RemovePanel<T>(UnityAction onDestroyed = null) where T : PanelBase
     {
         string name = typeof(T).Name;
         if (panels.ContainsKey(name))
         {
             T panel = panels[name] as T;
-            panel.HideSelf(() => { Object.Destroy(panel.gameObject); });
-            panels.Remove(name);
+            panel.HideSelf(() =>
+            {
+                Destroy(panel.gameObject);
+                panels.Remove(name);
+                onDestroyed?.Invoke();
+            });
         }
     }
     /// <summary>
-    /// 删除指定面板，添加指定新面板，加入Loading面板过渡，默认新生成在中层
+    /// 删除指定面板，添加指定新面板，加入Loading面板过渡，默认新生成在中层，加入协程，让前一个面板完全销毁后新建面板
     /// </summary>
     /// <param name="layer">新生成面板的层级</param>
     /// <typeparam name="T">删除的面板</typeparam>
@@ -99,10 +104,10 @@ public class UIManager : ManagerBase<UIManager>
     /// <returns></returns>
     public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle) where T : PanelBase where K : PanelBase
     {
-        CreatPanel<LoadingPanel>(E_UILayer.Loading);
-        RemovePanel<T>();
-        CreatPanel<K>(layer);
-        RemovePanel<LoadingPanel>();
+        RemovePanel<T>(() =>
+        {
+            CreatPanel<K>(layer);
+        });
     }
     /// <summary>
     /// 获取面板层级对象的transform组件

@@ -24,7 +24,7 @@ public class SettingsPanel : PanelBase
         switch (buttonName)
         {
             case "Button_QuitSettings":
-                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM, new object[] { E_BGM.Dongbeak, true });
+                UIManager.Instance.RemovePanel<SettingsPanel>();
                 break;
             default:
                 return;
