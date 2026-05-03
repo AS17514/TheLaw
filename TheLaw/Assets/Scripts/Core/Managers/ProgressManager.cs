@@ -180,7 +180,6 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         nowEntities[0] = managerObj.AddComponent<Entity2>();
 
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
         Init(5, 5, 4);
@@ -196,8 +195,6 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         nowEntities[0] = managerObj.AddComponent<Entity3>();
 
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish2ToUnlocked);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
         Init(6, 6, 1);
@@ -213,9 +210,6 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         nowEntities[0] = managerObj.AddComponent<Entity4>();
 
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish1ToUnlocked);
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish2ToUnlocked);
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Wish3ToUnlocked);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
     }
