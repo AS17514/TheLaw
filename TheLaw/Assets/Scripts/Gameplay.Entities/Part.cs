@@ -6,21 +6,21 @@ public class Part : CharacterBase
 {
     public int id;
     public override bool IsPlayer => false;
-    public bool isDestroyed=false;
+    public bool isDestroyed = false;
     public string name;
     public Entity owner;
-    public bool IsVisible=false;
+    public bool IsVisible = false;
     public override void Die()
     {
         this.isDestroyed = true;
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPartBreakState,ProgressManager.Instance.nowEntities);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart, ProgressManager.Instance.nowEntities);
         //重写死亡的函数在里面增加部位破坏的逻辑，即hp将要变为零0时。
     }
 
     public override void BeAttacked(int atk)
     {
         base.BeAttacked(atk);
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPartHP,ProgressManager.Instance.nowEntities);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart, ProgressManager.Instance.nowEntities);
         owner.BeAttacked(atk);//攻击怪物部位，也会造成怪物本体扣血。
     }
 }

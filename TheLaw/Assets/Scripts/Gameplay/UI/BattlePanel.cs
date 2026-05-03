@@ -536,15 +536,7 @@ public class BattlePanel : PanelBase
         {
             UpdateEntityBuff((Dictionary<E_BuffType, int>)obj);
         });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPartHP, (obj) =>
-        {
-            UpdateEntityPart((CharacterBase[])obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPartIsVisible, (obj) =>
-        {
-            UpdateEntityPart((CharacterBase[])obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPartBreakState, (obj) =>
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPart, (obj) =>
         {
             UpdateEntityPart((CharacterBase[])obj);
         });
@@ -597,8 +589,17 @@ public class BattlePanel : PanelBase
         UpdatePlayerHP(BuffManager.Instance.player.hp);
         #endregion
         #region Entity
-        UpdateEntityHP(ProgressManager.Instance.nowEntities[0].hp);
+        // Max hp
+        GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = ProgressManager.Instance.nowEntities[0].maxHp.ToString();
+        GetControl<Slider>("Slider_EntityHP").maxValue = ProgressManager.Instance.nowEntities[0].maxHp;
+        // other
+        UpdateEntityState(StateManager.Instance.UI_currentState);
+        UpdateEntityAction(StateManager.Instance.UI_currentExecutableAction);
+        UpdateEntityWish(StateManager.Instance.UI_currentExecutableDesire);
+        UpdateEntityBuff(BuffManager.Instance.entity.UI_buffs);
         UpdateEntityPart(ProgressManager.Instance.nowEntities);
+        UpdateEntityHP(ProgressManager.Instance.nowEntities[0].hp);
+
         #endregion
     }
     protected override void ButtonOnClick(string buttonName)

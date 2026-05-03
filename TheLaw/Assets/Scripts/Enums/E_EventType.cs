@@ -43,10 +43,8 @@ public enum E_EventType
     #region 怪
     UI_Update_EntityHP,
     UI_Update_EntityBuff,
-    UI_Update_EntityPartHP,
-    UI_Update_EntityPartBreakState,
+    UI_Update_EntityPart,
     UI_Update_EntityState,
-    UI_Update_EntityPartIsVisible,
     UI_Update_EntityAction,
     UI_Update_EntityWish,
     UI_Update_EntityDied,
