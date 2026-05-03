@@ -45,13 +45,13 @@ public class EventManager : ManagerBase<EventManager>
     {
         return optionPool[type];
     }
-/// <summary>
-/// 按下按钮直接调用这个方法,然后前端参数直接往里面放就行。
-/// </summary>
-/// <param name="type"></param>
-/// <param name="index"></param>
-    public void ExcuteOption(E_OptionType type, int index)
+    /// <summary>
+    /// 按下按钮直接调用这个方法,然后前端参数直接往里面放就行。
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="index"></param>
+    public void ExcuteOption(E_OptionType type, int index, OptionContext context = null)
     {
-        optionPool[type][index].TriggerOption();
+        optionPool[type][index].TriggerOption(context);
     }
 }

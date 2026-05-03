@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting;
@@ -13,8 +14,62 @@ using UnityEngine.UI;
 
 public class BattlePanel : PanelBase
 {
+    //  记录一下选中骰列表
+    List<DiceBase> selectedDiceList = DiceManager.Instance.selectedDice;
     // 记录一下这是第几关
     int level;
+    // 记录玩家修改界面上的参数
+    bool isSelectedWildDice;
+    int Point
+    {
+        get
+        {
+            for (int i = -1; i <= 6; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+                if (GetControl<Toggle>($"Toggle_Point{i}").isOn)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+    }
+    int PartIndex
+    {
+        get
+        {
+            for (int i = 0; i <= 4; i++)
+            {
+                if (GetControl<Toggle>($"Toggle_EntityPart{i}").isOn)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+    E_DiceType ActOrMind
+    {
+        get
+        {
+            if (GetControl<Toggle>("Toggle_Action").isOn)
+            {
+                return E_DiceType.Action;
+            }
+            else if (GetControl<Toggle>("Toggle_Mind").isOn)
+            {
+                return E_DiceType.Mind;
+            }
+            else
+            {
+                return E_DiceType.Wild;
+            }
+        }
+    }
     // 资源加载
     Dictionary<string, GameObject> resources = new Dictionary<string, GameObject>();
     void LoadAllResources()
@@ -91,7 +146,6 @@ public class BattlePanel : PanelBase
     // 更新行动/思维骰
     void UpdateDice<T>(List<DiceBase> Dice) where T : DiceBase, new()
     {
-        List<DiceBase> selectedList = DiceManager.Instance.selectedDice;
         Transform content = GetControl<ScrollRect>($"Scroll View_{typeof(T).Name}").content;
         if (Dice == null)
         {
@@ -115,22 +169,22 @@ public class BattlePanel : PanelBase
             {
                 if (isOn)
                 {
-                    if (!selectedList.Contains(currentItem))
+                    if (!selectedDiceList.Contains(currentItem))
                     {
-                        selectedList.Add(currentItem);
+                        selectedDiceList.Add(currentItem);
                     }
                     DiceManager.Instance.SortSelectedByValue();
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedList);
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDiceList);
                 }
                 else
                 {
-                    for (int i = selectedList.Count - 1; i >= 0; i--)
+                    for (int i = selectedDiceList.Count - 1; i >= 0; i--)
                     {
-                        if (selectedList[i] == currentItem)
+                        if (selectedDiceList[i] == currentItem)
                         {
-                            selectedList.RemoveAt(i);
+                            selectedDiceList.RemoveAt(i);
                             DiceManager.Instance.SortSelectedByValue();
-                            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedList);
+                            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDiceList);
                             break;
                         }
                     }
@@ -364,7 +418,6 @@ public class BattlePanel : PanelBase
             if (option.IsVisible)
             {
                 GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
-                eventObj.GetComponentInChildren<Toggle>().group = toggleGroup;
                 foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
                 {
                     switch (item.gameObject.name)
@@ -677,9 +730,65 @@ public class BattlePanel : PanelBase
     }
     protected override void ButtonOnClick(string buttonName)
     {
+        int point = Point;
+        int partIndex = PartIndex;
         switch (buttonName)
         {
-            // Other
+            #region 固有行动
+            case "Button_InherentAction_Prepare":
+                if (ActOrMind == E_DiceType.Wild)
+                {
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                    break;
+                }
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_InherentAction, 0, new PrepareOptionContext { diceType = ActOrMind });
+                break;
+            case "Button_InherentAction_Adjust":
+                if (point == -1 || point == 1)
+                {
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                    break;
+                }
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_InherentAction, 1, new AdjustOptionContext { change = point });
+                break;
+            case "Button_InherentAction_Overturn":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_InherentAction, 2);
+                break;
+            case "Button_InherentAction_Atk":
+                if (isSelectedWildDice || partIndex == -1)
+                {
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                    break;
+                }
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_InherentAction, 3, new AtkOptionContext { index = partIndex });
+                break;
+            #endregion
+            #region 律
+            case "Button_Law_ChantingLaw":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Law, 0);
+                break;
+            case "Button_Law_GunArt3":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Law, 1);
+                break;
+            case "Button_Law_ShatteredStars":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Law, 2);
+                break;
+            #endregion
+            #region 许愿
+            case "Button_Wish_Abundance":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Wish, 0);
+                break;
+            case "Button_Wish_Vibrancy":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Wish, 1);
+                break;
+            case "Button_Wish_Null3":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Wish, 2);
+                break;
+            case "Button_Wish_Null4":
+                EventManager.Instance.ExcuteOption(E_OptionType.Player_Wish, 3);
+                break;
+            #endregion
+            #region Other
             case "Button_Explanation":
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                 break;
@@ -695,6 +804,7 @@ public class BattlePanel : PanelBase
                 break;
             default:
                 return;
+            #endregion
         }
     }
     protected override void ImageOnLeftClick(string imageName)
@@ -702,55 +812,79 @@ public class BattlePanel : PanelBase
         switch (imageName)
         {
             case "Image_Time1Dice":
-                if (DiceManager.Instance.GetSelectedTime1DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time1].Count)
+                int selectedTime1Num = DiceManager.Instance.GetSelectedTime1DiceCount();
+                if (selectedTime1Num >= DiceManager.Instance.dicePool[E_DiceType.Time1].Count)
                 {
                     return;
                 }
-                DiceManager.Instance.selectedDice.Add(new TimeDice
+                foreach (DiceBase item in selectedDiceList)
                 {
-                    type = E_DiceType.Time1,
-                    sides = 4,
-                    value = 1
-                });
+                    if (item.type == E_DiceType.Time1)
+                    {
+                        selectedDiceList.Remove(item);
+                    }
+                }
+                for (int i = DiceManager.Instance.dicePool[E_DiceType.Time1].Count - 1; i >= DiceManager.Instance.dicePool[E_DiceType.Time1].Count - 3 - selectedTime1Num; i++)
+                {
+                    selectedDiceList.Add(DiceManager.Instance.dicePool[E_DiceType.Time1][i]);
+                }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1SelectedCount, DiceManager.Instance.GetSelectedTime1DiceCount());
                 break;
             case "Image_Time2Dice":
-                if (DiceManager.Instance.GetSelectedTime2DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time2].Count)
+                int selectedTime2Num = DiceManager.Instance.GetSelectedTime2DiceCount();
+                if (selectedTime2Num >= DiceManager.Instance.dicePool[E_DiceType.Time2].Count)
                 {
                     return;
                 }
-                DiceManager.Instance.selectedDice.Add(new TimeDice
+                foreach (DiceBase item in selectedDiceList)
                 {
-                    type = E_DiceType.Time2,
-                    sides = 4,
-                    value = 2
-                });
+                    if (item.type == E_DiceType.Time2)
+                    {
+                        selectedDiceList.Remove(item);
+                    }
+                }
+                for (int i = DiceManager.Instance.dicePool[E_DiceType.Time2].Count - 1; i >= DiceManager.Instance.dicePool[E_DiceType.Time2].Count - selectedTime2Num; i++)
+                {
+                    selectedDiceList.Add(DiceManager.Instance.dicePool[E_DiceType.Time2][i]);
+                }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2SelectedCount, DiceManager.Instance.GetSelectedTime2DiceCount());
                 break;
             case "Image_Time3Dice":
-                if (DiceManager.Instance.GetSelectedTime3DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time3].Count)
+                int selectedTime3Num = DiceManager.Instance.GetSelectedTime3DiceCount();
+                if (selectedTime3Num >= DiceManager.Instance.dicePool[E_DiceType.Time3].Count)
                 {
                     return;
                 }
-                DiceManager.Instance.selectedDice.Add(new TimeDice
+                foreach (DiceBase item in selectedDiceList)
                 {
-                    type = E_DiceType.Time3,
-                    sides = 4,
-                    value = 3
-                });
+                    if (item.type == E_DiceType.Time3)
+                    {
+                        selectedDiceList.Remove(item);
+                    }
+                }
+                for (int i = DiceManager.Instance.dicePool[E_DiceType.Time3].Count - 1; i >= DiceManager.Instance.dicePool[E_DiceType.Time3].Count - selectedTime3Num; i++)
+                {
+                    selectedDiceList.Add(DiceManager.Instance.dicePool[E_DiceType.Time3][i]);
+                }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3SelectedCount, DiceManager.Instance.GetSelectedTime3DiceCount());
                 break;
             case "Image_Time4Dice":
-                if (DiceManager.Instance.GetSelectedTime4DiceCount() >= DiceManager.Instance.dicePool[E_DiceType.Time4].Count)
+                int selectedTime4Num = DiceManager.Instance.GetSelectedTime4DiceCount();
+                if (selectedTime4Num >= DiceManager.Instance.dicePool[E_DiceType.Time4].Count)
                 {
                     return;
                 }
-                DiceManager.Instance.selectedDice.Add(new TimeDice
+                foreach (DiceBase item in selectedDiceList)
                 {
-                    type = E_DiceType.Time4,
-                    sides = 4,
-                    value = 4
-                });
+                    if (item.type == E_DiceType.Time4)
+                    {
+                        selectedDiceList.Remove(item);
+                    }
+                }
+                for (int i = DiceManager.Instance.dicePool[E_DiceType.Time4].Count - 1; i >= DiceManager.Instance.dicePool[E_DiceType.Time4].Count - selectedTime4Num; i++)
+                {
+                    selectedDiceList.Add(DiceManager.Instance.dicePool[E_DiceType.Time4][i]);
+                }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4SelectedCount, DiceManager.Instance.GetSelectedTime4DiceCount());
                 break;
             default:
@@ -767,11 +901,11 @@ public class BattlePanel : PanelBase
                 {
                     return;
                 }
-                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                foreach (DiceBase item in selectedDiceList)
                 {
                     if (item.type == E_DiceType.Time1)
                     {
-                        DiceManager.Instance.selectedDice.Remove(item);
+                        selectedDiceList.Remove(item);
                         break;
                     }
                 }
@@ -782,11 +916,11 @@ public class BattlePanel : PanelBase
                 {
                     return;
                 }
-                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                foreach (DiceBase item in selectedDiceList)
                 {
                     if (item.type == E_DiceType.Time2)
                     {
-                        DiceManager.Instance.selectedDice.Remove(item);
+                        selectedDiceList.Remove(item);
                         break;
                     }
                 }
@@ -797,11 +931,11 @@ public class BattlePanel : PanelBase
                 {
                     return;
                 }
-                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                foreach (DiceBase item in selectedDiceList)
                 {
                     if (item.type == E_DiceType.Time3)
                     {
-                        DiceManager.Instance.selectedDice.Remove(item);
+                        selectedDiceList.Remove(item);
                         break;
                     }
                 }
@@ -812,11 +946,11 @@ public class BattlePanel : PanelBase
                 {
                     return;
                 }
-                foreach (DiceBase item in DiceManager.Instance.selectedDice)
+                foreach (DiceBase item in selectedDiceList)
                 {
                     if (item.type == E_DiceType.Time4)
                     {
-                        DiceManager.Instance.selectedDice.Remove(item);
+                        selectedDiceList.Remove(item);
                         break;
                     }
                 }
@@ -826,13 +960,42 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
+    protected override void ToggleOnValueChanged(string toggleName, bool value)
+    {
+
+        switch (toggleName)
+        {
+            case "Toggle_WildDice":
+                isSelectedWildDice = value;
+                if (value)
+                {
+                    foreach (WildDice item in DiceManager.Instance.dicePool[E_DiceType.Wild])
+                    {
+                        selectedDiceList.Add(item);
+                    }
+                }
+                else
+                {
+                    foreach (DiceBase item in selectedDiceList)
+                    {
+                        if (item.type == E_DiceType.Wild)
+                        {
+                            selectedDiceList.Remove(item);
+                        }
+                    }
+                }
+                break;
+            default:
+                return;
+        }
+    }
     public void Start()
     {
         #region 假装往管理器里塞了东西
         DiceManager.Instance.AddTimeDice(4);
-        DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
-        DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
-        DiceManager.Instance.AddDice(E_DiceType.Mind, new MindDice());
+        // DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
+        // DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
+        // DiceManager.Instance.AddDice(E_DiceType.Mind, new MindDice());
         #endregion
         // 初始化所有东西
         level = ProgressManager.Instance.level;
