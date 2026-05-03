@@ -131,7 +131,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         if (player == null)
         {
             GameObject managerObj = new GameObject("Player");
-            player = managerObj.AddComponent<Player>();
+            Player newplayer = managerObj.AddComponent<Player>();
+            player = newplayer;
+            player.InitPlayer();
         }
         else
         {
@@ -164,8 +166,11 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntities[0] = managerObj.AddComponent<Entity1>();
+        Entity1 entity1 = managerObj.AddComponent<Entity1>();
+        nowEntities[0] = entity1;
 
+        entity1.ManualInit();
+        
         Init(5, 5, 4);
         
     }

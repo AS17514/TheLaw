@@ -7,7 +7,7 @@ public static class SkillManager
     // 用字典把所有技能存起来，Key 是 OptionID，Value 是技能实例
     public static readonly Dictionary<int, OptionBase> Skills = new Dictionary<int, OptionBase>();
 
-    // 在游戏初始化时（比如某个 GameManager 的 Awake 里）调用一次
+    // 在游戏初始化时调用一次
     public static void InitSkills()
     {
         Skills.Clear();

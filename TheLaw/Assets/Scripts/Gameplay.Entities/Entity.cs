@@ -53,7 +53,7 @@ public abstract class Entity : CharacterBase
         this.maxHp = maxHp;
         this.hp = maxHp;
     }
-    private void Awake()
+    public virtual void   ManualInit()
     {
         // 游戏一开始，就把自己交到管理器手里
         BuffManager.Instance.Register(this);

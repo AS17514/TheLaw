@@ -11,14 +11,13 @@ public class Entity1 : Entity
         this.maxHp = maxHp;
         this.hp = maxHp;
     }
-    void Start()
+    public override void ManualInit()
     {
-        #region 状态管理器
+        base.ManualInit(); // 必须先调用父类，把自己注册进 BuffManager
 
-        // 第一关怪物清空旧数据（或者在关卡管理器里清空）
+        #region 状态管理器
         StateManager.Instance.ClearStates();
 
-        // 把当前怪物的所有状态注册进去
         StateManager.Instance.RegisterStateData(
             E_StateType_1.normal,
             new ActionNode[] { new ActionNode(E_IntentType.Entity1_Atk, normal_Action_Atk) },
@@ -37,11 +36,10 @@ public class Entity1 : Entity
             }
         );
 
-        // 默认进入初始状态
         StateManager.Instance.ChangeState(E_StateType_1.normal);
-
         #endregion
 
+        // 最后进行数值初始化
         InitEntity(1, 25);
     }
 

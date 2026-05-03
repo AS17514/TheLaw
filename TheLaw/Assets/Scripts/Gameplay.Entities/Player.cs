@@ -32,12 +32,7 @@ public class Player : CharacterBase
     }
     #endregion
     public  Dictionary<E_WishType,bool> wishUnlockProgress=new Dictionary<E_WishType,bool>();
-    private void Awake()
-    {
-        // 出生时登记
-        BuffManager.Instance.Register(this);
-        InitPlayer();
-    }
+    
     private void OnDestroy()
     {
         if (BuffManager.Instance != null)
@@ -91,6 +86,9 @@ public class Player : CharacterBase
     /// <param name="initialDesire"></param>
     public void InitPlayer(int  initialDesire=0,int maxHp=10)
     {
+        
+        BuffManager.Instance.Register(this);
+        
         //清空上一关的buff
         List<E_BuffType> keys = new List<E_BuffType>(buffs.Keys);
         foreach (var key in keys)
