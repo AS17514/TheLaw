@@ -35,7 +35,7 @@ public abstract class Entity : CharacterBase
     }
     #endregion
     public List<Part> parts = new List<Part>();
-    public string name;
+    public string entityName;
     public override void Die()
     {
 

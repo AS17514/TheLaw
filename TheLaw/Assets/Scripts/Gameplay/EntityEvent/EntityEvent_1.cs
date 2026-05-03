@@ -32,7 +32,7 @@ public class EntityEvent_1_01 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-        bool result = false;
+        // bool result = false;
         DiceManager.Instance.SortSelectedByValue();
         DiceManager.Instance.SortEntityPoolByValue();
         foreach (var dice in DiceManager.Instance.selectedDice)
@@ -68,7 +68,7 @@ public class EntityEvent_1_01 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[1] is Part1_1 part1)
                 {
-                    if (part1.isDestroyed = true)
+                    if (part1.isDestroyed == true)
                     {
                         tempAtk--;
                     }
@@ -78,7 +78,7 @@ public class EntityEvent_1_01 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
                 {
-                    if (part2.isDestroyed = true)
+                    if (part2.isDestroyed == true)
                     {
                         tempAtk--;
                     }

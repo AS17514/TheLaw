@@ -7,7 +7,7 @@ public class Part1_1 : Part
 {
     public void InitPart()
     {
-        name = "corner of the table";
+        partName = "corner of the table";
         id = 1;
         maxHp = 5;
         hp = maxHp;

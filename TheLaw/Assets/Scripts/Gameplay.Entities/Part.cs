@@ -7,7 +7,7 @@ public class Part : CharacterBase
     public int id;
     public override bool IsPlayer => false;
     public bool isDestroyed = false;
-    public string name;
+    public string partName;
     public Entity owner;
     public bool IsVisible = false;
     public override void Die()

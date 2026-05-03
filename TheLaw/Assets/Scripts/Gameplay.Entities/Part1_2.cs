@@ -6,7 +6,7 @@ public class Part1_2 : Part
 {
     public void InitPart()
     {
-        name = "plate";
+        partName = "plate";
         id = 2;
         maxHp = 5;
         hp = maxHp;
