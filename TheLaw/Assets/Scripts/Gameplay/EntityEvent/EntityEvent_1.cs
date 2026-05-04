@@ -274,6 +274,7 @@ public class EntityEvent_1_03 : OptionBase
                         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                     }
                 }
+                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
             {
@@ -349,6 +350,7 @@ public class EntityEvent_1_04 : OptionBase
                     e5.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
                 }
+                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
             {
@@ -417,6 +419,7 @@ public class EntityEvent_1_05 : OptionBase
                 Part1_2.PartApear();
                 IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
+                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
             {
@@ -491,6 +494,7 @@ public class EntityEvent_1_06 : OptionBase
                     e7.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
                 }
+                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
             {
@@ -564,6 +568,7 @@ public class EntityEvent_1_07 : OptionBase
                     e8.IsVisible = true;
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);//更新事件列表
                 }
+                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
             {
@@ -634,6 +639,7 @@ public class EntityEvent_1_08 : OptionBase
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
                 IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
             {

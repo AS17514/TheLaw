@@ -23,4 +23,9 @@ public class Part : CharacterBase
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart, ProgressManager.Instance.nowEntities);
         owner.BeAttacked(atk);//攻击怪物部位，也会造成怪物本体扣血。
     }
+
+    public override bool IsCouldBeAttacked()
+    {
+        return !isDestroyed;
+    }
 }

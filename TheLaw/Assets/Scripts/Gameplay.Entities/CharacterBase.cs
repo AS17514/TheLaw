@@ -26,4 +26,9 @@ public abstract class CharacterBase : MonoBehaviour
     {
         TakeDamage( atk);
     }
+
+    public virtual bool IsCouldBeAttacked()
+    {
+        return true;
+    }
 }

@@ -8,7 +8,7 @@ public class StateManager : ManagerBase<StateManager>
     private Dictionary<System.Enum, ActionNode[]> stateActions = new Dictionary<System.Enum, ActionNode[]>();
     private Dictionary<System.Enum, DesireNode[]> stateDesires = new Dictionary<System.Enum, DesireNode[]>();
     //System.Enum放E_StateType
-    private System.Enum currentState;//当前的状态。
+    public System.Enum currentState;//当前的状态。
     public Enum UI_currentState { get { return currentState; } }//开放给UI用的，获取当前状态的属性
     private int currentActionIndex = 0;//当前状态内行为执行到第几个了
     private ActionNode currentExecutableAction;
@@ -49,8 +49,16 @@ public class StateManager : ManagerBase<StateManager>
                 ProgressManager.Instance.SetCurrentTimeProgress(4);
             }
         }
-        
 
+        if (ProgressManager.Instance.level == 2&&currentState is E_StateType_2.normal)
+        {
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        }
+
+        if (ProgressManager.Instance.level == 2&&currentState is E_StateType_2.ashamed)
+        {
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        }
         #endregion
     }
     /// <summary>
@@ -73,6 +81,23 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction, currentExecutableAction.Intent);
         }
     }
+/// <summary>
+/// 不执行怪物的行为，但是把怪物的行为切到下一个，第二关使用
+/// </summary>
+    public void ChangeCurrentActionToNextAction()
+    {
+        currentActionIndex++;
+
+        // 行为轮流循环
+        if (currentActionIndex >= stateActions[currentState].Length)
+        {
+            currentActionIndex = 0;
+        }
+        
+        currentExecutableAction = stateActions[currentState][currentActionIndex];
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction, currentExecutableAction.Intent);
+    }
+    
     /// <summary>
     /// 执行怪物愿望（时间段结束时调用）
     /// </summary>
