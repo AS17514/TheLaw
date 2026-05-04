@@ -127,7 +127,8 @@ public abstract class PanelBase : MonoBehaviour
                     ToggleOnValueChanged(currentName, value);
                 });
             }
-            else if (childrenControls[i] is Image)
+            // 只对时间骰添加这个监听，不然会出现无响应bug
+            else if (childrenControls[i] is Image && currentName.StartsWith("Image_Time"))
             {
                 ImageOnClick(childrenControls[i] as Image, currentName);
             }

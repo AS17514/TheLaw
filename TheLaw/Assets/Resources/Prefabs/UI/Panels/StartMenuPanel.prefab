@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 1212431406349642161}
   - component: {fileID: 4787160458466302333}
   m_Layer: 5
-  m_Name: BG
+  m_Name: RawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,8 +442,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5F00\u59CB\u6E38\u620F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7eddbe75a2235374499255552cb8897c, type: 2}
-  m_sharedMaterial: {fileID: -8513957215748146862, guid: 7eddbe75a2235374499255552cb8897c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7704aaea82cb65d46a6fae90adf7f971, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 7704aaea82cb65d46a6fae90adf7f971, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -697,8 +697,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u9000\u51FA\u6E38\u620F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7eddbe75a2235374499255552cb8897c, type: 2}
-  m_sharedMaterial: {fileID: -8513957215748146862, guid: 7eddbe75a2235374499255552cb8897c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7704aaea82cb65d46a6fae90adf7f971, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 7704aaea82cb65d46a6fae90adf7f971, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

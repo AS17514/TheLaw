@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 5247540612567221115}
   - component: {fileID: 5723316063980219258}
   m_Layer: 5
-  m_Name: BG
+  m_Name: RawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_text: " \u91CD\u65B0\u5F00\u59CB\u8FD9\u4E00\u5173"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
-  m_sharedMaterial: {fileID: -8513957215748146862, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
+  m_sharedMaterial: {fileID: -8556930161819669573, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_text: YOU DIE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
-  m_sharedMaterial: {fileID: -8513957215748146862, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
+  m_sharedMaterial: {fileID: -8556930161819669573, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_text: "\u8FD4\u56DE\u4E3B\u754C\u9762"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
-  m_sharedMaterial: {fileID: -8513957215748146862, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
+  m_sharedMaterial: {fileID: -8556930161819669573, guid: 9e4a3ab9ef7a8444b80241ac20da9709, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
