@@ -214,16 +214,26 @@ public class Entity2 : Entity
     public void normal_Desire_HiddenBehindTheClothes()
     {
        AddBuff(E_BuffType.Tatters,3);
-       
        normal_Action_LightRain();//立即执行一次“行动”：“小雨”
+       
+       isHiddenBehindTheClothesUse=true;
+       EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+       
     }
 
+    public bool isHiddenBehindTheClothesUse=false;
+    
     public void ashamed_Desire_IfThatCountsAsMyClothesToo()
     {
         AddBuff(E_BuffType.Desire,ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters));
         normal_Action_LightRain();
+        
+        isIfThatCountsAsMyClothesTooUse=true;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
 
+    public bool isIfThatCountsAsMyClothesTooUse=false;
+    
     public void ashamed_Desire_IfThoseCouldBeSofter()
     {
         ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters,4);
