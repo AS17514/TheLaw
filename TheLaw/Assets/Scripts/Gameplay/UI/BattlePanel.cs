@@ -212,7 +212,7 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    void UpdateAllTimeDiceCount()
+    void UpdateTimeDiceCount()
     {
         Dictionary<E_DiceType, List<DiceBase>> pool = DiceManager.Instance.dicePool;
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1Count").text = pool[E_DiceType.Time1].Count.ToString();
@@ -240,7 +240,7 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    void UpdateAllTimeDiceSelectedCount()
+    void UpdateTimeDiceSelectedCount()
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1SelectedCount").text = DiceManager.Instance.GetSelectedTime1DiceCount().ToString();
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice2SelectedCount").text = DiceManager.Instance.GetSelectedTime2DiceCount().ToString();
@@ -547,18 +547,18 @@ public class BattlePanel : PanelBase
     {
         UpdateDice<MindDice>((List<DiceBase>)obj);
     }
-    void OnUpdateAllTimeDiceCount(object obj)
+    void OnUpdateTimeDiceCount(object obj)
     {
-        UpdateAllTimeDiceCount();
+        UpdateTimeDiceCount();
     }
-    void OnUpdateAllTimeDiceSelectedCount(object obj)
+    void OnUpdateTimeDiceSelectedCount(object obj)
     {
-        UpdateAllTimeDiceSelectedCount();
+        UpdateTimeDiceSelectedCount();
     }
-    void OnUpdateAllTimeDice(object obj)
+    void OnUpdateTimeDice(object obj)
     {
-        UpdateAllTimeDiceCount();
-        UpdateAllTimeDiceSelectedCount();
+        UpdateTimeDiceCount();
+        UpdateTimeDiceSelectedCount();
     }
     void OnUpdateTimeDice1Count(object obj)
     {
@@ -673,17 +673,9 @@ public class BattlePanel : PanelBase
         eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
-        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceCount, OnUpdateAllTimeDiceCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceSelectedCount, OnUpdateAllTimeDiceSelectedCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDice, OnUpdateAllTimeDice);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1Count, OnUpdateTimeDice1Count);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice2Count, OnUpdateTimeDice2Count);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice3Count, OnUpdateTimeDice3Count);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice4Count, OnUpdateTimeDice4Count);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1SelectedCount, OnUpdateTimeDice1SelectedCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice2SelectedCount, OnUpdateTimeDice2SelectedCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice3SelectedCount, OnUpdateTimeDice3SelectedCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice4SelectedCount, OnUpdateTimeDice4SelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceCount, OnUpdateTimeDiceCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, OnUpdateTimeDiceSelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice, OnUpdateTimeDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
         eventCenter.AddEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion
@@ -765,19 +757,6 @@ public class BattlePanel : PanelBase
 
         #region Dice
         eventCenter.RemoveEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_AllTimeDiceCount, OnUpdateAllTimeDiceCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_AllTimeDiceSelectedCount, OnUpdateAllTimeDiceSelectedCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_AllTimeDice, OnUpdateAllTimeDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice1Count, OnUpdateTimeDice1Count);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice2Count, OnUpdateTimeDice2Count);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice3Count, OnUpdateTimeDice3Count);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice4Count, OnUpdateTimeDice4Count);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice1SelectedCount, OnUpdateTimeDice1SelectedCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice2SelectedCount, OnUpdateTimeDice2SelectedCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice3SelectedCount, OnUpdateTimeDice3SelectedCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice4SelectedCount, OnUpdateTimeDice4SelectedCount);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion
@@ -908,7 +887,7 @@ public class BattlePanel : PanelBase
                 {
                     selectedDiceList.Add(Time1List[i]);
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1SelectedCount, DiceManager.Instance.GetSelectedTime1DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             case "Image_Time2Dice":
                 int selectedTime2Num = DiceManager.Instance.GetSelectedTime2DiceCount();
@@ -928,7 +907,7 @@ public class BattlePanel : PanelBase
                 {
                     selectedDiceList.Add(Time2List[i]);
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2SelectedCount, DiceManager.Instance.GetSelectedTime2DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             case "Image_Time3Dice":
                 int selectedTime3Num = DiceManager.Instance.GetSelectedTime3DiceCount();
@@ -948,7 +927,7 @@ public class BattlePanel : PanelBase
                 {
                     selectedDiceList.Add(Time3List[i]);
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3SelectedCount, DiceManager.Instance.GetSelectedTime3DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             case "Image_Time4Dice":
                 int selectedTime4Num = DiceManager.Instance.GetSelectedTime4DiceCount();
@@ -968,7 +947,7 @@ public class BattlePanel : PanelBase
                 {
                     selectedDiceList.Add(Time4List[i]);
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4SelectedCount, DiceManager.Instance.GetSelectedTime4DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             default:
                 return;
@@ -992,7 +971,7 @@ public class BattlePanel : PanelBase
                         break;
                     }
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1SelectedCount, DiceManager.Instance.GetSelectedTime1DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             case "Image_Time2Dice":
                 if (DiceManager.Instance.GetSelectedTime2DiceCount() <= 0)
@@ -1007,7 +986,7 @@ public class BattlePanel : PanelBase
                         break;
                     }
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2SelectedCount, DiceManager.Instance.GetSelectedTime2DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             case "Image_Time3Dice":
                 if (DiceManager.Instance.GetSelectedTime3DiceCount() <= 0)
@@ -1022,7 +1001,7 @@ public class BattlePanel : PanelBase
                         break;
                     }
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3SelectedCount, DiceManager.Instance.GetSelectedTime3DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             case "Image_Time4Dice":
                 if (DiceManager.Instance.GetSelectedTime4DiceCount() <= 0)
@@ -1037,7 +1016,7 @@ public class BattlePanel : PanelBase
                         break;
                     }
                 }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4SelectedCount, DiceManager.Instance.GetSelectedTime4DiceCount());
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
             default:
                 return;

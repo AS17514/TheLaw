@@ -62,7 +62,7 @@ public class Prepare : OptionBase
                 // 任务 2：消耗骰子
                 DiceManager.Instance.ConsumeValidSelectedDice();
                 // 刷新选中的时间骰ui
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_AllTimeDiceSelectedCount);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
             };
         }
 

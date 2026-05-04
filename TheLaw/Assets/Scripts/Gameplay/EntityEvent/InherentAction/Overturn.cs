@@ -69,6 +69,7 @@ public class Overturn : OptionBase
                     }
                 }
                 DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice);
                 // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.selectedDice[0], 1);
                 // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.changedDice[0], adjustCtx.change);
             }
@@ -77,7 +78,6 @@ public class Overturn : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-
         }
     }
 }

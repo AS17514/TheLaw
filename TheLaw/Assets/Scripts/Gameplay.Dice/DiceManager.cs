@@ -413,16 +413,10 @@ public class DiceManager : ManagerBase<DiceManager>
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice, dicePool[E_DiceType.Mind]);
                 break;
             case E_DiceType.Time1:
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1Count, dicePool[type].Count);
-                break;
             case E_DiceType.Time2:
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice2Count, dicePool[type].Count);
-                break;
             case E_DiceType.Time3:
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice3Count, dicePool[type].Count);
-                break;
             case E_DiceType.Time4:
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice4Count, dicePool[type].Count);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceCount);
                 break;
             case E_DiceType.Wild:
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceCount, dicePool[type].Count);
