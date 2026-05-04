@@ -430,15 +430,18 @@ public class BattlePanel : PanelBase
     }
     #endregion
     // Events
-    void UpdateEvents(Dictionary<E_OptionType, OptionBase[]> eventDic)
+    void UpdateEvents()
     {
+        Dictionary<E_OptionType, OptionBase[]> eventDic = EventManager.Instance.optionPool;
         Transform grid = GetControl<ScrollRect>("Scroll View_Event").content.GetChild(0);
         foreach (Transform item in grid)
         {
             Destroy(item.gameObject);
         }
+        int index = 0;
         foreach (OptionBase option in eventDic[(E_OptionType)(level + 2)])
         {
+            int eventIndex = index;
             if (option.IsVisible)
             {
                 GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
@@ -465,6 +468,12 @@ public class BattlePanel : PanelBase
                         dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
                     }
                 }
+                eventObj.GetComponentInChildren<Button>().onClick.AddListener(() =>
+                {
+                    Debug.Log($"执行{eventIndex}号事件");
+                    EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex);
+                });
+                index++;
             }
         }
     }
@@ -657,7 +666,7 @@ public class BattlePanel : PanelBase
         // Events
         eventCenter.AddEventListener(E_EventType.UI_Update_Events, (obj) =>
         {
-            UpdateEvents((Dictionary<E_OptionType, OptionBase[]>)obj);
+            UpdateEvents();
         });
         #region Wish
         eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, (obj) =>
@@ -669,6 +678,11 @@ public class BattlePanel : PanelBase
             LockWish();
         });
         #endregion
+        // 未通过判定
+        eventCenter.AddEventListener(E_EventType.UI_Update_IsConditionNotMet, (obj) =>
+        {
+            Debug.LogWarning("判定未通过");
+        });
     }
     void Init()
     {
@@ -706,7 +720,7 @@ public class BattlePanel : PanelBase
         UpdateEntityBuff(BuffManager.Instance.entity.UI_buffs);
         #endregion
         // event
-        UpdateEvents(EventManager.Instance.optionPool);
+        UpdateEvents();
     }
     // 面板移除时同时移除监听
     protected override void AfterRemove()
