@@ -473,8 +473,8 @@ public class BattlePanel : PanelBase
                     Debug.Log($"执行{eventIndex}号事件");
                     EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex);
                 });
-                index++;
             }
+            index++;
         }
     }
     // 许愿
@@ -1056,6 +1056,6 @@ public class BattlePanel : PanelBase
         InitEvents();
         Debug.Log("初始化监听");
         Init();
-        Debug.Log("初始化完成");
+        Debug.Log("战斗面板初始化完成");
     }
 }
