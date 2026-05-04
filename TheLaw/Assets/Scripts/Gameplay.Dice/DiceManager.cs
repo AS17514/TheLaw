@@ -201,18 +201,18 @@ public class DiceManager : ManagerBase<DiceManager>
     {
         return IsSelectionValid(0, conditions);
     }
-    
+
     /// <summary>
     /// 判断选中骰子是否满足条件
     /// </summary>
     /// <param name="conditions"></param>
     /// <returns></returns>
-    public bool IsSelectionValid(int specialAddLength,params DiceCondition[] conditions)
+    public bool IsSelectionValid(int specialAddLength, params DiceCondition[] conditions)
     {
         if (conditions == null || conditions.Length == 0) return false;
         if (selectedDice == null || selectedDice.Count == 0) return false;
-        
-        if ((conditions.Length +specialAddLength)!= selectedDice.Count)
+
+        if ((conditions.Length + specialAddLength) != selectedDice.Count)
         {
             Debug.Log("老大，selectedDice数量与conditions数量对不上喵");
             return false;
@@ -345,7 +345,7 @@ public class DiceManager : ManagerBase<DiceManager>
                 // 3. 如果类型相同，按点数从小到大排
                 return a.value.CompareTo(b.value);
             });
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
     }
     /// <summary>
     ///  一个内部辅助方法，用来定义优先级,SortSelectedByValue使用
@@ -376,7 +376,7 @@ public class DiceManager : ManagerBase<DiceManager>
         {
             list.Clear();
         }
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
         entityDicePool.Clear();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice, entityDicePool);
     }
@@ -386,7 +386,7 @@ public class DiceManager : ManagerBase<DiceManager>
     public void ClearSelected()
     {
         selectedDice.Clear();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
     }
     /// <summary>
     /// 把某一类骰子的列表按从小到大排序，并初始化或更新索引值index
@@ -629,8 +629,8 @@ public class DiceManager : ManagerBase<DiceManager>
             EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
         }
     }
-    
-    
+
+
     /// <summary>
     /// 获取选中列表中未被作为消耗（isValid == false）的“目标”骰子
     /// 注意：必须在调用 ConsumeValidSelectedDice 之前调用！
@@ -651,7 +651,7 @@ public class DiceManager : ManagerBase<DiceManager>
         }
         return targetDices;
     }
-    
+
     /// <summary>
     /// 不能删
     /// </summary>

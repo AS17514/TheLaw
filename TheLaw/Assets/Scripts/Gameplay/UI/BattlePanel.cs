@@ -83,8 +83,9 @@ public class BattlePanel : PanelBase
     }
     #region Dice
     // 更新选中骰
-    void UpdateSelectedDice(List<DiceBase> selectedDice)
+    void UpdateSelectedDice()
     {
+        List<DiceBase> selectedDice = selectedDiceList;
         Transform content = GetControl<ScrollRect>("Scroll View_SelectedDice").content;
         if (selectedDice == null)
         {
@@ -536,7 +537,7 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateSelectedDice(object obj)
     {
-        UpdateSelectedDice((List<DiceBase>)obj);
+        UpdateSelectedDice();
     }
     void OnUpdateActionDice(object obj)
     {

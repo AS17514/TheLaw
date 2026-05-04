@@ -8,21 +8,21 @@ public class Overturn : OptionBase
     public override int OptionID
     {
         get { return 2; }
-        
+
     }
     public override string OptionDescription
     {
         get { return "选择一个时间般点数+1，选择自己一个思维骰子，将其重新投掷"; }
     }
 
-    public override bool IsVisible 
+    public override bool IsVisible
     {
         get { return true; }
     }
 
     public override E_OptionType OptionType
     {
-        get{return E_OptionType.Player_InherentAction;}
+        get { return E_OptionType.Player_InherentAction; }
     }
     public override DiceCondition[] DiceCost
     {
@@ -54,7 +54,7 @@ public class Overturn : OptionBase
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
-            if (result )
+            if (result)
             {
                 foreach (var dice in DiceManager.Instance.selectedDice)
                 {
@@ -68,6 +68,7 @@ public class Overturn : OptionBase
                         DiceManager.Instance.RerollDieAt(dice.type, dice.index);
                     }
                 }
+                DiceManager.Instance.ClearSelected();
                 // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.selectedDice[0], 1);
                 // DiceManager.Instance.ModifyDieValue(DiceManager.Instance.changedDice[0], adjustCtx.change);
             }
@@ -76,7 +77,7 @@ public class Overturn : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }
