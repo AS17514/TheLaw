@@ -33,7 +33,15 @@ public class EventManager : ManagerBase<EventManager>
                 new EntityEvent_2_08(),//那都是你独一无二的装饰
                 
                 #endregion
+                new EntityEvent_2_09(),//观察
                 
+                //对象在许下"藏在衣服的后面"愿望后
+                new EntityEvent_2_10(),//推动
+                new EntityEvent_2_11(),//无视
+                
+                //对象在许下"如果那也算我的衣服"愿望后
+                new EntityEvent_2_12(),//那不是你的伪装
+                new EntityEvent_2_13(),//中伤
             }
         }
     };

@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum E_SpecialOptionConditions
 {
-    Tatters1,
+    Tatters1,//7布
+    
 }
