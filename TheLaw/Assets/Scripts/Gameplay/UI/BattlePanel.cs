@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
@@ -514,175 +512,205 @@ public class BattlePanel : PanelBase
             item.interactable = false;
         }
     }
+
+    #region 注册事件专用有名方法
+    void OnUpdatePhase(object obj)
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = ((int)obj + 1).ToString();
+    }
+    void OnUpdateTimeProgress(object obj)
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeProgress").text = ((int)obj).ToString();
+        Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
+        Slider_TimeProgress.value = (int)obj;
+    }
+    void OnUpdateMaxTimeProgress(object obj)
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_MaxTimeProgress").text = ((int)obj).ToString();
+        Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
+        Slider_TimeProgress.maxValue = (int)obj;
+    }
+    void OnUpdateTimeDicePerPhase(object obj)
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhase").text = ((int)obj).ToString();
+    }
+    void OnUpdateSelectedDice(object obj)
+    {
+        UpdateSelectedDice((List<DiceBase>)obj);
+    }
+    void OnUpdateActionDice(object obj)
+    {
+        UpdateDice<ActionDice>((List<DiceBase>)obj);
+    }
+    void OnUpdateMindDice(object obj)
+    {
+        UpdateDice<MindDice>((List<DiceBase>)obj);
+    }
+    void OnUpdateAllTimeDiceCount(object obj)
+    {
+        UpdateAllTimeDiceCount();
+    }
+    void OnUpdateAllTimeDiceSelectedCount(object obj)
+    {
+        UpdateAllTimeDiceSelectedCount();
+    }
+    void OnUpdateAllTimeDice(object obj)
+    {
+        UpdateAllTimeDiceCount();
+        UpdateAllTimeDiceSelectedCount();
+    }
+    void OnUpdateTimeDice1Count(object obj)
+    {
+        UpdateTimeDiceCount(E_DiceType.Time1, (int)obj);
+    }
+    void OnUpdateTimeDice2Count(object obj)
+    {
+        UpdateTimeDiceCount(E_DiceType.Time2, (int)obj);
+    }
+    void OnUpdateTimeDice3Count(object obj)
+    {
+        UpdateTimeDiceCount(E_DiceType.Time3, (int)obj);
+    }
+    void OnUpdateTimeDice4Count(object obj)
+    {
+        UpdateTimeDiceCount(E_DiceType.Time4, (int)obj);
+    }
+    void OnUpdateTimeDice1SelectedCount(object obj)
+    {
+        UpdateTimeDiceSelectedCount(E_DiceType.Time1, (int)obj);
+    }
+    void OnUpdateTimeDice2SelectedCount(object obj)
+    {
+        UpdateTimeDiceSelectedCount(E_DiceType.Time2, (int)obj);
+    }
+    void OnUpdateTimeDice3SelectedCount(object obj)
+    {
+        UpdateTimeDiceSelectedCount(E_DiceType.Time3, (int)obj);
+    }
+    void OnUpdateTimeDice4SelectedCount(object obj)
+    {
+        UpdateTimeDiceSelectedCount(E_DiceType.Time4, (int)obj);
+    }
+    void OnUpdateWildDiceCount(object obj)
+    {
+        UpdateWildDice((int)obj);
+    }
+    void OnUpdateEntityDice(object obj)
+    {
+        UpdateEntityDice((List<EntityDice>)obj);
+    }
+    void OnUpdatePlayerHP(object obj)
+    {
+        UpdatePlayerHP((int)obj);
+    }
+    void OnUpdatePlayerBuff(object obj)
+    {
+        UpdatePlayerBuff((Dictionary<E_BuffType, int>)obj);
+    }
+    void OnUpdatePlayerDied(object obj)
+    {
+        UIManager.Instance.CreatPanel<DiePanel>(E_UILayer.Top);
+    }
+    void OnUpdateEntityState(object obj)
+    {
+        UpdateEntityState((Enum)obj);
+    }
+    void OnUpdateEntityAction(object obj)
+    {
+        UpdateEntityAction((E_IntentType)obj);
+    }
+    void OnUpdateEntityWish(object obj)
+    {
+        UpdateEntityWish((E_DesireType)obj);
+    }
+    void OnUpdateEntityBuff(object obj)
+    {
+        UpdateEntityBuff((Dictionary<E_BuffType, int>)obj);
+    }
+    void OnUpdateEntityPart(object obj)
+    {
+        UpdateEntityPart((CharacterBase[])obj);
+    }
+    void OnUpdateEntityHP(object obj)
+    {
+        UpdateEntityHP((int)obj);
+    }
+    void OnUpdateEntityDied(object obj)
+    {
+        UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
+    }
+    void OnUpdateEvents(object obj)
+    {
+        UpdateEvents();
+    }
+    void OnUpdateWishToAvailable(object obj)
+    {
+        UnlockedWish();
+    }
+    void OnUpdateWishToUnavailable(object obj)
+    {
+        LockWish();
+    }
+    void OnUpdateIsConditionNotMet(object obj)
+    {
+        Debug.LogWarning("判定未通过");
+    }
+    #endregion
+    // 注册事件
     void InitEvents()
     {
         EventCenter eventCenter = EventCenter.Instance;
-        #region Progress
-        // 时间段，似乎需要+1
-        eventCenter.AddEventListener(E_EventType.UI_Update_Phase, (obj) =>
-        {
-            GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = ((int)obj + 1).ToString();
-        });
-        // 时间进度
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeProgress, (obj) =>
-        {
-            GetControl<TextMeshProUGUI>("Text (TMP)_TimeProgress").text = ((int)obj).ToString();
-            Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
-            Slider_TimeProgress.value = (int)obj;
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_MaxTimeProgress, (obj) =>
-        {
-            GetControl<TextMeshProUGUI>("Text (TMP)_MaxTimeProgress").text = ((int)obj).ToString();
-            Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
-            Slider_TimeProgress.maxValue = (int)obj;
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDicePerPhase, (obj) =>
-        {
-            GetControl<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhase").text = ((int)obj).ToString();
-        });
-        // 时间骰
 
+        #region Progress
+        eventCenter.AddEventListener(E_EventType.UI_Update_Phase, OnUpdatePhase);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeProgress, OnUpdateTimeProgress);
+        eventCenter.AddEventListener(E_EventType.UI_Update_MaxTimeProgress, OnUpdateMaxTimeProgress);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDicePerPhase, OnUpdateTimeDicePerPhase);
         #endregion
+
         #region Dice
-        #region 选中、行动、思维
-        // 更新选中骰
-        eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, (obj) =>
-        {
-            UpdateSelectedDice((List<DiceBase>)obj);
-        });
-        // 更新行动骰
-        eventCenter.AddEventListener(E_EventType.UI_Update_ActionDice, (obj) =>
-        {
-            UpdateDice<ActionDice>((List<DiceBase>)obj);
-        });
-        // 更新思维骰
-        eventCenter.AddEventListener(E_EventType.UI_Update_MindDice, (obj) =>
-        {
-            UpdateDice<MindDice>((List<DiceBase>)obj);
-        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceCount, OnUpdateAllTimeDiceCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceSelectedCount, OnUpdateAllTimeDiceSelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDice, OnUpdateAllTimeDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1Count, OnUpdateTimeDice1Count);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice2Count, OnUpdateTimeDice2Count);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice3Count, OnUpdateTimeDice3Count);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice4Count, OnUpdateTimeDice4Count);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1SelectedCount, OnUpdateTimeDice1SelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice2SelectedCount, OnUpdateTimeDice2SelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice3SelectedCount, OnUpdateTimeDice3SelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice4SelectedCount, OnUpdateTimeDice4SelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion
-        #region 时间
-        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceCount, (obj) =>
-        {
-            UpdateAllTimeDiceCount();
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceSelectedCount, (obj) =>
-        {
-            UpdateAllTimeDiceSelectedCount();
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDice, (obj) =>
-        {
-            UpdateAllTimeDiceCount();
-            UpdateAllTimeDiceSelectedCount();
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1Count, (obj) =>
-        {
-            UpdateTimeDiceCount(E_DiceType.Time1, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice2Count, (obj) =>
-        {
-            UpdateTimeDiceCount(E_DiceType.Time2, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice3Count, (obj) =>
-        {
-            UpdateTimeDiceCount(E_DiceType.Time3, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice4Count, (obj) =>
-        {
-            UpdateTimeDiceCount(E_DiceType.Time4, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1SelectedCount, (obj) =>
-        {
-            UpdateTimeDiceSelectedCount(E_DiceType.Time1, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice2SelectedCount, (obj) =>
-        {
-            UpdateTimeDiceSelectedCount(E_DiceType.Time2, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice3SelectedCount, (obj) =>
-        {
-            UpdateTimeDiceSelectedCount(E_DiceType.Time3, (int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice4SelectedCount, (obj) =>
-        {
-            UpdateTimeDiceSelectedCount(E_DiceType.Time4, (int)obj);
-        });
-        #endregion
-        // 百搭
-        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceCount, (obj) =>
-        {
-            UpdateWildDice((int)obj);
-        });
-        // 公共
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDice, (obj) =>
-        {
-            UpdateEntityDice((List<EntityDice>)obj);
-        });
-        #endregion
+
         #region Player
-        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerHP, (obj) =>
-        {
-            UpdatePlayerHP((int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerBuff, (obj) =>
-        {
-            UpdatePlayerBuff((Dictionary<E_BuffType, int>)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerDied, (obj) =>
-        {
-            UIManager.Instance.CreatPanel<DiePanel>(E_UILayer.Top);
-        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerHP, OnUpdatePlayerHP);
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerBuff, OnUpdatePlayerBuff);
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerDied, OnUpdatePlayerDied);
         #endregion
+
         #region Entity
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityState, (obj) =>
-        {
-            UpdateEntityState((Enum)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityAction, (obj) =>
-        {
-            UpdateEntityAction((E_IntentType)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityWish, (obj) =>
-        {
-            UpdateEntityWish((E_DesireType)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityBuff, (obj) =>
-        {
-            UpdateEntityBuff((Dictionary<E_BuffType, int>)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPart, (obj) =>
-        {
-            UpdateEntityPart((CharacterBase[])obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityHP, (obj) =>
-        {
-            UpdateEntityHP((int)obj);
-        });
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDied, (obj) =>
-        {
-            UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
-        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityState, OnUpdateEntityState);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityAction, OnUpdateEntityAction);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityWish, OnUpdateEntityWish);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityBuff, OnUpdateEntityBuff);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPart, OnUpdateEntityPart);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityHP, OnUpdateEntityHP);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDied, OnUpdateEntityDied);
         #endregion
-        // Events
-        eventCenter.AddEventListener(E_EventType.UI_Update_Events, (obj) =>
-        {
-            UpdateEvents();
-        });
+
+        eventCenter.AddEventListener(E_EventType.UI_Update_Events, OnUpdateEvents);
+
         #region Wish
-        eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, (obj) =>
-            {
-                UnlockedWish();
-            });
-        eventCenter.AddEventListener(E_EventType.UI_Update_WishToUnavailable, (obj) =>
-        {
-            LockWish();
-        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, OnUpdateWishToAvailable);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WishToUnavailable, OnUpdateWishToUnavailable);
         #endregion
-        // 未通过判定
-        eventCenter.AddEventListener(E_EventType.UI_Update_IsConditionNotMet, (obj) =>
-        {
-            Debug.LogWarning("判定未通过");
-        });
+
+        eventCenter.AddEventListener(E_EventType.UI_Update_IsConditionNotMet, OnUpdateIsConditionNotMet);
     }
     void Init()
     {
@@ -728,56 +756,55 @@ public class BattlePanel : PanelBase
         EventCenter eventCenter = EventCenter.Instance;
 
         #region Progress
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_Phase);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeProgress);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_MaxTimeProgress);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDicePerPhase);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_Phase, OnUpdatePhase);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeProgress, OnUpdateTimeProgress);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_MaxTimeProgress, OnUpdateMaxTimeProgress);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDicePerPhase, OnUpdateTimeDicePerPhase);
         #endregion
 
         #region Dice
-        #region 选中、行动、思维
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_SelectedDice);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_ActionDice);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_MindDice);
-        #endregion
-
-        #region 时间
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice1Count);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice2Count);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice3Count);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice4Count);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice1SelectedCount);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice2SelectedCount);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice3SelectedCount);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_TimeDice4SelectedCount);
-        #endregion
-
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_WildDiceCount);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_AllTimeDiceCount, OnUpdateAllTimeDiceCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_AllTimeDiceSelectedCount, OnUpdateAllTimeDiceSelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_AllTimeDice, OnUpdateAllTimeDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice1Count, OnUpdateTimeDice1Count);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice2Count, OnUpdateTimeDice2Count);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice3Count, OnUpdateTimeDice3Count);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice4Count, OnUpdateTimeDice4Count);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice1SelectedCount, OnUpdateTimeDice1SelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice2SelectedCount, OnUpdateTimeDice2SelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice3SelectedCount, OnUpdateTimeDice3SelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice4SelectedCount, OnUpdateTimeDice4SelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion
 
         #region Player
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_PlayerHP);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_PlayerBuff);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_PlayerDied);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerHP, OnUpdatePlayerHP);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerBuff, OnUpdatePlayerBuff);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerDied, OnUpdatePlayerDied);
         #endregion
 
         #region Entity
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityState);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityAction);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityWish);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityBuff);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityPart);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityHP);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_EntityDied);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityState, OnUpdateEntityState);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityAction, OnUpdateEntityAction);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityWish, OnUpdateEntityWish);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityBuff, OnUpdateEntityBuff);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityPart, OnUpdateEntityPart);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityHP, OnUpdateEntityHP);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDied, OnUpdateEntityDied);
         #endregion
 
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_Events);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_Events, OnUpdateEvents);
 
         #region Wish
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_WishToAvailable);
-        eventCenter.ClearEventListeners(E_EventType.UI_Update_WishToUnavailable);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WishToAvailable, OnUpdateWishToAvailable);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WishToUnavailable, OnUpdateWishToUnavailable);
         #endregion
+
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_IsConditionNotMet, OnUpdateIsConditionNotMet);
     }
     protected override void ButtonOnClick(string buttonName)
     {
@@ -1044,18 +1071,12 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    public void Start()
+    void Start()
     {
-        #region 假装往管理器里塞了东西
         DiceManager.Instance.AddTimeDice(4);
-        #endregion
-        // 初始化所有东西
         level = ProgressManager.Instance.level;
         LoadAllResources();
-        Debug.Log("初始化资源");
         InitEvents();
-        Debug.Log("初始化监听");
         Init();
-        Debug.Log("战斗面板初始化完成");
     }
 }

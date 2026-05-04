@@ -53,7 +53,6 @@ public abstract class PanelBase : MonoBehaviour
             }
         }
     }
-
     #region 存储子对象组件并添加监听
     // 存储面板上所有组件的字典，按组件种类分类
     public Dictionary<string, UIBehaviour> controls = new Dictionary<string, UIBehaviour>();
