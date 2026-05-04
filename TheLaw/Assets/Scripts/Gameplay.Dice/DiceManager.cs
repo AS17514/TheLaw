@@ -364,9 +364,9 @@ public class DiceManager : ManagerBase<DiceManager>
         {
             list.Clear();
         }
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDice);
         entityDicePool.Clear();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice, entityDicePool);
     }
     /// <summary>
     /// 清空选中骰子
@@ -374,7 +374,7 @@ public class DiceManager : ManagerBase<DiceManager>
     public void ClearSelected()
     {
         selectedDice.Clear();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDice);
     }
     /// <summary>
     /// 把某一类骰子的列表按从小到大排序，并初始化或更新索引值index
@@ -395,10 +395,10 @@ public class DiceManager : ManagerBase<DiceManager>
         switch (type)
         {
             case E_DiceType.Action:
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_ActionDice);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_ActionDice, dicePool[E_DiceType.Action]);
                 break;
             case E_DiceType.Mind:
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice, dicePool[E_DiceType.Mind]);
                 break;
             case E_DiceType.Time1:
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice1Count, dicePool[type].Count);
@@ -611,7 +611,7 @@ public class DiceManager : ManagerBase<DiceManager>
 
         // 最后清空购物车
         ClearSelected();
-        
+
         if (!isResponse)
         {
             EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
@@ -693,7 +693,7 @@ public class DiceManager : ManagerBase<DiceManager>
         }
 
         // 触发实体骰子的UI刷新事件
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice, entityDicePool);
     }
     /// <summary>
     /// 清空怪物骰子池
@@ -701,7 +701,7 @@ public class DiceManager : ManagerBase<DiceManager>
     public void ClearEntityPool()
     {
         entityDicePool.Clear();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice, entityDicePool);
     }
     /// <summary>
     /// 第一关怪物骰子池专用方法，去掉那些已经被应对的骰子。
