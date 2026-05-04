@@ -191,6 +191,7 @@ public class DiceManager : ManagerBase<DiceManager>
         SortPoolByValue(tempType);
         SortPoolByValue(dice.type);
     }
+
     /// <summary>
     /// 判断选中骰子是否满足条件
     /// </summary>
@@ -198,9 +199,20 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <returns></returns>
     public bool IsSelectionValid(params DiceCondition[] conditions)
     {
+        return IsSelectionValid(0, conditions);
+    }
+    
+    /// <summary>
+    /// 判断选中骰子是否满足条件
+    /// </summary>
+    /// <param name="conditions"></param>
+    /// <returns></returns>
+    public bool IsSelectionValid(int specialAddLength,params DiceCondition[] conditions)
+    {
         if (conditions == null || conditions.Length == 0) return false;
         if (selectedDice == null || selectedDice.Count == 0) return false;
-        if (conditions.Length != selectedDice.Count)
+        
+        if ((conditions.Length +specialAddLength)!= selectedDice.Count)
         {
             Debug.Log("老大，selectedDice数量与conditions数量对不上喵");
             return false;
@@ -617,6 +629,29 @@ public class DiceManager : ManagerBase<DiceManager>
             EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
         }
     }
+    
+    
+    /// <summary>
+    /// 获取选中列表中未被作为消耗（isValid == false）的“目标”骰子
+    /// 注意：必须在调用 ConsumeValidSelectedDice 之前调用！
+    /// </summary>
+    /// <returns>目标骰子列表</returns>
+    public List<DiceBase> GetTargetDiceFromSelection()
+    {
+        List<DiceBase> targetDices = new List<DiceBase>();
+        if (selectedDice == null || selectedDice.Count == 0) return targetDices;
+
+        foreach (var dice in selectedDice)
+        {
+            // 在 IsSelectionValid 中没有被验证通过（扣除）的骰子，即为操作目标
+            if (!dice.isValid)
+            {
+                targetDices.Add(dice);
+            }
+        }
+        return targetDices;
+    }
+    
     /// <summary>
     /// 不能删
     /// </summary>

@@ -52,7 +52,7 @@ public class Atk : OptionBase
             {
                 // 4. 计算差值伤害 (用 Mathf.Abs 取绝对值，防止负数)
                 int damage = Mathf.Abs(dice1.value - dice2.value);
-                if (atkCtx.index<5&&atkCtx.index>0&&ProgressManager.Instance.nowEntities[atkCtx.index]!=null)
+                if (atkCtx.index<5&&atkCtx.index>=0&&ProgressManager.Instance.nowEntities[atkCtx.index]!=null)
                 {
                     // 扣血逻辑 
                     ProgressManager.Instance.nowEntities[atkCtx.index].BeAttacked(damage);
@@ -67,7 +67,6 @@ public class Atk : OptionBase
                 else
                 {
                     Debug.Log("传的参数必须是0~4");
-                    return;
                 }
             }
         }

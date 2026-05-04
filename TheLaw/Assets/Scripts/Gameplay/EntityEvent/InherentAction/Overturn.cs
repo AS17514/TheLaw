@@ -31,6 +31,7 @@ public class Overturn : OptionBase
             return new DiceCondition[]
             {
                 new DiceCondition(E_DiceType.TimeAny,4,E_CompareType.Less),
+                new DiceCondition(E_DiceType.Mind,0,E_CompareType.Any),
             };
         }
     }
