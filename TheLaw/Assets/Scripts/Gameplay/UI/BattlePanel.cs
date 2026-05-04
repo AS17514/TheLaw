@@ -1006,14 +1006,14 @@ public class BattlePanel : PanelBase
     {
         #region 假装往管理器里塞了东西
         DiceManager.Instance.AddTimeDice(4);
-        // DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
-        // DiceManager.Instance.AddDice(E_DiceType.Action, new ActionDice());
-        // DiceManager.Instance.AddDice(E_DiceType.Mind, new MindDice());
         #endregion
         // 初始化所有东西
         level = ProgressManager.Instance.level;
         LoadAllResources();
+        Debug.Log("初始化资源");
         InitEvents();
+        Debug.Log("初始化监听");
         Init();
+        Debug.Log("初始化完成");
     }
 }
