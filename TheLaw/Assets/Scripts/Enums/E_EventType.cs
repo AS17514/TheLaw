@@ -21,6 +21,9 @@ public enum E_EventType
     #region 战斗界面
     #region  骰子
     UI_Update_SelectedDice,
+    UI_Update_AllTimeDiceCount,
+    UI_Update_AllTimeDiceSelectedCount,
+    UI_Update_AllTimeDice,
     UI_Update_TimeDice1Count,
     UI_Update_TimeDice1SelectedCount,
     UI_Update_TimeDice2Count,

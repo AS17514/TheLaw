@@ -213,6 +213,14 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
+    void UpdateAllTimeDiceCount()
+    {
+        Dictionary<E_DiceType, List<DiceBase>> pool = DiceManager.Instance.dicePool;
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1Count").text = pool[E_DiceType.Time1].Count.ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice2Count").text = pool[E_DiceType.Time2].Count.ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3Count").text = pool[E_DiceType.Time3].Count.ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4Count").text = pool[E_DiceType.Time4].Count.ToString();
+    }
     void UpdateTimeDiceSelectedCount(E_DiceType e_DiceType, int num)
     {
         switch (e_DiceType)
@@ -232,6 +240,13 @@ public class BattlePanel : PanelBase
             default:
                 return;
         }
+    }
+    void UpdateAllTimeDiceSelectedCount()
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1SelectedCount").text = DiceManager.Instance.GetSelectedTime1DiceCount().ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice2SelectedCount").text = DiceManager.Instance.GetSelectedTime2DiceCount().ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3SelectedCount").text = DiceManager.Instance.GetSelectedTime3DiceCount().ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4SelectedCount").text = DiceManager.Instance.GetSelectedTime4DiceCount().ToString();
     }
     // 百搭骰个数
     void UpdateWildDice(int num)
@@ -538,6 +553,19 @@ public class BattlePanel : PanelBase
         });
         #endregion
         #region 时间
+        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceCount, (obj) =>
+        {
+            UpdateAllTimeDiceCount();
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDiceSelectedCount, (obj) =>
+        {
+            UpdateAllTimeDiceSelectedCount();
+        });
+        eventCenter.AddEventListener(E_EventType.UI_Update_AllTimeDice, (obj) =>
+        {
+            UpdateAllTimeDiceCount();
+            UpdateAllTimeDiceSelectedCount();
+        });
         eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice1Count, (obj) =>
         {
             UpdateTimeDiceCount(E_DiceType.Time1, (int)obj);

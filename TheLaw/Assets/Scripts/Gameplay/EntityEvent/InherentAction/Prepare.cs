@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Prepare : OptionBase
 {
@@ -9,7 +10,7 @@ public class Prepare : OptionBase
     public override int OptionID
     {
         get { return 0; }
-        
+
     }
 
     public override string OptionDescription
@@ -17,14 +18,14 @@ public class Prepare : OptionBase
         get { return "选择消耗一个时间骰子，选择行动或思维，投掷并获得一个对应的骰子；推进时间进度"; }
     }
 
-    public override bool IsVisible 
+    public override bool IsVisible
     {
         get { return true; }
     }
 
     public override E_OptionType OptionType
     {
-        get{return E_OptionType.Player_InherentAction;}
+        get { return E_OptionType.Player_InherentAction; }
     }
 
     public override DiceCondition[] DiceCost
@@ -37,12 +38,12 @@ public class Prepare : OptionBase
             };
         }
     }
-    
+
     public override Action ExecuteLogic
     {
         get
         {
-            return () => 
+            return () =>
             {
                 // 找出真正被选中且符合条件的那个骰子
                 int timeValue = 0;
@@ -51,7 +52,7 @@ public class Prepare : OptionBase
                     if (dice.isValid) // IsSelectionValid 验证成功时打的标记
                     {
                         timeValue = dice.value;
-                        break; 
+                        break;
                     }
                 }
 
@@ -59,7 +60,7 @@ public class Prepare : OptionBase
                 ProgressManager.Instance.AdvancePhase(1);
                 ProgressManager.Instance.AddTimeProgress(timeValue);
                 // 任务 2：消耗骰子
-                DiceManager.Instance.ConsumeValidSelectedDice(); 
+                DiceManager.Instance.ConsumeValidSelectedDice();
             };
         }
 
@@ -85,7 +86,7 @@ public class Prepare : OptionBase
                     : true;
             }
 
-            if (result&&optionContext is PrepareOptionContext)
+            if (result && optionContext is PrepareOptionContext)
             {
                 DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
                 ExecuteLogic?.Invoke();
@@ -95,7 +96,7 @@ public class Prepare : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }
