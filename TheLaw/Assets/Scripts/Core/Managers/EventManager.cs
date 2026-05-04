@@ -21,11 +21,19 @@ public class EventManager : ManagerBase<EventManager>
             E_OptionType.Level2_Option, new OptionBase[]
             {
                 new EntityEvent_2_01(),//应对——逃避ε=ε=ε=┏(゜ロ゜;)┛
+
+                #region 交流类
+                
                 new EntityEvent_2_02(), //交流（一次）
                 new EntityEvent_2_03(),//询问
                 new EntityEvent_2_04(),//请求
                 new EntityEvent_2_05(),//夸奖
                 new EntityEvent_2_06(),//安抚
+                new EntityEvent_2_07(),//鼓励
+                new EntityEvent_2_08(),//那都是你独一无二的装饰
+                
+                #endregion
+                
             }
         }
     };

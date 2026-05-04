@@ -38,7 +38,8 @@ public abstract class Entity : CharacterBase
     public string entityName;
     public override void Die()
     {
-
+        //怪物死亡，玩家胜利
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
     }
 
     public override void TakeDamage(int damage)
@@ -53,7 +54,7 @@ public abstract class Entity : CharacterBase
         this.maxHp = maxHp;
         this.hp = maxHp;
     }
-    public virtual void   ManualInit()
+    public virtual void ManualInit()
     {
         // 游戏一开始，就把自己交到管理器手里
         BuffManager.Instance.Register(this);

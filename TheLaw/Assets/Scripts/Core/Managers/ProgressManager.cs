@@ -37,6 +37,11 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void SetCurrentTimeProgress(int currentTimeProgress)
     {
         this.currentTimeProgress = currentTimeProgress;
+        if (timeProgress > currentTimeProgress)
+        {
+            timeProgress = currentTimeProgress;
+            AddTimeProgress(0);
+        }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress, this.currentTimeProgress);
     }
     /// <summary>

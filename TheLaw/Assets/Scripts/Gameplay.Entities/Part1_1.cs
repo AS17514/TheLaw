@@ -43,6 +43,8 @@ public class Part1_1 : Part
 
         // 用新变量赋值给管理器
         ProgressManager.Instance.nowEntities[1] = newPart;
+        
+        newPart.IsVisible = true;
 
         if (ProgressManager.Instance.nowEntities[0] != null &&
             ProgressManager.Instance.nowEntities[0] is Entity entity1)
