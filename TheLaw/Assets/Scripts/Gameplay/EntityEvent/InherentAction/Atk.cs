@@ -61,7 +61,8 @@ public class Atk : OptionBase
                     dice1.isValid = true;
                     dice2.isValid = true;
                     DiceManager.Instance.ConsumeValidSelectedDice();
-
+                    
+                    DiceManager.Instance.ClearSelected();
                     return; // 技能顺利执行完毕，退出
                 }
                 else
