@@ -561,7 +561,7 @@ public class EntityEvent_1_07 : OptionBase
             {
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 DiceManager.Instance.AddDice(E_DiceType.Action);//投掷并获得二个行动骰子
-                ProgressManager.Instance.AddTimeProgress(2);//对象时间进度-2
+                ProgressManager.Instance.AddTimeProgress(-2);//对象时间进度-2
                 if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] != null &&
                     EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] is EntityEvent_1_08 e8)
                 {

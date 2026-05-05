@@ -115,6 +115,7 @@ public class Entity1 : Entity
                             EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
                         {
                             e6.IsVisible = false;
+                            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                         }
                         #endregion
 
@@ -124,6 +125,7 @@ public class Entity1 : Entity
                             EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
                         {
                             e7.IsVisible = false;
+                            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                         }
                         #endregion
                     }
@@ -143,6 +145,34 @@ public class Entity1 : Entity
     {
         AddBuff(E_BuffType.Desire, 1);
         isDesire_UrgentUse = false;//回正
+        
+        #region Think
+        if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+            EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
+        {
+            if (e6.isThinkHadUse == false)
+            {
+                e6.IsVisible = true;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            }
+        }
+        #endregion
+
+        #region Snatch
+        if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+            EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
+        {
+            if (e6_2.isSnatchHadFound)
+            {
+                if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
+                    EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
+                {
+                    e7.IsVisible = true;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                }
+            }
+        }
+        #endregion
     }
 
     public void normal_Desire_Urgent()
@@ -150,46 +180,46 @@ public class Entity1 : Entity
         isDesire_UrgentUse = true;
         ProgressManager.Instance.SetCurrentTimeProgress(3);
 
-        if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复选项的可选。
-        {
-            #region Induce
-            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
-                EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
-            {
-                e3.IsVisible = true;
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-            }
-            #endregion
+        // if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复选项的可选。
+        // {
+        //     #region Induce
+        //     if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
+        //         EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
+        //     {
+        //         e3.IsVisible = true;
+        //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        //     }
+        //     #endregion
 
-            #region Think
-            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
-                EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
-            {
-                if (e6.isThinkHadUse == false)
-                {
-                    e6.IsVisible = true;
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                }
-            }
-            #endregion
+            // #region Think
+            // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+            //     EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
+            // {
+            //     if (e6.isThinkHadUse == false)
+            //     {
+            //         e6.IsVisible = true;
+            //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            //     }
+            // }
+            // #endregion
+            //
+            // #region Snatch
+            // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+            //     EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
+            // {
+            //     if (e6_2.isSnatchHadFound)
+            //     {
+            //         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
+            //             EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
+            //         {
+            //             e7.IsVisible = true;
+            //             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            //         }
+            //     }
+            // }
+            // #endregion
 
-            #region Snatch
-            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
-                EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
-            {
-                if (e6_2.isSnatchHadFound)
-                {
-                    if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
-                        EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
-                    {
-                        e7.IsVisible = true;
-                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                    }
-                }
-            }
-            #endregion
-
-        }
+        //}
 
     }
     public bool isDesire_UrgentUse = false;//用于诱导选项的标记是否已解锁
@@ -198,6 +228,20 @@ public class Entity1 : Entity
     {
         isDesire_FeedUse = true;
         ProgressManager.Instance.SetCurrentTimeProgress(2);
+
+        if (isEntity_1_03HadFound) //怪物重新许下愿望的话，恢复选项的可选。
+        {
+            #region Induce
+
+            if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] != null &&
+                EventManager.Instance.optionPool[E_OptionType.Level1_Option][2] is EntityEvent_1_03 e3)
+            {
+                e3.IsVisible = true;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            }
+
+            #endregion
+        }
     }
     public bool isDesire_FeedUse = false;
     #endregion
