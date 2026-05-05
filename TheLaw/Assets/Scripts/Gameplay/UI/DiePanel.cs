@@ -11,10 +11,11 @@ public class DiePanel : PanelBase
         switch (buttonName)
         {
             case "Button_Replay":
-                UIManager.Instance.CreatPanel<BattlePanel>(E_UILayer.Middle);
+                ProgressManager.Instance.intoNewLevel(ProgressManager.Instance.level);
+                UIManager.Instance.ChangePanel<DiePanel, BattlePanel>();
                 break;
             case "Button_ToStartPanel":
-                UIManager.Instance.CreatPanel<StartMenuPanel>(E_UILayer.Middle);
+                UIManager.Instance.ChangePanel<DiePanel, StartMenuPanel>();
                 break;
             default:
                 return;

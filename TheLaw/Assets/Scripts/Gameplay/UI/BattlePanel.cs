@@ -141,23 +141,39 @@ public class BattlePanel : PanelBase
                     break;
             }
         }
-        // // 遍历拥有骰子池，若选中骰子池没有对应骰子，将自己的isOn设置为false
-        // foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_ActionDice").content.GetComponentsInChildren<DiceMark>())
-        // {
-        //     bool isSelected = false;
-        //     foreach (DiceMark diceMark in content.GetComponentsInChildren<DiceMark>())
-        //     {
-        //         if (diceMark.mark == item.mark)
-        //         {
-        //             isSelected = true;
-        //             break;
-        //         }
-        //     }
-        //     if (!isSelected)
-        //     {
-        //         item
-        //     }
-        // }
+        // 遍历拥有骰子池，若选中骰子池没有对应骰子，将自己的isOn设置为false
+        foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_ActionDice").content.GetComponentsInChildren<DiceMark>())
+        {
+            bool isSelected = false;
+            foreach (DiceMark diceMark in content.GetComponentsInChildren<DiceMark>())
+            {
+                if (diceMark.mark == item.mark)
+                {
+                    isSelected = true;
+                    break;
+                }
+            }
+            if (!isSelected)
+            {
+                item.GetComponentInParent<Toggle>().isOn = false;
+            }
+        }
+        foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_MindDice").content.GetComponentsInChildren<DiceMark>())
+        {
+            bool isSelected = false;
+            foreach (DiceMark diceMark in content.GetComponentsInChildren<DiceMark>())
+            {
+                if (diceMark.mark == item.mark)
+                {
+                    isSelected = true;
+                    break;
+                }
+            }
+            if (!isSelected)
+            {
+                item.GetComponentInParent<Toggle>().isOn = false;
+            }
+        }
     }
     // 更新行动/思维骰
     void UpdateDice<T>(List<DiceBase> Dice) where T : DiceBase, new()
