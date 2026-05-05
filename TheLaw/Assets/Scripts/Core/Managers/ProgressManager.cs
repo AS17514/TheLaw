@@ -27,6 +27,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     {
         this.initialTimeProgress = initialTimeProgress;
         this.currentTimeProgress = currentTimeProgress;
+        timeProgress = 0;
         maxPhaseDice = phaseDice;
         this.phaseDice = phaseDice;
     }
@@ -63,6 +64,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     {
         ++this.phase;
         phaseDice = maxPhaseDice;
+        
+        DiceManager.Instance.AddTimeDice(maxPhaseDice);
+        
         StateManager.Instance.ExecuteCurrentDesire();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase, this.phase);
         //更新许愿为可用状态
