@@ -692,6 +692,9 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateIsConditionNotMet(object obj)
     {
+        UpdateSelectedDice();
+        UpdateTimeDiceCount();
+        UpdateTimeDiceSelectedCount();
         Debug.LogWarning("判定未通过");
     }
     #endregion

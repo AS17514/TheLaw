@@ -61,8 +61,8 @@ public class Prepare : OptionBase
                 ProgressManager.Instance.AddTimeProgress(timeValue);
                 // 任务 2：消耗骰子
                 DiceManager.Instance.ConsumeValidSelectedDice();
-                // 刷新选中的时间骰ui
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
+                // 刷新时间骰ui
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice);
             };
         }
 
@@ -87,20 +87,16 @@ public class Prepare : OptionBase
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
-
             if (result && optionContext is PrepareOptionContext)
             {
-                
                 ExecuteLogic?.Invoke();
                 DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
-                
             }
             else
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-
         }
     }
 }
