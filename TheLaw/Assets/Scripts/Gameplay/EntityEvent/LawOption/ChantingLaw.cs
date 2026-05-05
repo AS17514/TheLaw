@@ -71,6 +71,7 @@ public class ChantingLaw : OptionBase
                             DiceManager.Instance.TransformDie(dice,E_DiceType.Action);
                     }
                 }
+                DiceManager.Instance.ClearSelected();
             }
             else
             {

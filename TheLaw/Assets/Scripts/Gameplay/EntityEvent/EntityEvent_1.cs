@@ -330,6 +330,9 @@ public class EntityEvent_1_04 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
+        
+        Debug.Log("观察执行");
+        
         if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
