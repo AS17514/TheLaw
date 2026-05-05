@@ -182,6 +182,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         
         Init(5, 5, 4);
         
+        DiceManager.Instance.AddTimeDice(4);
+        
     }
     public void initLevel2()
     {
@@ -199,6 +201,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
         Init(4, 4, 5);
+        
+        DiceManager.Instance.AddTimeDice(5);
     }
     public void initLevel3()
     {
@@ -214,6 +218,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
         Init(6, 6, 1);
+        
+        DiceManager.Instance.AddTimeDice(1);
     }
     public void initLevel4()
     {
