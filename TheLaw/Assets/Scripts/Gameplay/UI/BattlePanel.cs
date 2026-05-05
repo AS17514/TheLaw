@@ -388,7 +388,7 @@ public class BattlePanel : PanelBase
                 slider.value = 0;
                 continue;
             }
-            if (part.IsVisible)
+            if (part.IsVisible && !part.isDestroyed && part.IsCouldBeAttacked())
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = true;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
@@ -398,27 +398,27 @@ public class BattlePanel : PanelBase
                 slider.maxValue = part.maxHp;
                 slider.value = part.hp;
             }
-            else if (!part.IsCouldBeAttacked())
+            else if (!part.isDestroyed && !part.IsCouldBeAttacked())
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.name;
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = part.maxHp;
                 slider.value = part.hp;
             }
-            else if (part.isDestroyed)
+            else if (part.IsVisible && part.isDestroyed)
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = $"{part.name} (已破坏)";
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = $"{part.partName} (已破坏)";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = part.maxHp;
                 slider.value = part.hp;
             }
-            else if (!part.IsVisible)
+            else
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
@@ -449,9 +449,9 @@ public class BattlePanel : PanelBase
         foreach (OptionBase option in eventDic[(E_OptionType)(level + 2)])
         {
             int eventIndex = index;
-            Debug.LogWarning($"{eventIndex + 1}号事件({option.OptionName})可见性:{option.IsVisible}");
             if (option.IsVisible)
             {
+                Debug.Log($"{eventIndex + 1}号事件({option.OptionName})");
                 GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
                 foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
                 {
@@ -482,7 +482,7 @@ public class BattlePanel : PanelBase
                 }
                 eventObj.GetComponentInChildren<Button>().onClick.AddListener(() =>
                 {
-                    Debug.Log($"执行{eventIndex}号事件");
+                    Debug.Log($"执行{eventIndex + 1}号事件({option.OptionName})");
                     EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex);
                 });
             }
