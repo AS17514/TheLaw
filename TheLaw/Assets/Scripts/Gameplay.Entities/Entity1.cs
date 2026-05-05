@@ -48,6 +48,9 @@ public class Entity1 : Entity
 
     public void normal_Action_Atk()
     {
+        
+        Debug.Log("怪物攻击了");
+        
         int temp = this.buffs[E_BuffType.Desire];
         for (int i = 0; i < temp; i++)
         {
@@ -194,6 +197,7 @@ public class Entity1 : Entity
     public void normal_Desire_Urgent()
     {
         isDesire_UrgentUse = true;
+        Debug.Log("迫切执行");
         ProgressManager.Instance.SetCurrentTimeProgress(3);
 
         // if (isEntity_1_03HadFound)//怪物重新许下愿望的话，恢复选项的可选。

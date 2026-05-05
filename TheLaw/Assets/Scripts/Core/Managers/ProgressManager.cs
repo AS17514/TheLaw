@@ -68,10 +68,6 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         DiceManager.Instance.AddTimeDice(maxPhaseDice);
 
-        StateManager.Instance.ExecuteCurrentDesire();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
-        //更新许愿为可用状态
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
         if (level == 1)
         {
             if (nowEntities[0] is Entity1 entity1)
@@ -88,6 +84,12 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                 Debug.Log("nowEntities[0] 不是 Entity1，吱吱吱吱，这不应该啊。。。。不好，我的代码。。。");
             }
         }
+        
+        StateManager.Instance.ExecuteCurrentDesire();
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
+        //更新许愿为可用状态
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
+        
     }
     /// <summary>
     /// 改变时间进度
@@ -99,7 +101,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         if (timeProgress == currentTimeProgress)
         {
             StateManager.Instance.ExecuteCurrentAction();
-            timeProgress = currentTimeProgress;
+            timeProgress = 0;
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
 

@@ -755,10 +755,12 @@ public class DiceManager : ManagerBase<DiceManager>
         if (dice != null)
         {
             entityDicePool.Add(dice);
+            Debug.Log("entityDicePool.Count");
         }
         else
         {
             entityDicePool.Add(new EntityDice());
+            Debug.Log("entityDicePool.Count new");
         }
         SortEntityPoolByValue();
     }
@@ -801,19 +803,36 @@ public class DiceManager : ManagerBase<DiceManager>
     /// </summary>
     public void SortEntityPoolByValue()
     {
-        if (entityDicePool == null || entityDicePool.Count == 0) return;
-
-        // 按点数从小到大排
-        entityDicePool.Sort((a, b) => a.value.CompareTo(b.value));
-
-        // 更新索引
-        for (int i = 0; i < entityDicePool.Count; i++)
+        
+        if (entityDicePool != null && entityDicePool.Count > 0)
         {
-            entityDicePool[i].index = i;
+            // 按点数从小到大排
+            entityDicePool.Sort((a, b) => a.value.CompareTo(b.value));
+
+            // 更新索引
+            for (int i = 0; i < entityDicePool.Count; i++)
+            {
+                entityDicePool[i].index = i;
+            }
         }
 
-        // 触发实体骰子的UI刷新事件
+        // 【关键】：必须放在外面！确保骰子清空或变化时UI一定能收到通知
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        Debug.Log("UI_Update_EntityDice");
+        
+        // if (entityDicePool == null || entityDicePool.Count == 0) return;
+        //
+        // // 按点数从小到大排
+        // entityDicePool.Sort((a, b) => a.value.CompareTo(b.value));
+        //
+        // // 更新索引
+        // for (int i = 0; i < entityDicePool.Count; i++)
+        // {
+        //     entityDicePool[i].index = i;
+        // }
+        //
+        // // 触发实体骰子的UI刷新事件
+        // EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
     }
     /// <summary>
     /// 清空怪物骰子池
@@ -822,6 +841,7 @@ public class DiceManager : ManagerBase<DiceManager>
     {
         entityDicePool.Clear();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        Debug.Log("<color=red>怪物的骰子池被清空了！</color>");
     }
     /// <summary>
     /// 第一关怪物骰子池专用方法，去掉那些已经被应对的骰子。

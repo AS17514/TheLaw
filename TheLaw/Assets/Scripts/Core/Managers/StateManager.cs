@@ -76,7 +76,11 @@ public class StateManager : ManagerBase<StateManager>
             {
                 currentActionIndex = 0;
             }
-
+            
+            //ProgressManager.Instance.AddTimeProgress(- ProgressManager.Instance.timeProgress);
+            // ProgressManager.Instance.timeProgress = 0;
+            // EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
+            
             currentExecutableAction = stateActions[currentState][currentActionIndex];
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
         }

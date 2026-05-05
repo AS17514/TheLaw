@@ -24,6 +24,7 @@ public class EntityEvent_1_01 : OptionBase
     public override string OptionName { get; protected set; } = "闪避";
     public override string OptionDescription { get; protected set; } = "行动>=投掷的单个骰子的点数,所有骰子可以单独应对，每个未成功应对的骰子将对自己造成4点伤害）";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
+    
     #endregion
 
     #region 本身属性
