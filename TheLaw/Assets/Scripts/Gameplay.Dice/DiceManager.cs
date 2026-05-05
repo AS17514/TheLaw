@@ -385,8 +385,8 @@ public class DiceManager : ManagerBase<DiceManager>
     /// </summary>
     public void ClearSelected()
     {
-        selectedDice.Clear();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+        // selectedDice.Clear();
+        // EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
     }
     /// <summary>
     /// 把某一类骰子的列表按从小到大排序，并初始化或更新索引值index
