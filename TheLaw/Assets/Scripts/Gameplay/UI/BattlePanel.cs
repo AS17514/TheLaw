@@ -492,6 +492,10 @@ public class BattlePanel : PanelBase
                     }
                 }
                 Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
+                if (option.DiceCost.Count() == 0)
+                {
+                    continue;
+                }
                 foreach (DiceCondition item in option.DiceCost)
                 {
                     GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"], content);
@@ -777,7 +781,7 @@ public class BattlePanel : PanelBase
         UpdateEvents();
     }
     // 面板移除时同时移除监听
-    protected override void AfterRemove()
+    void OnDestroy()
     {
         EventCenter eventCenter = EventCenter.Instance;
 

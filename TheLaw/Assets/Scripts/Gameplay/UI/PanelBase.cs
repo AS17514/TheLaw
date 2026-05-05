@@ -173,10 +173,7 @@ public abstract class PanelBase : MonoBehaviour
     int alphaSpeed = 2;
     // 隐藏后让管理器销毁自己
     UnityAction hideCallBack;
-    protected virtual void AfterRemove()
-    {
-
-    }
+    protected virtual void AfterRemove() { }
     /// <summary>
     /// 淡入
     /// </summary>
@@ -195,7 +192,6 @@ public abstract class PanelBase : MonoBehaviour
         // 没有淡入一半的情况关掉的（根本没协程），所以还是设置一下alpha为1
         canvasGroup.alpha = 1;
         hideCallBack = callBack;
-        hideCallBack += AfterRemove;
     }
     #endregion
     #region 其他方法
