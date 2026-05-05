@@ -42,13 +42,18 @@ public class Player : CharacterBase
     }
     public override void Die()
     {
-        
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerDied);
     }
 
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP,hp);
+
+        if (hp == 0)
+        {
+            Die();
+        }
     }
 
     /// <summary>
