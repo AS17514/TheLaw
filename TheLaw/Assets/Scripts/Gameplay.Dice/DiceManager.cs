@@ -52,8 +52,8 @@ public class DiceManager : ManagerBase<DiceManager>
         }
 
         SortPoolByValue(E_DiceType.Time1);
-        
-        Debug.Log("AddTimeDice执行1次"+amount+"个");
+
+        Debug.Log("AddTimeDice执行1次" + amount + "个");
     }
     /// <summary>
     /// 获得池中某种骰子的个数
@@ -159,6 +159,7 @@ public class DiceManager : ManagerBase<DiceManager>
                 }
                 AddDice(dice.type, dice);
                 dicePool[tempType].Remove(dice);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDice);
                 break;
             case E_DiceType.Action:
             case E_DiceType.Mind:

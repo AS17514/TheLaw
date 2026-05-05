@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Adjust : OptionBase
@@ -9,21 +10,21 @@ public class Adjust : OptionBase
     public override int OptionID
     {
         get { return 1; }
-        
+
     }
     public override string OptionDescription
     {
         get { return "选择一个时间般点数+1，令一个行动或思维骰的点数+1或-1(不可超出范围)"; }
     }
 
-    public override bool IsVisible 
+    public override bool IsVisible
     {
         get { return true; }
     }
 
     public override E_OptionType OptionType
     {
-        get{return E_OptionType.Player_InherentAction;}
+        get { return E_OptionType.Player_InherentAction; }
     }
     public override DiceCondition[] DiceCost
     {
@@ -57,7 +58,7 @@ public class Adjust : OptionBase
             }
             if (result && optionContext is AdjustOptionContext adjustCtx)
             {
-                foreach (var dice in DiceManager.Instance.selectedDice)
+                foreach (var dice in DiceManager.Instance.selectedDice.ToList())
                 {
                     if (dice.type == E_DiceType.Time1 || dice.type == E_DiceType.Time2 ||
                         dice.type == E_DiceType.Time3 || dice.type == E_DiceType.Time4)
@@ -66,8 +67,11 @@ public class Adjust : OptionBase
                     }
                     else
                     {
-                        if(adjustCtx.change==-1||adjustCtx.change==1)
+                        if (adjustCtx.change == -1 || adjustCtx.change == 1)
+                        {
                             DiceManager.Instance.ModifyDieValue(dice, adjustCtx.change);
+                            DiceManager.Instance.ClearSelected();
+                        }
                         else
                         {
                             Debug.Log("传的参数必须是-1或-1。");
@@ -82,7 +86,7 @@ public class Adjust : OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+
         }
     }
 }

@@ -470,10 +470,11 @@ public class BattlePanel : PanelBase
         {
             Destroy(item.gameObject);
         }
-        int index = 0;
+        int index = 1;
         foreach (OptionBase option in eventDic[(E_OptionType)(level + 2)])
         {
             int eventIndex = index;
+            Debug.LogWarning($"{eventIndex}号事件({option.OptionName})可见性:{option.IsVisible}");
             if (option.IsVisible)
             {
                 GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
@@ -844,7 +845,7 @@ public class BattlePanel : PanelBase
                 SkillManager.ExcuteSkills(0, new PrepareOptionContext { diceType = ActOrMind });
                 break;
             case "Button_InherentAction_Adjust":
-                if (point == -1 || point == 1)
+                if (!(point == -1 || point == 1))
                 {
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
                     break;
