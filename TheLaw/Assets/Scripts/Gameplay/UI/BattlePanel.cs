@@ -492,7 +492,7 @@ public class BattlePanel : PanelBase
                     }
                 }
                 Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
-                if (option.DiceCost.Count() == 0)
+                if (option.DiceCost == null)
                 {
                     continue;
                 }
