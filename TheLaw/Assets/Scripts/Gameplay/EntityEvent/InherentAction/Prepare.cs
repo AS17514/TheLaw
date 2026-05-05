@@ -91,6 +91,7 @@ public class Prepare : OptionBase
             {
                 ExecuteLogic?.Invoke();
                 DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
+                DiceManager.Instance.ClearSelected();
             }
             else
             {

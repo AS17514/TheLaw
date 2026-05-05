@@ -102,6 +102,7 @@ public class Colorfull : OptionBase
         if (result)
         {
             DiceManager.Instance.ConsumeValidSelectedDice();
+            DiceManager.Instance.ClearSelected();
         }
         else
         {

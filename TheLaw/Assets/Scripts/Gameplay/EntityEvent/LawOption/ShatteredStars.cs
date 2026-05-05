@@ -66,6 +66,7 @@ public class ShatteredStars : OptionBase
                         DiceManager.Instance.AddDice(E_DiceType.Wild);
                     }
                 }
+                DiceManager.Instance.ClearSelected();
             }
             else
             {

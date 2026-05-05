@@ -66,6 +66,7 @@ public class Abundance : OptionBase
                 DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
                 DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToUnavailable);
+                DiceManager.Instance.ClearSelected();
             }
             else
             {

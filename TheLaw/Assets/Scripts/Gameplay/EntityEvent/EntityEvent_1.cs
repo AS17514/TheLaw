@@ -330,6 +330,9 @@ public class EntityEvent_1_04 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
+        
+        Debug.Log("观察执行");
+        
         if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
@@ -644,7 +647,7 @@ public class EntityEvent_1_08 : OptionBase
                 //自己恢复3点生命
                 ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 3,
                     ProgressManager.Instance.player.hp, ProgressManager.Instance.player.maxHp);
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP,ProgressManager.Instance.player.hp);
                 IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子

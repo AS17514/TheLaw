@@ -177,22 +177,73 @@ public class DiceManager : ManagerBase<DiceManager>
     /// </summary>
     /// <param name="dice"></param>
     /// <param name="newType"></param>
-    public void TransformDie(DiceBase dice, E_DiceType newType)
+    public void TransformDie(DiceBase oldDice, E_DiceType newType)
     {
-        E_DiceType tempType = dice.type;
-        //不会有能够直接把别的类型的骰子转化出时间骰子的能力
-        dice.type = newType;
-        dicePool[newType].Add(dice);
-        dicePool[tempType].Remove(dice);
+        // E_DiceType tempType = dice.type;
+        // //不会有能够直接把别的类型的骰子转化出时间骰子的能力
+        // dice.type = newType;
+        // dicePool[newType].Add(dice);
+        // dicePool[tempType].Remove(dice);
+        // // SortPoolByValue(tempType);
+        // // SortPoolByValue(dice.type);
+        // if (newType == E_DiceType.Wild)
+        // {
+        //     if (dice is WildDice wildDice)
+        //         wildDice.Renew();
+        // }
         // SortPoolByValue(tempType);
         // SortPoolByValue(dice.type);
+        
+        E_DiceType tempType = oldDice.type;
+
+        // 1. 缓存旧骰子的核心数据
+        int previousValue = oldDice.value;
+        int previousIndex = oldDice.index;
+        bool previousValidity = oldDice.isValid;
+
+        // 2. 从旧池子中彻底移除旧的骰子实例
+        dicePool[tempType].Remove(oldDice);
+        
+
+        // 3. 根据目标类型，在内存中实例化一个真正的全新骰子对象
+        DiceBase newDice = null;
+        switch (newType)
+        {
+            case E_DiceType.Mind:
+                newDice = new MindDice(); // 真正的 MindDice 实例
+                break;
+            case E_DiceType.Action:
+                newDice = new ActionDice(); // 真正的 ActionDice 实例
+                break;
+            // 如果你有 WildDice 或 TimeDice 的类，请在这里继续补充 case
+            // case E_DiceType.Wild:
+            //     newDice = new WildDice();
+            //     break;
+            default:
+                Debug.LogError($"未处理的骰子转换类型: {newType}");
+                return;
+        }
+
+        // 4. 将旧骰子的数据“继承”给新骰子
+        // 注意：因为 MindDice 和 ActionDice 的构造函数里调用了 Roll() 随机生成了点数[cite: 1, 2]
+        // 所以这里我们需要用旧骰子的点数把那个随机值覆盖掉
+        newDice.value = previousValue;
+        newDice.index = previousIndex;
+        newDice.isValid = previousValidity;
+
+        // 5. 将真正的新类型实例加入对应的对象池
+        dicePool[newType].Add(newDice);
+
+        // 6. 处理特殊类型的额外逻辑
         if (newType == E_DiceType.Wild)
         {
-            if (dice is WildDice wildDice)
+            if (newDice is WildDice wildDice)
                 wildDice.Renew();
         }
+
+        // 7. 重新排序对象池
         SortPoolByValue(tempType);
-        SortPoolByValue(dice.type);
+        SortPoolByValue(newType);
     }
 
     /// <summary>
@@ -397,16 +448,25 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <param name="type"></param>
     public void SortPoolByValue(E_DiceType type)
     {
-        if (!dicePool.ContainsKey(type) || dicePool[type] == null || dicePool[type].Count == 0)
+        
+        // 如果连键都没有，确实可以不用管
+        if (!dicePool.ContainsKey(type) || dicePool[type] == null)
         {
             return;
         }
-        dicePool[type].Sort((a, b) => a.value.CompareTo(b.value));
-        for (int i = 0; i < dicePool[type].Count; i++)
+
+        // 只有在数量大于 0 的时候才需要排序和分配 index
+        if (dicePool[type].Count > 0)
         {
-            dicePool[type][i].index = i;
+            dicePool[type].Sort((a, b) => a.value.CompareTo(b.value));
+            for (int i = 0; i < dicePool[type].Count; i++)
+            {
+                dicePool[type][i].index = i;
+            }
         }
 
+        // 【关键】：触发事件更新 UI 的代码，必须放在 if 判断的外面！
+        // 这样当 Count 为 0 时，UI 也能收到一个空的 List，从而把原本位置上的骰子彻底清除。
         switch (type)
         {
             case E_DiceType.Action:
@@ -425,6 +485,34 @@ public class DiceManager : ManagerBase<DiceManager>
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceCount);
                 break;
         }
+        // if (!dicePool.ContainsKey(type) || dicePool[type] == null || dicePool[type].Count == 0)
+        // {
+        //     return;
+        // }
+        // dicePool[type].Sort((a, b) => a.value.CompareTo(b.value));
+        // for (int i = 0; i < dicePool[type].Count; i++)
+        // {
+        //     dicePool[type][i].index = i;
+        // }
+        //
+        // switch (type)
+        // {
+        //     case E_DiceType.Action:
+        //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_ActionDice, dicePool[E_DiceType.Action]);
+        //         break;
+        //     case E_DiceType.Mind:
+        //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice, dicePool[E_DiceType.Mind]);
+        //         break;
+        //     case E_DiceType.Time1:
+        //     case E_DiceType.Time2:
+        //     case E_DiceType.Time3:
+        //     case E_DiceType.Time4:
+        //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceCount);
+        //         break;
+        //     case E_DiceType.Wild:
+        //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceCount, dicePool[type].Count);
+        //         break;
+        // }
     }
     //E_ComboType
     //MindActionPair, // 1思1行 (点数相同)

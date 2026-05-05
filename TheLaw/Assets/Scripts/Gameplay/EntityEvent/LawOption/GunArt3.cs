@@ -76,6 +76,7 @@ public class GunArt3 : OptionBase
                         }
                     }
                 }
+                DiceManager.Instance.ClearSelected();
             }
             else
             {
