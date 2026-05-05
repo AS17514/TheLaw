@@ -794,6 +794,11 @@ public class BattlePanel : PanelBase
 
         #region Dice
         eventCenter.RemoveEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceCount, OnUpdateTimeDiceCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, OnUpdateTimeDiceSelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice, OnUpdateTimeDice);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion

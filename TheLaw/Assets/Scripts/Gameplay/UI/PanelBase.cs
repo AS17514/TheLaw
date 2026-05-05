@@ -209,7 +209,7 @@ public abstract class PanelBase : MonoBehaviour
             T control = controls[keyName] as T;
             if (control == null)
             {
-                Debug.LogError($"请求的{name}组件存在，但不是请求所需的{typeof(T)}类型");
+                Debug.LogError($"请求的{name}组件存在，但不是请求所需的{typeof(T)}类型，或是面板被移除后事件未完全注销");
             }
             return control;
         }
