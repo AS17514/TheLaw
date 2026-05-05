@@ -220,7 +220,7 @@ public class EntityEvent_1_03 : OptionBase
         "对象将“吃掉”自己，你将获得胜利";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
-    public override bool IsVisible { get; set; } = true;
+    //public override bool IsVisible { get; set; } = true;
     public override DiceCondition[] DiceCost
     {
         get
