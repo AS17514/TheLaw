@@ -99,6 +99,12 @@ public class EntityEvent_1_01 : OptionBase
 
             DiceManager.Instance.ConsumeValidSelectedDice(true);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+            
+            // 1. 伤害结算完后，清空怪物剩余的未格挡骰子
+            DiceManager.Instance.ClearEntityPool(); 
+            // 2. 既然玩家已经闪避应对过了，必须注销未响应的惩罚机制，防止二次挨打
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
+            
             //应对完之后取消该选项的显示。
             this.IsVisible = false;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
