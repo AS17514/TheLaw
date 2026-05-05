@@ -31,9 +31,9 @@ public class StateManager : ManagerBase<StateManager>
                                                                               && stateDesires[currentState].Length > 0)
                 ? stateDesires[currentState][0] : null;
 
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState, currentState);
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish, currentExecutableDesire.Desire);
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction, currentExecutableAction.Intent);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
         }
 
         #region Level2特殊逻辑
@@ -50,12 +50,12 @@ public class StateManager : ManagerBase<StateManager>
             }
         }
 
-        if (ProgressManager.Instance.level == 2&&currentState is E_StateType_2.normal)
+        if (ProgressManager.Instance.level == 2 && currentState is E_StateType_2.normal)
         {
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
 
-        if (ProgressManager.Instance.level == 2&&currentState is E_StateType_2.ashamed)
+        if (ProgressManager.Instance.level == 2 && currentState is E_StateType_2.ashamed)
         {
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
@@ -78,12 +78,12 @@ public class StateManager : ManagerBase<StateManager>
             }
 
             currentExecutableAction = stateActions[currentState][currentActionIndex];
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction, currentExecutableAction.Intent);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
         }
     }
-/// <summary>
-/// 不执行怪物的行为，但是把怪物的行为切到下一个，第二关使用
-/// </summary>
+    /// <summary>
+    /// 不执行怪物的行为，但是把怪物的行为切到下一个，第二关使用
+    /// </summary>
     public void ChangeCurrentActionToNextAction()
     {
         currentActionIndex++;
@@ -93,11 +93,11 @@ public class StateManager : ManagerBase<StateManager>
         {
             currentActionIndex = 0;
         }
-        
+
         currentExecutableAction = stateActions[currentState][currentActionIndex];
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction, currentExecutableAction.Intent);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
     }
-    
+
     /// <summary>
     /// 执行怪物愿望（时间段结束时调用）
     /// </summary>
@@ -113,7 +113,7 @@ public class StateManager : ManagerBase<StateManager>
                 currentDesireIndex = 0;
             }
             currentExecutableDesire = stateDesires[currentState][currentDesireIndex];
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish, currentExecutableDesire.Desire);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
         }
     }
     /// <summary>

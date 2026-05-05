@@ -60,18 +60,18 @@ public class Entity1 : Entity
         //     EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
         //     EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespond);
         // }
-        
+
         // 开启协程延迟注册
         StartCoroutine(DelayAddListener());
-        
+
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
-    
+
     private IEnumerator DelayAddListener()
     {
         // 等待当前帧结束，确保当前玩家引发的事件已经全部派发完毕
-        yield return new WaitForEndOfFrame(); 
-    
+        yield return new WaitForEndOfFrame();
+
         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][0] is EntityEvent_1_01 e1)
         {
             EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
@@ -150,7 +150,7 @@ public class Entity1 : Entity
         }
 
         #endregion
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP, hp);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
     }
     public bool isEntity_1_03HadFound = false;
     #endregion
@@ -161,7 +161,7 @@ public class Entity1 : Entity
     {
         AddBuff(E_BuffType.Desire, 1);
         isDesire_UrgentUse = false;//回正
-        
+
         #region Think
         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
             EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
@@ -207,33 +207,33 @@ public class Entity1 : Entity
         //     }
         //     #endregion
 
-            // #region Think
-            // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
-            //     EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
-            // {
-            //     if (e6.isThinkHadUse == false)
-            //     {
-            //         e6.IsVisible = true;
-            //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-            //     }
-            // }
-            // #endregion
-            //
-            // #region Snatch
-            // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
-            //     EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
-            // {
-            //     if (e6_2.isSnatchHadFound)
-            //     {
-            //         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
-            //             EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
-            //         {
-            //             e7.IsVisible = true;
-            //             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-            //         }
-            //     }
-            // }
-            // #endregion
+        // #region Think
+        // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+        //     EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6)
+        // {
+        //     if (e6.isThinkHadUse == false)
+        //     {
+        //         e6.IsVisible = true;
+        //         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        //     }
+        // }
+        // #endregion
+        //
+        // #region Snatch
+        // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] != null &&
+        //     EventManager.Instance.optionPool[E_OptionType.Level1_Option][5] is EntityEvent_1_06 e6_2)
+        // {
+        //     if (e6_2.isSnatchHadFound)
+        //     {
+        //         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] != null &&
+        //             EventManager.Instance.optionPool[E_OptionType.Level1_Option][6] is EntityEvent_1_07 e7)
+        //         {
+        //             e7.IsVisible = true;
+        //             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        //         }
+        //     }
+        // }
+        // #endregion
 
         //}
 
