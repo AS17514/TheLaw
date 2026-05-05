@@ -90,8 +90,10 @@ public class Prepare : OptionBase
 
             if (result && optionContext is PrepareOptionContext)
             {
-                DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
+                
                 ExecuteLogic?.Invoke();
+                DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
+                
             }
             else
             {

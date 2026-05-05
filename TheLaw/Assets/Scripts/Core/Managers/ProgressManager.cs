@@ -183,6 +183,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         Init(5, 5, 4);
         
         DiceManager.Instance.AddTimeDice(4);
+        Debug.Log("initLevel1执行1次，AddTimeDice执行1次");
         
     }
     public void initLevel2()
