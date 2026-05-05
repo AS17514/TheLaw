@@ -215,7 +215,7 @@ public class BattlePanel : PanelBase
                         selectedDiceList.Add(currentItem);
                     }
                     DiceManager.Instance.SortSelectedByValue();
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDiceList);
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
                 }
                 else
                 {
@@ -225,7 +225,7 @@ public class BattlePanel : PanelBase
                         {
                             selectedDiceList.RemoveAt(i);
                             DiceManager.Instance.SortSelectedByValue();
-                            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice, selectedDiceList);
+                            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
                             break;
                         }
                     }
@@ -234,26 +234,6 @@ public class BattlePanel : PanelBase
         }
     }
     // 时间骰拥有与选择个数
-    void UpdateTimeDiceCount(E_DiceType e_DiceType, int num)
-    {
-        switch (e_DiceType)
-        {
-            case E_DiceType.Time1:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1Count").text = num.ToString();
-                break;
-            case E_DiceType.Time2:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice2Count").text = num.ToString();
-                break;
-            case E_DiceType.Time3:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3Count").text = num.ToString();
-                break;
-            case E_DiceType.Time4:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4Count").text = num.ToString();
-                break;
-            default:
-                return;
-        }
-    }
     void UpdateTimeDiceCount()
     {
         Dictionary<E_DiceType, List<DiceBase>> pool = DiceManager.Instance.dicePool;
@@ -295,13 +275,14 @@ public class BattlePanel : PanelBase
     }
     #endregion
     #region Player
-    void UpdatePlayerHP(int num)
+    void UpdatePlayerHP()
     {
-        GetControl<TextMeshProUGUI>("Text (TMP)_PlayerHP").text = num.ToString();
-        GetControl<Slider>("Slider_PlayerHP").value = num;
+        GetControl<TextMeshProUGUI>("Text (TMP)_PlayerHP").text = BuffManager.Instance.player.hp.ToString();
+        GetControl<Slider>("Slider_PlayerHP").value = BuffManager.Instance.player.hp;
     }
-    void UpdatePlayerBuff(Dictionary<E_BuffType, int> keyValuePairs)
+    void UpdatePlayerBuff()
     {
+        Dictionary<E_BuffType, int> keyValuePairs = BuffManager.Instance.player.UI_buffs;
         Transform content = GetControl<ScrollRect>("Scroll View_PlayerBuff").content;
         foreach (Transform item in content)
         {
@@ -318,8 +299,9 @@ public class BattlePanel : PanelBase
     }
     #endregion
     #region Entity
-    void UpdateEntityState(Enum state)
+    void UpdateEntityState()
     {
+        Enum state = StateManager.Instance.currentState;
         TextMeshProUGUI entityState = GetControl<TextMeshProUGUI>("Text (TMP)_EntityState");
         if (state is E_StateType_1)
         {
@@ -336,8 +318,9 @@ public class BattlePanel : PanelBase
             }
         }
     }
-    void UpdateEntityAction(E_IntentType actionType)
+    void UpdateEntityAction()
     {
+        E_IntentType actionType = StateManager.Instance.UI_currentExecutableAction;
         TextMeshProUGUI action = GetControl<TextMeshProUGUI>("Text (TMP)_EntityAction");
         switch (actionType)
         {
@@ -351,8 +334,9 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    void UpdateEntityWish(E_DesireType wishType)
+    void UpdateEntityWish()
     {
+        E_DesireType wishType = StateManager.Instance.UI_currentExecutableDesire;
         TextMeshProUGUI wish = GetControl<TextMeshProUGUI>("Text (TMP)_EntityWish");
         switch (wishType)
         {
@@ -369,8 +353,9 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    void UpdateEntityBuff(Dictionary<E_BuffType, int> keyValuePairs)
+    void UpdateEntityBuff()
     {
+        Dictionary<E_BuffType, int> keyValuePairs = BuffManager.Instance.entity.UI_buffs;
         Transform content = GetControl<ScrollRect>("Scroll View_EntityBuff").content;
         foreach (Transform item in content)
         {
@@ -385,8 +370,9 @@ public class BattlePanel : PanelBase
             }
         }
     }
-    void UpdateEntityPart(CharacterBase[] Parts)
+    void UpdateEntityPart()
     {
+        CharacterBase[] Parts = ProgressManager.Instance.nowEntities;
         for (int index = 1; index < 5; index++)
         {
             Part part = (Part)Parts[index];
@@ -405,7 +391,7 @@ public class BattlePanel : PanelBase
             if (part.IsVisible)
             {
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = true;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.name;
+                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
@@ -444,10 +430,10 @@ public class BattlePanel : PanelBase
             }
         }
     }
-    void UpdateEntityHP(int num)
+    void UpdateEntityHP()
     {
-        GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = num.ToString();
-        GetControl<Slider>("Slider_EntityHP").value = num;
+        GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = ProgressManager.Instance.nowEntities[0].hp.ToString();
+        GetControl<Slider>("Slider_EntityHP").value = ProgressManager.Instance.nowEntities[0].hp;
     }
     #endregion
     // Events
@@ -544,13 +530,14 @@ public class BattlePanel : PanelBase
     #region 注册事件专用有名方法
     void OnUpdatePhase(object obj)
     {
-        GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = ((int)obj + 1).ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = (ProgressManager.Instance.phase + 1).ToString();
     }
     void OnUpdateTimeProgress(object obj)
     {
-        GetControl<TextMeshProUGUI>("Text (TMP)_TimeProgress").text = ((int)obj).ToString();
+        int num = ProgressManager.Instance.timeProgress;
+        GetControl<TextMeshProUGUI>("Text (TMP)_TimeProgress").text = num.ToString();
         Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
-        Slider_TimeProgress.value = (int)obj;
+        Slider_TimeProgress.value = num;
     }
     void OnUpdateMaxTimeProgress(object obj)
     {
@@ -597,11 +584,11 @@ public class BattlePanel : PanelBase
     }
     void OnUpdatePlayerHP(object obj)
     {
-        UpdatePlayerHP((int)obj);
+        UpdatePlayerHP();
     }
     void OnUpdatePlayerBuff(object obj)
     {
-        UpdatePlayerBuff((Dictionary<E_BuffType, int>)obj);
+        UpdatePlayerBuff();
     }
     void OnUpdatePlayerDied(object obj)
     {
@@ -609,27 +596,27 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateEntityState(object obj)
     {
-        UpdateEntityState((Enum)obj);
+        UpdateEntityState();
     }
     void OnUpdateEntityAction(object obj)
     {
-        UpdateEntityAction((E_IntentType)obj);
+        UpdateEntityAction();
     }
     void OnUpdateEntityWish(object obj)
     {
-        UpdateEntityWish((E_DesireType)obj);
+        UpdateEntityWish();
     }
     void OnUpdateEntityBuff(object obj)
     {
-        UpdateEntityBuff((Dictionary<E_BuffType, int>)obj);
+        UpdateEntityBuff();
     }
     void OnUpdateEntityPart(object obj)
     {
-        UpdateEntityPart((CharacterBase[])obj);
+        UpdateEntityPart();
     }
     void OnUpdateEntityHP(object obj)
     {
-        UpdateEntityHP((int)obj);
+        UpdateEntityHP();
     }
     void OnUpdateEntityDied(object obj)
     {
@@ -723,20 +710,21 @@ public class BattlePanel : PanelBase
         #region 玩家/骰面板
         UpdateDice<ActionDice>();
         UpdateDice<MindDice>();
-        UpdatePlayerHP(BuffManager.Instance.player.hp);
-        UpdateTimeDiceCount(E_DiceType.Time1, DiceManager.Instance.dicePool[E_DiceType.Time1].Count);
+        UpdatePlayerHP();
+        UpdatePlayerBuff();
+        UpdateTimeDiceCount();
         #endregion
         #region Entity
         // hp
         GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = ProgressManager.Instance.nowEntities[0].maxHp.ToString();
         GetControl<Slider>("Slider_EntityHP").maxValue = ProgressManager.Instance.nowEntities[0].maxHp;
-        UpdateEntityHP(ProgressManager.Instance.nowEntities[0].hp);
+        UpdateEntityHP();
         // other
-        UpdateEntityState(StateManager.Instance.UI_currentState);
-        UpdateEntityAction(StateManager.Instance.UI_currentExecutableAction);
-        UpdateEntityWish(StateManager.Instance.UI_currentExecutableDesire);
-        UpdateEntityPart(ProgressManager.Instance.nowEntities);
-        UpdateEntityBuff(BuffManager.Instance.entity.UI_buffs);
+        UpdateEntityState();
+        UpdateEntityAction();
+        UpdateEntityWish();
+        UpdateEntityPart();
+        UpdateEntityBuff();
         #endregion
         // event
         UpdateEvents();

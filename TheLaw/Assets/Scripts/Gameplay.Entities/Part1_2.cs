@@ -40,7 +40,7 @@ public class Part1_2 : Part
 
         // 用新变量赋值给管理器
         ProgressManager.Instance.nowEntities[2] = newPart;
-        
+
         newPart.IsVisible = true;
 
         if (ProgressManager.Instance.nowEntities[0] != null &&
@@ -52,7 +52,7 @@ public class Part1_2 : Part
             // 关键修改 3：把原本的 this 改成 newPart
             newPart.owner.parts.Add(newPart);
 
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart, ProgressManager.Instance.nowEntities);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         }
         else if (ProgressManager.Instance.nowEntities[0] == null)
         {

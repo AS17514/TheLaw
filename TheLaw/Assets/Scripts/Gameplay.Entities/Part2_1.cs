@@ -23,15 +23,15 @@ public class Part2_1 : Part
     /// <param name="atk"></param>
     public override void BeAttacked(int atk)
     {
-        TakeDamage( atk);
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart, ProgressManager.Instance.nowEntities);
+        TakeDamage(atk);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         StateManager.Instance.ChangeState(E_StateType_2.ashamed);
     }
 
 
     public override bool IsCouldBeAttacked()
     {
-        return base.IsCouldBeAttacked()&&
+        return base.IsCouldBeAttacked() &&
                !(StateManager.Instance.currentState is E_StateType_2.hysterial);
     }
 
@@ -48,7 +48,7 @@ public class Part2_1 : Part
 
         // 用新变量赋值给管理器
         ProgressManager.Instance.nowEntities[1] = newPart;
-        
+
         newPart.IsVisible = true;
 
         if (ProgressManager.Instance.nowEntities[0] != null &&
@@ -60,7 +60,7 @@ public class Part2_1 : Part
             // 关键修改 3：把原本的 this 改成 newPart
             newPart.owner.parts.Add(newPart);
 
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart, ProgressManager.Instance.nowEntities);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         }
         else if (ProgressManager.Instance.nowEntities[0] == null)
         {

@@ -34,9 +34,9 @@ public class EntityEvent_1_01 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-        
+
         Debug.Log("闪避");
-        
+
         bool result = true;
         DiceManager.Instance.SortSelectedByValue();
         DiceManager.Instance.SortEntityPoolByValue();
@@ -47,7 +47,7 @@ public class EntityEvent_1_01 : OptionBase
                 //DiceManager.Instance.ClearEntityPool();
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                result=false;
+                result = false;
             }
             else
             {
@@ -104,23 +104,23 @@ public class EntityEvent_1_01 : OptionBase
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
     }
-    
+
     public void NeverRespond(object info = null)
     {
         Debug.Log("没闪避");
-        
+
         int hit = DiceManager.Instance.entityDicePool.Count;
         int tempAtk = 4;
         ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
         //之后取消该选项的显示。
         this.IsVisible = false;
-        
+
         DiceManager.Instance.ClearEntityPool();
-        
+
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
-        
+
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
+
     }
 }
 
@@ -278,7 +278,7 @@ public class EntityEvent_1_03 : OptionBase
                     if (entity1.isDesire_FeedUse)
                     {
                         entity1.hp = 0;
-                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP, entity1.hp);
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
                         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                     }
                 }

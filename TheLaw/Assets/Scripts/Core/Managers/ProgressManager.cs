@@ -65,11 +65,11 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     {
         ++this.phase;
         phaseDice = maxPhaseDice;
-        
+
         DiceManager.Instance.AddTimeDice(maxPhaseDice);
-        
+
         StateManager.Instance.ExecuteCurrentDesire();
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase, this.phase);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
         //更新许愿为可用状态
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
         if (level == 1)
@@ -101,7 +101,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             StateManager.Instance.ExecuteCurrentAction();
             timeProgress = currentTimeProgress;
         }
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress, this.timeProgress);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
 
     }
 
@@ -115,7 +115,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             // 清空上一关遗留的骰子数据
             DiceManager.Instance.ClearPool();       // 清空基础骰子池、怪物骰子池并刷新对应UI
             DiceManager.Instance.ClearSelected();   // 清空选中区的骰子并刷新对应UI
-            
+
             this.level = level;
             switch (level)
             {
@@ -161,8 +161,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             {
                 // 1. 销毁实体挂载的整个 GameObject。
                 // 这一步非常关键！它会将物体从场景中彻底移除，并且触发该物体上所有脚本的 OnDestroy 方法。
-                Destroy(nowEntities[i].gameObject); 
-                
+                Destroy(nowEntities[i].gameObject);
+
                 // 2. 将数组里的引用置空，防止其他脚本拿到了已经被销毁的物体的引用（报 MissingReferenceException）
                 nowEntities[i] = null;
             }
@@ -171,9 +171,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel1()
     {
         AddPlayer();
-        
+
         EventManager.Instance.RegisterOptions(1);
-        
+
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity1");
 
@@ -183,41 +183,41 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         nowEntities[0] = entity1;
 
         entity1.ManualInit();
-        
+
         Init(5, 5, 4);
-        
+
         DiceManager.Instance.AddTimeDice(4);
         Debug.Log("initLevel1执行1次，AddTimeDice执行1次");
-        
+
     }
     public void initLevel2()
     {
         AddPlayer();
-        
+
         EventManager.Instance.RegisterOptions(2);
-        
+
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity2");
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        Entity2 entity2= managerObj.AddComponent<Entity2>();
+        Entity2 entity2 = managerObj.AddComponent<Entity2>();
         nowEntities[0] = entity2;
-        
+
         entity2.ManualInit();
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
         Init(4, 4, 5);
-        
+
         DiceManager.Instance.AddTimeDice(5);
     }
     public void initLevel3()
     {
         AddPlayer();
-        
+
         EventManager.Instance.RegisterOptions(3);
-        
+
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity3");
 
@@ -229,15 +229,15 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
         Init(6, 6, 1);
-        
+
         DiceManager.Instance.AddTimeDice(1);
     }
     public void initLevel4()
     {
         AddPlayer();
-        
+
         EventManager.Instance.RegisterOptions(4);
-        
+
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity4");
 

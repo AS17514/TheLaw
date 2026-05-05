@@ -13,7 +13,7 @@ public abstract class Entity : CharacterBase
         {E_BuffType.Desire,0 },
         {E_BuffType.Tatters,0}
     };
-    public Dictionary<E_BuffType, int> UI_buffs { get { return buffs; } }//给UI初始化用的获取被保护字典的属性
+    public Dictionary<E_BuffType, int> UI_buffs { get { return buffs; } }
     public override bool IsPlayer => false;
     public void AddBuff(E_BuffType type, int amount)
     {
@@ -22,7 +22,7 @@ public abstract class Entity : CharacterBase
         buffs[type] += amount;
 
         // 数值一变，立刻通过事件中心广播出去
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityBuff, buffs);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityBuff);
     }
     /// <summary>
     /// 提供给管理器的查询buff方法
@@ -45,7 +45,7 @@ public abstract class Entity : CharacterBase
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP, hp);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
     }
 
     public virtual void InitEntity(int initialDesire = 0, int maxHp = 10)
