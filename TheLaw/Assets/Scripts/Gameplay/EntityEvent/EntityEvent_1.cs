@@ -34,6 +34,9 @@ public class EntityEvent_1_01 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
+        
+        Debug.Log("闪避");
+        
         bool result = true;
         DiceManager.Instance.SortSelectedByValue();
         DiceManager.Instance.SortEntityPoolByValue();
@@ -41,7 +44,7 @@ public class EntityEvent_1_01 : OptionBase
         {
             if (dice.type != E_DiceType.Action)
             {
-                DiceManager.Instance.ClearEntityPool();
+                //DiceManager.Instance.ClearEntityPool();
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
                 result=false;
@@ -104,11 +107,16 @@ public class EntityEvent_1_01 : OptionBase
     
     public void NeverRespond(object info = null)
     {
+        Debug.Log("没闪避");
+        
         int hit = DiceManager.Instance.entityDicePool.Count;
         int tempAtk = 4;
         ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
         //之后取消该选项的显示。
         this.IsVisible = false;
+        
+        DiceManager.Instance.ClearEntityPool();
+        
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         
         EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);

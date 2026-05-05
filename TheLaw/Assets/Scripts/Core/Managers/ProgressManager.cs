@@ -28,6 +28,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         this.initialTimeProgress = initialTimeProgress;
         this.currentTimeProgress = currentTimeProgress;
         timeProgress = 0;
+        phase = 0;
         maxPhaseDice = phaseDice;
         this.phaseDice = phaseDice;
     }
@@ -170,6 +171,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel1()
     {
         AddPlayer();
+        
+        EventManager.Instance.RegisterOptions(1);
+        
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity1");
 
@@ -189,6 +193,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel2()
     {
         AddPlayer();
+        
+        EventManager.Instance.RegisterOptions(2);
+        
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity2");
 
@@ -208,6 +215,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel3()
     {
         AddPlayer();
+        
+        EventManager.Instance.RegisterOptions(3);
+        
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity3");
 
@@ -225,6 +235,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel4()
     {
         AddPlayer();
+        
+        EventManager.Instance.RegisterOptions(4);
+        
         // 1. 创建一个新的空物体
         GameObject managerObj = new GameObject("Entity4");
 

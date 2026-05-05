@@ -75,4 +75,58 @@ public class EventManager : ManagerBase<EventManager>
     {
         optionPool[type][index].TriggerOption(context);
     }
+    
+    /// <summary>
+    /// 重新注册选项池数据
+    /// 每次调用都会清空旧数据并重新写入
+    /// </summary>
+    public void RegisterOptions(int level)
+    {
+        // 每次输入时先清空原本存的东西
+        optionPool.Clear();
+
+        // 重新写入内容
+
+        switch (level)
+        {
+            case 1:
+                optionPool.Add(E_OptionType.Level1_Option, new OptionBase[]
+                {
+                    // 狩猎结束！ 把你们统统解体！
+                    new EntityEvent_1_01() , //应对——闪避ε=ε=ε=(ﾟ◇ﾟﾉ)ﾉ
+                    new EntityEvent_1_02(), new EntityEvent_1_03(), //交流
+                    new EntityEvent_1_04(), new EntityEvent_1_05(),//观察
+                    new EntityEvent_1_06(), new EntityEvent_1_07(),new EntityEvent_1_08(),//对象在许下"装满食物"愿望后
+                });
+                break;
+            case 2:
+                optionPool.Add(E_OptionType.Level2_Option, new OptionBase[]
+                {
+                    new EntityEvent_2_01(),//应对——逃避ε=ε=ε=┏(゜ロ゜;)┛
+
+                    #region 交流类
+            
+                    new EntityEvent_2_02(), //交流（一次）
+                    new EntityEvent_2_03(),//询问
+                    new EntityEvent_2_04(),//请求
+                    new EntityEvent_2_05(),//夸奖
+                    new EntityEvent_2_06(),//安抚
+                    new EntityEvent_2_07(),//鼓励
+                    new EntityEvent_2_08(),//那都是你独一无二的装饰
+            
+                    #endregion
+                    new EntityEvent_2_09(),//观察
+            
+                    //对象在许下"藏在衣服的后面"愿望后
+                    new EntityEvent_2_10(),//推动
+                    new EntityEvent_2_11(),//无视
+            
+                    //对象在许下"如果那也算我的衣服"愿望后
+                    new EntityEvent_2_12(),//那不是你的伪装
+                    new EntityEvent_2_13(),//中伤
+                });
+                break;
+                
+        }
+    }
 }
