@@ -176,14 +176,23 @@ public class BattlePanel : PanelBase
         }
     }
     // 更新行动/思维骰
-    void UpdateDice<T>(List<DiceBase> Dice) where T : DiceBase, new()
+    void UpdateDice<T>() where T : DiceBase, new()
     {
-        Transform content = GetControl<ScrollRect>($"Scroll View_{typeof(T).Name}").content;
-        if (Dice == null)
+        List<DiceBase> Dice;
+        if (typeof(T) == typeof(ActionDice))
+        {
+            Dice = DiceManager.Instance.dicePool[E_DiceType.Action];
+        }
+        else if (typeof(T) == typeof(MindDice))
+        {
+            Dice = DiceManager.Instance.dicePool[E_DiceType.Mind];
+        }
+        else
         {
             Debug.Log("更新骰列表为空");
             return;
         }
+        Transform content = GetControl<ScrollRect>($"Scroll View_{typeof(T).Name}").content;
         // 清除ui上所有骰
         foreach (Transform item in content)
         {
@@ -261,9 +270,9 @@ public class BattlePanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4SelectedCount").text = DiceManager.Instance.GetSelectedTime4DiceCount().ToString();
     }
     // 百搭骰个数
-    void UpdateWildDice(int num)
+    void UpdateWildDice()
     {
-        GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceCount").text = num.ToString();
+        GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceCount").text = DiceManager.Instance.dicePool[E_DiceType.Wild].Count.ToString();
     }
     // 公共骰盘情况
     void UpdateEntityDice(List<EntityDice> entityDice)
@@ -450,11 +459,11 @@ public class BattlePanel : PanelBase
         {
             Destroy(item.gameObject);
         }
-        int index = 1;
+        int index = 0;
         foreach (OptionBase option in eventDic[(E_OptionType)(level + 2)])
         {
             int eventIndex = index;
-            Debug.LogWarning($"{eventIndex}号事件({option.OptionName})可见性:{option.IsVisible}");
+            Debug.LogWarning($"{eventIndex + 1}号事件({option.OptionName})可见性:{option.IsVisible}");
             if (option.IsVisible)
             {
                 GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
@@ -559,11 +568,11 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateActionDice(object obj)
     {
-        UpdateDice<ActionDice>((List<DiceBase>)obj);
+        UpdateDice<ActionDice>();
     }
     void OnUpdateMindDice(object obj)
     {
-        UpdateDice<MindDice>((List<DiceBase>)obj);
+        UpdateDice<MindDice>();
     }
     void OnUpdateTimeDiceCount(object obj)
     {
@@ -580,7 +589,7 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateWildDiceCount(object obj)
     {
-        UpdateWildDice((int)obj);
+        UpdateWildDice();
     }
     void OnUpdateEntityDice(object obj)
     {
@@ -712,8 +721,8 @@ public class BattlePanel : PanelBase
         UnlockedWish();
         #endregion
         #region 玩家/骰面板
-        UpdateDice<ActionDice>(DiceManager.Instance.dicePool[E_DiceType.Action]);
-        UpdateDice<MindDice>(DiceManager.Instance.dicePool[E_DiceType.Mind]);
+        UpdateDice<ActionDice>();
+        UpdateDice<MindDice>();
         UpdatePlayerHP(BuffManager.Instance.player.hp);
         UpdateTimeDiceCount(E_DiceType.Time1, DiceManager.Instance.dicePool[E_DiceType.Time1].Count);
         #endregion
