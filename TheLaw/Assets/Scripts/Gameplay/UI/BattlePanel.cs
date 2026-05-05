@@ -255,8 +255,9 @@ public class BattlePanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceCount").text = DiceManager.Instance.dicePool[E_DiceType.Wild].Count.ToString();
     }
     // 公共骰盘情况
-    void UpdateEntityDice(List<EntityDice> entityDice)
+    void UpdateEntityDice()
     {
+        List<EntityDice> entityDice = DiceManager.Instance.entityDicePool;
         Transform content = GetControl<ScrollRect>("Scroll View_PublicDice").content;
         if (entityDice == null)
         {
@@ -441,18 +442,24 @@ public class BattlePanel : PanelBase
     {
         Dictionary<E_OptionType, OptionBase[]> eventDic = EventManager.Instance.optionPool;
         Transform grid = GetControl<ScrollRect>("Scroll View_Event").content.GetChild(0);
+        // 删除原事件的对象
         foreach (Transform item in grid)
         {
             Destroy(item.gameObject);
         }
+        // 标记索引为0
         int index = 0;
+        // 遍历对应关卡事件列表
         foreach (OptionBase option in eventDic[(E_OptionType)(level + 2)])
         {
+            // 避免闭包问题，在里面赋值拿到当前index的值
             int eventIndex = index;
             if (option.IsVisible)
             {
-                Debug.Log($"{eventIndex + 1}号事件({option.OptionName})");
+                Debug.Log($"当前index = {index}, 事件名 = {option.OptionName}, 是否显示 = {option.IsVisible}");
+                // 创建事件框
                 GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
+                // 设置事件的名称和描述
                 foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
                 {
                     switch (item.gameObject.name)
@@ -464,23 +471,29 @@ public class BattlePanel : PanelBase
                             item.text = option.OptionDescription;
                             break;
                         default:
-                            return;
+                            break;
                     }
                 }
+                // 拿到骰子滑动列表，准备装骰子
                 Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
-                if (option.DiceCost == null)
+                // 如果有需求的骰子列表
+                if (!(option.DiceCost == null))
                 {
-                    continue;
-                }
-                foreach (DiceCondition item in option.DiceCost)
-                {
-                    GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"], content);
-                    if (!(item.mode == E_CompareType.Any))
+                    // 添加需求骰子
+                    foreach (DiceCondition item in option.DiceCost)
                     {
-                        dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
+                        GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"], content);
+                        // 不是any的骰子需要改点数
+                        if (!(item.mode == E_CompareType.Any))
+                        {
+                            dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
+                        }
                     }
                 }
-                eventObj.GetComponentInChildren<Button>().onClick.AddListener(() =>
+                // 给事件加点击委托
+                Button eventButton = eventObj.GetComponentInChildren<Button>();
+                eventButton.onClick.RemoveAllListeners();
+                eventButton.onClick.AddListener(() =>
                 {
                     Debug.Log($"执行{eventIndex + 1}号事件({option.OptionName})");
                     EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex);
@@ -580,7 +593,7 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateEntityDice(object obj)
     {
-        UpdateEntityDice((List<EntityDice>)obj);
+        UpdateEntityDice();
     }
     void OnUpdatePlayerHP(object obj)
     {
