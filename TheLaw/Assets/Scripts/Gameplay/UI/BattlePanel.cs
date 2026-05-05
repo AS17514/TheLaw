@@ -253,26 +253,6 @@ public class BattlePanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3Count").text = pool[E_DiceType.Time3].Count.ToString();
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4Count").text = pool[E_DiceType.Time4].Count.ToString();
     }
-    void UpdateTimeDiceSelectedCount(E_DiceType e_DiceType, int num)
-    {
-        switch (e_DiceType)
-        {
-            case E_DiceType.Time1:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1SelectedCount").text = num.ToString();
-                break;
-            case E_DiceType.Time2:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice2SelectedCount").text = num.ToString();
-                break;
-            case E_DiceType.Time3:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3SelectedCount").text = num.ToString();
-                break;
-            case E_DiceType.Time4:
-                GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4SelectedCount").text = num.ToString();
-                break;
-            default:
-                return;
-        }
-    }
     void UpdateTimeDiceSelectedCount()
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1SelectedCount").text = DiceManager.Instance.GetSelectedTime1DiceCount().ToString();
@@ -598,38 +578,6 @@ public class BattlePanel : PanelBase
         UpdateTimeDiceCount();
         UpdateTimeDiceSelectedCount();
     }
-    void OnUpdateTimeDice1Count(object obj)
-    {
-        UpdateTimeDiceCount(E_DiceType.Time1, (int)obj);
-    }
-    void OnUpdateTimeDice2Count(object obj)
-    {
-        UpdateTimeDiceCount(E_DiceType.Time2, (int)obj);
-    }
-    void OnUpdateTimeDice3Count(object obj)
-    {
-        UpdateTimeDiceCount(E_DiceType.Time3, (int)obj);
-    }
-    void OnUpdateTimeDice4Count(object obj)
-    {
-        UpdateTimeDiceCount(E_DiceType.Time4, (int)obj);
-    }
-    void OnUpdateTimeDice1SelectedCount(object obj)
-    {
-        UpdateTimeDiceSelectedCount(E_DiceType.Time1, (int)obj);
-    }
-    void OnUpdateTimeDice2SelectedCount(object obj)
-    {
-        UpdateTimeDiceSelectedCount(E_DiceType.Time2, (int)obj);
-    }
-    void OnUpdateTimeDice3SelectedCount(object obj)
-    {
-        UpdateTimeDiceSelectedCount(E_DiceType.Time3, (int)obj);
-    }
-    void OnUpdateTimeDice4SelectedCount(object obj)
-    {
-        UpdateTimeDiceSelectedCount(E_DiceType.Time4, (int)obj);
-    }
     void OnUpdateWildDiceCount(object obj)
     {
         UpdateWildDice((int)obj);
@@ -880,27 +828,27 @@ public class BattlePanel : PanelBase
             #endregion
             #region 律
             case "Button_Law_ChantingLaw":
-                SkillManager.ExcuteSkills(0);
+                SkillManager.ExcuteSkills(4);
                 break;
             case "Button_Law_GunArt3":
-                SkillManager.ExcuteSkills(1);
+                SkillManager.ExcuteSkills(5);
                 break;
             case "Button_Law_ShatteredStars":
-                SkillManager.ExcuteSkills(2);
+                SkillManager.ExcuteSkills(6);
                 break;
             #endregion
             #region 许愿
             case "Button_Wish_Abundance":
-                SkillManager.ExcuteSkills(0);
+                SkillManager.ExcuteSkills(7);
                 break;
             case "Button_Wish_Vibrancy":
-                SkillManager.ExcuteSkills(1);
+                SkillManager.ExcuteSkills(8);
                 break;
             case "Button_Wish_Null3":
-                SkillManager.ExcuteSkills(2);
+                SkillManager.ExcuteSkills(9);
                 break;
             case "Button_Wish_Null4":
-                SkillManager.ExcuteSkills(3);
+                SkillManager.ExcuteSkills(10);
                 break;
             #endregion
             #region Other
