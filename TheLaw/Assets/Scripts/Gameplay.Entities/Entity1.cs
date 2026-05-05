@@ -54,13 +54,29 @@ public class Entity1 : Entity
             DiceManager.Instance.AddEntityDice();
         }
         EventManager.Instance.optionPool[E_OptionType.Level1_Option][0].IsVisible = true;
+        // if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][0] is EntityEvent_1_01 e1)
+        // {
+        //     //防御性编程，先移除一下防止里面原本就有NeverRespond了
+        //     EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
+        //     EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespond);
+        // }
+        
+        // 开启协程延迟注册
+        StartCoroutine(DelayAddListener());
+        
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+    }
+    
+    private IEnumerator DelayAddListener()
+    {
+        // 等待当前帧结束，确保当前玩家引发的事件已经全部派发完毕
+        yield return new WaitForEndOfFrame(); 
+    
         if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][0] is EntityEvent_1_01 e1)
         {
-            //防御性编程，先移除一下防止里面原本就有NeverRespond了
             EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
-            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespond);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
         }
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
 
     public void exhausted_Action_Eat()
