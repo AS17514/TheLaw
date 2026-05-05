@@ -34,6 +34,9 @@ public class EntityEvent_1_01 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
+        
+        Debug.Log("闪避");
+        
         bool result = true;
         DiceManager.Instance.SortSelectedByValue();
         DiceManager.Instance.SortEntityPoolByValue();
@@ -104,6 +107,8 @@ public class EntityEvent_1_01 : OptionBase
     
     public void NeverRespond(object info = null)
     {
+        Debug.Log("没闪避");
+        
         int hit = DiceManager.Instance.entityDicePool.Count;
         int tempAtk = 4;
         ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
