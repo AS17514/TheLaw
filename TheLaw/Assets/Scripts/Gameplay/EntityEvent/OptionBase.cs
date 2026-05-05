@@ -17,7 +17,9 @@ public abstract class OptionBase
     public virtual bool IsDiceConditionsHave{ get; protected set; }=true;
     public E_ComboType ComboType { get; protected set; }
     public virtual bool IsUseDiceCombo{ get; protected set; }=false;
-    public virtual DiceCondition[] DiceCost { get; protected set; }
+
+    public virtual DiceCondition[] DiceCost { get; protected set; } 
+        
 
     public virtual bool IsSpecialConditionsHave{ get; protected set; }=false;
 
