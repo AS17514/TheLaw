@@ -85,9 +85,9 @@ public class BattlePanel : PanelBase
     // 更新选中骰
     void UpdateSelectedDice()
     {
-        List<DiceBase> selectedDice = selectedDiceList;
+        Dictionary<E_DiceType, List<DiceBase>> dice = DiceManager.Instance.dicePool;
         Transform content = GetControl<ScrollRect>("Scroll View_SelectedDice").content;
-        if (selectedDice == null)
+        if (selectedDiceList == null)
         {
             Debug.Log("选中骰列表为空");
             return;
@@ -98,7 +98,7 @@ public class BattlePanel : PanelBase
             Destroy(item.gameObject);
         }
         // 重新生成一遍，时间和百搭不生成
-        foreach (DiceBase item in selectedDice)
+        foreach (DiceBase item in selectedDiceList)
         {
             switch (item.type)
             {
@@ -141,6 +141,23 @@ public class BattlePanel : PanelBase
                     break;
             }
         }
+        // // 遍历拥有骰子池，若选中骰子池没有对应骰子，将自己的isOn设置为false
+        // foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_ActionDice").content.GetComponentsInChildren<DiceMark>())
+        // {
+        //     bool isSelected = false;
+        //     foreach (DiceMark diceMark in content.GetComponentsInChildren<DiceMark>())
+        //     {
+        //         if (diceMark.mark == item.mark)
+        //         {
+        //             isSelected = true;
+        //             break;
+        //         }
+        //     }
+        //     if (!isSelected)
+        //     {
+        //         item
+        //     }
+        // }
     }
     // 更新行动/思维骰
     void UpdateDice<T>(List<DiceBase> Dice) where T : DiceBase, new()
@@ -810,6 +827,17 @@ public class BattlePanel : PanelBase
                 SkillManager.ExcuteSkills(1, new AdjustOptionContext { change = point });
                 break;
             case "Button_InherentAction_Overturn":
+                foreach (DiceBase item in selectedDiceList)
+                {
+                    if (item.type == E_DiceType.Time4)
+                    {
+                        UpdateSelectedDice();
+                        UpdateTimeDiceSelectedCount();
+                        Debug.LogWarning("推翻操作选择的时间骰点数不能为4");
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                        break;
+                    }
+                }
                 SkillManager.ExcuteSkills(2);
                 break;
             case "Button_InherentAction_Atk":
@@ -1053,7 +1081,6 @@ public class BattlePanel : PanelBase
     }
     void Start()
     {
-        DiceManager.Instance.AddTimeDice(4);
         level = ProgressManager.Instance.level;
         LoadAllResources();
         InitEvents();
