@@ -4,5 +4,7 @@ using UnityEngine;
 
 public enum E_StateType_3
 {
-
+    normal,
+    weightless,
+    free_notfree,
 }

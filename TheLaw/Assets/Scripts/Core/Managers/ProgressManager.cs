@@ -217,6 +217,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel3()
     {
         AddPlayer();
+        
+        player.AddBuff(E_BuffType.Desire,6);
 
         EventManager.Instance.RegisterOptions(3);
 
