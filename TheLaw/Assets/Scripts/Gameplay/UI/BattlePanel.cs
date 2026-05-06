@@ -331,8 +331,44 @@ public class BattlePanel : PanelBase
             case E_IntentType.Entity1_Eat:
                 action.text = "吃";
                 break;
+            case E_IntentType.Entity2_LightRain:
+                action.text = "小雨";
+                break;
+            case E_IntentType.Entity2_ScorchingSun:
+                action.text = "烈日";
+                break;
+            case E_IntentType.Entity2_Gale:
+                action.text = "大风";
+                break;
+            case E_IntentType.Entity2_Stress:
+                action.text = "应激";
+                break;
+            case E_IntentType.Entity2_HysterialStress:
+                action.text = "应激";
+                break;
+            case E_IntentType.Entity2_Rainstorm:
+                action.text = "暴雨";
+                break;
+            case E_IntentType.Entity3_Marble:
+                action.text = "弹珠";
+                break;
+            case E_IntentType.Entity3_Ball:
+                action.text = "球";
+                break;
+            case E_IntentType.Entity3_Curiousity:
+                action.text = "好奇";
+                break;
+            case E_IntentType.Entity3_Struggle:
+                action.text = "挣扎";
+                break;
+            case E_IntentType.Entity3_Gravity:
+                action.text = "引力";
+                break;
+            case E_IntentType.Entity3_AnEmptyPlanet:
+                action.text = "空无一人的星球";
+                break;
             default:
-                return;
+                break;
         }
     }
     void UpdateEntityWish()
@@ -350,6 +386,22 @@ public class BattlePanel : PanelBase
             case E_DesireType.Entity1_Feed:
                 wish.text = "进食";
                 break;
+            case E_DesireType.Entity2_HiddenBehindTheClothes:
+                wish.text = "藏在衣服的后面";
+                break;
+            case E_DesireType.Entity2_IfThatCountsAsMyClothesToo:
+                wish.text = "如果那也算我的衣服";
+                break;
+            case E_DesireType.Entity2_IfThoseCouldBeSofter:
+                wish.text = "如果那些****能柔软些";
+                break;
+            case E_DesireType.Entity2_PleaseTearThoseTornTattersApart:
+                wish.text = "请把那些破布撕碎吧";
+                break;
+            case E_DesireType.Entity2_ThereAreNoMoreWishesLeft:
+                wish.text = "已经没有再多的愿望了";
+                break;
+
             default:
                 return;
         }
