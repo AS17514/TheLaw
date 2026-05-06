@@ -250,9 +250,13 @@ public class BattlePanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4SelectedCount").text = DiceManager.Instance.GetSelectedTime4DiceCount().ToString();
     }
     // 百搭骰个数
-    void UpdateWildDice()
+    void UpdateWildDiceCount()
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceCount").text = DiceManager.Instance.dicePool[E_DiceType.Wild].Count.ToString();
+    }
+    void UpdateWildDiceSelectedCount()
+    {
+        GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceSelectedCount").text = DiceManager.Instance.GetSelectedWildDiceCount().ToString();
     }
     // 公共骰盘情况
     void UpdateEntityDice()
@@ -641,7 +645,11 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateWildDiceCount(object obj)
     {
-        UpdateWildDice();
+        UpdateWildDiceCount();
+    }
+    void OnUpdateWildDiceSelectedCount(object obj)
+    {
+        UpdateWildDiceSelectedCount();
     }
     void OnUpdateEntityDice(object obj)
     {
@@ -733,6 +741,7 @@ public class BattlePanel : PanelBase
         eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, OnUpdateTimeDiceSelectedCount);
         eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice, OnUpdateTimeDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceSelectedCount, OnUpdateWildDiceSelectedCount);
         eventCenter.AddEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion
 
@@ -820,6 +829,7 @@ public class BattlePanel : PanelBase
         eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, OnUpdateTimeDiceSelectedCount);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice, OnUpdateTimeDice);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceSelectedCount, OnUpdateWildDiceSelectedCount);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
         #endregion
 
@@ -1022,6 +1032,26 @@ public class BattlePanel : PanelBase
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
+            case "Image_WildDice":
+                int selectedWildNum = DiceManager.Instance.GetSelectedWildDiceCount();
+                List<DiceBase> WildList = DiceManager.Instance.dicePool[E_DiceType.Wild];
+                if (selectedWildNum >= WildList.Count)
+                {
+                    return;
+                }
+                foreach (DiceBase item in selectedDiceList.ToList())
+                {
+                    if (item.type == E_DiceType.Wild)
+                    {
+                        selectedDiceList.Remove(item);
+                    }
+                }
+                for (int i = WildList.Count - 1; i >= WildList.Count - 1 - selectedWildNum; i--)
+                {
+                    selectedDiceList.Add(WildList[i]);
+                }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceSelectedCount);
+                break;
             default:
                 return;
         }
@@ -1091,39 +1121,26 @@ public class BattlePanel : PanelBase
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
                 break;
-            default:
-                return;
-        }
-    }
-    protected override void ToggleOnValueChanged(string toggleName, bool value)
-    {
-
-        switch (toggleName)
-        {
-            case "Toggle_WildDice":
-                isSelectedWildDice = value;
-                if (value)
+            case "Image_WildDice":
+                if (DiceManager.Instance.GetSelectedWildDiceCount() <= 0)
                 {
-                    foreach (WildDice item in DiceManager.Instance.dicePool[E_DiceType.Wild])
+                    return;
+                }
+                foreach (DiceBase item in selectedDiceList)
+                {
+                    if (item.type == E_DiceType.Wild)
                     {
-                        selectedDiceList.Add(item);
+                        selectedDiceList.Remove(item);
+                        break;
                     }
                 }
-                else
-                {
-                    foreach (DiceBase item in selectedDiceList)
-                    {
-                        if (item.type == E_DiceType.Wild)
-                        {
-                            selectedDiceList.Remove(item);
-                        }
-                    }
-                }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceSelectedCount);
                 break;
             default:
                 return;
         }
     }
+
     void Start()
     {
         level = ProgressManager.Instance.level;

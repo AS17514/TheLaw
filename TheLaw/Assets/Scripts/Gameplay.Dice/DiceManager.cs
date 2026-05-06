@@ -171,7 +171,7 @@ public class DiceManager : ManagerBase<DiceManager>
                 break;
 
         }
-        if(ProgressManager.Instance.level==1)
+        if (ProgressManager.Instance.level == 1)
             EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
     }
     /// <summary>
@@ -195,7 +195,7 @@ public class DiceManager : ManagerBase<DiceManager>
         // }
         // SortPoolByValue(tempType);
         // SortPoolByValue(dice.type);
-        
+
         E_DiceType tempType = oldDice.type;
 
         // 1. 缓存旧骰子的核心数据
@@ -205,7 +205,7 @@ public class DiceManager : ManagerBase<DiceManager>
 
         // 2. 从旧池子中彻底移除旧的骰子实例
         dicePool[tempType].Remove(oldDice);
-        
+
 
         // 3. 根据目标类型，在内存中实例化一个真正的全新骰子对象
         DiceBase newDice = null;
@@ -443,6 +443,8 @@ public class DiceManager : ManagerBase<DiceManager>
     {
         selectedDice.Clear();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceSelectedCount);
     }
     /// <summary>
     /// 把某一类骰子的列表按从小到大排序，并初始化或更新索引值index
@@ -450,7 +452,6 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <param name="type"></param>
     public void SortPoolByValue(E_DiceType type)
     {
-        
         // 如果连键都没有，确实可以不用管
         if (!dicePool.ContainsKey(type) || dicePool[type] == null)
         {
@@ -805,7 +806,7 @@ public class DiceManager : ManagerBase<DiceManager>
     /// </summary>
     public void SortEntityPoolByValue()
     {
-        
+
         if (entityDicePool != null && entityDicePool.Count > 0)
         {
             // 按点数从小到大排
@@ -821,7 +822,7 @@ public class DiceManager : ManagerBase<DiceManager>
         // 【关键】：必须放在外面！确保骰子清空或变化时UI一定能收到通知
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
         Debug.Log("UI_Update_EntityDice");
-        
+
         // if (entityDicePool == null || entityDicePool.Count == 0) return;
         //
         // // 按点数从小到大排
