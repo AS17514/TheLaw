@@ -43,12 +43,18 @@ public class EntityEvent_1_01 : OptionBase
         DiceManager.Instance.SortEntityPoolByValue();
         foreach (var dice in DiceManager.Instance.selectedDice)
         {
-            if (dice.type != E_DiceType.Action)
+            if (dice.type != E_DiceType.Action && dice.type != E_DiceType.Wild)
             {
                 //DiceManager.Instance.ClearEntityPool();
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
                 result = false;
+                // 一旦清空了集合，必须立即跳出 foreach 循环
+                break;
+            }
+            else if (dice.type == E_DiceType.Wild)
+            {
+                continue;
             }
             else
             {
@@ -61,6 +67,24 @@ public class EntityEvent_1_01 : OptionBase
                             dice.isValid = true;
                             entityDice.isValid = true;
                         }
+                    }
+                }
+            }
+        }
+
+        foreach (var dice in DiceManager.Instance.selectedDice)
+        {
+            if (dice.type == E_DiceType.Wild)
+            {
+                foreach (var entityDice in DiceManager.Instance.entityDicePool)
+                {
+                    if (!dice.isValid && !entityDice.isValid)
+                    {
+                        
+                        dice.isValid = true;
+                        entityDice.isValid = true;
+                        // 这个 break; 只会跳出内层循环
+                        break;
                     }
                 }
             }

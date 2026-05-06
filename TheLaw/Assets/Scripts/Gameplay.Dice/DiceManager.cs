@@ -171,6 +171,8 @@ public class DiceManager : ManagerBase<DiceManager>
                 break;
 
         }
+        if(ProgressManager.Instance.level==1)
+            EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
     }
     /// <summary>
     /// 将指定骰对象转化为另种类型
