@@ -18,6 +18,9 @@ public enum E_EventType
     #endregion
 
     #region UI更新
+    #region 选关界面
+    UI_Update_SelectedLevelTitle,
+    #endregion
     #region 战斗界面
     #region  骰子
     UI_Update_SelectedDice,
@@ -56,10 +59,6 @@ public enum E_EventType
     UI_Update_WishToUnavailable,
     #endregion
     #endregion
-    #endregion
-    #region 存档
-    SaveData,
-    LoadData,
     #endregion
 
     #region 后端

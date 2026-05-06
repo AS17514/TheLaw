@@ -633,6 +633,12 @@ public class BattlePanel : PanelBase
     }
     void OnUpdateEntityDied(object obj)
     {
+        Debug.Log("触发胜利");
+        // 当前关卡大于存档的最大关卡时才刷新存档
+        if (level >= JsonManager.Instance.LoadLevel())
+        {
+            JsonManager.Instance.SaveLevel(level + 1);
+        }
         UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
     }
     void OnUpdateEvents(object obj)

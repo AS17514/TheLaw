@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class StartMenuPanel : PanelBase
 {
+
     protected override void ButtonOnClick(string buttonName)
     {
         switch (buttonName)
         {
             case "Button_StartGame":
-                ProgressManager.Instance.intoNewLevel(1);
-                UIManager.Instance.ChangePanel<StartMenuPanel, BattlePanel>();
+                UIManager.Instance.ChangePanel<StartMenuPanel, LevelSelectPanel>();
                 break;
             case "Button_QuitGame":
                 // 编辑器下停止运行
