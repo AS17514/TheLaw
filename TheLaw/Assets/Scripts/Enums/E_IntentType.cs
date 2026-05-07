@@ -15,6 +15,7 @@ public enum E_IntentType
     Entity2_Rainstorm,//暴雨
 
     Entity3_Marble,//弹珠
+    Entity3_CosmicRoaming,//宇宙漫游
     Entity3_Ball,//球
     Entity3_Curiousity,//好奇，My Compass IS My Curiosity
     Entity3_Struggle,//挣扎

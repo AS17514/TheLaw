@@ -46,6 +46,13 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress, this.currentTimeProgress);
     }
+
+    public void SetmaxPhaseDice(int maxPhaseDice)
+    {
+        this.maxPhaseDice = maxPhaseDice;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress, this.maxPhaseDice);
+    }
+    
     /// <summary>
     /// 消耗时间骰子的时候调用，推进时间段的进行
     /// </summary>
@@ -87,7 +94,23 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         
         StateManager.Instance.ExecuteCurrentDesire();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
+        
         //更新许愿为可用状态
+        if (level == 3)
+        {
+            if (StateManager.Instance.currentState is E_StateType_3.normal)
+            {
+                DiceManager.Instance.ClearEntityPool();
+            }
+            if (nowEntities[0] is Entity3 entity3)
+            {
+                if (entity3.IsRumorsAboutDisinterestUse)
+                {
+                    entity3.IsRumorsAboutDisinterestUse=false;
+                    return;
+                }
+            }
+        }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
         
     }
@@ -104,7 +127,11 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             timeProgress = 0;
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
-
+        
+        if (StateManager.Instance.currentState is E_StateType_3.weightless)
+        {
+            DiceManager.Instance.ClearEntityPool();
+        }
     }
 
     #region IntoNewLevel

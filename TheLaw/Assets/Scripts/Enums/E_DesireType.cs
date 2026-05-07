@@ -12,5 +12,7 @@ public enum E_DesireType
     Entity2_IfThatCountsAsMyClothesToo,//如果那也算我的衣服
     Entity2_IfThoseCouldBeSofter,//如果那些****能柔软些
     Entity2_PleaseTearThoseTornTattersApart,//请把那些破布撕碎吧
-    Entity2_ThereAreNoMoreWishesLeft//已经没有再多的愿望了
+    Entity2_ThereAreNoMoreWishesLeft,//已经没有再多的愿望了
+    
+    Entity3_TheWishToStopInTheMiddleOfRunning,
 }

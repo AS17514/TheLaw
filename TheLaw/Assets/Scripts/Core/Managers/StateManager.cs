@@ -60,6 +60,27 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
         #endregion
+        
+        
+        #region Level3特殊逻辑
+        if (ProgressManager.Instance.level == 3)
+        {
+            DiceManager.Instance.ClearEntityPool();
+            if(currentState is E_StateType_3.weightless||currentState is E_StateType_3.free_notfree)
+            {
+                ProgressManager.Instance.SetCurrentTimeProgress(4);
+                ProgressManager.Instance.SetmaxPhaseDice(2);
+                DiceManager.Instance.AddDice(E_DiceType.Time1);
+            }
+
+            if (currentState is E_StateType_3.normal)
+            {
+                ProgressManager.Instance.SetCurrentTimeProgress(6);
+                ProgressManager.Instance.SetmaxPhaseDice(1);
+            }
+        }
+        
+        #endregion
     }
     /// <summary>
     /// 外部调用，用来执行怪物的行为。（时间进度结束时调用）
