@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting;
@@ -14,6 +15,7 @@ public class BattlePanel : PanelBase
 {
     //  记录一下选中骰列表
     List<DiceBase> selectedDiceList = DiceManager.Instance.selectedDice;
+    RectTransform rectTransform;
     // 记录一下这是第几关
     int level;
     // 记录玩家修改界面上的参数
@@ -718,6 +720,12 @@ public class BattlePanel : PanelBase
         UpdateSelectedDice();
         UpdateTimeDiceCount();
         UpdateTimeDiceSelectedCount();
+        // 面板振动效果
+        rectTransform.DOShakeAnchorPos(0.3f, 10).OnComplete(() =>
+            {
+                // 震完回到000
+                rectTransform.DOAnchorPos(Vector2.zero, 0.1f);
+            });
         Debug.LogWarning("判定未通过");
     }
     #endregion
@@ -1143,6 +1151,7 @@ public class BattlePanel : PanelBase
 
     void Start()
     {
+        rectTransform = GetComponent<RectTransform>();
         level = ProgressManager.Instance.level;
         LoadAllResources();
         InitEvents();
