@@ -37,19 +37,19 @@ public override void InitEntity(int initialDesire = 0, int maxHp = 10)
             },
             new DesireNode[]
             {
-                //new DesireNode(E_DesireType.Entity2_IfThatCountsAsMyClothesToo,ashamed_Desire_IfThatCountsAsMyClothesToo),
-                //new DesireNode(E_DesireType.Entity2_IfThoseCouldBeSofter,ashamed_Desire_IfThoseCouldBeSofter)
+                new DesireNode(E_DesireType.Entity3_IWantToLeaveLikeYou,weightless_Desire_IWantToLeaveLikeYou),
             }
         );
         StateManager.Instance.RegisterStateData(
             E_StateType_3.free_notfree,
             new ActionNode[]
             {
-                //new ActionNode(E_IntentType.Entity2_HysterialStress,hysterial_Action_HysterialStress)
+                new ActionNode(E_IntentType.Entity3_AnEmptyPlanet,free_notfree_Action_AnEmptyPlanet),
+                new ActionNode(E_IntentType.Entity3_Curiousity,weightless_Action_Curiousity),
             }, 
             new DesireNode[]
             {
-                //new DesireNode(E_DesireType.Entity2_PleaseTearThoseTornTattersApart,hysterial_Desire_PleaseTearThoseTornTattersApart)
+                new DesireNode(E_DesireType.Entity3_RunAwayHopingThatYourRunningWonNotBeGivenThatNameAgain,free_notfree_Desire_RunAwayHopingThatYourRunningWonNotBeGivenThatNameAgain)
             }
         );
         
@@ -82,33 +82,32 @@ public override void InitEntity(int initialDesire = 0, int maxHp = 10)
     public void weightless_Action_CosmicRoaming()
     {
         DiceManager.Instance.ClearEntityPool();
-        DiceManager.Instance.AddEntityDice();
-        if (DiceManager.Instance.entityDicePool != null && DiceManager.Instance.entityDicePool[0] != null)
-        {
-            if (DiceManager.Instance.entityDicePool[0].value == 5 || DiceManager.Instance.entityDicePool[0].value == 6)
-            {
-                DiceManager.Instance.entityDicePool[0].value = Random.Range(1, 5);//5不取
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
-            }
-
-            switch (DiceManager.Instance.entityDicePool[0].value)
-            {
-                case 1:
-                    weightless_Action_Ball();
-                    break;
-                case 2:
-                    weightless_Action_Curiousity();
-                    break;
-                case 3:
-                    weightless_Action_Struggle();
-                    break;
-                case 4:
-                    weightless_Action_Gravity();
-                    break;
-            }
-        }
+        EntityDice dice= DiceManager.Instance.AddEntityDice();
         
+        if (dice.value == 5 || dice.value == 6)
+        {
+            dice.value = Random.Range(1, 5);//5不取
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        }
+
+        switch (dice.value)
+        {
+            case 1:
+                weightless_Action_Ball();
+                break;
+            case 2:
+                weightless_Action_Curiousity();
+                break;
+            case 3:
+                weightless_Action_Struggle();
+                break;
+            case 4:
+                weightless_Action_Gravity();
+                break;
+        }
     }
+
+    #region CosmicRoaming
 
     public void weightless_Action_Ball()
     {
@@ -120,9 +119,89 @@ public override void InitEntity(int initialDesire = 0, int maxHp = 10)
             EventManager.Instance.optionPool[E_OptionType.Level2_Option][0].IsVisible = true;
         }
     }
-    public void weightless_Action_Curiousity(){}
-    public void weightless_Action_Struggle(){}
-    public void weightless_Action_Gravity(){}
+
+    public void weightless_Action_Curiousity()
+    {
+        EntityDice dice1=DiceManager.Instance.AddEntityDice(); 
+        EntityDice dice2=DiceManager.Instance.AddEntityDice(); 
+        dice1.value = Random.Range(1, 5);//5不取;
+        dice2.value = Random.Range(1, 5);//5不取;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        switch (dice1.value)
+        {
+            case 1:
+                normal_Desire_RegardingTheSharpStonesOnTheRiverbank();
+                if(ProgressManager.Instance.nowEntities[0] is Entity3 e31)
+                    e31.AddBuff(E_BuffType.Desire, -1);
+                break;
+            case 2:
+                normal_Desire_RegardingTheWitheringFlowersOnTheRoadside();
+                if(ProgressManager.Instance.nowEntities[0] is Entity3 e32)
+                    e32.AddBuff(E_BuffType.Desire, -2);
+                break;
+            case 3:
+                normal_Desire_RegardingOccasionalShuttleCars();
+                if(ProgressManager.Instance.nowEntities[0] is Entity3 e33)
+                    e33.AddBuff(E_BuffType.Desire, -3);
+                break;
+            case 4:
+                normal_Desire_AGentleBreezeThatBlowsAwayFallenLeaves();
+                if(ProgressManager.Instance.nowEntities[0] is Entity3 e34)
+                    e34.AddBuff(E_BuffType.Desire, -4);
+                break;
+        }
+        switch (dice2.value)
+        {
+            case 1:
+                normal_Desire_RegardingTheSharpStonesOnTheRiverbank();
+                break;
+            case 2:
+                normal_Desire_RegardingTheWitheringFlowersOnTheRoadside();
+                break;
+            case 3:
+                normal_Desire_RegardingOccasionalShuttleCars();
+                break;
+            case 4:
+                normal_Desire_AGentleBreezeThatBlowsAwayFallenLeaves();
+                break;
+        }
+    }
+
+    public void weightless_Action_Struggle()
+    {
+        if (ProgressManager.Instance.nowEntities[5] is Part3_4 p4)
+        {
+            if (!p4.isDestroyed)
+            {
+                p4.BeAttacked(3);
+            }
+        }
+    }
+
+    public void weightless_Action_Gravity()
+    {
+        //DiceManager.Instance.SetAllTimeDiceToFour();
+        EventManager.Instance.optionPool[E_OptionType.Level3_Option][1].IsVisible = true;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+    }
+
+    #endregion
+
+    public void free_notfree_Action_AnEmptyPlanet()
+    {
+        DiceManager.Instance.ClearEntityPool();
+        EntityDice dice= DiceManager.Instance.AddEntityDice();
+        if(ProgressManager.Instance.nowEntities[0] is Entity3 e3)
+        {
+            e3.AddBuff(E_BuffType.Desire, dice.value);
+            if (e3.GetBuff(E_BuffType.Desire) > ProgressManager.Instance.player.GetBuff(E_BuffType.Desire))
+            {
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerDied);
+            }
+        }
+        
+    }
+    
     #endregion
 
     #region 欲望
@@ -172,7 +251,7 @@ public override void InitEntity(int initialDesire = 0, int maxHp = 10)
     }
     public void normal_Desire_RegardingOccasionalShuttleCars()
     {
-        if (ProgressManager.Instance.nowEntities[0] is Part3_1 e1)
+        if (ProgressManager.Instance.nowEntities[1] is Part3_1 e1)
         {
             if (e1.isDestroyed)//若车轮已被破坏，恢复3点生命，取消车轮的破坏
             {
@@ -182,7 +261,7 @@ public override void InitEntity(int initialDesire = 0, int maxHp = 10)
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
             }
-            if(ProgressManager.Instance.nowEntities[0] is Entity3 e3)//若车轮未被破坏，对象“欲望”+3
+            else if(ProgressManager.Instance.nowEntities[0] is Entity3 e3)//若车轮未被破坏，对象“欲望”+3
                 e3.AddBuff(E_BuffType.Desire, 3);
         }
     }
@@ -264,6 +343,84 @@ public override void InitEntity(int initialDesire = 0, int maxHp = 10)
     
 
     #endregion
+
+    public void weightless_Desire_IWantToLeaveLikeYou()
+    {
+        if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
+        {
+            if (Math.Abs(e3.GetBuff(E_BuffType.Desire) - ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)) >=
+                4)
+            {
+                DiceManager.Instance.ClearEntityPool();
+                EntityDice dice= DiceManager.Instance.AddEntityDice();
+                dice.value = Random.Range(1, 5);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+                switch (dice.value)
+                {
+                    case 1:
+                        weightless_Desire_FurBall1();
+                        break;
+                    case 2:
+                        weightless_Desire_FurBall2();
+                        break;
+                    case 3:
+                        weightless_Desire_FurBall3();
+                        break;
+                    case 4:
+                        weightless_Desire_FurBall4();
+                        break;
+                }
+            }
+            else
+            {
+                weightless_Action_Struggle();
+            }
+        }
+    }
     
+    #region IWantToLeaveLikeYou
+
+    public void weightless_Desire_FurBall1()
+    {
+        EventManager.Instance.optionPool[E_OptionType.Level3_Option][2].IsVisible=true;
+    }
+    public void weightless_Desire_FurBall2()
+    {
+        weightless_Desire_FurBall1();
+        EventManager.Instance.optionPool[E_OptionType.Level3_Option][3].IsVisible=true;
+    }
+    public void weightless_Desire_FurBall3()
+    {
+        weightless_Desire_FurBall2();
+        EventManager.Instance.optionPool[E_OptionType.Level3_Option][4].IsVisible=true;
+    }
+    public void weightless_Desire_FurBall4()
+    {
+        weightless_Desire_FurBall3();
+        EventManager.Instance.optionPool[E_OptionType.Level3_Option][4].IsVisible=true;
+    }
+
+    #endregion
+
+
+    public void free_notfree_Desire_RunAwayHopingThatYourRunningWonNotBeGivenThatNameAgain()
+    {
+        if (ProgressManager.Instance.nowEntities[1] is Part3_1 p1)
+        {
+            if (p1.isDestroyed)
+            {
+                if (p1.isDestroyed)//若车轮已被破坏，恢复3点生命，取消车轮的破坏
+                {
+                    p1.hp = 3;
+                    ProgressManager.Instance.nowEntities[0].hp =Math.Clamp(hp+6,hp,ProgressManager.Instance.nowEntities[0].maxHp) ;
+                    p1.isDestroyed=false;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
+                }
+                else if(ProgressManager.Instance.nowEntities[0] is Entity3 e3)//若车轮未被破坏，对象“欲望”+3
+                    e3.AddBuff(E_BuffType.Desire, 6);
+            }
+        }
+    }
     #endregion
 }

@@ -14,5 +14,7 @@ public enum E_DesireType
     Entity2_PleaseTearThoseTornTattersApart,//请把那些破布撕碎吧
     Entity2_ThereAreNoMoreWishesLeft,//已经没有再多的愿望了
     
-    Entity3_TheWishToStopInTheMiddleOfRunning,
+    Entity3_TheWishToStopInTheMiddleOfRunning,//停在奔跑中间的愿望
+    Entity3_IWantToLeaveLikeYou,//我想和你一样离开
+    Entity3_RunAwayHopingThatYourRunningWonNotBeGivenThatNameAgain,//逃跑，希望自己的奔跑不要再被冠以那样的名字
 }

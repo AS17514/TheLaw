@@ -174,6 +174,34 @@ public class DiceManager : ManagerBase<DiceManager>
         if (ProgressManager.Instance.level == 1)
             EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
     }
+    
+    /// <summary>
+    /// 将玩家拥有的所有时间骰子点数变为4
+    /// </summary>
+    public void SetAllTimeDiceToFour()
+    {
+        // 1. 创建一个临时列表缓存需要修改的骰子
+        List<DiceBase> timeDicesToModify = new List<DiceBase>();
+        
+        // 我们只收集点数不足 4 的时间骰子，Time4 已经在终点，直接跳过以节省性能
+        timeDicesToModify.AddRange(dicePool[E_DiceType.Time1]);
+        timeDicesToModify.AddRange(dicePool[E_DiceType.Time2]);
+        timeDicesToModify.AddRange(dicePool[E_DiceType.Time3]);
+
+        // 2. 遍历临时列表进行修改
+        foreach (var dice in timeDicesToModify)
+        {
+            // 计算到达目标点数 4 所需要的差值
+            int change = 4 - dice.value;
+
+            // 3. 呼叫现有的 ModifyDieValue 处理核心逻辑
+            if (change != 0)
+            {
+                ModifyDieValue(dice, change);
+            }
+        }
+    }
+    
     /// <summary>
     /// 将指定骰对象转化为另种类型
     /// </summary>
@@ -753,7 +781,7 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <summary>
     /// 向实体/怪物骰子池添加骰子
     /// </summary>
-    public void AddEntityDice(EntityDice dice = null)
+    public EntityDice AddEntityDice(bool isMore=false,EntityDice dice = null)
     {
         if (dice != null)
         {
@@ -765,7 +793,9 @@ public class DiceManager : ManagerBase<DiceManager>
             entityDicePool.Add(new EntityDice());
             Debug.Log("entityDicePool.Count new");
         }
-        SortEntityPoolByValue();
+        if(!isMore)
+            SortEntityPoolByValue();
+        return dice;
     }
 
     /// <summary>
