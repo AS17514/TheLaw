@@ -30,6 +30,9 @@ public class JsonManager : ManagerBase<JsonManager>
         // 没有存档文件，默认创建初始存档
         CreatDefaultSave();
     }
+    /// <summary>
+    /// 创建默认存档文件
+    /// </summary>
     void CreatDefaultSave()
     {
         if (!File.Exists(savePath))
@@ -48,6 +51,10 @@ public class JsonManager : ManagerBase<JsonManager>
         File.WriteAllText(path, jsonData);
         Debug.Log($"已将数据存储到{path}");
     }
+    /// <summary>
+    /// 根据传入关卡id保存进度到存档
+    /// </summary>
+    /// <param name="level">需要保存的关卡id，若通过最新关则是保存当前id+1</param>
     public void SaveLevel(int level)
     {
         Save(savePath, new SaveData(level));
@@ -67,6 +74,10 @@ public class JsonManager : ManagerBase<JsonManager>
         Debug.Log($"已将数据从{path}读取");
         return JsonConvert.DeserializeObject<SaveData>(jsonData);
     }
+    /// <summary>
+    /// 从存档文件读取当前关卡最新进度
+    /// </summary>
+    /// <returns>当前最新进度</returns>
     public int LoadLevel()
     {
         SaveData saveData = Load(savePath);

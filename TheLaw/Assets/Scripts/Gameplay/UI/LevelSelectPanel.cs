@@ -76,6 +76,9 @@ public class LevelSelectPanel : PanelBase
                 ProgressManager.Instance.intoNewLevel(selectedLevel);
                 UIManager.Instance.ChangePanel<LevelSelectPanel, BattlePanel>();
                 break;
+            case "Button_Back":
+                UIManager.Instance.ChangePanel<LevelSelectPanel, StartMenuPanel>();
+                break;
             case "Button_Level1":
                 selectedLevel = 1;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);

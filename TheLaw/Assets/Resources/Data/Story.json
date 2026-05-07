@@ -1,0 +1,41 @@
+{
+    "title": "Title",
+    "afterStory": "SelectLevel",
+    "nextBattle": 0,
+    "pages": [
+        {
+            "page": 1,
+            "lines": [
+                {
+                    "text": "第一页第一句",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "第一页第二句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                }
+            ]
+        },
+        {
+            "page": 2,
+            "lines": [
+                {
+                    "text": "第一页第一句",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "第一页第二句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                }
+            ]
+        }
+    ]
+}
