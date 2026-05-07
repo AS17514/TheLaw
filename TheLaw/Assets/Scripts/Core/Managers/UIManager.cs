@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -15,21 +16,23 @@ public enum E_UILayer
 
 public class UIManager : ManagerMonoBase<UIManager>
 {
-
-    private Camera uiCamera;
-    private Canvas uiCanvas;
-    private EventSystem uiEventSystem;
+    public Camera mainCamera;
+    public Camera uiCamera;
+    Canvas uiCanvas;
+    EventSystem uiEventSystem;
     #region 层级
-    private Transform loadingLayer;
-    private Transform topLayer;
-    private Transform middleLayer;
-    private Transform bottomLayer;
+    Transform loadingLayer;
+    Transform topLayer;
+    Transform middleLayer;
+    Transform bottomLayer;
     #endregion
     /// <summary>
     /// // 初始化必要对象及组件
     /// </summary>
-    private void Awake()
+    void Awake()
     {
+        // 找一下并记录主相机
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         // 初始化对象 们
         uiCamera = Instantiate(Resources.Load<Camera>("Prefabs/UI/UI Camera")).GetComponent<Camera>();
         uiCanvas = Instantiate(Resources.Load<Canvas>("Prefabs/UI/Canvas")).GetComponent<Canvas>();
@@ -44,6 +47,8 @@ public class UIManager : ManagerMonoBase<UIManager>
         topLayer = uiCanvas.transform.Find("Top");
         middleLayer = uiCanvas.transform.Find("Middle");
         bottomLayer = uiCanvas.transform.Find("Bottom");
+        // 初始化DOTween
+        DOTween.Init();
     }
     // 存面板的字典
     public Dictionary<string, PanelBase> panels = new Dictionary<string, PanelBase>();
