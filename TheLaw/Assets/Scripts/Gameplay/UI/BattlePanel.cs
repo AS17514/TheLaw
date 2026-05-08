@@ -143,23 +143,6 @@ public class BattlePanel : PanelBase
                     break;
             }
         }
-        // 遍历拥有骰子池，若选中骰子池没有对应骰子，将自己的isOn设置为false
-        foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_ActionDice").content.GetComponentsInChildren<DiceMark>())
-        {
-            bool isSelected = false;
-            foreach (DiceMark diceMark in content.GetComponentsInChildren<DiceMark>())
-            {
-                if (diceMark.mark == item.mark)
-                {
-                    isSelected = true;
-                    break;
-                }
-            }
-            if (!isSelected)
-            {
-                item.GetComponentInParent<Toggle>().isOn = false;
-            }
-        }
         foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_MindDice").content.GetComponentsInChildren<DiceMark>())
         {
             bool isSelected = false;
@@ -175,6 +158,20 @@ public class BattlePanel : PanelBase
             {
                 item.GetComponentInParent<Toggle>().isOn = false;
             }
+        }
+    }
+    // 设置现有骰子为未选中状态
+    void SetDiceSelectedFalse()
+    {
+        Transform actContent = GetControl<ScrollRect>($"Scroll View_ActionDice").content;
+        Transform mindContent = GetControl<ScrollRect>($"Scroll View_MindDice").content;
+        foreach (Transform item in actContent)
+        {
+            item.GetComponentInChildren<Toggle>().isOn = false;
+        }
+        foreach (Transform item in mindContent)
+        {
+            item.GetComponentInChildren<Toggle>().isOn = false;
         }
     }
     // 更新行动/思维骰
@@ -499,9 +496,9 @@ public class BattlePanel : PanelBase
     void UpdateEvents()
     {
         Dictionary<E_OptionType, OptionBase[]> eventDic = EventManager.Instance.optionPool;
-        Transform grid = GetControl<ScrollRect>("Scroll View_Event").content.GetChild(0);
+        Transform eventContent = GetControl<ScrollRect>("Scroll View_Event").content;
         // 删除原事件的对象
-        foreach (Transform item in grid)
+        foreach (Transform item in eventContent)
         {
             Destroy(item.gameObject);
         }
@@ -516,7 +513,7 @@ public class BattlePanel : PanelBase
             {
                 Debug.Log($"当前index = {index}, 事件名 = {option.OptionName}, 是否显示 = {option.IsVisible}");
                 // 创建事件框
-                GameObject eventObj = Instantiate<GameObject>(resources["Event"], grid);
+                GameObject eventObj = Instantiate<GameObject>(resources["Event"], eventContent);
                 // 设置事件的名称和描述
                 foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
                 {
@@ -624,6 +621,10 @@ public class BattlePanel : PanelBase
     {
         UpdateSelectedDice();
     }
+    void OnSetDiceSelectedFalse(object obj)
+    {
+        SetDiceSelectedFalse();
+    }
     void OnUpdateActionDice(object obj)
     {
         UpdateDice<ActionDice>();
@@ -667,7 +668,7 @@ public class BattlePanel : PanelBase
     }
     void OnUpdatePlayerDied(object obj)
     {
-        UIManager.Instance.CreatPanel<DiePanel>(E_UILayer.Top);
+        UIManager.Instance.ChangePanel<BattlePanel, DiePanel>();
     }
     void OnUpdateEntityState(object obj)
     {
@@ -745,6 +746,7 @@ public class BattlePanel : PanelBase
 
         #region Dice
         eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_SetDiceSelectedFalse, OnSetDiceSelectedFalse);
         eventCenter.AddEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceCount, OnUpdateTimeDiceCount);
@@ -833,6 +835,7 @@ public class BattlePanel : PanelBase
 
         #region Dice
         eventCenter.RemoveEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_SetDiceSelectedFalse, OnSetDiceSelectedFalse);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceCount, OnUpdateTimeDiceCount);

@@ -4,6 +4,7 @@ using System.IO;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class StoryPanel : PanelBase
@@ -86,16 +87,11 @@ public class StoryPanel : PanelBase
         }
         if (currentLineIndex == maxCurrentLineIndex)
         {
-            // 如果已经是当前页最后一句，就自动跳转到下一页
-            foreach (Transform item in content)
+            if (!pageProgress.ContainsKey(currentPage + 1))
             {
-                Destroy(item.gameObject);
+                pageProgress.Add(currentPage + 1, 0);
             }
-            currentPage++;
-            maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
-            GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = (currentPage + 1).ToString();
-            currentLineIndex = 0;
-            CreatStoryLine(currentPage, currentLineIndex);
+            NextPage();
 
         }
         else
@@ -134,6 +130,9 @@ public class StoryPanel : PanelBase
             {
                 CreatStoryLine(currentPage, i);
             }
+            currentLineIndex = pageProgress[currentPage];
+            // 设置按钮按下后不是选中状态，防止和推进剧情抢按键
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
     void PreviousPage()
@@ -158,6 +157,9 @@ public class StoryPanel : PanelBase
             {
                 CreatStoryLine(currentPage, i);
             }
+            // 设置当前段数为段数上限
+            currentLineIndex = maxCurrentLineIndex;
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
     void ShowContinueButton()
