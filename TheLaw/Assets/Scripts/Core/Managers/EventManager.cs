@@ -43,7 +43,25 @@ public class EventManager : ManagerBase<EventManager>
                 new EntityEvent_2_12(),//那不是你的伪装
                 new EntityEvent_2_13(),//中伤
             }
-        }
+        },
+        {
+            E_OptionType.Level3_Option, new OptionBase[]
+            {
+                new EntityEvent_3_01(),//应对(球或者弹珠)——弹回(╯°□°）╯︵ ⚾
+                new EntityEvent_3_02(),//应对——拥抱(つ≧▽≦)つ
+                new EntityEvent_3_03(),//应对(毛球1)——弹回(っ・ω・)っ⚾
+                new EntityEvent_3_04(),//应对(毛球2)——弹回( ﾟ∀ﾟ)つ⚾
+                new EntityEvent_3_05(),//应对(毛球3)——弹回(ヘ･_･)ヘ┳━┳  ⚾
+                new EntityEvent_3_06(),//应对(毛球4)——弹回∑(ﾟДﾟノ)ノ⚾
+                
+                new EntityEvent_3_07(),//奔跑
+                new EntityEvent_3_08(),//交流
+                new EntityEvent_3_09(),//观察
+                new EntityEvent_3_10(),//观察
+                
+                
+            }
+        },
     };
     /// <summary>
     /// 选项是否满足特殊条件
