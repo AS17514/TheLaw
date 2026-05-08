@@ -100,7 +100,9 @@ public class EntityEvent_2_01 : OptionBase
     {
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Desire) > 0)
         {
-            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
+            if (ProgressManager.Instance.nowEntities[0] is Entity2 entity2)
+                if(entity2.GetBuff(E_BuffType.Desire)>0)
+                    ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
         }
 
         else if (ProgressManager.Instance.nowEntities[0] is Entity2 entity2)
@@ -122,7 +124,9 @@ public class EntityEvent_2_01 : OptionBase
         int playerDesire = ProgressManager.Instance.player.GetBuff(E_BuffType.Desire);
         if (playerDesire > 0)
         {
-            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
+            if (ProgressManager.Instance.nowEntities[0] is Entity2 entity2)
+                if(entity2.GetBuff(E_BuffType.Desire)>0)
+                    ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
         }
         else
         {
@@ -534,6 +538,8 @@ public class EntityEvent_2_06 : OptionBase
                         }
 
                         StateManager.Instance.ChangeState(E_StateType_2.normal);
+                        ProgressManager.Instance.timeProgress = 0;
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
                     }
 
                     if (StateManager.Instance.currentState is E_StateType_2.hysterial)

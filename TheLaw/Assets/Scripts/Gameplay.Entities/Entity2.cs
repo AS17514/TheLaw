@@ -8,12 +8,26 @@ public class Entity2 : Entity
     //当双方受到伤害>=1的攻击时，会使“欲望”-1并免疫此次伤害
     public override void BeAttacked(int atk)
     {
-        if (GetBuff(E_BuffType.Desire) >= 0)
+        // if (GetBuff(E_BuffType.Desire) >= 0)
+        // {
+        //     AddBuff(E_BuffType.Desire, -1);
+        // }
+        // else
+        //     base.BeAttacked(atk);
+        if (atk >= 1 && GetBuff(E_BuffType.Desire) > 0)
         {
             AddBuff(E_BuffType.Desire, -1);
+        
+            // 欲望因攻击变为0，切入歇斯底里状态
+            if (GetBuff(E_BuffType.Desire) == 0)
+            {
+                StateManager.Instance.ChangeState(E_StateType_2.hysterial);
+            }
         }
         else
+        {
             base.BeAttacked(atk);
+        }
     }
 
     #endregion
@@ -233,7 +247,7 @@ public class Entity2 : Entity
 
     public void normal_Desire_HiddenBehindTheClothes()
     {
-       AddBuff(E_BuffType.Tatters,3);
+       AddBuff(E_BuffType.Desire,Math.Clamp(GetBuff(E_BuffType.Desire)+3, GetBuff(E_BuffType.Desire), 7));
        normal_Action_LightRain();//立即执行一次“行动”：“小雨”
        
        isHiddenBehindTheClothesUse=true;
