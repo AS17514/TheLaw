@@ -5,13 +5,16 @@ using System.Security.Principal;
 using Newtonsoft.Json;
 using UnityEngine;
 
+public enum E_SaveDataType
+{
+    LevelProgress,
+    StoryProgress
+}
+
 public class SaveData
 {
-    public SaveData(int level)
-    {
-        this.level = level;
-    }
-    public int level;
+    public int storyProgress;
+    public int levelProgress;
 }
 public class JsonManager : ManagerBase<JsonManager>
 {
@@ -38,7 +41,7 @@ public class JsonManager : ManagerBase<JsonManager>
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("不存在存档文件，创建默认初始存档");
-            SaveLevel(1);
+            AdjustSaveDataByType(E_SaveDataType.LevelProgress, 1);
         }
     }
     /// <summary>
@@ -52,12 +55,25 @@ public class JsonManager : ManagerBase<JsonManager>
         Debug.Log($"已将数据存储到{path}");
     }
     /// <summary>
-    /// 根据传入关卡id保存进度到存档
+    /// 根据参数调整存档内容，文件不存在则设定值，其余为默认值
     /// </summary>
-    /// <param name="level">需要保存的关卡id，若通过最新关则是保存当前id+1</param>
-    public void SaveLevel(int level)
+    /// <param name="type">需要调整的内容</param>
+    /// <param name="value">调整值</param>
+    public void AdjustSaveDataByType(E_SaveDataType type, int value)
     {
-        Save(savePath, new SaveData(level));
+        SaveData saveData = Load(savePath);
+        switch (type)
+        {
+            case E_SaveDataType.LevelProgress:
+                saveData.levelProgress = value;
+                break;
+            case E_SaveDataType.StoryProgress:
+                saveData.storyProgress = value;
+                break;
+            default:
+                break;
+        }
+        Save(savePath, saveData);
     }
     /// <summary>
     /// 从json文件读取对象
@@ -75,21 +91,29 @@ public class JsonManager : ManagerBase<JsonManager>
         return JsonConvert.DeserializeObject<SaveData>(jsonData);
     }
     /// <summary>
-    /// 从存档文件读取当前关卡最新进度
+    /// 从存档文件读取当前关卡最新进度，如有错误返回-1
     /// </summary>
     /// <returns>当前最新进度</returns>
-    public int LoadLevel()
+    public int LoadDataByType(E_SaveDataType type)
     {
         SaveData saveData = Load(savePath);
         if (saveData == null)
         {
-            Debug.LogWarning($"{savePath}未找到存档文件，返回关卡为1");
+            Debug.LogWarning($"{savePath}未找到存档文件，返回-1");
             CreatDefaultSave();
-            return 1;
+            return -1;
         }
         else
         {
-            return saveData.level;
+            switch (type)
+            {
+                case E_SaveDataType.LevelProgress:
+                    return saveData.levelProgress;
+                case E_SaveDataType.StoryProgress:
+                    return saveData.storyProgress;
+                default:
+                    return -1;
+            }
         }
     }
 }

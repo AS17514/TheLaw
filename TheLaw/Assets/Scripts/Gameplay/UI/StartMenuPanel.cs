@@ -11,7 +11,16 @@ public class StartMenuPanel : PanelBase
         switch (buttonName)
         {
             case "Button_StartGame":
-                UIManager.Instance.ChangePanel<StartMenuPanel, LevelSelectPanel>();
+                if (JsonManager.Instance.LoadDataByType(E_SaveDataType.StoryProgress) == 0)
+                {
+                    // 没看初始剧情的看初始剧情
+                    StoryManager.Instance.LoadStorySegmentByIndex(1);
+                    UIManager.Instance.ChangePanel<StartMenuPanel, StoryPanel>();
+                }
+                else
+                {
+                    UIManager.Instance.ChangePanel<StartMenuPanel, LevelSelectPanel>();
+                }
                 break;
             case "Button_QuitGame":
                 // 编辑器下停止运行

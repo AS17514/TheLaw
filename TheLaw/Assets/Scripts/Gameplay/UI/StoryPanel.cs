@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,31 +11,167 @@ public class StoryPanel : PanelBase
     StorySegment storySegment;
     GameObject storyLineObj;
     Transform content;
+    Dictionary<int, int> pageProgress;
     int currentLineIndex;
+    int maxCurrentLineIndex;
+    int maxLastLineIndex;
     int currentPage;
+    int maxPage;
 
     void Start()
     {
         // 加载文本预制体
-        storyLineObj = Resources.Load<GameObject>("Prefabs/Story/StoryLine");
+        storyLineObj = Resources.Load<GameObject>("Prefabs/UI/Story/StoryLine");
         // 得到滑动框
         content = GetControl<ScrollRect>("Scroll View_Story").content;
         // 得到故事段
         storySegment = StoryManager.Instance.storySegment;
-        currentLineIndex = 0;
+        // 生成进度字典
+        pageProgress = new Dictionary<int, int>();
+        currentLineIndex = -1;
+        // 故事段最后一页最后句段的索引
+        maxLastLineIndex = storySegment.pages[storySegment.pages.Count - 1].lines.Count - 1;
+        // 初始化为第一页最后一段的索引
+        maxCurrentLineIndex = storySegment.pages[0].lines.Count - 1;
         currentPage = 0;
+        // 故事段最后一页的索引
+        maxPage = storySegment.pages.Count - 1;
+        Init();
+    }
+    protected override void Update()
+    {
+        base.Update();
+        // 按空格继续
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            NextLine();
+        }
+    }
+    void OnDestroy()
+    {
+        // 看完剧情记录当前看过的剧情进度，解锁设定的最大关卡进度（取最大值）
+        JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.StoryProgress, StoryManager.Instance.segment);
+        if (JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress) < storySegment.unlockLevel)
+        {
+            JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.LevelProgress, storySegment.unlockLevel);
+        }
+    }
+    void Init()
+    {
+        // 标题
+        GetControl<TextMeshProUGUI>("Text (TMP)_Titel").text = storySegment.title;
+        // 页码
+        GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = "1";
+        GetControl<TextMeshProUGUI>("Text (TMP)_MaxPage").text = storySegment.pages.Count.ToString();
+        // 初始图
+    }
+    void CreatStoryLine(int pageIndex, int lineIndex)
+    {
+        GameObject LineObj = GameObject.Instantiate<GameObject>(storyLineObj, content);
+        StoryLine line = storySegment.pages[pageIndex].lines[lineIndex];
+        TextMeshProUGUI tmp = LineObj.GetComponentInChildren<TextMeshProUGUI>();
+        tmp.text = line.text;
+        tmp.alpha = line.alpha;
+        tmp.fontStyle = line.italic ? FontStyles.Italic : FontStyles.Normal;
+        ColorUtility.TryParseHtmlString(line.color, out Color color);
+        tmp.color = color;
     }
     void NextLine()
     {
+        // 如果看到最后一页最后一句，就显示继续按钮
+        if (currentPage == maxPage && currentLineIndex == maxLastLineIndex)
+        {
+            ShowContinueButton();
+            return;
+        }
+        if (currentLineIndex == maxCurrentLineIndex)
+        {
+            // 如果已经是当前页最后一句，就自动跳转到下一页
+            foreach (Transform item in content)
+            {
+                Destroy(item.gameObject);
+            }
+            currentPage++;
+            maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
+            GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = (currentPage + 1).ToString();
+            currentLineIndex = 0;
+            CreatStoryLine(currentPage, currentLineIndex);
 
+        }
+        else
+        {
+            // 没有此页进度，在字典生成此页进度
+            if (!pageProgress.ContainsKey(currentPage))
+            {
+                pageProgress.Add(currentPage, 0);
+            }
+            currentLineIndex++;
+            pageProgress[currentPage] = currentLineIndex;
+            CreatStoryLine(currentPage, currentLineIndex);
+        }
     }
     void NextPage()
     {
-
+        // 没有看过下一页或者本身已经是最后一页时不进行操作
+        if (!pageProgress.ContainsKey(currentPage + 1) || currentPage == maxPage)
+        {
+            return;
+        }
+        else
+        {
+            currentPage++;
+            maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
+            print(maxCurrentLineIndex);
+            // 改变页码
+            GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = (currentPage + 1).ToString();
+            // 清空容器
+            foreach (Transform item in content)
+            {
+                Destroy(item.gameObject);
+            }
+            // 根据看过的进度重新填充容器
+            for (int i = 0; i <= pageProgress[currentPage]; i++)
+            {
+                CreatStoryLine(currentPage, i);
+            }
+        }
     }
     void PreviousPage()
     {
+        // 如果已经是第一页
+        if (currentPage == 0)
+        {
+            return;
+        }
+        else
+        {
+            currentPage--;
+            maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
+            print(maxCurrentLineIndex);
+            GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = (currentPage + 1).ToString();
+            foreach (Transform item in content)
+            {
+                Destroy(item.gameObject);
+            }
+            // 因为看完上一页了，所以进行完全填充
+            for (int i = 0; i <= maxCurrentLineIndex; i++)
+            {
+                CreatStoryLine(currentPage, i);
+            }
+        }
+    }
+    void ShowContinueButton()
+    {
+        CanvasGroup canvasGroup = GetControl<Button>("Button_Continue").GetComponent<CanvasGroup>();
 
+        canvasGroup.DOFade(1f, 0.3f);
+
+        // 渐变结束后允许点击
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        });
     }
     protected override void ButtonOnClick(string buttonName)
     {

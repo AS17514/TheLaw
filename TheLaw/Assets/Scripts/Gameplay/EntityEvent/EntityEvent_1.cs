@@ -24,7 +24,7 @@ public class EntityEvent_1_01 : OptionBase
     public override string OptionName { get; protected set; } = "闪避";
     public override string OptionDescription { get; protected set; } = "行动>=投掷的单个骰子的点数,所有骰子可以单独应对，每个未成功应对的骰子将对自己造成4点伤害）";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level1_Option;
-    
+
     #endregion
 
     #region 本身属性
@@ -80,7 +80,7 @@ public class EntityEvent_1_01 : OptionBase
                 {
                     if (!dice.isValid && !entityDice.isValid)
                     {
-                        
+
                         dice.isValid = true;
                         entityDice.isValid = true;
                         // 这个 break; 只会跳出内层循环
@@ -124,12 +124,12 @@ public class EntityEvent_1_01 : OptionBase
 
             DiceManager.Instance.ConsumeValidSelectedDice(true);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
-            
+
             // 1. 伤害结算完后，清空怪物剩余的未格挡骰子
-            DiceManager.Instance.ClearEntityPool(); 
+            DiceManager.Instance.ClearEntityPool();
             // 2. 既然玩家已经闪避应对过了，必须注销未响应的惩罚机制，防止二次挨打
             EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
-            
+
             //应对完之后取消该选项的显示。
             this.IsVisible = false;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
@@ -361,9 +361,9 @@ public class EntityEvent_1_04 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-        
+
         Debug.Log("观察执行");
-        
+
         if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
@@ -603,7 +603,7 @@ public class EntityEvent_1_07 : OptionBase
             {
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 DiceManager.Instance.AddDice(E_DiceType.Action);//投掷并获得二个行动骰子
-                ProgressManager.Instance.AddTimeProgress(-2);//对象时间进度-2
+                ProgressManager.Instance.AddTimeProgress(1);//对象时间进度+1
                 if (EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] != null &&
                     EventManager.Instance.optionPool[E_OptionType.Level1_Option][7] is EntityEvent_1_08 e8)
                 {
@@ -678,7 +678,7 @@ public class EntityEvent_1_08 : OptionBase
                 //自己恢复3点生命
                 ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 3,
                     ProgressManager.Instance.player.hp, ProgressManager.Instance.player.maxHp);
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP,ProgressManager.Instance.player.hp);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP, ProgressManager.Instance.player.hp);
                 IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子

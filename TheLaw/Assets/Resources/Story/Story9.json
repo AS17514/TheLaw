@@ -1,0 +1,59 @@
+{
+    "title": "第三关开始",
+    "afterStory": "Battle",
+    "nextBattle": 3,
+    "pages": [
+        {
+            "page": 1,
+            "lines": [
+                {
+                    "text": "第一页第1句",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "第一页第2句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                },
+                {
+                    "text": "第一页第3句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                },
+                {
+                    "text": "第一页第4句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                },
+                {
+                    "text": "第一页第5句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                }
+            ]
+        },
+        {
+            "page": 2,
+            "lines": [
+                {
+                    "text": "第一页第一句",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "第一页第二句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFAA00"
+                }
+            ]
+        }
+    ]
+}

@@ -2319,11 +2319,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7804597573427135827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -29.999996, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 15, y: 0}
+  m_SizeDelta: {x: 0.0000009536743, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &4590291965636483445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2376,6 +2376,7 @@ GameObject:
   - component: {fileID: 8700873818616514047}
   - component: {fileID: 547704826750057337}
   - component: {fileID: 6754155284680032135}
+  - component: {fileID: 712359035265960153}
   m_Layer: 5
   m_Name: Button_Continue
   m_TagString: Untagged
@@ -2485,6 +2486,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &712359035265960153
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7320583204701819864}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7456590867417846303
 GameObject:
   m_ObjectHideFlags: 0

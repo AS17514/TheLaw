@@ -697,11 +697,13 @@ public class BattlePanel : PanelBase
     {
         Debug.Log("触发胜利");
         // 当前关卡大于存档的最大关卡时才刷新存档
-        if (level >= JsonManager.Instance.LoadLevel())
+        if (level >= JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress))
         {
-            JsonManager.Instance.SaveLevel(level + 1);
+            JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.LevelProgress, level + 1);
         }
-        UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
+        // 加载战后剧情
+        StoryManager.Instance.LoadStorySegmentByIndex(level * 2 + 1);
+        UIManager.Instance.ChangePanel<BattlePanel, StoryPanel>();
     }
     void OnUpdateEvents(object obj)
     {

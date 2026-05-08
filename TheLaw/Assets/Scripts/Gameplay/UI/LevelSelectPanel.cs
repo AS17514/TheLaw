@@ -12,7 +12,7 @@ public class LevelSelectPanel : PanelBase
     {
         base.Awake();
         InitEvent();
-        nowLevel = JsonManager.Instance.LoadLevel();
+        nowLevel = JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress);
         print(nowLevel);
         // 默认选中当前最新进度
         selectedLevel = nowLevel;
@@ -44,6 +44,9 @@ public class LevelSelectPanel : PanelBase
         TextMeshProUGUI tmp = GetControl<TextMeshProUGUI>("Text (TMP)_LevelTitle");
         switch (selectedLevel)
         {
+            case 0:
+                tmp.text = "村口大门";
+                break;
             case 1:
                 tmp.text = "食";
                 break;
@@ -72,12 +75,24 @@ public class LevelSelectPanel : PanelBase
         switch (buttonName)
         {
             case "Button_EnterLevel":
-                Debug.Log($"进入第{selectedLevel}关");
-                ProgressManager.Instance.intoNewLevel(selectedLevel);
-                UIManager.Instance.ChangePanel<LevelSelectPanel, BattlePanel>();
+                if (selectedLevel != 0)
+                {
+                    Debug.Log($"进入第{selectedLevel}关开头剧情");
+                    StoryManager.Instance.LoadStorySegmentByIndex(2 * selectedLevel);
+                }
+                else
+                {
+                    Debug.Log($"进入初始剧情");
+                    StoryManager.Instance.LoadStorySegmentByIndex(1);
+                }
+                UIManager.Instance.ChangePanel<LevelSelectPanel, StoryPanel>();
                 break;
             case "Button_Back":
                 UIManager.Instance.ChangePanel<LevelSelectPanel, StartMenuPanel>();
+                break;
+            case "Button_Level0":
+                selectedLevel = 0;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
                 break;
             case "Button_Level1":
                 selectedLevel = 1;

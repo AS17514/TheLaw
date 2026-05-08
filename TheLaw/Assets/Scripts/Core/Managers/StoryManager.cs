@@ -11,6 +11,8 @@ public class StorySegment
     public string title;
     // 剧情结束后
     public string afterStory;
+    // 看完剧情后能解锁的最高关卡
+    public int unlockLevel;
     // 剧情结束后进入战斗的索引，没有填0
     public int nextBattle;
     // 所有页面
@@ -56,13 +58,14 @@ public class StoryManager : ManagerMonoBase<StoryManager>
     /// <param name="index">剧情段索引</param>
     public void LoadStorySegmentByIndex(int segmentIndex)
     {
-        TextAsset data = Resources.Load<TextAsset>($"Data/Story{segmentIndex}");
+        TextAsset data = Resources.Load<TextAsset>($"Story/Story{segmentIndex}");
         if (data == null)
         {
-            Debug.LogWarning($"未找到剧情段{segmentIndex}文件");
+            Debug.LogWarning($"未找到剧情段{segmentIndex}文件，加载上次剧情文件");
             return;
         }
         Debug.Log($"读取剧情段{segmentIndex}");
         storySegment = JsonConvert.DeserializeObject<StorySegment>(data.text);
+        segment = segmentIndex;
     }
 }
