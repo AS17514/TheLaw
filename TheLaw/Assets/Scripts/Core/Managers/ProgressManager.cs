@@ -254,8 +254,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntities[0] = managerObj.AddComponent<Entity3>();
+        Entity3 entity3 = managerObj.AddComponent<Entity3>();
+        nowEntities[0] = entity3;
 
+        entity3.ManualInit();
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
