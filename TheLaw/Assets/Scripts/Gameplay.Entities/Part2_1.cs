@@ -6,7 +6,7 @@ public class Part2_1 : Part
 {
     public void InitPart()
     {
-        partName = "clothesline";
+        partName = "晾衣绳";
         id = 1;
         maxHp = 1;
         hp = maxHp;

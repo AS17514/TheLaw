@@ -247,7 +247,12 @@ public class Entity2 : Entity
 
     public void normal_Desire_HiddenBehindTheClothes()
     {
-       AddBuff(E_BuffType.Desire,Math.Clamp(GetBuff(E_BuffType.Desire)+3, GetBuff(E_BuffType.Desire), 7));
+       if(GetBuff(E_BuffType.Desire)>4)
+            AddBuff(E_BuffType.Desire,7-GetBuff(E_BuffType.Desire));
+       else
+       {
+          AddBuff(E_BuffType.Desire,3));
+       }
        normal_Action_LightRain();//立即执行一次“行动”：“小雨”
        
        isHiddenBehindTheClothesUse=true;
