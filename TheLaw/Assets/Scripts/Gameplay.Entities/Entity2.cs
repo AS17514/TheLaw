@@ -251,7 +251,7 @@ public class Entity2 : Entity
             AddBuff(E_BuffType.Desire,7-GetBuff(E_BuffType.Desire));
        else
        {
-          AddBuff(E_BuffType.Desire,3));
+          AddBuff(E_BuffType.Desire,3);
        }
        normal_Action_LightRain();//立即执行一次“行动”：“小雨”
        
