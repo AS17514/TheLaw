@@ -58,7 +58,11 @@ public class EventManager : ManagerBase<EventManager>
                 new EntityEvent_3_08(),//交流
                 new EntityEvent_3_09(),//观察
                 new EntityEvent_3_10(),//观察
-                
+                new EntityEvent_3_11(),//观察
+                new EntityEvent_3_12(),//聆听
+                new EntityEvent_3_13(),//捷径
+                new EntityEvent_3_14(),//一同探究
+                new EntityEvent_3_15(),//你的好奇永远是你的自由
                 
             }
         },

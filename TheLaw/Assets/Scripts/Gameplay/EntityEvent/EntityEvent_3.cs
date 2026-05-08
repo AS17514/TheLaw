@@ -10,6 +10,10 @@ enum E_EntityEvent_3
     Run,
     Exchange,
     Observe,
+    Hearken,
+    Shortcut,
+    ExploreTogether,
+    YourCuriosityWillAlwaysBeYourFreedom,
 }
 
 public class EntityEvent_3_01_OptionContext : OptionContext
@@ -76,6 +80,12 @@ public class EntityEvent_3_01 : OptionBase
                 }
                 
             }
+            else 
+            {
+                // 拦截没有传入目标参数的情况
+                result = false; 
+                Debug.Log("缺少目标部位上下文。");
+            }
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToMarble);
@@ -107,7 +117,7 @@ public class EntityEvent_3_01 : OptionBase
                                                                  - ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)));
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToBall);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToMarble);
     }
     public void NeverRespondToBall(object info = null)
     {
@@ -205,7 +215,7 @@ public class EntityEvent_3_03 : OptionBase
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
-    public override bool IsUseDiceCombo { get; protected set; } = true;
+    //public override bool IsUseDiceCombo { get; protected set; } = true;
     //public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleAction;
     public override DiceCondition[] DiceCost
     {
@@ -262,6 +272,12 @@ public class EntityEvent_3_03 : OptionBase
                     }
                 }
                 
+            }
+            else 
+            {
+                // 拦截没有传入目标参数的情况
+                result = false; 
+                Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
@@ -307,7 +323,7 @@ public class EntityEvent_3_04 : OptionBase
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
-    public override bool IsUseDiceCombo { get; protected set; } = true;
+    //public override bool IsUseDiceCombo { get; protected set; } = true;
     //public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleAction;
     public override DiceCondition[] DiceCost
     {
@@ -364,6 +380,12 @@ public class EntityEvent_3_04 : OptionBase
                     }
                 }
                 
+            }
+            else 
+            {
+                // 拦截没有传入目标参数的情况
+                result = false; 
+                Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
@@ -409,7 +431,7 @@ public class EntityEvent_3_05 : OptionBase
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
-    public override bool IsUseDiceCombo { get; protected set; } = true;
+    //public override bool IsUseDiceCombo { get; protected set; } = true;
     //public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleAction;
     public override DiceCondition[] DiceCost
     {
@@ -466,6 +488,12 @@ public class EntityEvent_3_05 : OptionBase
                     }
                 }
                 
+            }
+            else 
+            {
+                // 拦截没有传入目标参数的情况
+                result = false; 
+                Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
@@ -511,7 +539,7 @@ public class EntityEvent_3_06 : OptionBase
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
-    public override bool IsUseDiceCombo { get; protected set; } = true;
+    //public override bool IsUseDiceCombo { get; protected set; } = true;
     //public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleAction;
     public override DiceCondition[] DiceCost
     {
@@ -568,6 +596,12 @@ public class EntityEvent_3_06 : OptionBase
                     }
                 }
                 
+            }
+            else 
+            {
+                // 拦截没有传入目标参数的情况
+                result = false; 
+                Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
@@ -799,6 +833,7 @@ public class EntityEvent_3_09 : OptionBase
             if (result)
             {
                 Part3_1.PartApear();
+                this.IsVisible=false;
                 EventManager.Instance.optionPool[E_OptionType.Level3_Option][9].IsVisible=true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -866,10 +901,333 @@ public class EntityEvent_3_10 : OptionBase
             if (result)
             {
                 Part3_2.PartApear();
-                
+                this.IsVisible=false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
                 
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+
+        }
+    }
+}
+public class EntityEvent_3_11 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 3;
+    public override int OptionID { get; protected set; } = 11;
+    public override string OptionName { get; protected set; } = "观察";
+
+    public override string OptionDescription { get; protected set; } = "?";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
+
+    public override bool IsVisible
+    {
+        get
+        {
+            return StateManager.Instance.currentState is E_StateType_3.weightless && !this.isItuse;
+        }
+    }
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Mind, 0, E_CompareType.Any),
+            };
+        }
+    }
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.Observe;
+    public bool isItuse=false;
+    #endregion
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                Part3_3.PartApear();
+                Part3_4.PartApear();
+                isItuse=true;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                DiceManager.Instance.ConsumeValidSelectedDice();
+                
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+
+        }
+    }
+}
+public class EntityEvent_3_12 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 3;
+    public override int OptionID { get; protected set; } = 12;
+    public override string OptionName { get; protected set; } = "聆听";
+
+    public override string OptionDescription { get; protected set; } = "对象“欲望”+2";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
+
+    public override bool IsVisible
+    {
+        get
+        {
+            if (!IsItuse)
+            {
+                if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
+                {
+                    if (e3.ForOption_IsRumorsAboutDisinterestUse
+                        && e3.ForOption_IsRunAwayHopingThatYourRunningWonNotBeGivenThatNameAgainUse)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.MindActionPair;
+    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsUseDiceCombo { get; protected set; } = true;
+
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.Hearken;
+    public bool IsItuse=false;
+    #endregion
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
+                {
+                    e3.AddBuff(E_BuffType.Desire,2);
+                }
+                IsItuse = true;
+                EventManager.Instance.optionPool[E_OptionType.Level3_Option][12].IsVisible=true;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                DiceManager.Instance.ConsumeValidSelectedDice();
+                
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+
+        }
+    }
+}
+public class EntityEvent_3_13 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 3;
+    public override int OptionID { get; protected set; } = 13;
+    public override string OptionName { get; protected set; } = "捷径";
+
+    public override string OptionDescription { get; protected set; } = "投掷一个骰子，自己的“欲望”+对应骰子的点数";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
+
+    public override DiceCondition[] DiceCost { get; protected set; } = null;
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.Shortcut;
+    public bool IsItuse = false;
+    #endregion
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            IsItuse=true;
+            EntityDice dice = DiceManager.Instance.AddEntityDice();
+            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire,dice.value);
+            this.IsVisible=false;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        }
+    }
+}
+public class EntityEvent_3_14 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 3;
+    public override int OptionID { get; protected set; } = 14;
+    public override string OptionName { get; protected set; } = "一同探究";
+
+    public override string OptionDescription { get; protected set; } = "对象“欲望”-2，时间进度+2";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
+
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleMind;
+    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsUseDiceCombo { get; protected set; } = true;
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.ExploreTogether;
+    public bool IsItuse = false;
+    #endregion
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
+                {
+                    if(e3.GetBuff(E_BuffType.Desire)>2)
+                        e3.AddBuff(E_BuffType.Desire,-2);
+                    else
+                        e3.AddBuff(E_BuffType.Desire,-e3.GetBuff(E_BuffType.Desire));
+                }
+
+                IsItuse = true;
+                ProgressManager.Instance.AddTimeProgress(2);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                DiceManager.Instance.ConsumeValidSelectedDice();
+                
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+
+        }
+    }
+}
+public class EntityEvent_3_15 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 3;
+    public override int OptionID { get; protected set; } = 15;
+    public override string OptionName { get; protected set; } = "你的好奇永远是你的自由";
+
+    public override string OptionDescription { get; protected set; } = "?";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
+
+    public override bool IsVisible
+    {
+        get
+        {
+           if(EventManager.Instance.optionPool[E_OptionType.Level3_Option][11] is EntityEvent_3_12 e12)
+           {
+               if(EventManager.Instance.optionPool[E_OptionType.Level3_Option][13] is EntityEvent_3_14 e14)
+                   if(e12.IsItuse&&e14.IsItuse)
+                       return true;
+           }
+            return false;
+        }
+    }
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.Quadruple;
+    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsUseDiceCombo { get; protected set; } = true;
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.YourCuriosityWillAlwaysBeYourFreedom;
+
+    #endregion
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result = IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
             }
             else
             {

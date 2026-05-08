@@ -197,8 +197,10 @@ public class Entity3 : Entity
                 normal_Desire_AGentleBreezeThatBlowsAwayFallenLeaves();
                 break;
         }
+        EventManager.Instance.optionPool[E_OptionType.Level3_Option][13].IsVisible = true;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
-
+    
     public void weightless_Action_Struggle()
     {
         if (ProgressManager.Instance.nowEntities[5] is Part3_4 p4)
@@ -273,6 +275,7 @@ public class Entity3 : Entity
                     break;
                 case 5:
                     normal_Desire_RumorsAboutDisinterest();
+                    ForOption_IsRumorsAboutDisinterestUse=true;
                     break;
                 case 6:
                     normal_Desire_PromiseAboutUnrelatedWishes();
@@ -280,7 +283,8 @@ public class Entity3 : Entity
             }
         }
     }
-
+    public bool ForOption_IsRumorsAboutDisinterestUse=false;
+    
     #region TheWishToStopInTheMiddleOfRunning
     public void normal_Desire_RegardingTheSharpStonesOnTheRiverbank()
     {
@@ -522,21 +526,22 @@ public class Entity3 : Entity
     {
         if (ProgressManager.Instance.nowEntities[1] is Part3_1 p1)
         {
-            if (p1.isDestroyed)
+            if (p1.isDestroyed) // 若车轮已被破坏，恢复3点生命，取消车轮的破坏
             {
-                if (p1.isDestroyed) // 若车轮已被破坏，恢复3点生命，取消车轮的破坏
-                {
-                    p1.hp = 3;
-                    ProgressManager.Instance.nowEntities[0].hp = Math.Clamp(hp + 6, hp, ProgressManager.Instance.nowEntities[0].maxHp);
-                    p1.isDestroyed = false;
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
-                }
-                else if (ProgressManager.Instance.nowEntities[0] is Entity3 e3) // 若车轮未被破坏，对象“欲望”+3
-                    e3.AddBuff(E_BuffType.Desire, 6);
+                p1.hp = 3;
+                ProgressManager.Instance.nowEntities[0].hp = Math.Clamp(hp + 6, hp, ProgressManager.Instance.nowEntities[0].maxHp);
+                p1.isDestroyed = false;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityHP);
             }
+            else if (ProgressManager.Instance.nowEntities[0] is Entity3 e3) // 若车轮未被破坏，对象“欲望”+3
+                e3.AddBuff(E_BuffType.Desire, 6);
         }
+
+        ForOption_IsRunAwayHopingThatYourRunningWonNotBeGivenThatNameAgainUse = true;
     }
+    
+    public bool ForOption_IsRunAwayHopingThatYourRunningWonNotBeGivenThatNameAgainUse=false;
     #endregion
 }
 // using System;

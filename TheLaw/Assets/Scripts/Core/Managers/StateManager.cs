@@ -78,8 +78,10 @@ public class StateManager : ManagerBase<StateManager>
                 ProgressManager.Instance.SetCurrentTimeProgress(6);
                 ProgressManager.Instance.SetmaxPhaseDice(1);
             }
+            if(ProgressManager.Instance.level == 3 && currentState is E_StateType_3.weightless)
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
-        
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         #endregion
     }
     /// <summary>
@@ -104,6 +106,18 @@ public class StateManager : ManagerBase<StateManager>
             
             currentExecutableAction = stateActions[currentState][currentActionIndex];
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
+        }
+
+        if (ProgressManager.Instance.level == 3)
+        {
+            if(EventManager.Instance.optionPool[E_OptionType.Level3_Option][11] is EntityEvent_3_12 e12)
+            {
+                if(EventManager.Instance.optionPool[E_OptionType.Level3_Option][12] is EntityEvent_3_13 e13)
+                {
+                    if (e12.IsItuse && !e13.IsItuse)
+                        e13.IsVisible = true;
+                }
+            }
         }
     }
     /// <summary>
