@@ -148,6 +148,27 @@ public class EventManager : ManagerBase<EventManager>
                     new EntityEvent_2_13(),//中伤
                 });
                 break;
+            case 3:
+                optionPool.Add(E_OptionType.Level3_Option, new OptionBase[]
+                {
+                    new EntityEvent_3_01(), //应对(球或者弹珠)——弹回(╯°□°）╯︵ ⚾
+                    new EntityEvent_3_02(), //应对——拥抱(つ≧▽≦)つ
+                    new EntityEvent_3_03(), //应对(毛球1)——弹回(っ・ω・)っ⚾
+                    new EntityEvent_3_04(), //应对(毛球2)——弹回( ﾟ∀ﾟ)つ⚾
+                    new EntityEvent_3_05(), //应对(毛球3)——弹回(ヘ･_･)ヘ┳━┳  ⚾
+                    new EntityEvent_3_06(), //应对(毛球4)——弹回∑(ﾟДﾟノ)ノ⚾
+
+                    new EntityEvent_3_07(), //奔跑
+                    new EntityEvent_3_08(), //交流
+                    new EntityEvent_3_09(), //观察
+                    new EntityEvent_3_10(), //观察
+                    new EntityEvent_3_11(), //观察
+                    new EntityEvent_3_12(), //聆听
+                    new EntityEvent_3_13(), //捷径
+                    new EntityEvent_3_14(), //一同探究
+                    new EntityEvent_3_15(), //你的好奇永远是你的自由
+                });
+                break;
                 
         }
     }
