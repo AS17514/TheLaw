@@ -75,4 +75,32 @@ public class EventCenter : ManagerBase<EventCenter>
         if (eventDic.ContainsKey(eventName))
             eventDic.Remove(eventName);
     }
+    
+    /// <summary>
+    /// 检查某事件监听是否为空，或是否仅包含特定的委托
+    /// </summary>
+    public bool IsEventListenersNull(E_EventType eventName, UnityAction<object> func)
+    {
+        // 修复1：必须先判断字典中是否包含该 Key，否则直接索引会报 KeyNotFoundException 错误
+        if (!eventDic.ContainsKey(eventName))
+        {
+            return true;
+        }
+
+        // 修复2：判断当前事件绑定的委托是否为空
+        if (eventDic[eventName] == null)
+        {
+            return true;
+        }
+        
+        // 修复3：is 关键字是用来判断【类型】的，不能用来对比两个【变量】
+        // 如果你想判断这个事件绑定的委托是不是正好等于 func 这个委托，应该用 ==
+        if (eventDic[eventName] == func)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }

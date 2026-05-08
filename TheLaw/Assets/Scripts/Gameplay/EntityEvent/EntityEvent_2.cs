@@ -74,9 +74,10 @@ public class EntityEvent_2_01 : OptionBase
 
             if (result)
             {
+                if(EventCenter.Instance.IsEventListenersNull(E_EventType.Logic_PlayerActionExecuted, NeverRespondToScorchingSun))
+                    ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, 1);
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToScorchingSun);
-
-                ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, 1);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToStress);
                 //应对完之后取消该选项的显示。
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);

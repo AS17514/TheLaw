@@ -150,13 +150,23 @@ public class Entity2 : Entity
             e1.IsVisible=true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             
-            //防御性编程，先移除一下防止里面原本就有NeverRespond了
-            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToScorchingSun);
-            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespondToScorchingSun);
+            // 开启协程延迟注册，防止同一帧的事件派发导致直接触发
+            StartCoroutine(DelayAddListener_ScorchingSun());
             
         }
     }
+    private IEnumerator DelayAddListener_ScorchingSun()
+    {
+        // 等待当前帧结束，确保当前玩家引发的事件已经全部派发完毕
+        yield return new WaitForEndOfFrame();
 
+        if (EventManager.Instance.optionPool[E_OptionType.Level2_Option][0] is EntityEvent_2_01 e1)
+        {
+            // 防御性编程，先移除一下防止里面原本就有事件了
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToScorchingSun);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToScorchingSun);
+        }
+    }
     public void normal_Action_Gale()
     {
         ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters,3);
@@ -170,13 +180,23 @@ public class Entity2 : Entity
             e1.IsVisible=true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             
-            //防御性编程，先移除一下防止里面原本就有NeverRespond了
-            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToStress);
-            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted,e1.NeverRespondToStress);
+            // 开启协程延迟注册
+            StartCoroutine(DelayAddListener_Stress());
             
         }
     }
+    private IEnumerator DelayAddListener_Stress()
+    {
+        // 等待当前帧结束，确保当前玩家引发的事件已经全部派发完毕
+        yield return new WaitForEndOfFrame();
 
+        if (EventManager.Instance.optionPool[E_OptionType.Level2_Option][0] is EntityEvent_2_01 e1)
+        {
+            // 防御性编程，先移除一下防止里面原本就有事件了
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToStress);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespondToStress);
+        }
+    }
     public void hysterial_Action_HysterialStress()//无法应对
     {
         int atk=ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters);
