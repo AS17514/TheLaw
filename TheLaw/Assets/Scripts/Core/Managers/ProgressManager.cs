@@ -75,13 +75,16 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             if (nowEntities[0] is Entity5 entity5)
             {
                 player.RemoveLevel5Buff();
+                bool isStzteChange=false;
                 switch (entity5.playerState1)
                 {
                     case 1:
                         player.AddBuff(E_BuffType.Up, 1);
+                        isStzteChange=true;
                         break;
                     case 0:
                         player.AddBuff(E_BuffType.Down, 1);
+                        isStzteChange=true;
                         break;
                 }
 
@@ -89,12 +92,18 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                 {
                     case 1:
                         player.AddBuff(E_BuffType.Left, 1);
+                        isStzteChange=true;
                         break;
                     case 0:
                         player.AddBuff(E_BuffType.Right, 1);
+                        isStzteChange=true;
                         break;
                 }
 
+                if (isStzteChange)
+                {
+                    StateManager.Instance.ChangeState(E_StateType_5.unbalance);
+                }
                 if (entity5.IsPlayerFree)
                 {
                     entity5.IsPlayerFree=false;

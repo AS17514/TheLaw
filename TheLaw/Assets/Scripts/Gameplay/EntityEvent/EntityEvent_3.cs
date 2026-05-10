@@ -25,7 +25,7 @@ public class EntityEvent_3_01 : OptionBase
     #region OptionBase属性
 
     public override bool IsResponseOption { get; } = true;
-    public override int LevelID { get; protected set; } = 1;
+    public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 1;
     public override string OptionName { get; protected set; } = "弹回";//球
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
@@ -134,7 +134,7 @@ public class EntityEvent_3_02 : OptionBase
     #region OptionBase属性
 
     public override bool IsResponseOption { get; } = true;
-    public override int LevelID { get; protected set; } = 1;
+    public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 2;
     public override string OptionName { get; protected set; } = "拥抱";
     public override string OptionDescription { get; protected set; } = "应对成功时，若双方“欲望”差值<=4，获得胜利";
@@ -209,7 +209,7 @@ public class EntityEvent_3_03 : OptionBase
     #region OptionBase属性
 
     public override bool IsResponseOption { get; } = true;
-    public override int LevelID { get; protected set; } = 1;
+    public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 3;
     public override string OptionName { get; protected set; } = "弹回";//毛球_1
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
@@ -317,7 +317,7 @@ public class EntityEvent_3_04 : OptionBase
     #region OptionBase属性
 
     public override bool IsResponseOption { get; } = true;
-    public override int LevelID { get; protected set; } = 1;
+    public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 4;
     public override string OptionName { get; protected set; } = "弹回";//毛球_2
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
@@ -425,7 +425,7 @@ public class EntityEvent_3_05 : OptionBase
     #region OptionBase属性
 
     public override bool IsResponseOption { get; } = true;
-    public override int LevelID { get; protected set; } = 1;
+    public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 5;
     public override string OptionName { get; protected set; } = "弹回";//毛球_3
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";
@@ -533,7 +533,7 @@ public class EntityEvent_3_06 : OptionBase
     #region OptionBase属性
 
     public override bool IsResponseOption { get; } = true;
-    public override int LevelID { get; protected set; } = 1;
+    public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 6;
     public override string OptionName { get; protected set; } = "弹回";//毛球_4
     public override string OptionDescription { get; protected set; } = "应对成功时选择对象的一个部位造成1点伤害";

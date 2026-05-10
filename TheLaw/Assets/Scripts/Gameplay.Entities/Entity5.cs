@@ -94,10 +94,32 @@ public class Entity5 : Entity
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Left) > 0)
         {
             EventManager.Instance.optionPool[E_OptionType.Level5_Option][0].IsVisible=true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            StartCoroutine(DelayAddListener_OscillationLeft());
         }
         else if(ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)
         {
             EventManager.Instance.optionPool[E_OptionType.Level5_Option][1].IsVisible=true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            StartCoroutine(DelayAddListener_OscillationRight());
+        }
+    }
+    private IEnumerator DelayAddListener_OscillationLeft()
+    {
+        yield return new WaitForEndOfFrame();
+        if (EventManager.Instance.optionPool[E_OptionType.Level5_Option][0] is EntityEvent_5_01 e1)
+        {
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e1.NeverRespond);
+        }
+    }
+    private IEnumerator DelayAddListener_OscillationRight()
+    {
+        yield return new WaitForEndOfFrame();
+        if (EventManager.Instance.optionPool[E_OptionType.Level5_Option][1] is EntityEvent_5_02 e2)
+        {
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e2.NeverRespond);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e2.NeverRespond);
         }
     }
     public void unbalance_Action_Assemble()
@@ -108,13 +130,34 @@ public class Entity5 : Entity
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Left) > 0)
         {
             EventManager.Instance.optionPool[E_OptionType.Level5_Option][2].IsVisible=true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            StartCoroutine(DelayAddListener_AssembleLeft());
         }
         else if(ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)
         {
             EventManager.Instance.optionPool[E_OptionType.Level5_Option][3].IsVisible=true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            StartCoroutine(DelayAddListener_AssembleRight());
         }
     }
-
+    private IEnumerator DelayAddListener_AssembleLeft()
+    {
+        yield return new WaitForEndOfFrame();
+        if (EventManager.Instance.optionPool[E_OptionType.Level5_Option][2] is EntityEvent_5_03 e3)
+        {
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e3.NeverRespond);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e3.NeverRespond);
+        }
+    }
+    private IEnumerator DelayAddListener_AssembleRight()
+    {
+        yield return new WaitForEndOfFrame();
+        if (EventManager.Instance.optionPool[E_OptionType.Level5_Option][3] is EntityEvent_5_04 e4)
+        {
+            EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, e4.NeverRespond);
+            EventCenter.Instance.AddEventListener(E_EventType.Logic_PlayerActionExecuted, e4.NeverRespond);
+        }
+    }
     public void throwupthem_Action_WishesAreEndless()
     {
         ProgressManager.Instance.nowEntities[1].hp=Math.Clamp(ProgressManager.Instance.player.hp+1,
