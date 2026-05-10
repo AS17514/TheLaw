@@ -615,7 +615,7 @@ public class DiceManager : ManagerBase<DiceManager>
                 break;
             case E_ComboType.TripleMind: // <--- 新增分支
                 // 需要 3思。不能有行动骰子混进来 (万能骰子可以完美填补空缺)
-                isMatch = (actionCount == 0); 
+                isMatch = (actionCount == 0);
                 break;
             case E_ComboType.DoubleAction:
                 // 需要 2行。不能有思维骰子混进来
@@ -625,7 +625,7 @@ public class DiceManager : ManagerBase<DiceManager>
                 // 需要 4个。只要上面没被时间骰子或点数不同给拦截，能到这一步就已经匹配成功了
                 isMatch = true;
                 break;
-            case E_ComboType.SingleWild: 
+            case E_ComboType.SingleWild:
                 // 因为上面已经严格限制了 selectedDice.Count 必须等于 1
                 // 所以只需直接判断这唯一的一颗骰子是不是万能骰子即可
                 isMatch = (selectedDice[0].type == E_DiceType.Wild);
@@ -811,13 +811,13 @@ public class DiceManager : ManagerBase<DiceManager>
                 {
                     if (dice.isValid)
                     {
-                        dice.isValid=false;
+                        dice.isValid = false;
                     }
                 }
             }
-            infiniteSkill.isInfinite=false;
+            infiniteSkill.isInfinite = false;
         }
-        
+
         // 倒序遍历或者克隆一个列表遍历，防止在遍历过程中移除元素导致索引错乱
         List<DiceBase> dicesToConsume = new List<DiceBase>();
         foreach (var dice in selectedDice)
@@ -882,7 +882,7 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <summary>
     /// 向实体/怪物骰子池添加骰子
     /// </summary>
-    public EntityDice AddEntityDice(bool isMore = false, EntityDice dice = null)
+    public EntityDice AddEntityDice(bool isMore = true, EntityDice dice = null)
     {
         if (dice != null)
         {
@@ -891,10 +891,11 @@ public class DiceManager : ManagerBase<DiceManager>
         }
         else
         {
-            entityDicePool.Add(new EntityDice());
+            dice = new EntityDice();
+            entityDicePool.Add(dice);
             Debug.Log("entityDicePool.Count new");
         }
-        if (!isMore)
+        if (isMore)
             SortEntityPoolByValue();
         return dice;
     }

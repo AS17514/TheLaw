@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 //呼呼，伊利哇啦——
 public class Main : MonoBehaviour

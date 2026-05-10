@@ -52,7 +52,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         this.maxPhaseDice = maxPhaseDice;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress, this.maxPhaseDice);
     }
-    
+
     /// <summary>
     /// 消耗时间骰子的时候调用，推进时间段的进行
     /// </summary>
@@ -70,21 +70,21 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     /// </summary>
     public void AddPhase()
     {
-        if(level==5)
+        if (level == 5)
         {
             if (nowEntities[0] is Entity5 entity5)
             {
                 player.RemoveLevel5Buff();
-                bool isStzteChange=false;
+                bool isStzteChange = false;
                 switch (entity5.playerState1)
                 {
                     case 1:
                         player.AddBuff(E_BuffType.Up, 1);
-                        isStzteChange=true;
+                        isStzteChange = true;
                         break;
                     case 0:
                         player.AddBuff(E_BuffType.Down, 1);
-                        isStzteChange=true;
+                        isStzteChange = true;
                         break;
                 }
 
@@ -92,11 +92,11 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                 {
                     case 1:
                         player.AddBuff(E_BuffType.Left, 1);
-                        isStzteChange=true;
+                        isStzteChange = true;
                         break;
                     case 0:
                         player.AddBuff(E_BuffType.Right, 1);
-                        isStzteChange=true;
+                        isStzteChange = true;
                         break;
                 }
 
@@ -106,7 +106,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                 }
                 if (entity5.IsPlayerFree)
                 {
-                    entity5.IsPlayerFree=false;
+                    entity5.IsPlayerFree = false;
                     DiceManager.Instance.AddTimeDice(1);
                 }
             }
@@ -116,7 +116,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         int i = 0;
         if (player.GetBuff(E_BuffType.Up) > 0)
             i = 1;
-        DiceManager.Instance.AddTimeDice(maxPhaseDice+i);
+        DiceManager.Instance.AddTimeDice(maxPhaseDice + i);
 
         if (level == 1)
         {
@@ -134,10 +134,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                 Debug.Log("nowEntities[0] 不是 Entity1，吱吱吱吱，这不应该啊。。。。不好，我的代码。。。");
             }
         }
-        
+
         StateManager.Instance.ExecuteCurrentDesire();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
-        
+
         //更新许愿为可用状态
         if (level == 3)
         {
@@ -149,7 +149,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             {
                 if (entity3.IsRumorsAboutDisinterestUse)
                 {
-                    entity3.IsRumorsAboutDisinterestUse=false;
+                    entity3.IsRumorsAboutDisinterestUse = false;
                     return;
                 }
             }
@@ -165,14 +165,14 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         int i = 0;
         if (player.GetBuff(E_BuffType.Right) > 0)//玩家消耗时间骰时时间进度额外-1
             i = 1;
-        timeProgress = Math.Clamp(timeProgress + add-i, 0, this.currentTimeProgress);
+        timeProgress = Math.Clamp(timeProgress + add - i, 0, this.currentTimeProgress);
         if (timeProgress == currentTimeProgress)
         {
             StateManager.Instance.ExecuteCurrentAction();
             timeProgress = 0;
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
-        
+
         if (StateManager.Instance.currentState is E_StateType_3.weightless)
         {
             DiceManager.Instance.ClearEntityPool();
@@ -291,8 +291,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void initLevel3()
     {
         AddPlayer();
-        
-        player.AddBuff(E_BuffType.Desire,6);
+
+        player.AddBuff(E_BuffType.Desire, 6);
 
         EventManager.Instance.RegisterOptions(3);
 
@@ -314,10 +314,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     }
     public void initLevel4()
     {
-        
+
         AddPlayer();
-    
-        player.AddBuff(E_BuffType.Desire,6);
+
+        player.AddBuff(E_BuffType.Desire, 6);
 
         EventManager.Instance.RegisterOptions(4);
 
@@ -336,13 +336,13 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         Init(6, 6, 1);
 
         DiceManager.Instance.AddTimeDice(1);
-        
+
     }
     public void initLevel5()
     {
         AddPlayer();
-        
-        player.AddBuff(E_BuffType.Desire,0);
+
+        player.AddBuff(E_BuffType.Desire, 0);
 
         EventManager.Instance.RegisterOptions(5);
 

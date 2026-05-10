@@ -124,7 +124,7 @@ public class UIManager : ManagerMonoBase<UIManager>
     where T : PanelBase where K : PanelBase
     {
         // 1. Loading 淡入
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSecondsRealtime(0.6f);
 
         // 2. 销毁旧的，实例化新的 (这里会卡一下，但 Loading 协程在后台跑)
         // 注意：Instantiate 是同步的，执行时连 Loading 动画都会停一下
@@ -133,7 +133,7 @@ public class UIManager : ManagerMonoBase<UIManager>
         CreatPanel<K>(layer);
 
         // 3. 强制让 Loading 多展示一会儿（比如 1 秒），让玩家看清楚动画
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(2f);
 
         // 4. 移除 Loading
         RemovePanel<LoadingPanel>();
