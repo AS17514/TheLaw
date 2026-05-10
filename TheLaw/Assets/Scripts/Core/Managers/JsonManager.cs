@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Principal;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -16,26 +15,36 @@ public class SaveData
     public int storyProgress;
     public int levelProgress;
 }
+
+public class TutorialSaveData
+{
+    public Dictionary<string, int> TutorialTriggerStates = new Dictionary<string, int>();
+}
+
 public class JsonManager : ManagerBase<JsonManager>
 {
     string path;
     string savePath;
+    string tutorialSavePath;
+
     JsonManager()
     {
-        // 初始化存储路径以及文件夹
+        // 初始化存储路径
         path = Application.persistentDataPath + "/Data/";
         savePath = path + "SaveData.json";
+        tutorialSavePath = path + "TutorialSaveData.json";
+
+        // 创建数据文件夹
         if (!Directory.Exists(path))
         {
             Debug.LogWarning($"没文件夹，创建文件夹{path}");
             Directory.CreateDirectory(path);
         }
-        // 没有存档文件，默认创建初始存档
+        // 初始化默认存档
         CreatDefaultSave();
+        // 初始化默认教程存档
+        CreateDefaultTutorialSave();
     }
-    /// <summary>
-    /// 创建默认存档文件
-    /// </summary>
     void CreatDefaultSave()
     {
         if (!File.Exists(savePath))
@@ -44,24 +53,35 @@ public class JsonManager : ManagerBase<JsonManager>
             AdjustSaveDataByType(E_SaveDataType.LevelProgress, 1);
         }
     }
-    /// <summary>
-    /// 保存对象到指定json文件
-    /// </summary>
-    /// <param name="data">需要保存的对象</param>
-    public void Save(string path, SaveData data)
+    void CreateDefaultTutorialSave()
+    {
+        if (!File.Exists(tutorialSavePath))
+        {
+            Debug.LogWarning("不存在教程存档文件，创建默认教程存档");
+            Save(tutorialSavePath, new TutorialSaveData());
+        }
+    }
+    public void Save<T>(string path, T data)
     {
         string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
         File.WriteAllText(path, jsonData);
-        Debug.Log($"已将数据存储到{path}");
+        Debug.Log($"已将{typeof(T).Name}数据存储到{path}");
     }
-    /// <summary>
-    /// 根据参数调整存档内容，文件不存在则设定值，其余为默认值
-    /// </summary>
-    /// <param name="type">需要调整的内容</param>
-    /// <param name="value">调整值</param>
+    public T Load<T>(string path) where T : new()
+    {
+        if (!File.Exists(path))
+        {
+            Debug.LogError($"未读取到{path}文件，返回默认实例");
+            return new T();
+        }
+        string jsonData = File.ReadAllText(path);
+        T data = JsonConvert.DeserializeObject<T>(jsonData);
+        Debug.Log($"已将{typeof(T).Name}数据从{path}读取");
+        return data ?? new T();
+    }
     public void AdjustSaveDataByType(E_SaveDataType type, int value)
     {
-        SaveData saveData = Load(savePath);
+        SaveData saveData = Load<SaveData>(savePath);
         switch (type)
         {
             case E_SaveDataType.LevelProgress:
@@ -75,28 +95,9 @@ public class JsonManager : ManagerBase<JsonManager>
         }
         Save(savePath, saveData);
     }
-    /// <summary>
-    /// 从json文件读取对象
-    /// </summary>
-    /// <returns></returns>
-    public SaveData Load(string path)
-    {
-        if (!File.Exists(path))
-        {
-            Debug.LogError($"未读取到{path}存档文件");
-            return null;
-        }
-        string jsonData = File.ReadAllText(path);
-        Debug.Log($"已将数据从{path}读取");
-        return JsonConvert.DeserializeObject<SaveData>(jsonData);
-    }
-    /// <summary>
-    /// 从存档文件读取当前关卡最新进度，如有错误返回-1
-    /// </summary>
-    /// <returns>当前最新进度</returns>
     public int LoadDataByType(E_SaveDataType type)
     {
-        SaveData saveData = Load(savePath);
+        SaveData saveData = Load<SaveData>(savePath);
         if (saveData == null)
         {
             Debug.LogWarning($"{savePath}未找到存档文件，返回-1");
@@ -115,5 +116,41 @@ public class JsonManager : ManagerBase<JsonManager>
                     return -1;
             }
         }
+    }
+    public bool IsTutorialTriggered(E_TutorialType tutorialType)
+    {
+        if (tutorialType == E_TutorialType.None) return true;
+
+        string key = tutorialType.ToString();
+        TutorialSaveData tutorialData = Load<TutorialSaveData>(tutorialSavePath);
+
+        // 存在键且值为1 = 已触发
+        if (tutorialData.TutorialTriggerStates.TryGetValue(key, out int state))
+        {
+            return state == 1;
+        }
+        // 无记录 = 未触发
+        return false;
+    }
+    public void SetTutorialTriggered(E_TutorialType tutorialType)
+    {
+        if (tutorialType == E_TutorialType.None) return;
+
+        string key = tutorialType.ToString();
+        TutorialSaveData tutorialData = Load<TutorialSaveData>(tutorialSavePath);
+
+        // 更新触发状态为1
+        tutorialData.TutorialTriggerStates[key] = 1;
+        Save(tutorialSavePath, tutorialData);
+
+        Debug.Log($"[Tutorial] 标记教程{tutorialType}为已触发（JSON存储）");
+    }
+    public void ResetAllTutorialData()
+    {
+        TutorialSaveData tutorialData = new TutorialSaveData();
+        tutorialData.TutorialTriggerStates.Clear(); // 清空所有教程记录
+        Save(tutorialSavePath, tutorialData);
+
+        Debug.Log("<color=yellow>[Tutorial] 所有新手引导记录已通过JSON重置</color>");
     }
 }
