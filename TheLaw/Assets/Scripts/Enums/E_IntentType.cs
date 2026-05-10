@@ -21,4 +21,9 @@ public enum E_IntentType
     Entity3_Struggle,//挣扎
     Entity3_Gravity,//引力
     Entity3_AnEmptyPlanet,//空无一人的星球
+    
+    Entity5_Equipoise,//“平衡”
+    Entity5_Oscillation,//震荡
+    Entity5_Assemble,//集合
+    Entity5_WishesAreEndless,//"愿望"无休无止
 }

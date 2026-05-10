@@ -66,6 +66,15 @@ public class EventManager : ManagerBase<EventManager>
                 
             }
         },
+        {
+            E_OptionType.Level5_Option, new OptionBase[]
+            {
+                new EntityEvent_5_01(),
+                new EntityEvent_5_02(),
+                new EntityEvent_5_03(),
+                new EntityEvent_5_04(),
+            }
+        },
     };
     /// <summary>
     /// 选项是否满足特殊条件

@@ -9,7 +9,11 @@ public class Player : CharacterBase
     private Dictionary<E_BuffType, int> buffs = new Dictionary<E_BuffType, int>
     {
         {E_BuffType.Desire,0 },
-        {E_BuffType.Tatters,0}
+        {E_BuffType.Tatters,0},
+        {E_BuffType.Up,0},
+        {E_BuffType.Down,0},
+        {E_BuffType.Left,0},
+        {E_BuffType.Right,0},
     };
     public Dictionary<E_BuffType, int> UI_buffs
     {
@@ -23,6 +27,15 @@ public class Player : CharacterBase
 
 
         // 数值一变，立刻通过事件中心广播出去
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerBuff);
+    }
+
+    public void RemoveLevel5Buff()
+    {
+        buffs[E_BuffType.Left] = 0;
+        buffs[E_BuffType.Right] = 0;
+        buffs[E_BuffType.Up] = 0;
+        buffs[E_BuffType.Down] = 0;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerBuff);
     }
     /// <summary>
@@ -51,7 +64,10 @@ public class Player : CharacterBase
 
     public override void TakeDamage(int damage)
     {
-        base.TakeDamage(damage);
+        int i = 0;
+        if (buffs[E_BuffType.Left] > 0)
+            i = 1;
+        base.TakeDamage(damage+1);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
 
         if (hp == 0)

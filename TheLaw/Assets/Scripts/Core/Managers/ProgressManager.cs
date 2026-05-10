@@ -70,10 +70,44 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     /// </summary>
     public void AddPhase()
     {
+        if(level==5)
+        {
+            if (nowEntities[0] is Entity5 entity5)
+            {
+                player.RemoveLevel5Buff();
+                switch (entity5.playerState1)
+                {
+                    case 1:
+                        player.AddBuff(E_BuffType.Up, 1);
+                        break;
+                    case 0:
+                        player.AddBuff(E_BuffType.Down, 1);
+                        break;
+                }
+
+                switch (entity5.playerState2)
+                {
+                    case 1:
+                        player.AddBuff(E_BuffType.Left, 1);
+                        break;
+                    case 0:
+                        player.AddBuff(E_BuffType.Right, 1);
+                        break;
+                }
+
+                if (entity5.IsPlayerFree)
+                {
+                    entity5.IsPlayerFree=false;
+                    DiceManager.Instance.AddTimeDice(1);
+                }
+            }
+        }
         ++this.phase;
         phaseDice = maxPhaseDice;
-
-        DiceManager.Instance.AddTimeDice(maxPhaseDice);
+        int i = 0;
+        if (player.GetBuff(E_BuffType.Up) > 0)
+            i = 1;
+        DiceManager.Instance.AddTimeDice(maxPhaseDice+i);
 
         if (level == 1)
         {
@@ -112,7 +146,6 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             }
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
-        
     }
     /// <summary>
     /// 改变时间进度
@@ -120,7 +153,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     /// <param name="add"></param>
     public void AddTimeProgress(int add)
     {
-        timeProgress = Math.Clamp(timeProgress + add, 0, this.currentTimeProgress);
+        int i = 0;
+        if (player.GetBuff(E_BuffType.Right) > 0)//玩家消耗时间骰时时间进度额外-1
+            i = 1;
+        timeProgress = Math.Clamp(timeProgress + add-i, 0, this.currentTimeProgress);
         if (timeProgress == currentTimeProgress)
         {
             StateManager.Instance.ExecuteCurrentAction();
@@ -137,7 +173,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     #region IntoNewLevel
     public void intoNewLevel(int level)
     {
-        if (level <= 4 && level > 0)
+        if (level <= 5 && level > 0)
         {
             // 在进入新关卡、生成新怪物之前，先彻底清理上一关的残留数据
             ClearOldEntities();
@@ -160,7 +196,9 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                 case 4:
                     initLevel4();
                     break;
-
+                case 5:
+                    initLevel5();
+                    break;
             }
         }
     }
@@ -267,7 +305,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     }
     public void initLevel4()
     {
+        
         AddPlayer();
+    
+        player.AddBuff(E_BuffType.Desire,6);
 
         EventManager.Instance.RegisterOptions(4);
 
@@ -276,11 +317,41 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         // 2. 动态添加脚本，并获取引用
         // 注意：AddComponent 会自动返回该脚本的实例
-        nowEntities[0] = managerObj.AddComponent<Entity4>();
+        Entity4 entity4 = managerObj.AddComponent<Entity4>();
+        nowEntities[0] = entity4;
 
+        entity4.ManualInit();
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
+        Init(6, 6, 1);
+
+        DiceManager.Instance.AddTimeDice(1);
+        
+    }
+    public void initLevel5()
+    {
+        AddPlayer();
+        
+        player.AddBuff(E_BuffType.Desire,0);
+
+        EventManager.Instance.RegisterOptions(5);
+
+        // 1. 创建一个新的空物体
+        GameObject managerObj = new GameObject("Entity5");
+
+        // 2. 动态添加脚本，并获取引用
+        // 注意：AddComponent 会自动返回该脚本的实例
+        Entity5 entity5 = managerObj.AddComponent<Entity5>();
+        nowEntities[0] = entity5;
+
+        entity5.ManualInit();
+        //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
+
+        Init(1, 1, 1);
+
+        DiceManager.Instance.AddTimeDice(1);
     }
     #endregion
 }

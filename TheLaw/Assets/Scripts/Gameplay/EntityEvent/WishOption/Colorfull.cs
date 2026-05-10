@@ -99,6 +99,12 @@ public class Colorfull : OptionBase
                     // 触发玩家执行了动作的事件
                     EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
                     
+                    if (ProgressManager.Instance.level == 5 &&
+                        StateManager.Instance.currentState is E_StateType_5.unbalance)
+                    {
+                        StateManager.Instance.currentDesireIndex = 2;
+                        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+                    }
                     return; // 成功执行，直接结束方法
                 }
                 else

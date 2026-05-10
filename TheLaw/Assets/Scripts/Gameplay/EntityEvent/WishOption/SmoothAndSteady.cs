@@ -94,6 +94,13 @@ public class SmoothAndSteady:OptionBase
 
                 // 触发玩家执行了动作的事件，推进游戏流程
                 EventCenter.Instance.EventTrigger(E_EventType.Logic_PlayerActionExecuted);
+                
+                if (ProgressManager.Instance.level == 5 &&
+                    StateManager.Instance.currentState is E_StateType_5.unbalance)
+                {
+                    StateManager.Instance.currentDesireIndex = 4;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+                }
             }
             else
             {

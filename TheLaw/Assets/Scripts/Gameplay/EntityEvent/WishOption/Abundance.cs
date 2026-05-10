@@ -70,6 +70,13 @@ public class Abundance : OptionBase
                 DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToUnavailable);
                 DiceManager.Instance.ClearSelected();
+
+                if (ProgressManager.Instance.level == 5 &&
+                    StateManager.Instance.currentState is E_StateType_5.unbalance)
+                {
+                    StateManager.Instance.currentDesireIndex = 1;
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+                }
             }
             else
             {

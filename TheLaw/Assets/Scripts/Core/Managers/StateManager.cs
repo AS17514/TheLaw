@@ -13,13 +13,40 @@ public class StateManager : ManagerBase<StateManager>
     private int currentActionIndex = 0;//当前状态内行为执行到第几个了
     private ActionNode currentExecutableAction;
     public E_IntentType UI_currentExecutableAction { get { return currentExecutableAction.Intent; } }//开放给UI用的，获取当前行为的属性
-    private int currentDesireIndex = 0;
+    public int currentDesireIndex = 0;
     private DesireNode currentExecutableDesire;
     public E_DesireType UI_currentExecutableDesire { get { return currentExecutableDesire.Desire; } }//开放给UI用的，获取当前愿望的属性
     public void ChangeState(System.Enum newState)
     {
+        #region Level5特殊逻辑
+        if (ProgressManager.Instance.level == 5&&newState is E_StateType_5.unbalance)
+        {
+            currentState = newState;
+            currentExecutableAction = (stateActions[currentState] != null && stateActions[currentState].Length > 0)
+                ? stateActions[currentState][0] : null;
+            currentExecutableDesire = (stateDesires.ContainsKey(currentState) && stateDesires[currentState] != null
+                                                                              && stateDesires[currentState].Length > 0)
+                ? stateDesires[currentState][0] : null;
+            if(ProgressManager.Instance.player.GetBuff(E_BuffType.Up)>0)
+                currentActionIndex = 0;
+            if(ProgressManager.Instance.player.GetBuff(E_BuffType.Down)>0)
+                currentActionIndex = 1;
+            currentDesireIndex = 0;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
+        }
+
+        if (ProgressManager.Instance.level == 5 &&
+            (newState is E_StateType_5.throwupthem || newState is E_StateType_5.unbalance))
+        {
+            ProgressManager.Instance.SetCurrentTimeProgress(8);
+            ProgressManager.Instance.SetmaxPhaseDice(3);
+        }
+        #endregion
+        
         // 确保字典里有这个状态，并且新状态和当前状态不一样
-        if (stateActions.ContainsKey(newState) && (currentState == null || !currentState.Equals(newState)))
+        else if (stateActions.ContainsKey(newState) && (currentState == null || !currentState.Equals(newState)))
         {
             currentState = newState;
             currentActionIndex = 0; // 重置行为队列
