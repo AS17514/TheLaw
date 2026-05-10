@@ -42,6 +42,9 @@ public static class SkillManager
         
         Infinite  infiniteSkill = new Infinite();
         Skills.Add(infiniteSkill.OptionID, infiniteSkill);
+        
+        SmoothAndSteady smoothAndSteady = new SmoothAndSteady();
+        Skills.Add(smoothAndSteady.OptionID, smoothAndSteady);
 
     }
     /// <summary>
