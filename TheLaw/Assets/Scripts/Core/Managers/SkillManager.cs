@@ -39,6 +39,9 @@ public static class SkillManager
 
         Colorfull colorfullSkill = new Colorfull();
         Skills.Add(colorfullSkill.OptionID, colorfullSkill);
+        
+        Infinite  infiniteSkill = new Infinite();
+        Skills.Add(infiniteSkill.OptionID, infiniteSkill);
 
     }
     /// <summary>

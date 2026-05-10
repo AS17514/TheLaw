@@ -718,6 +718,22 @@ public class DiceManager : ManagerBase<DiceManager>
     /// </summary>
     public void ConsumeValidSelectedDice(bool isResponse = false)
     {
+
+        if (SkillManager.Skills[9] is Infinite infiniteSkill)
+        {
+            if (infiniteSkill.isInfinite)
+            {
+                foreach (var dice in selectedDice)
+                {
+                    if (dice.isValid)
+                    {
+                        dice.isValid=false;
+                    }
+                }
+            }
+            infiniteSkill.isInfinite=false;
+        }
+        
         // 倒序遍历或者克隆一个列表遍历，防止在遍历过程中移除元素导致索引错乱
         List<DiceBase> dicesToConsume = new List<DiceBase>();
         foreach (var dice in selectedDice)

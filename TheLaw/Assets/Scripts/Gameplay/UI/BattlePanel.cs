@@ -933,7 +933,17 @@ public class BattlePanel : PanelBase
                 SkillManager.ExcuteSkills(7);
                 break;
             case "Button_Wish_Vibrancy":
-                SkillManager.ExcuteSkills(8);
+                if (point > 0 && point <= 6)
+                {
+                    ColorfullOptionContext context = new ColorfullOptionContext();
+                    context.i = point;
+                    SkillManager.ExcuteSkills(8,context);
+                }
+                else
+                {
+                    Debug.LogWarning("玩家没有选择目标点数！");
+                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                }
                 break;
             case "Button_Wish_Null3":
                 SkillManager.ExcuteSkills(9);

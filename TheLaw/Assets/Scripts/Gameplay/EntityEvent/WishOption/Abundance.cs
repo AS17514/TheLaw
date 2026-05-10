@@ -32,6 +32,9 @@ public class Abundance : OptionBase
     {
         get{return E_OptionType.Player_Wish;}
     }
+
+    public override bool IsDiceConditionsHave { get; protected set; }= false;
+
     public override DiceCondition[] DiceCost
     {
         get
