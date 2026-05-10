@@ -247,6 +247,8 @@ public class Entity5 : Entity
     {
         ProgressManager.Instance.player.hp = 1;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
+        EventManager.Instance.optionPool[E_OptionType.Level5_Option][16].IsVisible=true;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
     #endregion
 }

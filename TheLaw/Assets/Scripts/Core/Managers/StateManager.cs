@@ -35,6 +35,7 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
 
         if (ProgressManager.Instance.level == 5 &&

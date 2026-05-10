@@ -69,10 +69,25 @@ public class EventManager : ManagerBase<EventManager>
         {
             E_OptionType.Level5_Option, new OptionBase[]
             {
-                new EntityEvent_5_01(),
-                new EntityEvent_5_02(),
-                new EntityEvent_5_03(),
-                new EntityEvent_5_04(),
+                new EntityEvent_5_01(),//应对——趁势(ノ￣ー￣)ノ
+                new EntityEvent_5_02(),//应对——避开ヘ(￣ω￣ヘ)
+                new EntityEvent_5_03(),//应对——动─=≡Σ((( つ•̀ω•́)つ
+                new EntityEvent_5_04(),//应对——静[ ʘ _ ʘ ]
+                new EntityEvent_5_05(),//交流
+                new EntityEvent_5_06(),//观察·前
+                new EntityEvent_5_07(),//向左
+                new EntityEvent_5_08(),//观察·左
+                new EntityEvent_5_09(),//向右
+                new EntityEvent_5_10(),//观察·右
+                new EntityEvent_5_11(),//回忆
+                new EntityEvent_5_12(),//谁的愿望
+                new EntityEvent_5_13(),//谁的身影
+                new EntityEvent_5_14(),//画下的星星
+                new EntityEvent_5_15(),//破碎地发光
+                new EntityEvent_5_16(),//分析
+                new EntityEvent_5_17(),//为什么他们的面容如此可憎呢？
+                new EntityEvent_5_18(),//那个和我许下承诺的孩
+                
             }
         },
     };
@@ -178,7 +193,33 @@ public class EventManager : ManagerBase<EventManager>
                     new EntityEvent_3_15(), //你的好奇永远是你的自由
                 });
                 break;
-                
+            case 4:
+                break;
+            case 5:
+                optionPool.Add(E_OptionType.Level5_Option, new OptionBase[]
+                {
+                    new EntityEvent_5_01(), //应对——趁势(ノ￣ー￣)ノ
+                    new EntityEvent_5_02(), //应对——避开ヘ(￣ω￣ヘ)
+                    new EntityEvent_5_03(), //应对——动─=≡Σ((( つ•̀ω•́)つ
+                    new EntityEvent_5_04(), //应对——静[ ʘ _ ʘ ]
+                    new EntityEvent_5_05(), //交流
+                    new EntityEvent_5_06(), //观察·前
+                    new EntityEvent_5_07(), //向左
+                    new EntityEvent_5_08(), //观察·左
+                    new EntityEvent_5_09(), //向右
+                    new EntityEvent_5_10(), //观察·右
+                    new EntityEvent_5_11(), //回忆
+                    new EntityEvent_5_12(), //谁的愿望
+                    new EntityEvent_5_13(), //谁的身影
+                    new EntityEvent_5_14(), //画下的星星
+                    new EntityEvent_5_15(), //破碎地发光
+                    new EntityEvent_5_16(), //分析
+                    new EntityEvent_5_17(), //为什么他们的面容如此可憎呢？
+                    new EntityEvent_5_18(), //那个和我许下承诺的孩
+
+
+                });
+                break;
         }
     }
 }

@@ -17,22 +17,29 @@ public class Part5_1 : Part
         InitPart();
     }
 
+    public bool isHpLocked = true;
+    
     public override void BeAttacked(int atk)
     {
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Down) > 0)
             atk--;
-        if(atk>=hp)
-            base.BeAttacked(hp-1);
+        if(isHpLocked&&atk>=hp)
+        {
+            base.BeAttacked(hp - 1);
+            owner.AddBuff(E_BuffType.Desire, 1-hp);
+            StateManager.Instance.ChangeState(E_StateType_5.throwupthem);
+        }
         else
         {
             base.BeAttacked(atk);
+            owner.AddBuff(E_BuffType.Desire, atk);
         }
     }
 
     public override void Die()
     {
-        hp = 1;
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+        DiceManager.Instance.AddDice(E_DiceType.Wild);
+        base.Die();
     }
 
     /// <summary>
