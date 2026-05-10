@@ -39,9 +39,8 @@ public class StoryPanel : PanelBase
         maxPage = storySegment.pages.Count - 1;
         Init();
     }
-    protected override void Update()
+    void Update()
     {
-        base.Update();
         // 按空格继续
         if (Input.GetKeyDown(KeyCode.Space))
         {
