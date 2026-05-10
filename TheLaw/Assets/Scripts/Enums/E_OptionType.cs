@@ -11,4 +11,5 @@ public enum E_OptionType
     Level2_Option,
     Level3_Option,
     Level4_Option,
+    Level5_Option,
 }

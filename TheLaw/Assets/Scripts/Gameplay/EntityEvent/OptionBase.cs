@@ -27,6 +27,8 @@ public abstract class OptionBase
     public virtual int fatherID { get; protected set; }
     public virtual int sonID { get; protected set; }
     public virtual bool IsResponseOption { get; } = false;//专门用来进行应对选项有关的判断。
+    // 新增：该选项绑定的新手引导类型（默认为 None，表示没有引导）
+    public virtual E_TutorialType BindTutorial { get; } = E_TutorialType.None;
     #endregion
     // --- 委托定义区 ---
     // 用 Action 储存无返回值的方法。如果需要传参，可以用 Action<T>

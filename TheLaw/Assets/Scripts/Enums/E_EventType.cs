@@ -59,6 +59,7 @@ public enum E_EventType
     UI_Update_Events,
     UI_Update_WishToAvailable,
     UI_Update_WishToUnavailable,
+    UI_ShowTutorial,
     #endregion
     #endregion
     #endregion
