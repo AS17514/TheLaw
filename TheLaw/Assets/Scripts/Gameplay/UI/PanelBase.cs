@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+// 新增DOTween命名空间
+using DG.Tweening;
 
 // 面板基类
 public abstract class PanelBase : MonoBehaviour
@@ -29,29 +31,6 @@ public abstract class PanelBase : MonoBehaviour
         // 普通组件后进入
         SetControlsByType<TextMeshProUGUI>();
         SetControlsByType<Image>();
-    }
-
-    protected virtual void Update()
-    {
-        // 淡入淡出
-        if (isShow && canvasGroup.alpha != 1)
-        {
-            canvasGroup.alpha += alphaSpeed * Time.deltaTime;
-            if (canvasGroup.alpha >= 1)
-            {
-                canvasGroup.alpha = 1;
-            }
-        }
-        else if (!isShow && canvasGroup.alpha != 0)
-        {
-            canvasGroup.alpha -= alphaSpeed * Time.deltaTime;
-            if (canvasGroup.alpha <= 0)
-            {
-                canvasGroup.alpha = 0;
-                // 完全隐藏后执行销毁委托
-                hideCallBack?.Invoke();
-            }
-        }
     }
     #region 存储子对象组件并添加监听
     // 存储面板上所有组件的字典，按组件种类分类
@@ -170,17 +149,22 @@ public abstract class PanelBase : MonoBehaviour
     // 淡入淡出
     public bool isShow = false;
     CanvasGroup canvasGroup;
-    int alphaSpeed = 2;
+    // 淡入淡出速度
+    float fadeDuration = 0.5f;
     // 隐藏后让管理器销毁自己
     UnityAction hideCallBack;
     protected virtual void AfterRemove() { }
     /// <summary>
-    /// 淡入
+    /// 淡入（DOTween实现）
     /// </summary>
     public virtual void ShowSelf()
     {
         isShow = true;
         canvasGroup.alpha = 0;
+        // 停止当前可能存在的动画，避免叠加
+        canvasGroup.DOKill();
+        // DOTween淡入到alpha=1
+        canvasGroup.DOFade(1, fadeDuration);
     }
     /// <summary>
     /// 淡出
@@ -189,9 +173,15 @@ public abstract class PanelBase : MonoBehaviour
     public virtual void HideSelf(UnityAction callBack)
     {
         isShow = false;
-        // 没有淡入一半的情况关掉的（根本没协程），所以还是设置一下alpha为1
         canvasGroup.alpha = 1;
         hideCallBack = callBack;
+        // 停止当前可能存在的动画，避免叠加
+        canvasGroup.DOKill();
+        // DOTween淡出到alpha=0，完成后执行回调
+        canvasGroup.DOFade(0, fadeDuration).OnComplete(() =>
+        {
+            hideCallBack?.Invoke();
+        });
     }
     #endregion
     #region 其他方法
@@ -220,5 +210,4 @@ public abstract class PanelBase : MonoBehaviour
         }
     }
     #endregion
-
 }
