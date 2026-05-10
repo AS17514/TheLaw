@@ -1159,14 +1159,7 @@ public class EntityEvent_5_15 : OptionBase
 
             if (result)
             {
-                IsItUse = false;
-                DiceManager.Instance.AddDice(E_DiceType.Action);
-                DiceManager.Instance.AddDice(E_DiceType.Mind);
-                if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
-                {
-                    e5.AddBuff(E_BuffType.Desire,2);
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                 DiceManager.Instance.ConsumeValidSelectedDice();
             }
             else
