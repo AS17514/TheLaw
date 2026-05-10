@@ -13,5 +13,6 @@ public static class GameInitializer
         _ = DiceManager.Instance;
         _ = ProgressManager.Instance;
         SkillManager.InitSkills();
+        _=TutorialManager.Instance;
     }
 }
