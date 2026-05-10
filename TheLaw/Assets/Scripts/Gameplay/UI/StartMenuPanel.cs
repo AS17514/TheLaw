@@ -1,26 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartMenuPanel : PanelBase
 {
-
     protected override void ButtonOnClick(string buttonName)
     {
         switch (buttonName)
         {
             case "Button_StartGame":
+                GetControl<Button>("Button_StartGame").interactable = false;
                 if (JsonManager.Instance.LoadDataByType(E_SaveDataType.StoryProgress) == 0)
                 {
                     // 没看初始剧情的看初始剧情
                     StoryManager.Instance.LoadStorySegmentByIndex(1);
-                    UIManager.Instance.ChangePanel<StartMenuPanel, StoryPanel>();
+                    GetComponentInChildren<CanvasGroup>().DOFade(0, 1f).OnComplete(() =>
+                    {
+                        UIManager.Instance.ChangePanel<StartMenuPanel, StoryPanel>();
+                    });
                 }
                 else
                 {
-                    UIManager.Instance.ChangePanel<StartMenuPanel, LevelSelectPanel>();
+                    GetComponentInChildren<CanvasGroup>().DOFade(0, 1f).OnComplete(() =>
+                    {
+                        UIManager.Instance.ChangePanel<StartMenuPanel, LevelSelectPanel>();
+                    });
                 }
+
                 break;
             case "Button_QuitGame":
                 // 编辑器下停止运行

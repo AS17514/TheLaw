@@ -74,7 +74,10 @@ public class UIManager : ManagerMonoBase<UIManager>
         if (!panels.ContainsKey(name))
         {
             GameObject panel = Instantiate(Resources.Load<GameObject>($"Prefabs/UI/Panels/{name}"), GetUILayer(layer), false);
-            panel.AddComponent<T>();
+            if (panel.GetComponent<T>() == null)
+            {
+                panel.AddComponent<T>();
+            }
             T panelComponent = panel.GetComponent<T>();
             panels.Add(name, panelComponent);
         }
@@ -100,18 +103,40 @@ public class UIManager : ManagerMonoBase<UIManager>
         }
     }
     /// <summary>
-    /// 删除指定面板，添加指定新面板，加入Loading面板过渡，默认新生成在中层，加入协程，让前一个面板完全销毁后新建面板
+    /// 删除指定面板，添加指定新面板，加入Loading面板过渡，默认新生成在中层，让前一个面板完全销毁后新建面板
     /// </summary>
     /// <param name="layer">新生成面板的层级</param>
     /// <typeparam name="T">删除的面板</typeparam>
     /// <typeparam name="K">生成的面板</typeparam>
     /// <returns></returns>
+    // UIManager.cs 内部
+
     public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle) where T : PanelBase where K : PanelBase
     {
-        RemovePanel<T>(() =>
-        {
-            CreatPanel<K>(layer);
-        });
+        // 1. 开启 Loading
+        CreatPanel<LoadingPanel>(E_UILayer.Loading);
+
+        // 开启协程处理后续逻辑
+        StartCoroutine(DoChangePanelCoroutine<T, K>(layer));
+    }
+
+    private IEnumerator DoChangePanelCoroutine<T, K>(E_UILayer layer)
+    where T : PanelBase where K : PanelBase
+    {
+        // 1. Loading 淡入
+        yield return new WaitForSecondsRealtime(0.3f);
+
+        // 2. 销毁旧的，实例化新的 (这里会卡一下，但 Loading 协程在后台跑)
+        // 注意：Instantiate 是同步的，执行时连 Loading 动画都会停一下
+        // 这是正常的，代表程序正在全力加载
+        RemovePanel<T>();
+        CreatPanel<K>(layer);
+
+        // 3. 强制让 Loading 多展示一会儿（比如 1 秒），让玩家看清楚动画
+        yield return new WaitForSecondsRealtime(3f);
+
+        // 4. 移除 Loading
+        RemovePanel<LoadingPanel>();
     }
     /// <summary>
     /// 获取面板层级对象的transform组件

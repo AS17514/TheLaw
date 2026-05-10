@@ -72,6 +72,17 @@ public class BattlePanel : PanelBase
     }
     // 资源加载
     Dictionary<string, GameObject> resources = new Dictionary<string, GameObject>();
+
+    void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        level = ProgressManager.Instance.level;
+        LoadAllResources();
+        InitEvents();
+        Init();
+        InitEventsRegist();
+    }
+
     void LoadAllResources()
     {
         GameObject[] gameObjects = Resources.LoadAll<GameObject>("Prefabs/UI/Battle");
@@ -937,7 +948,7 @@ public class BattlePanel : PanelBase
                 {
                     ColorfullOptionContext context = new ColorfullOptionContext();
                     context.i = point;
-                    SkillManager.ExcuteSkills(8,context);
+                    SkillManager.ExcuteSkills(8, context);
                 }
                 else
                 {
@@ -1163,13 +1174,8 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-
-    void Start()
+    void InitEventsRegist()
     {
-        rectTransform = GetComponent<RectTransform>();
-        level = ProgressManager.Instance.level;
-        LoadAllResources();
-        InitEvents();
-        Init();
+        RegisterTooltip<Button>("Button_InherentAction_Prepare", "准备", "选定一个时间骰，选择行动或思维\n选择的时间骰点数+1，投掷并获得一个选定类型的骰子");
     }
 }

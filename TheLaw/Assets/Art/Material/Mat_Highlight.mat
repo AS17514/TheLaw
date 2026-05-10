@@ -81,6 +81,6 @@ Material:
     - _BgColor: {r: 0, g: 0, b: 0, a: 0.85}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HoleCenter: {r: 63.00999, g: 167.84, b: 0, a: 0}
-    - _HoleSize: {r: 443.49, g: 355.68, b: 0, a: 0}
+    - _HoleCenter: {r: -747, g: -67, b: 0, a: 0}
+    - _HoleSize: {r: 275.6, g: 123.37, b: 0, a: 0}
   m_BuildTextureStacks: []

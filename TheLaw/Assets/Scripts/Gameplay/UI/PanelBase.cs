@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-// 新增DOTween命名空间
 using DG.Tweening;
 
 // 面板基类
@@ -15,12 +14,6 @@ public abstract class PanelBase : MonoBehaviour
 {
     protected virtual void Awake()
     {
-        // 淡入淡出，创建canvasgroup组件
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
         // 初始化面板字典，把组件塞进去
         // 组合组件先进入
         SetControlsByType<Button>();
@@ -113,18 +106,34 @@ public abstract class PanelBase : MonoBehaviour
         }
     }
     // 事件触发器的方法
+    void AddEvent(EventTrigger trigger, EventTriggerType type, UnityAction<BaseEventData> cb)
+    {
+        // 先检查是否已存在同类型事件，避免重复添加
+        foreach (var entry in trigger.triggers)
+        {
+            if (entry.eventID == type)
+            {
+                entry.callback.AddListener(cb);
+                return;
+            }
+        }
+
+        // 不存在就新建
+        EventTrigger.Entry newEntry = new EventTrigger.Entry();
+        newEntry.eventID = type;
+        newEntry.callback.AddListener(cb);
+        trigger.triggers.Add(newEntry);
+    }
+    // 图片点击事件
     private void ImageOnClick(Image image, string imageName)
     {
         EventTrigger eventTrigger = image.GetComponent<EventTrigger>();
         if (eventTrigger == null)
-        {
             eventTrigger = image.AddComponent<EventTrigger>();
-        }
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerClick;
-        entry.callback.AddListener((data) =>
+        AddEvent(eventTrigger, EventTriggerType.PointerClick, (data) =>
         {
-            switch (((PointerEventData)data).button)
+            PointerEventData pointer = data as PointerEventData;
+            switch (pointer.button)
             {
                 case PointerEventData.InputButton.Left:
                     ImageOnLeftClick(imageName);
@@ -132,12 +141,31 @@ public abstract class PanelBase : MonoBehaviour
                 case PointerEventData.InputButton.Right:
                     ImageOnRightClick(imageName);
                     break;
-                default:
-                    return;
             }
         });
-        eventTrigger.triggers.Add(entry);
     }
+    // 注册鼠标悬浮的提示
+    protected void RegisterTooltip<T>(string controlName, string title, string desc) where T : UIBehaviour
+    {
+        T control = GetControl<T>(controlName);
+        if (control == null) return;
+
+        EventTrigger trigger = control.GetComponent<EventTrigger>();
+        if (trigger == null) trigger = control.gameObject.AddComponent<EventTrigger>();
+
+        // 鼠标进入 → 显示双文本
+        AddEvent(trigger, EventTriggerType.PointerEnter, (d) =>
+        {
+            TipPanel.Instance.ShowTooltip(title, desc);
+        });
+
+        // 鼠标离开 → 隐藏
+        AddEvent(trigger, EventTriggerType.PointerExit, (d) =>
+        {
+            TipPanel.Instance.HideTooltip();
+        });
+    }
+
     // 不同组件添加监听的虚方法
     protected virtual void ButtonOnClick(string buttonName) { }
     protected virtual void SliderOnValueChanged(string sliderName, float value) { }
@@ -147,10 +175,24 @@ public abstract class PanelBase : MonoBehaviour
     #endregion
     #region 面板显隐时执行的方法
     // 淡入淡出
-    public bool isShow = false;
-    CanvasGroup canvasGroup;
+    private CanvasGroup _canvasGroup;
+    protected CanvasGroup canvasGroup
+    {
+        get
+        {
+            if (_canvasGroup == null)
+            {
+                _canvasGroup = GetComponent<CanvasGroup>();
+                if (_canvasGroup == null)
+                {
+                    _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                }
+            }
+            return _canvasGroup;
+        }
+    }
     // 淡入淡出速度
-    float fadeDuration = 0.5f;
+    protected float fadeDuration = 0.5f;
     // 隐藏后让管理器销毁自己
     UnityAction hideCallBack;
     protected virtual void AfterRemove() { }
@@ -159,7 +201,7 @@ public abstract class PanelBase : MonoBehaviour
     /// </summary>
     public virtual void ShowSelf()
     {
-        isShow = true;
+        this.gameObject.SetActive(true);
         canvasGroup.alpha = 0;
         // 停止当前可能存在的动画，避免叠加
         canvasGroup.DOKill();
@@ -172,7 +214,6 @@ public abstract class PanelBase : MonoBehaviour
     /// <param name="callBack">淡出完成后要执行的委托</param>
     public virtual void HideSelf(UnityAction callBack)
     {
-        isShow = false;
         canvasGroup.alpha = 1;
         hideCallBack = callBack;
         // 停止当前可能存在的动画，避免叠加
