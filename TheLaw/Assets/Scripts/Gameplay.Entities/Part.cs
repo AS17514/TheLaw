@@ -19,9 +19,10 @@ public class Part : CharacterBase
 
     public override void BeAttacked(int atk)
     {
+        owner.BeAttacked(atk > hp?hp:atk);//攻击怪物部位，也会造成怪物本体扣血。
         base.BeAttacked(atk);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
-        owner.BeAttacked(atk);//攻击怪物部位，也会造成怪物本体扣血。
+        
     }
 
     public override bool IsCouldBeAttacked()

@@ -63,28 +63,56 @@ public class EntityEvent_3_01 : OptionBase
                     : true;
             }
 
-            if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+            bool ifNeedOptionContext = false;
+            foreach (var characterBase in ProgressManager.Instance.nowEntities)
             {
-                if (ctx0.index > 5 || ctx0.index < 1)
+                if (characterBase == null)
                 {
-                    result = false;
-                    Debug.Log("ctx0.index>5||ctx0.index<1");
+                    continue; 
+                }
+                if (characterBase is Entity3 e3)
+                {
+                    continue;
                 }
                 else
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.level == 3)
                     {
-                        result = false;
-                        Debug.Log("这个部位为空。");
+                        if(characterBase.hp!=0)
+                            ifNeedOptionContext=true;
                     }
                 }
-
             }
-            else
+            if (ifNeedOptionContext)
             {
-                // 拦截没有传入目标参数的情况
-                result = false;
-                Debug.Log("缺少目标部位上下文。");
+                if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+                {
+                    if (ctx0.index > 5 || ctx0.index < 1)
+                    {
+                        result = false;
+                        Debug.Log("ctx0.index>5||ctx0.index<1");
+                    }
+                    else if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    {
+                        result = false;
+                        Debug.Log("这个部位为空，无法选择。");
+                    }
+                    else
+                    {
+                        if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                        {
+                            result = false;
+                            Debug.Log("这个部位为空。");
+                        }
+                    }
+
+                }
+                else
+                {
+                    // 拦截没有传入目标参数的情况
+                    result = false;
+                    Debug.Log("缺少目标部位上下文。");
+                }
             }
             if (result)
             {
@@ -92,9 +120,10 @@ public class EntityEvent_3_01 : OptionBase
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToBall);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx.index] != null)
+                    if (ProgressManager.Instance.nowEntities[ctx.index] != null&&ctx.index!=0)
                     {
-                        ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
+                        if(ProgressManager.Instance.nowEntities[ctx.index].hp>0)
+                            ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
                     }
                 }
                 this.IsVisible = false;
@@ -256,37 +285,66 @@ public class EntityEvent_3_03 : OptionBase
                     : true;
             }
 
-            if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+            bool ifNeedOptionContext = false;
+            foreach (var characterBase in ProgressManager.Instance.nowEntities)
             {
-                if (ctx0.index > 5 || ctx0.index < 1)
+                if (characterBase == null)
                 {
-                    result = false;
-                    Debug.Log("ctx0.index>5||ctx0.index<1");
+                    continue; 
+                }
+                if (characterBase is Entity3 e3)
+                {
+                    continue;
                 }
                 else
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.level == 3)
                     {
-                        result = false;
-                        Debug.Log("这个部位为空。");
+                        if(characterBase.hp!=0)
+                            ifNeedOptionContext=true;
                     }
                 }
-
             }
-            else
+            if (ifNeedOptionContext)
             {
-                // 拦截没有传入目标参数的情况
-                result = false;
-                Debug.Log("缺少目标部位上下文。");
+                if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+                {
+                    if (ctx0.index > 5 || ctx0.index < 1)
+                    {
+                        result = false;
+                        Debug.Log("ctx0.index>5||ctx0.index<1");
+                    }
+                    else if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    {
+                        result = false;
+                        Debug.Log("这个部位为空，无法选择。");
+                    }
+                    else
+                    {
+                        if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                        {
+                            result = false;
+                            Debug.Log("这个部位为空。");
+                        }
+                    }
+
+                }
+                else
+                {
+                    // 拦截没有传入目标参数的情况
+                    result = false;
+                    Debug.Log("缺少目标部位上下文。");
+                }
             }
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall1);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx.index] != null)
+                    if (ProgressManager.Instance.nowEntities[ctx.index] != null&&ctx.index!=0)
                     {
-                        ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
+                        if(ProgressManager.Instance.nowEntities[ctx.index].hp>0)
+                            ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
                     }
                 }
                 this.IsVisible = false;
@@ -364,37 +422,66 @@ public class EntityEvent_3_04 : OptionBase
                     : true;
             }
 
-            if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+            bool ifNeedOptionContext = false;
+            foreach (var characterBase in ProgressManager.Instance.nowEntities)
             {
-                if (ctx0.index > 5 || ctx0.index < 1)
+                if (characterBase == null)
                 {
-                    result = false;
-                    Debug.Log("ctx0.index>5||ctx0.index<1");
+                    continue; 
+                }
+                if (characterBase is Entity3 e3)
+                {
+                    continue;
                 }
                 else
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.level == 3)
                     {
-                        result = false;
-                        Debug.Log("这个部位为空。");
+                        if(characterBase.hp!=0)
+                            ifNeedOptionContext=true;
                     }
                 }
-
             }
-            else
+            if (ifNeedOptionContext)
             {
-                // 拦截没有传入目标参数的情况
-                result = false;
-                Debug.Log("缺少目标部位上下文。");
+                if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+                {
+                    if (ctx0.index > 5 || ctx0.index < 1)
+                    {
+                        result = false;
+                        Debug.Log("ctx0.index>5||ctx0.index<1");
+                    }
+                    else if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    {
+                        result = false;
+                        Debug.Log("这个部位为空，无法选择。");
+                    }
+                    else
+                    {
+                        if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                        {
+                            result = false;
+                            Debug.Log("这个部位为空。");
+                        }
+                    }
+
+                }
+                else
+                {
+                    // 拦截没有传入目标参数的情况
+                    result = false;
+                    Debug.Log("缺少目标部位上下文。");
+                }
             }
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall2);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx.index] != null)
+                    if (ProgressManager.Instance.nowEntities[ctx.index] != null&&ctx.index!=0)
                     {
-                        ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
+                        if(ProgressManager.Instance.nowEntities[ctx.index].hp>0)
+                            ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
                     }
                 }
                 this.IsVisible = false;
@@ -472,37 +559,66 @@ public class EntityEvent_3_05 : OptionBase
                     : true;
             }
 
-            if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+            bool ifNeedOptionContext = false;
+            foreach (var characterBase in ProgressManager.Instance.nowEntities)
             {
-                if (ctx0.index > 5 || ctx0.index < 1)
+                if (characterBase == null)
                 {
-                    result = false;
-                    Debug.Log("ctx0.index>5||ctx0.index<1");
+                    continue; 
+                }
+                if (characterBase is Entity3 e3)
+                {
+                    continue;
                 }
                 else
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.level == 3)
                     {
-                        result = false;
-                        Debug.Log("这个部位为空。");
+                        if(characterBase.hp!=0)
+                            ifNeedOptionContext=true;
                     }
                 }
-
             }
-            else
+            if (ifNeedOptionContext)
             {
-                // 拦截没有传入目标参数的情况
-                result = false;
-                Debug.Log("缺少目标部位上下文。");
+                if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+                {
+                    if (ctx0.index > 5 || ctx0.index < 1)
+                    {
+                        result = false;
+                        Debug.Log("ctx0.index>5||ctx0.index<1");
+                    }
+                    else if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    {
+                        result = false;
+                        Debug.Log("这个部位为空，无法选择。");
+                    }
+                    else
+                    {
+                        if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                        {
+                            result = false;
+                            Debug.Log("这个部位为空。");
+                        }
+                    }
+
+                }
+                else
+                {
+                    // 拦截没有传入目标参数的情况
+                    result = false;
+                    Debug.Log("缺少目标部位上下文。");
+                }
             }
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall3);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx.index] != null)
+                    if (ProgressManager.Instance.nowEntities[ctx.index] != null&&ctx.index!=0)
                     {
-                        ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
+                        if(ProgressManager.Instance.nowEntities[ctx.index].hp>0)
+                            ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
                     }
                 }
                 this.IsVisible = false;
@@ -580,37 +696,66 @@ public class EntityEvent_3_06 : OptionBase
                     : true;
             }
 
-            if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+            bool ifNeedOptionContext = false;
+            foreach (var characterBase in ProgressManager.Instance.nowEntities)
             {
-                if (ctx0.index > 5 || ctx0.index < 1)
+                if (characterBase == null)
                 {
-                    result = false;
-                    Debug.Log("ctx0.index>5||ctx0.index<1");
+                    continue; 
+                }
+                if (characterBase is Entity3 e3)
+                {
+                    continue;
                 }
                 else
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.level == 3)
                     {
-                        result = false;
-                        Debug.Log("这个部位为空。");
+                        if(characterBase.hp!=0)
+                            ifNeedOptionContext=true;
                     }
                 }
-
             }
-            else
+            if (ifNeedOptionContext)
             {
-                // 拦截没有传入目标参数的情况
-                result = false;
-                Debug.Log("缺少目标部位上下文。");
+                if (optionContext is EntityEvent_3_01_OptionContext ctx0)
+                {
+                    if (ctx0.index > 5 || ctx0.index < 1)
+                    {
+                        result = false;
+                        Debug.Log("ctx0.index>5||ctx0.index<1");
+                    }
+                    else if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    {
+                        result = false;
+                        Debug.Log("这个部位为空，无法选择。");
+                    }
+                    else
+                    {
+                        if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                        {
+                            result = false;
+                            Debug.Log("这个部位为空。");
+                        }
+                    }
+
+                }
+                else
+                {
+                    // 拦截没有传入目标参数的情况
+                    result = false;
+                    Debug.Log("缺少目标部位上下文。");
+                }
             }
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall4);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
-                    if (ProgressManager.Instance.nowEntities[ctx.index] != null)
+                    if (ProgressManager.Instance.nowEntities[ctx.index] != null&&ctx.index!=0)
                     {
-                        ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
+                        if(ProgressManager.Instance.nowEntities[ctx.index].hp>0)
+                            ProgressManager.Instance.nowEntities[ctx.index].BeAttacked(1);
                     }
                 }
                 this.IsVisible = false;

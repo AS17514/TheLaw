@@ -203,7 +203,7 @@ public class Entity3 : Entity
     
     public void weightless_Action_Struggle()
     {
-        if (ProgressManager.Instance.nowEntities[5] is Part3_4 p4)
+        if (ProgressManager.Instance.nowEntities[4] is Part3_4 p4)
         {
             if (!p4.isDestroyed)
             {
@@ -715,8 +715,7 @@ public class Entity3 : Entity
 //
 //     public void weightless_Action_Struggle()
 //     {
-//         if (ProgressManager.Instance.nowEntities[5] is Part3_4 p4)
-//         {
+//         if (ProgressManager.Instance.nowEntities[54
 //             if (!p4.isDestroyed)
 //             {
 //                 p4.BeAttacked(3);

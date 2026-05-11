@@ -41,8 +41,37 @@ public class Atk : OptionBase
         List<DiceBase> selected = DiceManager.Instance.selectedDice;
 
         // 2. 验证：必须刚好选中 2 颗骰子
+        
+        bool isNeedAtk=false;
         if (result && selected != null && selected.Count == 2&& optionContext is AtkOptionContext atkCtx)
         {
+            
+            foreach (var characterBase in ProgressManager.Instance.nowEntities)
+            {
+                if (characterBase == null)
+                {
+                    continue; 
+                }
+                if (characterBase is Entity)
+                {
+                    continue;
+                }
+                else
+                {
+                    if (characterBase.hp != 0)
+                    {
+                        isNeedAtk = true;
+                    }
+                }
+            }
+
+            if (!isNeedAtk)
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+                return;
+            }
+            
             DiceBase dice1 = selected[0];
             DiceBase dice2 = selected[1];
 
