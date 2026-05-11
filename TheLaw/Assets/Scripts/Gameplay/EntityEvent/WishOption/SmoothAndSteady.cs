@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,8 +77,8 @@ public class SmoothAndSteady:OptionBase
                 // 3. 执行回复生命逻辑 
                 if (healAmount > 0)
                 {
-                    BuffManager.Instance.player.hp += healAmount;
-                    // 记得通知 UI 刷新血量
+                    Player player = ProgressManager.Instance.player;
+                    player.hp = Math.Clamp(player.hp + healAmount, player.hp, player.maxHp);
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
                 }
 

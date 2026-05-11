@@ -807,7 +807,7 @@ public class EntityEvent_5_11 : OptionBase
 
             if (result)
             {
-                IsItUse = false;
+                IsItUse = true;
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 DiceManager.Instance.AddDice(E_DiceType.Mind);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
@@ -900,7 +900,7 @@ public class EntityEvent_5_12 : OptionBase
 
             if (result)
             {
-                IsItUse = false;
+                IsItUse = true;
                 ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 7,
                     ProgressManager.Instance.player.hp,
                     ProgressManager.Instance.player.maxHp);
@@ -985,7 +985,7 @@ public class EntityEvent_5_13 : OptionBase
 
             if (result)
             {
-                IsItUse = false;
+                IsItUse = true;
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 DiceManager.Instance.AddDice(E_DiceType.Action);
@@ -1075,7 +1075,6 @@ public class EntityEvent_5_14 : OptionBase
                 
                 DiceManager.Instance.AddDice(E_DiceType.Wild);
                 IsItUse = true;
-                EventManager.Instance.optionPool[E_OptionType.Level5_Option][14].IsVisible=true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
             }
