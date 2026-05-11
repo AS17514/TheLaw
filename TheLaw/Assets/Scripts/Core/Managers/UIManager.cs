@@ -133,7 +133,7 @@ public class UIManager : ManagerMonoBase<UIManager>
         CreatPanel<K>(layer);
 
         // 3. 强制让 Loading 多展示一会儿（比如 1 秒），让玩家看清楚动画
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(0f);
 
         // 4. 移除 Loading
         RemovePanel<LoadingPanel>();
