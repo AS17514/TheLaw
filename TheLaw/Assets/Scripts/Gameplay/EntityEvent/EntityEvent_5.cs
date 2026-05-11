@@ -56,7 +56,7 @@ public class EntityEvent_5_01 : OptionBase
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -75,16 +75,16 @@ public class EntityEvent_5_01 : OptionBase
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,-2);
+                    e5.AddBuff(E_BuffType.Desire, -2);
                 }
                 ProgressManager.Instance.nowEntities[1].BeAttacked(2);
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -100,7 +100,7 @@ public class EntityEvent_5_01 : OptionBase
         ProgressManager.Instance.player.BeAttacked(2);
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
     }
 }
 public class EntityEvent_5_02 : OptionBase
@@ -134,7 +134,7 @@ public class EntityEvent_5_02 : OptionBase
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -153,16 +153,16 @@ public class EntityEvent_5_02 : OptionBase
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,-3);
+                    e5.AddBuff(E_BuffType.Desire, -3);
                 }
                 ProgressManager.Instance.player.BeAttacked(1);
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -178,9 +178,9 @@ public class EntityEvent_5_02 : OptionBase
         ProgressManager.Instance.player.BeAttacked(2);
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
     }
-    
+
 }
 
 public class EntityEvent_5_03 : OptionBase
@@ -214,7 +214,7 @@ public class EntityEvent_5_03 : OptionBase
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -233,10 +233,10 @@ public class EntityEvent_5_03 : OptionBase
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,-3);
+                    e5.AddBuff(E_BuffType.Desire, -3);
                 }
                 ProgressManager.Instance.player.BeAttacked(Math.Abs(Math.Abs(ProgressManager.Instance.player.hp -
                                                                              ProgressManager.Instance.nowEntities[1]
@@ -244,7 +244,7 @@ public class EntityEvent_5_03 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -260,7 +260,7 @@ public class EntityEvent_5_03 : OptionBase
                                                                      ProgressManager.Instance.nowEntities[1].hp));
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
     }
 }
 
@@ -295,7 +295,7 @@ public class EntityEvent_5_04 : OptionBase
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -314,10 +314,10 @@ public class EntityEvent_5_04 : OptionBase
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,3);
+                    e5.AddBuff(E_BuffType.Desire, 3);
                 }
                 ProgressManager.Instance.player.BeAttacked(Math.Abs(Math.Abs(ProgressManager.Instance.player.hp -
                                                                              ProgressManager.Instance.nowEntities[1]
@@ -325,7 +325,7 @@ public class EntityEvent_5_04 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -341,7 +341,7 @@ public class EntityEvent_5_04 : OptionBase
                                                                      ProgressManager.Instance.nowEntities[1].hp));
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
     }
 }
 
@@ -553,7 +553,7 @@ public class EntityEvent_5_08 : OptionBase
     public override string OptionDescription { get; protected set; } = "对象的“欲望”-行动骰的点数";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
-    
+
     public override DiceCondition[] DiceCost
     {
         get
@@ -595,7 +595,7 @@ public class EntityEvent_5_08 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,-DiceManager.Instance.selectedDice[0].value);
+                    e5.AddBuff(E_BuffType.Desire, -DiceManager.Instance.selectedDice[0].value);
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -686,7 +686,7 @@ public class EntityEvent_5_10 : OptionBase
     public override string OptionDescription { get; protected set; } = "对象的“欲望”+思维骰的点数";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
-    
+
     public override DiceCondition[] DiceCost
     {
         get
@@ -728,7 +728,7 @@ public class EntityEvent_5_10 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,DiceManager.Instance.selectedDice[0].value);
+                    e5.AddBuff(E_BuffType.Desire, DiceManager.Instance.selectedDice[0].value);
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -758,7 +758,7 @@ public class EntityEvent_5_11 : OptionBase
     {
         get
         {
-            if(StateManager.Instance.currentState is E_StateType_5.unbalance&&!IsItUse)
+            if (StateManager.Instance.currentState is E_StateType_5.unbalance && !IsItUse)
                 return true;
             else
             {
@@ -783,7 +783,7 @@ public class EntityEvent_5_11 : OptionBase
 
     E_EntityEvent_5 entityEvent_5Type = E_EntityEvent_5.Memories;
 
-    public bool IsItUse=false;
+    public bool IsItUse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -812,7 +812,7 @@ public class EntityEvent_5_11 : OptionBase
                 DiceManager.Instance.AddDice(E_DiceType.Mind);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,2);
+                    e5.AddBuff(E_BuffType.Desire, 2);
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -842,10 +842,10 @@ public class EntityEvent_5_12 : OptionBase
     {
         get
         {
-            if(StateManager.Instance.currentState is E_StateType_5.unbalance&&!IsItUse
-                                                                            &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][10] is EntityEvent_5_11 e11)
+            if (StateManager.Instance.currentState is E_StateType_5.unbalance && !IsItUse
+                                                                            && EventManager.Instance.optionPool[E_OptionType.Level5_Option][10] is EntityEvent_5_11 e11)
             {
-                if(e11.IsItUse)
+                if (e11.IsItUse)
                     return true;
                 else
                 {
@@ -876,7 +876,7 @@ public class EntityEvent_5_12 : OptionBase
 
     E_EntityEvent_5 entityEvent_5Type = E_EntityEvent_5.WhoseWish;
 
-    public bool IsItUse=false;
+    public bool IsItUse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -933,10 +933,10 @@ public class EntityEvent_5_13 : OptionBase
     {
         get
         {
-            if(StateManager.Instance.currentState is E_StateType_5.unbalance&&!IsItUse
-                                                                            &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][11] is EntityEvent_5_12 e12)
+            if (StateManager.Instance.currentState is E_StateType_5.unbalance && !IsItUse
+                                                                            && EventManager.Instance.optionPool[E_OptionType.Level5_Option][11] is EntityEvent_5_12 e12)
             {
-                if(e12.IsItUse)
+                if (e12.IsItUse)
                     return true;
                 else
                 {
@@ -950,9 +950,9 @@ public class EntityEvent_5_13 : OptionBase
         }
     }
 
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
 
-    public override bool IsUseDiceCombo { get; protected set; }= true;
+    public override bool IsUseDiceCombo { get; protected set; } = true;
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
 
     #endregion
@@ -961,7 +961,7 @@ public class EntityEvent_5_13 : OptionBase
 
     E_EntityEvent_5 entityEvent_5Type = E_EntityEvent_5.WhoseFigure;
 
-    public bool IsItUse=false;
+    public bool IsItUse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -991,7 +991,7 @@ public class EntityEvent_5_13 : OptionBase
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,-e5.GetBuff(E_BuffType.Desire));
+                    e5.AddBuff(E_BuffType.Desire, -e5.GetBuff(E_BuffType.Desire));
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -1021,10 +1021,10 @@ public class EntityEvent_5_14 : OptionBase
     {
         get
         {
-            if(StateManager.Instance.currentState is E_StateType_5.equipoise
-               &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][12] is EntityEvent_5_13 e13)
+            if (StateManager.Instance.currentState is E_StateType_5.equipoise
+               && EventManager.Instance.optionPool[E_OptionType.Level5_Option][12] is EntityEvent_5_13 e13)
             {
-                if(e13.IsItUse)
+                if (e13.IsItUse)
                     return true;
                 else
                 {
@@ -1037,10 +1037,10 @@ public class EntityEvent_5_14 : OptionBase
             }
         }
     }
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
-    public override  bool IsUseDiceCombo { get; protected set; } = true;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsUseDiceCombo { get; protected set; } = true;
 
-    public override E_ComboType ComboType { get; protected set; }=E_ComboType.TripleMind;
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
 
     #endregion
 
@@ -1048,7 +1048,7 @@ public class EntityEvent_5_14 : OptionBase
 
     E_EntityEvent_5 entityEvent_5Type = E_EntityEvent_5.TheStarsDrawn;
 
-    public bool IsItUse=false;
+    public bool IsItUse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -1072,7 +1072,7 @@ public class EntityEvent_5_14 : OptionBase
 
             if (result)
             {
-                
+
                 DiceManager.Instance.AddDice(E_DiceType.Wild);
                 IsItUse = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
@@ -1103,10 +1103,10 @@ public class EntityEvent_5_15 : OptionBase
     {
         get
         {
-            if(StateManager.Instance.currentState is E_StateType_5.equipoise
-               &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][13] is EntityEvent_5_14 e14)
+            if (StateManager.Instance.currentState is E_StateType_5.equipoise
+               && EventManager.Instance.optionPool[E_OptionType.Level5_Option][13] is EntityEvent_5_14 e14)
             {
-                if(e14.IsItUse)
+                if (e14.IsItUse)
                     return true;
                 else
                 {
@@ -1120,17 +1120,17 @@ public class EntityEvent_5_15 : OptionBase
         }
     }
 
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
-    public override  bool IsUseDiceCombo { get; protected set; } = true;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsUseDiceCombo { get; protected set; } = true;
 
-    public override E_ComboType ComboType { get; protected set; }=E_ComboType.TripleMind;
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
     #endregion
 
     #region 本身属性
 
     E_EntityEvent_5 entityEvent_5Type = E_EntityEvent_5.FragmentedGlowingLight;
 
-    public bool IsItUse=false;
+    public bool IsItUse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -1178,7 +1178,7 @@ public class EntityEvent_5_16 : OptionBase
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
 
-    public override bool IsVisible { get; set; }=true;
+    public override bool IsVisible { get; set; } = true;
 
     public override DiceCondition[] DiceCost
     {
@@ -1226,12 +1226,12 @@ public class EntityEvent_5_16 : OptionBase
                 dice1.value = 1;
                 dice2.value = 1;
                 dice3.value = 1;
-                DiceManager.Instance.AddDice(E_DiceType.Action,dice1);
-                DiceManager.Instance.AddDice(E_DiceType.Action,dice2);
-                DiceManager.Instance.AddDice(E_DiceType.Action,dice3);
+                DiceManager.Instance.AddDice(E_DiceType.Action, dice1);
+                DiceManager.Instance.AddDice(E_DiceType.Action, dice2);
+                DiceManager.Instance.AddDice(E_DiceType.Action, dice3);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
-                    e5.AddBuff(E_BuffType.Desire,5);
+                    e5.AddBuff(E_BuffType.Desire, 5);
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -1256,7 +1256,7 @@ public class EntityEvent_5_17 : OptionBase
     public override string OptionDescription { get; protected set; } = "时间进度+8";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
-    
+
     public override DiceCondition[] DiceCost
     {
         get
@@ -1298,7 +1298,7 @@ public class EntityEvent_5_17 : OptionBase
             if (result)
             {
                 ProgressManager.Instance.AddTimeProgress(8);
-                EventManager.Instance.optionPool[E_OptionType.Level5_Option][17].IsVisible=true;
+                EventManager.Instance.optionPool[E_OptionType.Level5_Option][17].IsVisible = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
             }
@@ -1322,7 +1322,7 @@ public class EntityEvent_5_18 : OptionBase
     public override string OptionDescription { get; protected set; } = "?";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
-    
+
     public override DiceCondition[] DiceCost
     {
         get
@@ -1365,7 +1365,7 @@ public class EntityEvent_5_18 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[1] is Part5_1 part5_1)
                 {
-                    part5_1.isHpLocked=false;
+                    part5_1.isHpLocked = false;
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();

@@ -33,7 +33,7 @@ public class EntityEvent_3_01 : OptionBase
 
     public override bool IsUseDiceCombo { get; protected set; } = true;
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleAction;
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
 
     #endregion
 
@@ -45,7 +45,7 @@ public class EntityEvent_3_01 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -65,31 +65,31 @@ public class EntityEvent_3_01 : OptionBase
 
             if (optionContext is EntityEvent_3_01_OptionContext ctx0)
             {
-                if(ctx0.index>5||ctx0.index<1)
+                if (ctx0.index > 5 || ctx0.index < 1)
                 {
                     result = false;
                     Debug.Log("ctx0.index>5||ctx0.index<1");
                 }
                 else
                 {
-                    if(ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
                     {
                         result = false;
                         Debug.Log("这个部位为空。");
                     }
                 }
-                
+
             }
-            else 
+            else
             {
                 // 拦截没有传入目标参数的情况
-                result = false; 
+                result = false;
                 Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToMarble);
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToBall);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToMarble);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToBall);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
                     if (ProgressManager.Instance.nowEntities[ctx.index] != null)
@@ -100,7 +100,7 @@ public class EntityEvent_3_01 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -117,7 +117,7 @@ public class EntityEvent_3_01 : OptionBase
                                                                  - ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)));
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToMarble);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToMarble);
     }
     public void NeverRespondToBall(object info = null)
     {
@@ -126,7 +126,7 @@ public class EntityEvent_3_01 : OptionBase
                                                                  - ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)));
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToBall);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToBall);
     }
 }
 public class EntityEvent_3_02 : OptionBase
@@ -142,7 +142,7 @@ public class EntityEvent_3_02 : OptionBase
 
     public override bool IsUseDiceCombo { get; protected set; } = true;
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.Quadruple;
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
 
     #endregion
 
@@ -154,7 +154,7 @@ public class EntityEvent_3_02 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -171,10 +171,10 @@ public class EntityEvent_3_02 : OptionBase
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
-            
+
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToGravity);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToGravity);
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
@@ -186,7 +186,7 @@ public class EntityEvent_3_02 : OptionBase
                         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                     }
                 }
-                
+
             }
             else
             {
@@ -201,7 +201,7 @@ public class EntityEvent_3_02 : OptionBase
         DiceManager.Instance.SetAllTimeDiceToFour();
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToGravity);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToGravity);
     }
 }
 public class EntityEvent_3_03 : OptionBase
@@ -238,7 +238,7 @@ public class EntityEvent_3_03 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -258,30 +258,30 @@ public class EntityEvent_3_03 : OptionBase
 
             if (optionContext is EntityEvent_3_01_OptionContext ctx0)
             {
-                if(ctx0.index>5||ctx0.index<1)
+                if (ctx0.index > 5 || ctx0.index < 1)
                 {
                     result = false;
                     Debug.Log("ctx0.index>5||ctx0.index<1");
                 }
                 else
                 {
-                    if(ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
                     {
                         result = false;
                         Debug.Log("这个部位为空。");
                     }
                 }
-                
+
             }
-            else 
+            else
             {
                 // 拦截没有传入目标参数的情况
-                result = false; 
+                result = false;
                 Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall1);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall1);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
                     if (ProgressManager.Instance.nowEntities[ctx.index] != null)
@@ -292,7 +292,7 @@ public class EntityEvent_3_03 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -308,9 +308,9 @@ public class EntityEvent_3_03 : OptionBase
         ProgressManager.Instance.player.BeAttacked(1);
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall1);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall1);
     }
-    
+
 }
 public class EntityEvent_3_04 : OptionBase
 {
@@ -346,7 +346,7 @@ public class EntityEvent_3_04 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -366,30 +366,30 @@ public class EntityEvent_3_04 : OptionBase
 
             if (optionContext is EntityEvent_3_01_OptionContext ctx0)
             {
-                if(ctx0.index>5||ctx0.index<1)
+                if (ctx0.index > 5 || ctx0.index < 1)
                 {
                     result = false;
                     Debug.Log("ctx0.index>5||ctx0.index<1");
                 }
                 else
                 {
-                    if(ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
                     {
                         result = false;
                         Debug.Log("这个部位为空。");
                     }
                 }
-                
+
             }
-            else 
+            else
             {
                 // 拦截没有传入目标参数的情况
-                result = false; 
+                result = false;
                 Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall2);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall2);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
                     if (ProgressManager.Instance.nowEntities[ctx.index] != null)
@@ -400,7 +400,7 @@ public class EntityEvent_3_04 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -416,9 +416,9 @@ public class EntityEvent_3_04 : OptionBase
         ProgressManager.Instance.player.BeAttacked(1);
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall2);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall2);
     }
-    
+
 }
 public class EntityEvent_3_05 : OptionBase
 {
@@ -454,7 +454,7 @@ public class EntityEvent_3_05 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -474,30 +474,30 @@ public class EntityEvent_3_05 : OptionBase
 
             if (optionContext is EntityEvent_3_01_OptionContext ctx0)
             {
-                if(ctx0.index>5||ctx0.index<1)
+                if (ctx0.index > 5 || ctx0.index < 1)
                 {
                     result = false;
                     Debug.Log("ctx0.index>5||ctx0.index<1");
                 }
                 else
                 {
-                    if(ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
                     {
                         result = false;
                         Debug.Log("这个部位为空。");
                     }
                 }
-                
+
             }
-            else 
+            else
             {
                 // 拦截没有传入目标参数的情况
-                result = false; 
+                result = false;
                 Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall3);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall3);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
                     if (ProgressManager.Instance.nowEntities[ctx.index] != null)
@@ -508,7 +508,7 @@ public class EntityEvent_3_05 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -524,9 +524,9 @@ public class EntityEvent_3_05 : OptionBase
         ProgressManager.Instance.player.BeAttacked(1);
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall3);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall3);
     }
-    
+
 }
 public class EntityEvent_3_06 : OptionBase
 {
@@ -562,7 +562,7 @@ public class EntityEvent_3_06 : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-         if (IsVisible)
+        if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
                 ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
@@ -582,30 +582,30 @@ public class EntityEvent_3_06 : OptionBase
 
             if (optionContext is EntityEvent_3_01_OptionContext ctx0)
             {
-                if(ctx0.index>5||ctx0.index<1)
+                if (ctx0.index > 5 || ctx0.index < 1)
                 {
                     result = false;
                     Debug.Log("ctx0.index>5||ctx0.index<1");
                 }
                 else
                 {
-                    if(ProgressManager.Instance.nowEntities[ctx0.index] == null)
+                    if (ProgressManager.Instance.nowEntities[ctx0.index] == null)
                     {
                         result = false;
                         Debug.Log("这个部位为空。");
                     }
                 }
-                
+
             }
-            else 
+            else
             {
                 // 拦截没有传入目标参数的情况
-                result = false; 
+                result = false;
                 Debug.Log("缺少目标部位上下文。");
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall4);
+                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall4);
                 if (optionContext is EntityEvent_3_01_OptionContext ctx)
                 {
                     if (ProgressManager.Instance.nowEntities[ctx.index] != null)
@@ -616,7 +616,7 @@ public class EntityEvent_3_06 : OptionBase
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
-                
+
             }
             else
             {
@@ -632,9 +632,9 @@ public class EntityEvent_3_06 : OptionBase
         ProgressManager.Instance.player.BeAttacked(1);
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespondToFurBall4);
+        EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToFurBall4);
     }
-    
+
 }
 public class EntityEvent_3_07 : OptionBase
 {
@@ -691,8 +691,8 @@ public class EntityEvent_3_07 : OptionBase
 
                 EntityDice dice = DiceManager.Instance.AddEntityDice();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
-                ProgressManager.Instance.player.AddBuff(E_BuffType.Desire,dice.value);
-                
+                ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, dice.value);
+
                 // 任务 1：推进时间
                 ProgressManager.Instance.AdvancePhase(1);
                 ProgressManager.Instance.AddTimeProgress(DiceManager.Instance.selectedDice[0].value);
@@ -766,7 +766,7 @@ public class EntityEvent_3_08 : OptionBase
                 IsVisible = false;
                 if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
                 {
-                    e3.AddBuff(E_BuffType.Desire,1);
+                    e3.AddBuff(E_BuffType.Desire, 1);
                 }
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
@@ -833,11 +833,11 @@ public class EntityEvent_3_09 : OptionBase
             if (result)
             {
                 Part3_1.PartApear();
-                this.IsVisible=false;
-                EventManager.Instance.optionPool[E_OptionType.Level3_Option][9].IsVisible=true;
+                this.IsVisible = false;
+                EventManager.Instance.optionPool[E_OptionType.Level3_Option][9].IsVisible = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
-                
+
             }
             else
             {
@@ -901,10 +901,10 @@ public class EntityEvent_3_10 : OptionBase
             if (result)
             {
                 Part3_2.PartApear();
-                this.IsVisible=false;
+                this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
-                
+
             }
             else
             {
@@ -949,7 +949,7 @@ public class EntityEvent_3_11 : OptionBase
     #region 本身属性
 
     E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.Observe;
-    public bool isItuse=false;
+    public bool isItuse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -975,10 +975,10 @@ public class EntityEvent_3_11 : OptionBase
             {
                 Part3_3.PartApear();
                 Part3_4.PartApear();
-                isItuse=true;
+                isItuse = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
-                
+
             }
             else
             {
@@ -1020,7 +1020,7 @@ public class EntityEvent_3_12 : OptionBase
     }
 
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.MindActionPair;
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
     public override bool IsUseDiceCombo { get; protected set; } = true;
 
     #endregion
@@ -1028,7 +1028,7 @@ public class EntityEvent_3_12 : OptionBase
     #region 本身属性
 
     E_EntityEvent_3 entityEvent_3Type = E_EntityEvent_3.Hearken;
-    public bool IsItuse=false;
+    public bool IsItuse = false;
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
@@ -1054,13 +1054,13 @@ public class EntityEvent_3_12 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
                 {
-                    e3.AddBuff(E_BuffType.Desire,2);
+                    e3.AddBuff(E_BuffType.Desire, 2);
                 }
                 IsItuse = true;
-                EventManager.Instance.optionPool[E_OptionType.Level3_Option][12].IsVisible=true;
+                EventManager.Instance.optionPool[E_OptionType.Level3_Option][12].IsVisible = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
-                
+
             }
             else
             {
@@ -1095,10 +1095,10 @@ public class EntityEvent_3_13 : OptionBase
     {
         if (IsVisible)
         {
-            IsItuse=true;
+            IsItuse = true;
             EntityDice dice = DiceManager.Instance.AddEntityDice();
-            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire,dice.value);
-            this.IsVisible=false;
+            ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, dice.value);
+            this.IsVisible = false;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
     }
@@ -1116,7 +1116,7 @@ public class EntityEvent_3_14 : OptionBase
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleMind;
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
     public override bool IsUseDiceCombo { get; protected set; } = true;
     #endregion
 
@@ -1149,17 +1149,17 @@ public class EntityEvent_3_14 : OptionBase
             {
                 if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
                 {
-                    if(e3.GetBuff(E_BuffType.Desire)>2)
-                        e3.AddBuff(E_BuffType.Desire,-2);
+                    if (e3.GetBuff(E_BuffType.Desire) > 2)
+                        e3.AddBuff(E_BuffType.Desire, -2);
                     else
-                        e3.AddBuff(E_BuffType.Desire,-e3.GetBuff(E_BuffType.Desire));
+                        e3.AddBuff(E_BuffType.Desire, -e3.GetBuff(E_BuffType.Desire));
                 }
 
                 IsItuse = true;
                 ProgressManager.Instance.AddTimeProgress(2);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
-                
+
             }
             else
             {
@@ -1186,17 +1186,17 @@ public class EntityEvent_3_15 : OptionBase
     {
         get
         {
-           if(EventManager.Instance.optionPool[E_OptionType.Level3_Option][11] is EntityEvent_3_12 e12)
-           {
-               if(EventManager.Instance.optionPool[E_OptionType.Level3_Option][13] is EntityEvent_3_14 e14)
-                   if(e12.IsItuse&&e14.IsItuse)
-                       return true;
-           }
+            if (EventManager.Instance.optionPool[E_OptionType.Level3_Option][11] is EntityEvent_3_12 e12)
+            {
+                if (EventManager.Instance.optionPool[E_OptionType.Level3_Option][13] is EntityEvent_3_14 e14)
+                    if (e12.IsItuse && e14.IsItuse)
+                        return true;
+            }
             return false;
         }
     }
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.Quadruple;
-    public override bool IsDiceConditionsHave { get; protected set; }=false;
+    public override bool IsDiceConditionsHave { get; protected set; } = false;
     public override bool IsUseDiceCombo { get; protected set; } = true;
     #endregion
 

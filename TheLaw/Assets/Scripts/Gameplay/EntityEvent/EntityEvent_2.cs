@@ -74,7 +74,7 @@ public class EntityEvent_2_01 : OptionBase
 
             if (result)
             {
-                if(EventCenter.Instance.IsEventListenersNull(E_EventType.Logic_PlayerActionExecuted, NeverRespondToScorchingSun))
+                if (EventCenter.Instance.IsEventListenersNull(E_EventType.Logic_PlayerActionExecuted, NeverRespondToScorchingSun))
                     ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, 1);
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToScorchingSun);
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToStress);
@@ -101,7 +101,7 @@ public class EntityEvent_2_01 : OptionBase
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Desire) > 0)
         {
             if (ProgressManager.Instance.nowEntities[0] is Entity2 entity2)
-                if(entity2.GetBuff(E_BuffType.Desire)>0)
+                if (entity2.GetBuff(E_BuffType.Desire) > 0)
                     ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
         }
 
@@ -125,7 +125,7 @@ public class EntityEvent_2_01 : OptionBase
         if (playerDesire > 0)
         {
             if (ProgressManager.Instance.nowEntities[0] is Entity2 entity2)
-                if(entity2.GetBuff(E_BuffType.Desire)>0)
+                if (entity2.GetBuff(E_BuffType.Desire) > 0)
                     ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, -1);
         }
         else
