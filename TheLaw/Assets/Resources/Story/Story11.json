@@ -1,7 +1,6 @@
 {
     "title": "第五关结束",
-    "afterStory": "Battle",
-    "nextBattle": 3,
+    "afterStory": "End",
     "pages": [
         {
             "page": 1,

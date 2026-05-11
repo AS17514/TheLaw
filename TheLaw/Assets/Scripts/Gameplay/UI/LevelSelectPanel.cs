@@ -60,7 +60,7 @@ public class LevelSelectPanel : PanelBase
                 tmp.text = "???";
                 break;
             case 5:
-                tmp.text = "???";
+                tmp.text = "天平";
                 break;
             default:
                 break;

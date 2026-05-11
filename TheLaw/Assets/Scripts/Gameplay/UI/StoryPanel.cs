@@ -236,6 +236,9 @@ public class StoryPanel : PanelBase
                     case "BackToBattle":
                         UIManager.Instance.RemovePanel<StoryPanel>();
                         break;
+                    case "End":
+                        UIManager.Instance.ChangePanel<StoryPanel, EndingPanel>();
+                        break;
                     default:
                         break;
                 }
