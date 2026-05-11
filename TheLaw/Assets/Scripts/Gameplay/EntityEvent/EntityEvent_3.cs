@@ -99,7 +99,7 @@ public class EntityEvent_3_01 : OptionBase
                 }
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
+                DiceManager.Instance.ConsumeValidSelectedDice(IsResponseOption); //消耗骰子
 
             }
             else
@@ -177,7 +177,7 @@ public class EntityEvent_3_02 : OptionBase
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespondToGravity);
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
+                DiceManager.Instance.ConsumeValidSelectedDice(IsResponseOption); //消耗骰子
                 if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
                 {
                     if (Math.Abs(e3.GetBuff(E_BuffType.Desire) -
@@ -291,7 +291,7 @@ public class EntityEvent_3_03 : OptionBase
                 }
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
+                DiceManager.Instance.ConsumeValidSelectedDice(IsResponseOption); //消耗骰子
 
             }
             else
@@ -399,7 +399,7 @@ public class EntityEvent_3_04 : OptionBase
                 }
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
+                DiceManager.Instance.ConsumeValidSelectedDice(IsResponseOption); //消耗骰子
 
             }
             else
@@ -507,7 +507,7 @@ public class EntityEvent_3_05 : OptionBase
                 }
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
+                DiceManager.Instance.ConsumeValidSelectedDice(IsResponseOption); //消耗骰子
 
             }
             else
@@ -615,7 +615,7 @@ public class EntityEvent_3_06 : OptionBase
                 }
                 this.IsVisible = false;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
-                DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
+                DiceManager.Instance.ConsumeValidSelectedDice(IsResponseOption); //消耗骰子
 
             }
             else

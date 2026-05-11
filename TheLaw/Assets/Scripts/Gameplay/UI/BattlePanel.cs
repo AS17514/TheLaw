@@ -559,17 +559,19 @@ public class BattlePanel : PanelBase
                 }
                 // 给事件加点击委托
                 Button eventButton = eventObj.GetComponentInChildren<Button>();
-                OptionContext optionContext = null;
                 eventButton.onClick.RemoveAllListeners();
-                // 特殊事件传参
-                if ((E_OptionType)(level + 2) is E_OptionType.Level3_Option && eventIndex == 1)
-                {
-                    optionContext = new EntityEvent_3_01_OptionContext() { index = PartIndex };
-                }
                 eventButton.onClick.AddListener(() =>
                 {
+                    OptionContext context = null;
+                    if ((E_OptionType)(level + 2) == E_OptionType.Level3_Option)
+                    {
+                        if (option.OptionID == 1 || option.OptionID == 3 || option.OptionID == 4 || option.OptionID == 5 || option.OptionID == 6)
+                        {
+                            context = new EntityEvent_3_01_OptionContext() { index = PartIndex };
+                        }
+                    }
                     Debug.Log($"执行{eventIndex + 1}号事件({option.OptionName})");
-                    EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex, optionContext);
+                    EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex, context);
                 });
             }
             index++;
