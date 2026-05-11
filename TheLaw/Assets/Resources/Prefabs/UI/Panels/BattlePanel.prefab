@@ -9662,7 +9662,7 @@ GameObject:
   - component: {fileID: 9096219566461855318}
   - component: {fileID: 7757921431019254638}
   m_Layer: 5
-  m_Name: Button_Wish_Null3
+  m_Name: Button_Wish_Infinite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16157,7 +16157,7 @@ GameObject:
   - component: {fileID: 1469695879254346300}
   - component: {fileID: 6754286479401944222}
   m_Layer: 5
-  m_Name: Button_Wish_Null4
+  m_Name: Button_Wish_SmoothAndSteady
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

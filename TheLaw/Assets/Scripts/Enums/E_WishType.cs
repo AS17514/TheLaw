@@ -4,5 +4,8 @@ using UnityEngine;
 
 public enum E_WishType
 {
-
+    Abundance,
+    Vibrancy,
+    Infinite,
+    SmoothAndSteady
 }

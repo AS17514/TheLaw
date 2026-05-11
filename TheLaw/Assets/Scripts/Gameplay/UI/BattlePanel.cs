@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,11 +12,52 @@ using UnityEngine.UI;
 /// 怎么，打不中吗（指找不着bug）
 /// </summary>
 
+public class PlayerTips
+{
+    // 固有
+    public string[][] inherentActions;
+    // 律
+    public string[][] laws;
+    // 许愿
+    public string[][] wishes;
+    // buff
+    public string[][][] buffs;
+}
+public class EntityTips
+{
+    // 状态
+    public string[][] states;
+    // buff
+    public string[][] buffs;
+    // 事件
+    public string[][] events;
+}
+public class EntityActionTips
+{
+    // 行动
+    public string[][] actions;
+}
+public class EntityDesireTips
+{
+    // 许愿
+    public string[][] wishes;
+}
+public class EntityPartTips
+{
+    // 部位
+    public string[][] parts;
+}
 public class BattlePanel : PanelBase
 {
     //  记录一下选中骰列表
     List<DiceBase> selectedDiceList = DiceManager.Instance.selectedDice;
     RectTransform rectTransform;
+    // 记录对应关卡文本
+    PlayerTips playerTips;
+    EntityTips entityTips;
+    EntityActionTips entityActionTips;
+    EntityDesireTips entityDesireTips;
+    EntityPartTips entityPartTips;
     // 记录一下这是第几关
     int level;
     // 记录玩家修改界面上的参数
@@ -80,7 +122,7 @@ public class BattlePanel : PanelBase
         LoadAllResources();
         InitEvents();
         Init();
-        InitEventsRegist();
+        InitTipsRegist();
     }
 
     void LoadAllResources()
@@ -93,6 +135,12 @@ public class BattlePanel : PanelBase
                 resources.Add(gameObject.name, gameObject);
             }
         }
+        // 加载文本描述
+        playerTips = JsonConvert.DeserializeObject<PlayerTips>(Resources.Load<TextAsset>($"TipsText/PlayerTips").text);
+        entityTips = JsonConvert.DeserializeObject<EntityTips>(Resources.Load<TextAsset>($"TipsText/Entity{level}Tips").text);
+        entityActionTips = JsonConvert.DeserializeObject<EntityActionTips>(Resources.Load<TextAsset>($"TipsText/EntityActionTips").text);
+        entityDesireTips = JsonConvert.DeserializeObject<EntityDesireTips>(Resources.Load<TextAsset>($"TipsText/EntityDesireTips").text);
+        entityPartTips = JsonConvert.DeserializeObject<EntityPartTips>(Resources.Load<TextAsset>($"TipsText/Entity{level}PartTips").text);
     }
     #region Dice
     // 更新选中骰
@@ -309,115 +357,57 @@ public class BattlePanel : PanelBase
             {
                 GameObject buff = Instantiate<GameObject>(resources[$"Buff_{item.Key}"], content);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
             }
         }
     }
     #endregion
     #region Entity
-    void UpdateEntityState()
-    {
-        Enum state = StateManager.Instance.currentState;
-        TextMeshProUGUI entityState = GetControl<TextMeshProUGUI>("Text (TMP)_EntityState");
-        if (state is E_StateType_1)
-        {
-            switch ((E_StateType_1)state)
-            {
-                case E_StateType_1.normal:
-                    entityState.text = "正常";
-                    break;
-                case E_StateType_1.exhausted:
-                    entityState.text = "疲惫";
-                    break;
-                default:
-                    return;
-            }
-        }
-    }
     void UpdateEntityAction()
     {
         E_IntentType actionType = StateManager.Instance.UI_currentExecutableAction;
         TextMeshProUGUI action = GetControl<TextMeshProUGUI>("Text (TMP)_EntityAction");
-        switch (actionType)
-        {
-            case E_IntentType.Entity1_Atk:
-                action.text = "攻击";
-                break;
-            case E_IntentType.Entity1_Eat:
-                action.text = "吃";
-                break;
-            case E_IntentType.Entity2_LightRain:
-                action.text = "小雨";
-                break;
-            case E_IntentType.Entity2_ScorchingSun:
-                action.text = "烈日";
-                break;
-            case E_IntentType.Entity2_Gale:
-                action.text = "大风";
-                break;
-            case E_IntentType.Entity2_Stress:
-                action.text = "应激";
-                break;
-            case E_IntentType.Entity2_HysterialStress:
-                action.text = "应激";
-                break;
-            case E_IntentType.Entity2_Rainstorm:
-                action.text = "暴雨";
-                break;
-            case E_IntentType.Entity3_Marble:
-                action.text = "弹珠";
-                break;
-            case E_IntentType.Entity3_Ball:
-                action.text = "球";
-                break;
-            case E_IntentType.Entity3_Curiousity:
-                action.text = "好奇";
-                break;
-            case E_IntentType.Entity3_Struggle:
-                action.text = "挣扎";
-                break;
-            case E_IntentType.Entity3_Gravity:
-                action.text = "引力";
-                break;
-            case E_IntentType.Entity3_AnEmptyPlanet:
-                action.text = "空无一人的星球";
-                break;
-            default:
-                break;
-        }
+        // 设置行动名，注册光标覆盖事件
+        action.text = entityActionTips.actions[(int)actionType][0];
+        RegisterTooltip<TextMeshProUGUI>(action, entityActionTips.actions[(int)actionType][0], entityActionTips.actions[(int)actionType][1]);
     }
     void UpdateEntityWish()
     {
         E_DesireType wishType = StateManager.Instance.UI_currentExecutableDesire;
         TextMeshProUGUI wish = GetControl<TextMeshProUGUI>("Text (TMP)_EntityWish");
-        switch (wishType)
+        // 设置许愿名，注册光标覆盖事件
+        wish.text = entityDesireTips.wishes[(int)wishType][0];
+        RegisterTooltip<TextMeshProUGUI>(wish, entityDesireTips.wishes[(int)wishType][0], entityDesireTips.wishes[(int)wishType][1]);
+    }
+    void UpdateEntityState()
+    {
+        Enum state = StateManager.Instance.currentState;
+        TextMeshProUGUI entityState = GetControl<TextMeshProUGUI>("Text (TMP)_EntityState");
+        // 设置状态名，注册光标覆盖事件
+        switch (level)
         {
-            case E_DesireType.Entity1_FilledWithFood:
-                wish.text = "装满食物";
+            case 1:
+                entityState.text = entityTips.states[(int)(E_StateType_1)state][0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_1)state][0], entityTips.states[(int)(E_StateType_1)state][1]);
                 break;
-            case E_DesireType.Entity1_Urgent:
-                wish.text = "迫切";
+            case 2:
+                entityState.text = entityTips.states[(int)(E_StateType_2)state][0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_2)state][0], entityTips.states[(int)(E_StateType_2)state][1]);
                 break;
-            case E_DesireType.Entity1_Feed:
-                wish.text = "进食";
+            case 3:
+                entityState.text = entityTips.states[(int)(E_StateType_3)state][0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_3)state][0], entityTips.states[(int)(E_StateType_3)state][1]);
                 break;
-            case E_DesireType.Entity2_HiddenBehindTheClothes:
-                wish.text = "藏在衣服的后面";
+            case 4:
+                entityState.text = entityTips.states[(int)(E_StateType_4)state][0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_4)state][0], entityTips.states[(int)(E_StateType_4)state][1]);
                 break;
-            case E_DesireType.Entity2_IfThatCountsAsMyClothesToo:
-                wish.text = "如果那也算我的衣服";
+            case 5:
+                entityState.text = entityTips.states[(int)(E_StateType_5)state][0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_5)state][0], entityTips.states[(int)(E_StateType_5)state][1]);
                 break;
-            case E_DesireType.Entity2_IfThoseCouldBeSofter:
-                wish.text = "如果那些****能柔软些";
-                break;
-            case E_DesireType.Entity2_PleaseTearThoseTornTattersApart:
-                wish.text = "请把那些破布撕碎吧";
-                break;
-            case E_DesireType.Entity2_ThereAreNoMoreWishesLeft:
-                wish.text = "已经没有再多的愿望了";
-                break;
-
             default:
-                return;
+                break;
         }
     }
     void UpdateEntityBuff()
@@ -434,6 +424,7 @@ public class BattlePanel : PanelBase
             {
                 GameObject buff = Instantiate<GameObject>(resources[$"Buff_{item.Key}"], content);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
             }
         }
     }
@@ -445,7 +436,7 @@ public class BattlePanel : PanelBase
             Part part = (Part)Parts[index];
             if (part == null)
             {
-                ;
+                // 没发现部位
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
@@ -457,6 +448,7 @@ public class BattlePanel : PanelBase
             }
             if (part.IsVisible && !part.isDestroyed && part.IsCouldBeAttacked())
             {
+                // 发现部位，部位可攻击且没被破坏
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = true;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
@@ -464,9 +456,11 @@ public class BattlePanel : PanelBase
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = part.maxHp;
                 slider.value = part.hp;
+                RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
             }
             else if (!part.isDestroyed && !part.IsCouldBeAttacked())
             {
+                // 发现部位，部位没被破坏但是不可攻击
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
@@ -474,9 +468,11 @@ public class BattlePanel : PanelBase
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = part.maxHp;
                 slider.value = part.hp;
+                RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
             }
             else if (part.IsVisible && part.isDestroyed)
             {
+                // 发现部位，已经被破坏
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = $"{part.partName} (已破坏)";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
@@ -484,9 +480,11 @@ public class BattlePanel : PanelBase
                 Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
                 slider.maxValue = part.maxHp;
                 slider.value = part.hp;
+                RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
             }
             else
             {
+                // 默认情况
                 GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
                 GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
@@ -531,15 +529,17 @@ public class BattlePanel : PanelBase
                     switch (item.gameObject.name)
                     {
                         case "Name":
-                            item.text = option.OptionName;
+                            item.text = entityTips.events[index][0];
                             break;
                         case "Description":
-                            item.text = option.OptionDescription;
+                            item.text = entityTips.events[index][1];
                             break;
                         default:
                             break;
                     }
                 }
+                // 设置光标移上去显示的需求
+                RegisterTooltip<Button>(eventObj.GetComponentInChildren<Button>(), "需求", entityTips.events[index][2]);
                 // 拿到骰子滑动列表，准备装骰子
                 Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
                 // 如果有需求的骰子列表
@@ -574,24 +574,28 @@ public class BattlePanel : PanelBase
         switch (level)
         {
             case 5:
-                Button btn4 = GetControl<Button>("Button_Wish_Null4");
+                Button btn4 = GetControl<Button>("Button_Wish_SmoothAndSteady");
                 btn4.interactable = true;
-                btn4.GetComponentInChildren<TextMeshProUGUI>().text = "null4";
+                btn4.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[3][0];
+                RegisterTooltip<Button>("Button_Wish_SmoothAndSteady", playerTips.wishes[3][0], playerTips.wishes[3][1]);
                 goto case 4;
             case 4:
-                Button btn3 = GetControl<Button>("Button_Wish_Null3");
+                Button btn3 = GetControl<Button>("Button_Wish_Infinite");
                 btn3.interactable = true;
-                btn3.GetComponentInChildren<TextMeshProUGUI>().text = "null3";
+                btn3.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[2][0];
+                RegisterTooltip<Button>("Button_Wish_Infinite", playerTips.wishes[2][0], playerTips.wishes[2][1]);
                 goto case 3;
             case 3:
                 Button btn2 = GetControl<Button>("Button_Wish_Vibrancy");
                 btn2.interactable = true;
-                btn2.GetComponentInChildren<TextMeshProUGUI>().text = "鲜艳";
+                btn2.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[1][0];
+                RegisterTooltip<Button>("Button_Wish_Vibrancy", playerTips.wishes[1][0], playerTips.wishes[1][1]);
                 goto case 2;
             case 2:
                 Button btn1 = GetControl<Button>("Button_Wish_Abundance");
                 btn1.interactable = true;
-                btn1.GetComponentInChildren<TextMeshProUGUI>().text = "富足";
+                btn1.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[0][0];
+                RegisterTooltip<Button>("Button_Wish_Abundance", playerTips.wishes[0][0], playerTips.wishes[0][1]);
                 break;
             default:
                 return;
@@ -956,10 +960,10 @@ public class BattlePanel : PanelBase
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
                 }
                 break;
-            case "Button_Wish_Null3":
+            case "Button_Wish_Infinite":
                 SkillManager.ExcuteSkills(9);
                 break;
-            case "Button_Wish_Null4":
+            case "Button_Wish_SmoothAndSteady":
                 SkillManager.ExcuteSkills(10);
                 break;
             #endregion
@@ -1174,8 +1178,18 @@ public class BattlePanel : PanelBase
                 return;
         }
     }
-    void InitEventsRegist()
+    void InitTipsRegist()
     {
-        RegisterTooltip<Button>("Button_InherentAction_Prepare", "准备", "选定一个时间骰，选择行动或思维\n选择的时间骰点数+1，投掷并获得一个选定类型的骰子");
+        #region 固有行动
+        RegisterTooltip<Button>("Button_InherentAction_Prepare", playerTips.inherentActions[0][0], playerTips.inherentActions[0][1]);
+        RegisterTooltip<Button>("Button_InherentAction_Adjust", playerTips.inherentActions[1][0], playerTips.inherentActions[1][1]);
+        RegisterTooltip<Button>("Button_InherentAction_Overturn", playerTips.inherentActions[2][0], playerTips.inherentActions[2][1]);
+        RegisterTooltip<Button>("Button_InherentAction_Atk", playerTips.inherentActions[3][0], playerTips.inherentActions[3][1]);
+        #endregion
+        #region 律
+        RegisterTooltip<Button>("Button_Law_ChantingLaw", playerTips.laws[0][0], playerTips.laws[0][1]);
+        RegisterTooltip<Button>("Button_Law_GunArt3", playerTips.laws[1][0], playerTips.laws[1][1]);
+        RegisterTooltip<Button>("Button_Law_ShatteredStars", playerTips.laws[2][0], playerTips.laws[2][1]);
+        #endregion
     }
 }

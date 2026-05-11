@@ -165,6 +165,25 @@ public abstract class PanelBase : MonoBehaviour
             TipPanel.Instance.HideTooltip();
         });
     }
+    protected void RegisterTooltip<T>(T control, string title, string desc) where T : UIBehaviour
+    {
+        if (control == null) return;
+
+        EventTrigger trigger = control.GetComponent<EventTrigger>();
+        if (trigger == null) trigger = control.gameObject.AddComponent<EventTrigger>();
+
+        // 鼠标进入 → 显示双文本
+        AddEvent(trigger, EventTriggerType.PointerEnter, (d) =>
+        {
+            TipPanel.Instance.ShowTooltip(title, desc);
+        });
+
+        // 鼠标离开 → 隐藏
+        AddEvent(trigger, EventTriggerType.PointerExit, (d) =>
+        {
+            TipPanel.Instance.HideTooltip();
+        });
+    }
 
     // 不同组件添加监听的虚方法
     protected virtual void ButtonOnClick(string buttonName) { }

@@ -9,7 +9,7 @@ public class TipPanel : PanelBase
 
     [Header("对齐设置")]
     // 基础偏移：无论在哪个角，都会向外偏移这个距离
-    public Vector2 baseOffset = new Vector2(20, 20);
+    public Vector2 baseOffset = new Vector2(10, 10);
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI descText;
     private RectTransform _selfRect;
@@ -47,9 +47,9 @@ public class TipPanel : PanelBase
 
         // 2. 【核心修复】动态设置 Pivot（轴心点）
         // 鼠标在左半屏，轴心设为 0 (左边缘)；在右半屏，轴心设为 1 (右边缘)
-        float pX = normX < 0.5f ? 0f : 1f;
+        float pX = normX < 0.8f ? 0f : 1f;
         // 鼠标在下半屏，轴心设为 0 (下边缘)；在上半屏，轴心设为 1 (上边缘)
-        float pY = normY < 0.5f ? 0f : 1f;
+        float pY = normY < 0.25f ? 0f : 1f;
 
         // 这一步让“对应的角”变成了面板的坐标原点
         _selfRect.pivot = new Vector2(pX, pY);
@@ -82,12 +82,12 @@ public class TipPanel : PanelBase
         FollowMouseSmartAlignment();
 
         canvasGroup.DOKill();
-        canvasGroup.DOFade(1, 0.2f);
+        canvasGroup.DOFade(1, 0.1f);
     }
 
     public void HideTooltip()
     {
         canvasGroup.DOKill();
-        canvasGroup.DOFade(0, 0.2f);
+        canvasGroup.DOFade(0, 0.05f);
     }
 }

@@ -196,9 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89eb75cd4e7425846967878c499c720e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShow: 0
-  baseOffset: {x: 20, y: 20}
-  fadeDuration: 0.2
+  baseOffset: {x: 10, y: 10}
   titleText: {fileID: 282795218904560923}
   descText: {fileID: 4506730091000905115}
 --- !u!114 &3053663183344595553
