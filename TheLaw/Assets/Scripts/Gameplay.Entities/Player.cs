@@ -67,7 +67,7 @@ public class Player : CharacterBase
         int i = 0;
         if (buffs[E_BuffType.Left] > 0)
             i = 1;
-        base.TakeDamage(damage+1);
+        base.TakeDamage(damage+i);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
 
         if (hp == 0)
