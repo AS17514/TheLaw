@@ -143,7 +143,22 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         {
             if (StateManager.Instance.currentState is E_StateType_3.normal)
             {
-                DiceManager.Instance.ClearEntityPool();
+                List<EntityDice> tempList = new List<EntityDice>();
+                var pool = DiceManager.Instance.entityDicePool;
+                for (int im = pool.Count - 1; im >= 0; im--)
+                {
+                    EntityDice entityDice = pool[im];
+                    if (!entityDice.isValid)
+                    {
+                        entityDice.isValid = true;
+                    }
+                    else
+                    {
+                        pool.RemoveAt(im);
+                    }
+                }
+                DiceManager.Instance.SortEntityPoolByValue();
+                //DiceManager.Instance.ClearEntityPool();
             }
             if (nowEntities[0] is Entity3 entity3)
             {
