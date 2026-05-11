@@ -17,6 +17,7 @@ public enum E_EventType
     #endregion
     #endregion
 
+    #region UI
     #region UI更新
     #region 选关界面
     UI_Update_SelectedLevelTitle,
@@ -61,6 +62,10 @@ public enum E_EventType
     UI_Update_WishToUnavailable,
     UI_ShowTutorial,
     #endregion
+    #endregion
+    #endregion
+    #region 插入面板
+    UI_Insert_StoryPanelByInsertIndex,
     #endregion
     #endregion
 

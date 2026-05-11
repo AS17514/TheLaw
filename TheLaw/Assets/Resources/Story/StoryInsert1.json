@@ -1,7 +1,6 @@
 {
-    "title": "第四关结束",
-    "afterStory": "Battle",
-    "nextBattle": 3,
+    "title": "插入剧情1",
+    "afterStory": "BackToBattle",
     "pages": [
         {
             "page": 1,

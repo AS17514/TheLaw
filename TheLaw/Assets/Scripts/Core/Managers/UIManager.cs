@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -49,6 +50,8 @@ public class UIManager : ManagerMonoBase<UIManager>
         bottomLayer = uiCanvas.transform.Find("Bottom");
         // 初始化DOTween
         DOTween.Init();
+        // 监听插入面板事件
+        EventCenter.Instance.AddEventListener(E_EventType.UI_Insert_StoryPanelByInsertIndex, InsertStoryPanelByInsertIndex);
     }
     // 存面板的字典
     public Dictionary<string, PanelBase> panels = new Dictionary<string, PanelBase>();
@@ -171,5 +174,36 @@ public class UIManager : ManagerMonoBase<UIManager>
             return panels[typeof(T).Name] as T;
         }
         return null;
+    }
+    /// <summary>
+    /// 在任何时候插入插入剧情面板
+    /// </summary>
+    /// <param name="index">插入剧情段的序号，不是索引</param>
+    public void InsertStoryPanelByInsertIndex(object obj)
+    {
+        int index = (int)obj;
+        TextAsset data = Resources.Load<TextAsset>($"Story/StoryInsert{index}");
+        if (data == null)
+        {
+            Debug.LogWarning($"未找到插入剧情段{index}文件，加载上次剧情文件");
+            return;
+        }
+        Debug.Log($"读取插入剧情段{index}");
+        StoryManager.Instance.storySegment = JsonConvert.DeserializeObject<StorySegment>(data.text);
+        // 插入故事就不设置故事段值了
+        CreatPanel<StoryPanel>(E_UILayer.Top);
+    }
+    /// <summary>
+    /// 随时能用的震屏效果
+    /// </summary>
+    public void ShakePanel<T>() where T : PanelBase
+    {
+        RectTransform rectTransform = GetPanel<T>().GetComponent<RectTransform>();
+        // 面板振动效果
+        rectTransform.DOShakeAnchorPos(0.3f, 10).OnComplete(() =>
+            {
+                // 震完回到000
+                rectTransform.DOAnchorPos(Vector2.zero, 0.1f);
+            });
     }
 }

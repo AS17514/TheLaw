@@ -49,11 +49,15 @@ public class StoryPanel : PanelBase
     }
     void OnDestroy()
     {
-        // 看完剧情记录当前看过的剧情进度，解锁设定的最大关卡进度（取最大值）
-        JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.StoryProgress, StoryManager.Instance.segment);
-        if (JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress) < storySegment.unlockLevel)
+        // 如果不是插入剧情，就记录剧情进度
+        if (storySegment.afterStory != "BackToBattle")
         {
-            JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.LevelProgress, storySegment.unlockLevel);
+            // 看完剧情记录当前看过的剧情进度，解锁设定的最大关卡进度（取最大值）
+            JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.StoryProgress, StoryManager.Instance.segment);
+            if (JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress) < storySegment.unlockLevel)
+            {
+                JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.LevelProgress, storySegment.unlockLevel);
+            }
         }
     }
     void Init()
@@ -185,10 +189,24 @@ public class StoryPanel : PanelBase
                 NextPage();
                 break;
             case "Button_BackToStartMenu":
-                UIManager.Instance.ChangePanel<StoryPanel, StartMenuPanel>();
+                if (storySegment.afterStory != "BackToBattle")
+                {
+                    UIManager.Instance.ChangePanel<StoryPanel, StartMenuPanel>();
+                }
+                else
+                {
+                    UIManager.Instance.ShakePanel<StoryPanel>();
+                }
                 break;
             case "Button_BackToSelectLevel":
-                UIManager.Instance.ChangePanel<StoryPanel, LevelSelectPanel>();
+                if (storySegment.afterStory != "BackToBattle")
+                {
+                    UIManager.Instance.ChangePanel<StoryPanel, LevelSelectPanel>();
+                }
+                else
+                {
+                    UIManager.Instance.ShakePanel<StoryPanel>();
+                }
                 break;
             case "Button_Skip":
             case "Button_Continue":
@@ -214,6 +232,9 @@ public class StoryPanel : PanelBase
                         break;
                     case "SelectLevel":
                         UIManager.Instance.ChangePanel<StoryPanel, LevelSelectPanel>();
+                        break;
+                    case "BackToBattle":
+                        UIManager.Instance.RemovePanel<StoryPanel>();
                         break;
                     default:
                         break;
