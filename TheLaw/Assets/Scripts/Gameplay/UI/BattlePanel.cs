@@ -557,6 +557,33 @@ public class BattlePanel : PanelBase
                         }
                     }
                 }
+                // 如果需求骰子是combo类型，添加对应骰子
+                if (option.IsUseDiceCombo)
+                {
+                    switch (option.ComboType)
+                    {
+                        case E_ComboType.MindActionPair:
+                            Instantiate<GameObject>(resources["Event_MindActionPairDice"], content);
+                            break;
+                        case E_ComboType.DoubleMind:
+                            Instantiate<GameObject>(resources["Event_DoubleMindDice"], content);
+                            break;
+                        case E_ComboType.DoubleAction:
+                            Instantiate<GameObject>(resources["Event_DoubleActionDice"], content);
+                            break;
+                        case E_ComboType.TripleMind:
+                            Instantiate<GameObject>(resources["Event_TripleMindDice"], content);
+                            break;
+                        case E_ComboType.Quadruple:
+                            Instantiate<GameObject>(resources["Event_QuadrupleDice"], content);
+                            break;
+                        case E_ComboType.SingleWild:
+                            Instantiate<GameObject>(resources["Event_SingleWildDice"], content);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 // 给事件加点击委托
                 Button eventButton = eventObj.GetComponentInChildren<Button>();
                 eventButton.onClick.RemoveAllListeners();
@@ -613,6 +640,7 @@ public class BattlePanel : PanelBase
     void LockWish()
     {
         Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").GetComponentsInChildren<Button>();
+        // Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").transform.parent.GetComponentsInChildren<Button>();
         foreach (Button item in buttons)
         {
             item.interactable = false;
