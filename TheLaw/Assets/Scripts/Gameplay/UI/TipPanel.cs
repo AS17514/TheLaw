@@ -47,9 +47,9 @@ public class TipPanel : PanelBase
 
         // 2. 【核心修复】动态设置 Pivot（轴心点）
         // 鼠标在左半屏，轴心设为 0 (左边缘)；在右半屏，轴心设为 1 (右边缘)
-        float pX = normX < 0.8f ? 0f : 1f;
+        float pX = normX < 0.58f ? 0f : 1f;
         // 鼠标在下半屏，轴心设为 0 (下边缘)；在上半屏，轴心设为 1 (上边缘)
-        float pY = normY < 0.25f ? 0f : 1f;
+        float pY = normY < 0.57f ? 0f : 1f;
 
         // 这一步让“对应的角”变成了面板的坐标原点
         _selfRect.pivot = new Vector2(pX, pY);

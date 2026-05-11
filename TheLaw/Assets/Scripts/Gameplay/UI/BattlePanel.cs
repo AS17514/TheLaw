@@ -15,37 +15,38 @@ using UnityEngine.UI;
 public class PlayerTips
 {
     // 固有
-    public string[][] inherentActions;
+    public List<List<string>> inherentActions;
     // 律
-    public string[][] laws;
+    public List<List<string>> laws;
     // 许愿
-    public string[][] wishes;
+    public List<List<string>> wishes;
     // buff
-    public string[][][] buffs;
+    public List<List<List<string>>> buffs;
 }
 public class EntityTips
 {
+    public string name;
     // 状态
-    public string[][] states;
+    public List<List<string>> states;
     // buff
-    public string[][] buffs;
+    public List<List<string>> buffs;
     // 事件
-    public string[][] events;
+    public List<List<string>> events;
 }
 public class EntityActionTips
 {
     // 行动
-    public string[][] actions;
+    public List<List<string>> actions;
 }
 public class EntityDesireTips
 {
     // 许愿
-    public string[][] wishes;
+    public List<List<string>> wishes;
 }
 public class EntityPartTips
 {
     // 部位
-    public string[][] parts;
+    public List<List<string>> parts;
 }
 public class BattlePanel : PanelBase
 {
@@ -833,6 +834,7 @@ public class BattlePanel : PanelBase
         GetControl<Slider>("Slider_EntityHP").maxValue = ProgressManager.Instance.nowEntities[0].maxHp;
         UpdateEntityHP();
         // other
+        GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = entityTips.name;
         UpdateEntityState();
         UpdateEntityAction();
         UpdateEntityWish();
@@ -1196,6 +1198,11 @@ public class BattlePanel : PanelBase
         RegisterTooltip<Button>("Button_Law_ChantingLaw", playerTips.laws[0][0], playerTips.laws[0][1]);
         RegisterTooltip<Button>("Button_Law_GunArt3", playerTips.laws[1][0], playerTips.laws[1][1]);
         RegisterTooltip<Button>("Button_Law_ShatteredStars", playerTips.laws[2][0], playerTips.laws[2][1]);
+        #endregion
+        #region Other
+        RegisterTooltip<TextMeshProUGUI>("Text (TMP)_PhaseText", "时间段", "所有时间骰被消耗时，结束本时间段\n每时间段最多使用一次许愿\n时间段结束时，实体进行相应许愿");
+        RegisterTooltip<TextMeshProUGUI>("Text (TMP)_TimeProgressText", "时间进度", "消耗时间骰使时间进度增加对应点数\n时间进度到达上限时，实体进行相应行动");
+        RegisterTooltip<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhaseText", "时间骰", "每时间段开始时获得此数值个点数为1的时间骰");
         #endregion
     }
 }

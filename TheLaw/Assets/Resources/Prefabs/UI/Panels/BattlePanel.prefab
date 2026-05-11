@@ -15243,7 +15243,7 @@ GameObject:
   - component: {fileID: 3572423991980043589}
   - component: {fileID: 3103476258373772934}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)_TimeProgressText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15617,7 +15617,7 @@ GameObject:
   - component: {fileID: 1079917251864160753}
   - component: {fileID: 6308310361152244921}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)_TimeDicePerPhaseText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20978,7 +20978,7 @@ GameObject:
   - component: {fileID: 6836357134905756864}
   - component: {fileID: 7770696352774059231}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)_PhaseText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
