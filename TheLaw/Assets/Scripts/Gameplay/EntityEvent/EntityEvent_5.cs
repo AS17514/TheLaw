@@ -76,7 +76,6 @@ public class EntityEvent_5_01 : OptionBase
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
                     e5.AddBuff(E_BuffType.Desire,-2);
@@ -154,7 +153,6 @@ public class EntityEvent_5_02 : OptionBase
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
@@ -236,7 +234,6 @@ public class EntityEvent_5_03 : OptionBase
             if (result)
             {
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
                     e5.AddBuff(E_BuffType.Desire,-3);
@@ -317,7 +314,6 @@ public class EntityEvent_5_04 : OptionBase
             }
             if (result)
             {
-                EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
                 EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted,NeverRespond);
                 if (ProgressManager.Instance.nowEntities[0] is Entity5 e5)
                 {
@@ -617,7 +613,7 @@ public class EntityEvent_5_09 : OptionBase
 {
     #region OptionBase属性
 
-    public override int LevelID { get; protected set; } = 3;
+    public override int LevelID { get; protected set; } = 5;
     public override int OptionID { get; protected set; } = 9;
     public override string OptionName { get; protected set; } = "观察·右";
 
@@ -847,9 +843,9 @@ public class EntityEvent_5_12 : OptionBase
         get
         {
             if(StateManager.Instance.currentState is E_StateType_5.unbalance&&!IsItUse
-                                                                            &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][10] is EntityEvent_3_11 e11)
+                                                                            &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][10] is EntityEvent_5_11 e11)
             {
-                if(e11.isItuse)
+                if(e11.IsItUse)
                     return true;
                 else
                 {
@@ -926,8 +922,8 @@ public class EntityEvent_5_13 : OptionBase
     #region OptionBase属性
 
     public override int LevelID { get; protected set; } = 5;
-    public override int OptionID { get; protected set; } = 11;
-    public override string OptionName { get; protected set; } = "回忆";
+    public override int OptionID { get; protected set; } = 13;
+    public override string OptionName { get; protected set; } = "谁的身影";
 
     public override string OptionDescription { get; protected set; } = "？";
 
@@ -938,9 +934,9 @@ public class EntityEvent_5_13 : OptionBase
         get
         {
             if(StateManager.Instance.currentState is E_StateType_5.unbalance&&!IsItUse
-                                                                            &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][11] is EntityEvent_3_12 e12)
+                                                                            &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][11] is EntityEvent_5_12 e12)
             {
-                if(e12.IsItuse)
+                if(e12.IsItUse)
                     return true;
                 else
                 {
@@ -1026,9 +1022,9 @@ public class EntityEvent_5_14 : OptionBase
         get
         {
             if(StateManager.Instance.currentState is E_StateType_5.equipoise
-               &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][12] is EntityEvent_3_13 e13)
+               &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][12] is EntityEvent_5_13 e13)
             {
-                if(e13.IsItuse)
+                if(e13.IsItUse)
                     return true;
                 else
                 {
@@ -1109,9 +1105,9 @@ public class EntityEvent_5_15 : OptionBase
         get
         {
             if(StateManager.Instance.currentState is E_StateType_5.equipoise
-               &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][13] is EntityEvent_3_14 e14)
+               &&EventManager.Instance.optionPool[E_OptionType.Level5_Option][13] is EntityEvent_5_14 e14)
             {
-                if(e14.IsItuse)
+                if(e14.IsItUse)
                     return true;
                 else
                 {

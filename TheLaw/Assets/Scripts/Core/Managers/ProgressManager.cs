@@ -205,6 +205,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             DiceManager.Instance.ClearPool();       // 清空基础骰子池、怪物骰子池并刷新对应UI
             DiceManager.Instance.ClearSelected();   // 清空选中区的骰子并刷新对应UI
 
+            EventCenter.Instance.ClearEventListeners(E_EventType.Logic_PlayerActionExecuted);
+            
             this.level = level;
             switch (level)
             {
