@@ -33,6 +33,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         this.phaseDice = phaseDice;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress,this.currentTimeProgress);
     }
     /// <summary>
     /// 设置当前时间进度上限
