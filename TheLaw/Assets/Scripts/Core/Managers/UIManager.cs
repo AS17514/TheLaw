@@ -133,6 +133,9 @@ public class UIManager : ManagerMonoBase<UIManager>
         // 注意：Instantiate 是同步的，执行时连 Loading 动画都会停一下
         // 这是正常的，代表程序正在全力加载
         RemovePanel<T>();
+        yield return null;
+        yield return null;
+        yield return null;
         CreatPanel<K>(layer);
 
         // 3. 强制让 Loading 多展示一会儿（比如 1 秒），让玩家看清楚动画

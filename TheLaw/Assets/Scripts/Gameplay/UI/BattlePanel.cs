@@ -63,20 +63,15 @@ public class BattlePanel : PanelBase
     int level;
     // 记录玩家修改界面上的参数
     bool isSelectedWildDice;
+
     int Point
     {
         get
         {
             for (int i = -1; i <= 6; i++)
             {
-                if (i == 0)
-                {
-                    continue;
-                }
-                if (GetControl<Toggle>($"Toggle_Point{i}").isOn)
-                {
-                    return i;
-                }
+                if (i == 0) continue;
+                if (GetControl<Toggle>($"Toggle_Point{i}").isOn) return i;
             }
             return 0;
         }
@@ -87,10 +82,7 @@ public class BattlePanel : PanelBase
         {
             for (int i = 0; i <= 4; i++)
             {
-                if (GetControl<Toggle>($"Toggle_EntityPart{i}").isOn)
-                {
-                    return i;
-                }
+                if (GetControl<Toggle>($"Toggle_EntityPart{i}").isOn) return i;
             }
             return -1;
         }
@@ -99,20 +91,12 @@ public class BattlePanel : PanelBase
     {
         get
         {
-            if (GetControl<Toggle>("Toggle_Action").isOn)
-            {
-                return E_DiceType.Action;
-            }
-            else if (GetControl<Toggle>("Toggle_Mind").isOn)
-            {
-                return E_DiceType.Mind;
-            }
-            else
-            {
-                return E_DiceType.Wild;
-            }
+            if (GetControl<Toggle>("Toggle_Action").isOn) return E_DiceType.Action;
+            if (GetControl<Toggle>("Toggle_Mind").isOn) return E_DiceType.Mind;
+            return E_DiceType.Wild;
         }
     }
+
     // 资源加载
     Dictionary<string, GameObject> resources = new Dictionary<string, GameObject>();
 
@@ -132,9 +116,7 @@ public class BattlePanel : PanelBase
         foreach (GameObject gameObject in gameObjects)
         {
             if (!resources.ContainsKey(gameObject.name))
-            {
                 resources.Add(gameObject.name, gameObject);
-            }
         }
         // 加载文本描述
         playerTips = JsonConvert.DeserializeObject<PlayerTips>(Resources.Load<TextAsset>($"TipsText/PlayerTips").text);
@@ -143,22 +125,17 @@ public class BattlePanel : PanelBase
         entityDesireTips = JsonConvert.DeserializeObject<EntityDesireTips>(Resources.Load<TextAsset>($"TipsText/EntityDesireTips").text);
         entityPartTips = JsonConvert.DeserializeObject<EntityPartTips>(Resources.Load<TextAsset>($"TipsText/Entity{level}PartTips").text);
     }
+
     #region Dice
     // 更新选中骰
-    void UpdateSelectedDice()
+    void UpdateSelectedDice(object obj = null)
     {
-        Dictionary<E_DiceType, List<DiceBase>> dice = DiceManager.Instance.dicePool;
         Transform content = GetControl<ScrollRect>("Scroll View_SelectedDice").content;
-        if (selectedDiceList == null)
-        {
-            Debug.Log("选中骰列表为空");
-            return;
-        }
+        if (selectedDiceList == null) { Debug.Log("选中骰列表为空"); return; }
+
         // 清除ui上所有选中骰
-        foreach (Transform item in content)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (Transform item in content) Destroy(item.gameObject);
+
         // 重新生成一遍，时间和百搭不生成
         foreach (DiceBase item in selectedDiceList)
         {
@@ -168,95 +145,68 @@ public class BattlePanel : PanelBase
                 case E_DiceType.Action:
                     Button buttonAction = Instantiate(resources["SelectedActionDice"], content).GetComponentInChildren<Button>();
                     buttonAction.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
-                    buttonAction.onClick.AddListener(() => { Destroy(buttonAction.transform.parent.gameObject); });
-                    DiceMark actBase = buttonAction.AddComponent<DiceMark>();
-                    actBase.mark = item;
+                    buttonAction.onClick.AddListener(() => Destroy(buttonAction.transform.parent.gameObject));
+                    DiceMark actMark = buttonAction.AddComponent<DiceMark>();
+                    actMark.mark = item;
                     buttonAction.onClick.AddListener(() =>
                     {
                         foreach (Toggle actDie in GetControl<ScrollRect>("Scroll View_ActionDice").content.GetComponentsInChildren<Toggle>())
                         {
-                            if (actDie.GetComponent<DiceMark>().mark == item)
-                            {
-                                actDie.isOn = false;
-                            }
+                            if (actDie.GetComponent<DiceMark>().mark == item) actDie.isOn = false;
                         }
                     });
                     break;
                 case E_DiceType.Mind:
                     Button buttonMind = Instantiate(resources["SelectedMindDice"], content).GetComponentInChildren<Button>();
                     buttonMind.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
-                    buttonMind.onClick.AddListener(() => { Destroy(buttonMind.transform.parent.gameObject); });
-                    Transform mindContent = GetControl<ScrollRect>($"Scroll View_MindDice").content;
-                    DiceMark mindBase = buttonMind.AddComponent<DiceMark>();
-                    mindBase.mark = item;
+                    buttonMind.onClick.AddListener(() => Destroy(buttonMind.transform.parent.gameObject));
+                    DiceMark mindMark = buttonMind.AddComponent<DiceMark>();
+                    mindMark.mark = item;
                     buttonMind.onClick.AddListener(() =>
                     {
                         foreach (Toggle mindDie in GetControl<ScrollRect>("Scroll View_MindDice").content.GetComponentsInChildren<Toggle>())
                         {
-
-                            if (mindDie.GetComponent<DiceMark>().mark == item)
-                            {
-                                mindDie.isOn = false;
-                            }
+                            if (mindDie.GetComponent<DiceMark>().mark == item) mindDie.isOn = false;
                         }
                     });
                     break;
             }
         }
+        // 取消已不在选中列表中的骰子的 toggle
         foreach (DiceMark item in GetControl<ScrollRect>("Scroll View_MindDice").content.GetComponentsInChildren<DiceMark>())
         {
             bool isSelected = false;
             foreach (DiceMark diceMark in content.GetComponentsInChildren<DiceMark>())
             {
-                if (diceMark.mark == item.mark)
-                {
-                    isSelected = true;
-                    break;
-                }
+                if (diceMark.mark == item.mark) { isSelected = true; break; }
             }
-            if (!isSelected)
-            {
-                item.GetComponentInParent<Toggle>().isOn = false;
-            }
+            if (!isSelected) item.GetComponentInParent<Toggle>().isOn = false;
         }
     }
+
     // 设置现有骰子为未选中状态
-    void SetDiceSelectedFalse()
+    void SetDiceSelectedFalse(object obj = null)
     {
-        Transform actContent = GetControl<ScrollRect>($"Scroll View_ActionDice").content;
-        Transform mindContent = GetControl<ScrollRect>($"Scroll View_MindDice").content;
-        foreach (Transform item in actContent)
-        {
+        foreach (Transform item in GetControl<ScrollRect>("Scroll View_ActionDice").content)
             item.GetComponentInChildren<Toggle>().isOn = false;
-        }
-        foreach (Transform item in mindContent)
-        {
+        foreach (Transform item in GetControl<ScrollRect>("Scroll View_MindDice").content)
             item.GetComponentInChildren<Toggle>().isOn = false;
-        }
     }
+
     // 更新行动/思维骰
     void UpdateDice<T>() where T : DiceBase, new()
     {
         List<DiceBase> Dice;
         if (typeof(T) == typeof(ActionDice))
-        {
             Dice = DiceManager.Instance.dicePool[E_DiceType.Action];
-        }
         else if (typeof(T) == typeof(MindDice))
-        {
             Dice = DiceManager.Instance.dicePool[E_DiceType.Mind];
-        }
-        else
-        {
-            Debug.Log("更新骰列表为空");
-            return;
-        }
+        else { Debug.Log("更新骰列表为空"); return; }
+
         Transform content = GetControl<ScrollRect>($"Scroll View_{typeof(T).Name}").content;
         // 清除ui上所有骰
-        foreach (Transform item in content)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (Transform item in content) Destroy(item.gameObject);
+
         // 重新生成一遍
         foreach (T item in Dice)
         {
@@ -269,10 +219,7 @@ public class BattlePanel : PanelBase
             {
                 if (isOn)
                 {
-                    if (!selectedDiceList.Contains(currentItem))
-                    {
-                        selectedDiceList.Add(currentItem);
-                    }
+                    if (!selectedDiceList.Contains(currentItem)) selectedDiceList.Add(currentItem);
                     DiceManager.Instance.SortSelectedByValue();
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
                 }
@@ -292,8 +239,9 @@ public class BattlePanel : PanelBase
             });
         }
     }
+
     // 时间骰拥有与选择个数
-    void UpdateTimeDiceCount()
+    void UpdateTimeDiceCount(object obj = null)
     {
         Dictionary<E_DiceType, List<DiceBase>> pool = DiceManager.Instance.dicePool;
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1Count").text = pool[E_DiceType.Time1].Count.ToString();
@@ -301,70 +249,69 @@ public class BattlePanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3Count").text = pool[E_DiceType.Time3].Count.ToString();
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4Count").text = pool[E_DiceType.Time4].Count.ToString();
     }
-    void UpdateTimeDiceSelectedCount()
+
+    void UpdateTimeDiceSelectedCount(object obj = null)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice1SelectedCount").text = DiceManager.Instance.GetSelectedTime1DiceCount().ToString();
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice2SelectedCount").text = DiceManager.Instance.GetSelectedTime2DiceCount().ToString();
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice3SelectedCount").text = DiceManager.Instance.GetSelectedTime3DiceCount().ToString();
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDice4SelectedCount").text = DiceManager.Instance.GetSelectedTime4DiceCount().ToString();
     }
+
     // 百搭骰个数
-    void UpdateWildDiceCount()
+    void UpdateWildDiceCount(object obj = null)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceCount").text = DiceManager.Instance.dicePool[E_DiceType.Wild].Count.ToString();
     }
-    void UpdateWildDiceSelectedCount()
+
+    void UpdateWildDiceSelectedCount(object obj = null)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_WildDiceSelectedCount").text = DiceManager.Instance.GetSelectedWildDiceCount().ToString();
     }
+
     // 公共骰盘情况
-    void UpdateEntityDice()
+    void UpdateEntityDice(object obj = null)
     {
         List<EntityDice> entityDice = DiceManager.Instance.entityDicePool;
         Transform content = GetControl<ScrollRect>("Scroll View_PublicDice").content;
-        if (entityDice == null)
-        {
-            Debug.Log("公共骰列表为空");
-            return;
-        }
-        foreach (Transform item in content)
-        {
-            Destroy(item.gameObject);
-        }
+        if (entityDice == null) { Debug.Log("公共骰列表为空"); return; }
+
+        foreach (Transform item in content) Destroy(item.gameObject);
         foreach (EntityDice entityDie in entityDice)
         {
-            TextMeshProUGUI tmp = Instantiate<GameObject>(resources[$"EntityDice"], content).GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI tmp = Instantiate(resources["EntityDice"], content).GetComponentInChildren<TextMeshProUGUI>();
             tmp.text = entityDie.value.ToString();
         }
     }
     #endregion
+
     #region Player
-    void UpdatePlayerHP()
+    void UpdatePlayerHP(object obj = null)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_PlayerHP").text = BuffManager.Instance.player.hp.ToString();
         GetControl<Slider>("Slider_PlayerHP").value = BuffManager.Instance.player.hp;
     }
-    void UpdatePlayerBuff()
+
+    void UpdatePlayerBuff(object obj = null)
     {
         Dictionary<E_BuffType, int> keyValuePairs = BuffManager.Instance.player.UI_buffs;
         Transform content = GetControl<ScrollRect>("Scroll View_PlayerBuff").content;
-        foreach (Transform item in content)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (Transform item in content) Destroy(item.gameObject);
+
         foreach (KeyValuePair<E_BuffType, int> item in keyValuePairs)
         {
             if (item.Value != 0)
             {
-                GameObject buff = Instantiate<GameObject>(resources[$"Buff_{item.Key}"], content);
+                GameObject buff = Instantiate(resources[$"Buff_{item.Key}"], content);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
                 RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
             }
         }
     }
     #endregion
+
     #region Entity
-    void UpdateEntityAction()
+    void UpdateEntityAction(object obj = null)
     {
         E_IntentType actionType = StateManager.Instance.UI_currentExecutableAction;
         TextMeshProUGUI action = GetControl<TextMeshProUGUI>("Text (TMP)_EntityAction");
@@ -372,7 +319,8 @@ public class BattlePanel : PanelBase
         action.text = entityActionTips.actions[(int)actionType][0];
         RegisterTooltip<TextMeshProUGUI>(action, entityActionTips.actions[(int)actionType][0], entityActionTips.actions[(int)actionType][1]);
     }
-    void UpdateEntityWish()
+
+    void UpdateEntityWish(object obj = null)
     {
         E_DesireType wishType = StateManager.Instance.UI_currentExecutableDesire;
         TextMeshProUGUI wish = GetControl<TextMeshProUGUI>("Text (TMP)_EntityWish");
@@ -380,11 +328,13 @@ public class BattlePanel : PanelBase
         wish.text = entityDesireTips.wishes[(int)wishType][0];
         RegisterTooltip<TextMeshProUGUI>(wish, entityDesireTips.wishes[(int)wishType][0], entityDesireTips.wishes[(int)wishType][1]);
     }
-    void UpdateEntityState()
+
+    void UpdateEntityState(object obj = null)
     {
         Enum state = StateManager.Instance.currentState;
         TextMeshProUGUI entityState = GetControl<TextMeshProUGUI>("Text (TMP)_EntityState");
         // 设置状态名，注册光标覆盖事件
+
         switch (level)
         {
             case 1:
@@ -407,111 +357,104 @@ public class BattlePanel : PanelBase
                 entityState.text = entityTips.states[(int)(E_StateType_5)state][0];
                 RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_5)state][0], entityTips.states[(int)(E_StateType_5)state][1]);
                 break;
-            default:
-                break;
         }
     }
-    void UpdateEntityBuff()
+
+    void UpdateEntityBuff(object obj = null)
     {
         Dictionary<E_BuffType, int> keyValuePairs = BuffManager.Instance.entity.UI_buffs;
         Transform content = GetControl<ScrollRect>("Scroll View_EntityBuff").content;
-        foreach (Transform item in content)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (Transform item in content) Destroy(item.gameObject);
+
         foreach (KeyValuePair<E_BuffType, int> item in keyValuePairs)
         {
             if (item.Value != 0)
             {
-                GameObject buff = Instantiate<GameObject>(resources[$"Buff_{item.Key}"], content);
+                GameObject buff = Instantiate(resources[$"Buff_{item.Key}"], content);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
                 RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
             }
         }
     }
-    void UpdateEntityPart()
+
+    void UpdateEntityPart(object obj = null)
     {
-        CharacterBase[] Parts = ProgressManager.Instance.nowEntities;
         for (int index = 1; index < 5; index++)
+            UpdateSinglePartUI(index);
+    }
+
+    void UpdateSinglePartUI(int index)
+    {
+        Part part = (Part)ProgressManager.Instance.nowEntities[index];
+
+        if (part == null)
         {
-            Part part = (Part)Parts[index];
-            if (part == null)
-            {
-                // 没发现部位
-                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
-                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
-                slider.maxValue = 1;
-                slider.value = 0;
-                continue;
-            }
-            if (part.IsVisible && !part.isDestroyed && part.IsCouldBeAttacked())
-            {
-                // 发现部位，部位可攻击且没被破坏
-                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = true;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
-                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
-                slider.maxValue = part.maxHp;
-                slider.value = part.hp;
-                RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
-            }
-            else if (!part.isDestroyed && !part.IsCouldBeAttacked())
-            {
-                // 发现部位，部位没被破坏但是不可攻击
-                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
-                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
-                slider.maxValue = part.maxHp;
-                slider.value = part.hp;
-                RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
-            }
-            else if (part.IsVisible && part.isDestroyed)
-            {
-                // 发现部位，已经被破坏
-                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = $"{part.partName} (已破坏)";
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
-                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
-                slider.maxValue = part.maxHp;
-                slider.value = part.hp;
-                RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
-            }
-            else
-            {
-                // 默认情况
-                GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
-                GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
-                Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
-                slider.maxValue = 1;
-                slider.value = 0;
-            }
+            // 没发现部位
+            SetPartUnknown(index);
+            return;
+        }
+
+        if (part.IsVisible && !part.isDestroyed && part.IsCouldBeAttacked())
+        {
+            // 发现部位，部位可攻击且没被破坏
+            SetPartValues(index, part, true);
+            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
+        }
+        else if (!part.isDestroyed && !part.IsCouldBeAttacked())
+        {
+            // 发现部位，部位没被破坏但是不可攻击
+            SetPartValues(index, part, false);
+            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
+        }
+        else if (part.IsVisible && part.isDestroyed)
+        {
+            // 发现部位，已经被破坏
+            SetPartValues(index, part, false, " (已破坏)");
+            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
+        }
+        else
+        {
+            // 默认情况
+            SetPartUnknown(index);
         }
     }
-    void UpdateEntityHP()
+
+    void SetPartUnknown(int index)
+    {
+        GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = false;
+        GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = "???";
+        GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = "??";
+        GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = "??";
+        Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
+        slider.maxValue = 1;
+        slider.value = 0;
+    }
+
+    void SetPartValues(int index, Part part, bool interactable, string nameSuffix = "")
+    {
+        GetControl<Toggle>($"Toggle_EntityPart{index}").interactable = interactable;
+        GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}Name").text = part.partName + nameSuffix;
+        GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}HP").text = part.hp.ToString();
+        GetControl<TextMeshProUGUI>($"Text (TMP)_EntityPart{index}MaxHP").text = part.maxHp.ToString();
+        Slider slider = GetControl<Slider>($"Slider_EntityPart{index}HP");
+        slider.maxValue = part.maxHp;
+        slider.value = part.hp;
+    }
+
+    void UpdateEntityHP(object obj = null)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = ProgressManager.Instance.nowEntities[0].hp.ToString();
         GetControl<Slider>("Slider_EntityHP").value = ProgressManager.Instance.nowEntities[0].hp;
     }
     #endregion
-    // Events
-    void UpdateEvents()
+
+    #region Event
+    void UpdateEvents(object obj = null)
     {
         Dictionary<E_OptionType, OptionBase[]> eventDic = EventManager.Instance.optionPool;
         Transform eventContent = GetControl<ScrollRect>("Scroll View_Event").content;
         // 删除原事件的对象
-        foreach (Transform item in eventContent)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (Transform item in eventContent) Destroy(item.gameObject);
         // 标记索引为0
         int index = 0;
         // 遍历对应关卡事件列表
@@ -519,93 +462,89 @@ public class BattlePanel : PanelBase
         {
             // 避免闭包问题，在里面赋值拿到当前index的值
             int eventIndex = index;
-            if (option.IsVisible)
+            if (!option.IsVisible) { index++; continue; }
+            Debug.Log($"当前index = {index}, 事件名 = {option.OptionName}, 是否显示 = {option.IsVisible}");
+            // 创建事件框
+            GameObject eventObj = Instantiate(resources["Event"], eventContent);
+            // 设置事件的名称和描述
+            foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
             {
-                Debug.Log($"当前index = {index}, 事件名 = {option.OptionName}, 是否显示 = {option.IsVisible}");
-                // 创建事件框
-                GameObject eventObj = Instantiate<GameObject>(resources["Event"], eventContent);
-                // 设置事件的名称和描述
-                foreach (TextMeshProUGUI item in eventObj.GetComponentsInChildren<TextMeshProUGUI>())
+                switch (item.gameObject.name)
                 {
-                    switch (item.gameObject.name)
-                    {
-                        case "Name":
-                            item.text = entityTips.events[index][0];
-                            break;
-                        case "Description":
-                            item.text = entityTips.events[index][1];
-                            break;
-                        default:
-                            break;
-                    }
+                    case "Name": item.text = entityTips.events[index][0]; break;
+                    case "Description": item.text = entityTips.events[index][1]; break;
                 }
-                // 设置光标移上去显示的需求
-                RegisterTooltip<Button>(eventObj.GetComponentInChildren<Button>(), "需求", entityTips.events[index][2]);
-                // 拿到骰子滑动列表，准备装骰子
-                Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
-                // 如果有需求的骰子列表
-                if (!(option.DiceCost == null))
-                {
-                    // 添加需求骰子
-                    foreach (DiceCondition item in option.DiceCost)
-                    {
-                        GameObject dieObj = Instantiate<GameObject>(resources[$"Event_{item.type}Dice_{item.mode}"], content);
-                        // 不是any的骰子需要改点数
-                        if (!(item.mode == E_CompareType.Any))
-                        {
-                            dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
-                        }
-                    }
-                }
-                // 如果需求骰子是combo类型，添加对应骰子
-                if (option.IsUseDiceCombo)
-                {
-                    switch (option.ComboType)
-                    {
-                        case E_ComboType.MindActionPair:
-                            Instantiate<GameObject>(resources["Event_MindActionPairDice"], content);
-                            break;
-                        case E_ComboType.DoubleMind:
-                            Instantiate<GameObject>(resources["Event_DoubleMindDice"], content);
-                            break;
-                        case E_ComboType.DoubleAction:
-                            Instantiate<GameObject>(resources["Event_DoubleActionDice"], content);
-                            break;
-                        case E_ComboType.TripleMind:
-                            Instantiate<GameObject>(resources["Event_TripleMindDice"], content);
-                            break;
-                        case E_ComboType.Quadruple:
-                            Instantiate<GameObject>(resources["Event_QuadrupleDice"], content);
-                            break;
-                        case E_ComboType.SingleWild:
-                            Instantiate<GameObject>(resources["Event_SingleWildDice"], content);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                // 给事件加点击委托
-                Button eventButton = eventObj.GetComponentInChildren<Button>();
-                eventButton.onClick.RemoveAllListeners();
-                eventButton.onClick.AddListener(() =>
-                {
-                    OptionContext context = null;
-                    if ((E_OptionType)(level + 2) == E_OptionType.Level3_Option)
-                    {
-                        if (option.OptionID == 1 || option.OptionID == 3 || option.OptionID == 4 || option.OptionID == 5 || option.OptionID == 6)
-                        {
-                            context = new EntityEvent_3_01_OptionContext() { index = PartIndex };
-                        }
-                    }
-                    Debug.Log($"执行{eventIndex + 1}号事件({option.OptionName})");
-                    EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex, context);
-                });
             }
+            // 设置光标移上去显示的需求
+            RegisterTooltip<Button>(eventObj.GetComponentInChildren<Button>(), "需求", entityTips.events[index][2]);
+            // 拿到骰子滑动列表，准备装骰子
+            Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
+            // 如果有需求的骰子列表
+            if (option.DiceCost != null)
+            {
+                // 添加需求骰子
+                foreach (DiceCondition item in option.DiceCost)
+                {
+                    GameObject dieObj = Instantiate(resources[$"Event_{item.type}Dice_{item.mode}"], content);
+                    // 不是any的骰子需要改点数
+                    if (item.mode != E_CompareType.Any)
+                        dieObj.GetComponentInChildren<TextMeshProUGUI>().text = item.value.ToString();
+                }
+            }
+            // 如果需求骰子是combo类型，添加对应骰子
+            if (option.IsUseDiceCombo)
+            {
+                switch (option.ComboType)
+                {
+                    case E_ComboType.MindActionPair: Instantiate(resources["Event_MindActionPairDice"], content); break;
+                    case E_ComboType.DoubleMind: Instantiate(resources["Event_DoubleMindDice"], content); break;
+                    case E_ComboType.DoubleAction: Instantiate(resources["Event_DoubleActionDice"], content); break;
+                    case E_ComboType.TripleMind: Instantiate(resources["Event_TripleMindDice"], content); break;
+                    case E_ComboType.Quadruple: Instantiate(resources["Event_QuadrupleDice"], content); break;
+                    case E_ComboType.SingleWild: Instantiate(resources["Event_SingleWildDice"], content); break;
+                }
+            }
+            // 给事件加点击委托
+            Button eventButton = eventObj.GetComponentInChildren<Button>();
+            eventButton.onClick.RemoveAllListeners();
+            eventButton.onClick.AddListener(() =>
+            {
+                // 特殊传参
+                OptionContext context = null;
+                if ((E_OptionType)(level + 2) == E_OptionType.Level3_Option)
+                {
+                    if (option.OptionID == 1 || option.OptionID == 3 || option.OptionID == 4 || option.OptionID == 5 || option.OptionID == 6)
+                        context = new EntityEvent_3_01_OptionContext() { index = PartIndex };
+                }
+                // 正常添加
+                Debug.Log($"执行{eventIndex + 1}号事件({option.OptionName})");
+                EventManager.Instance.ExcuteOption((E_OptionType)(level + 2), eventIndex, context);
+
+                // 若有闪动文字，则创建闪动提示
+                if (entityTips.events[eventIndex].Count > 3 && !string.IsNullOrEmpty(entityTips.events[eventIndex][3]))
+                {
+                    GameObject flashTip = Instantiate(resources["FlashTip"], transform);
+                    flashTip.GetComponentInChildren<TextMeshProUGUI>().text = entityTips.events[eventIndex][3];
+
+                    CanvasGroup cg = flashTip.GetComponent<CanvasGroup>();
+                    if (cg == null) cg = flashTip.AddComponent<CanvasGroup>();
+                    cg.alpha = 0;
+
+                    // 渐入 → 闪动3次 → 渐出 → 销毁
+                    DG.Tweening.Sequence seq = DOTween.Sequence();
+                    seq.Append(cg.DOFade(1, 0.3f));
+                    seq.Append(cg.DOFade(0.2f, 0.15f).SetLoops(6, LoopType.Yoyo));
+                    seq.Append(cg.DOFade(0, 0.3f));
+                    seq.OnComplete(() => Destroy(flashTip));
+                }
+            });
             index++;
         }
     }
-    // 许愿
-    void UnlockedWish()
+    #endregion
+
+    #region Wish
+    void UnlockedWish(object obj = null)
     {
         switch (level)
         {
@@ -633,143 +572,61 @@ public class BattlePanel : PanelBase
                 btn1.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[0][0];
                 RegisterTooltip<Button>("Button_Wish_Abundance", playerTips.wishes[0][0], playerTips.wishes[0][1]);
                 break;
-            default:
-                return;
-        }
-    }
-    void LockWish()
-    {
-        Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").GetComponentsInChildren<Button>();
-        // Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").transform.parent.GetComponentsInChildren<Button>();
-        foreach (Button item in buttons)
-        {
-            item.interactable = false;
         }
     }
 
-    #region 注册事件专用有名方法
-    void OnUpdatePhase(object obj)
+    void LockWish(object obj = null)
+    {
+        Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").GetComponentsInChildren<Button>();
+        foreach (Button item in buttons) item.interactable = false;
+    }
+    #endregion
+
+    #region Time/Phase
+    void UpdatePhase(object obj = null)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = (ProgressManager.Instance.phase + 1).ToString();
     }
-    void OnUpdateTimeProgress(object obj)
+
+    void UpdateTimeProgress(object obj = null)
     {
         int num = ProgressManager.Instance.timeProgress;
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeProgress").text = num.ToString();
         Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
         Slider_TimeProgress.value = num;
     }
-    void OnUpdateMaxTimeProgress(object obj)
+
+    void UpdateMaxTimeProgress(object obj)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_MaxTimeProgress").text = ((int)obj).ToString();
         Slider Slider_TimeProgress = GetControl<Slider>("Slider_TimeProgress");
         Slider_TimeProgress.maxValue = (int)obj;
     }
-    void OnUpdateTimeDicePerPhase(object obj)
+
+    void UpdateTimeDicePerPhase(object obj)
     {
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhase").text = ((int)obj).ToString();
     }
-    void OnUpdateSelectedDice(object obj)
-    {
-        UpdateSelectedDice();
-    }
-    void OnSetDiceSelectedFalse(object obj)
-    {
-        SetDiceSelectedFalse();
-    }
-    void OnUpdateActionDice(object obj)
-    {
-        UpdateDice<ActionDice>();
-    }
-    void OnUpdateMindDice(object obj)
-    {
-        UpdateDice<MindDice>();
-    }
-    void OnUpdateTimeDiceCount(object obj)
-    {
-        UpdateTimeDiceCount();
-    }
-    void OnUpdateTimeDiceSelectedCount(object obj)
-    {
-        UpdateTimeDiceSelectedCount();
-    }
-    void OnUpdateTimeDice(object obj)
-    {
-        UpdateTimeDiceCount();
-        UpdateTimeDiceSelectedCount();
-    }
-    void OnUpdateWildDiceCount(object obj)
-    {
-        UpdateWildDiceCount();
-    }
-    void OnUpdateWildDiceSelectedCount(object obj)
-    {
-        UpdateWildDiceSelectedCount();
-    }
-    void OnUpdateEntityDice(object obj)
-    {
-        UpdateEntityDice();
-    }
-    void OnUpdatePlayerHP(object obj)
-    {
-        UpdatePlayerHP();
-    }
-    void OnUpdatePlayerBuff(object obj)
-    {
-        UpdatePlayerBuff();
-    }
-    void OnUpdatePlayerDied(object obj)
-    {
-        UIManager.Instance.ChangePanel<BattlePanel, DiePanel>();
-    }
-    void OnUpdateEntityState(object obj)
-    {
-        UpdateEntityState();
-    }
-    void OnUpdateEntityAction(object obj)
-    {
-        UpdateEntityAction();
-    }
-    void OnUpdateEntityWish(object obj)
-    {
-        UpdateEntityWish();
-    }
-    void OnUpdateEntityBuff(object obj)
-    {
-        UpdateEntityBuff();
-    }
-    void OnUpdateEntityPart(object obj)
-    {
-        UpdateEntityPart();
-    }
-    void OnUpdateEntityHP(object obj)
-    {
-        UpdateEntityHP();
-    }
+    #endregion
+
+    #region 注册事件专用方法
+    void OnUpdateActionDice(object obj) => UpdateDice<ActionDice>();
+    void OnUpdateMindDice(object obj) => UpdateDice<MindDice>();
+    void OnUpdateTimeDice(object obj) { UpdateTimeDiceCount(); UpdateTimeDiceSelectedCount(); }
+
+    void OnUpdatePlayerDied(object obj) => UIManager.Instance.ChangePanel<BattlePanel, DiePanel>();
+
     void OnUpdateEntityDied(object obj)
     {
         Debug.Log("触发胜利");
         // 当前关卡大于存档的最大关卡时才刷新存档
         if (level >= JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress))
-        {
             JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.LevelProgress, level + 1);
-        }
         // 加载战后剧情
         StoryManager.Instance.LoadStorySegmentByIndex(level * 2 + 1);
         UIManager.Instance.ChangePanel<BattlePanel, StoryPanel>();
     }
-    void OnUpdateEvents(object obj)
-    {
-        UpdateEvents();
-    }
-    void OnUpdateWishToAvailable(object obj)
-    {
-        UnlockedWish();
-    }
-    void OnUpdateWishToUnavailable(object obj)
-    {
-        LockWish();
-    }
+
     void OnUpdateIsConditionNotMet(object obj)
     {
         UpdateSelectedDice();
@@ -784,56 +641,101 @@ public class BattlePanel : PanelBase
         Debug.LogWarning("判定未通过");
     }
     #endregion
+
+    #region 图片UI点击方法封装
+    /// <summary>
+    /// 时间骰/百搭骰的左右键点击
+    /// </summary>
+    void HandleTimeDiceClick(E_DiceType diceType, bool isLeftClick)
+    {
+        int selectedNum = diceType switch
+        {
+            E_DiceType.Time1 => DiceManager.Instance.GetSelectedTime1DiceCount(),
+            E_DiceType.Time2 => DiceManager.Instance.GetSelectedTime2DiceCount(),
+            E_DiceType.Time3 => DiceManager.Instance.GetSelectedTime3DiceCount(),
+            E_DiceType.Time4 => DiceManager.Instance.GetSelectedTime4DiceCount(),
+            E_DiceType.Wild => DiceManager.Instance.GetSelectedWildDiceCount(),
+            _ => -1
+        };
+        if (selectedNum < 0) return;
+
+        List<DiceBase> diceList = DiceManager.Instance.dicePool[diceType];
+
+        if (isLeftClick)
+        {
+            if (selectedNum >= diceList.Count) return;
+            foreach (DiceBase item in selectedDiceList.ToList())
+                if (item.type == diceType) selectedDiceList.Remove(item);
+            for (int i = diceList.Count - 1; i >= diceList.Count - 1 - selectedNum; i--)
+                selectedDiceList.Add(diceList[i]);
+        }
+        else
+        {
+            if (selectedNum <= 0) return;
+            foreach (DiceBase item in selectedDiceList)
+            {
+                if (item.type == diceType) { selectedDiceList.Remove(item); break; }
+            }
+        }
+
+        if (diceType == E_DiceType.Wild)
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceSelectedCount);
+        else
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
+    }
+    #endregion
+
     // 注册事件
     void InitEvents()
     {
         EventCenter eventCenter = EventCenter.Instance;
 
         #region Progress
-        eventCenter.AddEventListener(E_EventType.UI_Update_Phase, OnUpdatePhase);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeProgress, OnUpdateTimeProgress);
-        eventCenter.AddEventListener(E_EventType.UI_Update_MaxTimeProgress, OnUpdateMaxTimeProgress);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDicePerPhase, OnUpdateTimeDicePerPhase);
+        eventCenter.AddEventListener(E_EventType.UI_Update_Phase, UpdatePhase);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeProgress, UpdateTimeProgress);
+        eventCenter.AddEventListener(E_EventType.UI_Update_MaxTimeProgress, UpdateMaxTimeProgress);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDicePerPhase, UpdateTimeDicePerPhase);
         #endregion
 
         #region Dice
-        eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
-        eventCenter.AddEventListener(E_EventType.UI_Update_SetDiceSelectedFalse, OnSetDiceSelectedFalse);
+        eventCenter.AddEventListener(E_EventType.UI_Update_SelectedDice, UpdateSelectedDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_SetDiceSelectedFalse, SetDiceSelectedFalse);
         eventCenter.AddEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
         eventCenter.AddEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceCount, OnUpdateTimeDiceCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, OnUpdateTimeDiceSelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceCount, UpdateTimeDiceCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, UpdateTimeDiceSelectedCount);
         eventCenter.AddEventListener(E_EventType.UI_Update_TimeDice, OnUpdateTimeDice);
-        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceSelectedCount, OnUpdateWildDiceSelectedCount);
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceCount, UpdateWildDiceCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WildDiceSelectedCount, UpdateWildDiceSelectedCount);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityDice, UpdateEntityDice);
         #endregion
 
         #region Player
-        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerHP, OnUpdatePlayerHP);
-        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerBuff, OnUpdatePlayerBuff);
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerHP, UpdatePlayerHP);
+        eventCenter.AddEventListener(E_EventType.UI_Update_PlayerBuff, UpdatePlayerBuff);
         eventCenter.AddEventListener(E_EventType.UI_Update_PlayerDied, OnUpdatePlayerDied);
         #endregion
 
         #region Entity
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityState, OnUpdateEntityState);
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityAction, OnUpdateEntityAction);
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityWish, OnUpdateEntityWish);
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityBuff, OnUpdateEntityBuff);
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPart, OnUpdateEntityPart);
-        eventCenter.AddEventListener(E_EventType.UI_Update_EntityHP, OnUpdateEntityHP);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityState, UpdateEntityState);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityAction, UpdateEntityAction);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityWish, UpdateEntityWish);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityBuff, UpdateEntityBuff);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityPart, UpdateEntityPart);
+        eventCenter.AddEventListener(E_EventType.UI_Update_EntityHP, UpdateEntityHP);
         eventCenter.AddEventListener(E_EventType.UI_Update_EntityDied, OnUpdateEntityDied);
         #endregion
 
-        eventCenter.AddEventListener(E_EventType.UI_Update_Events, OnUpdateEvents);
+        eventCenter.AddEventListener(E_EventType.UI_Update_Events, UpdateEvents);
 
         #region Wish
-        eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, OnUpdateWishToAvailable);
-        eventCenter.AddEventListener(E_EventType.UI_Update_WishToUnavailable, OnUpdateWishToUnavailable);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WishToAvailable, UnlockedWish);
+        eventCenter.AddEventListener(E_EventType.UI_Update_WishToUnavailable, LockWish);
         #endregion
 
         eventCenter.AddEventListener(E_EventType.UI_Update_IsConditionNotMet, OnUpdateIsConditionNotMet);
     }
+
     void Init()
     {
         #region 进度
@@ -874,77 +776,72 @@ public class BattlePanel : PanelBase
         // event
         UpdateEvents();
     }
+
     // 面板移除时同时移除监听
     void OnDestroy()
     {
         EventCenter eventCenter = EventCenter.Instance;
 
         #region Progress
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_Phase, OnUpdatePhase);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeProgress, OnUpdateTimeProgress);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_MaxTimeProgress, OnUpdateMaxTimeProgress);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDicePerPhase, OnUpdateTimeDicePerPhase);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_Phase, UpdatePhase);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeProgress, UpdateTimeProgress);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_MaxTimeProgress, UpdateMaxTimeProgress);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDicePerPhase, UpdateTimeDicePerPhase);
         #endregion
 
         #region Dice
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_SelectedDice, OnUpdateSelectedDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_SetDiceSelectedFalse, OnSetDiceSelectedFalse);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_SelectedDice, UpdateSelectedDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_SetDiceSelectedFalse, SetDiceSelectedFalse);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_ActionDice, OnUpdateActionDice);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_MindDice, OnUpdateMindDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceCount, OnUpdateTimeDiceCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, OnUpdateTimeDiceSelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceCount, UpdateTimeDiceCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDiceSelectedCount, UpdateTimeDiceSelectedCount);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_TimeDice, OnUpdateTimeDice);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceCount, OnUpdateWildDiceCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceSelectedCount, OnUpdateWildDiceSelectedCount);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDice, OnUpdateEntityDice);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceCount, UpdateWildDiceCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WildDiceSelectedCount, UpdateWildDiceSelectedCount);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDice, UpdateEntityDice);
         #endregion
 
         #region Player
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerHP, OnUpdatePlayerHP);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerBuff, OnUpdatePlayerBuff);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerHP, UpdatePlayerHP);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerBuff, UpdatePlayerBuff);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_PlayerDied, OnUpdatePlayerDied);
         #endregion
 
         #region Entity
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityState, OnUpdateEntityState);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityAction, OnUpdateEntityAction);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityWish, OnUpdateEntityWish);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityBuff, OnUpdateEntityBuff);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityPart, OnUpdateEntityPart);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityHP, OnUpdateEntityHP);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityState, UpdateEntityState);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityAction, UpdateEntityAction);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityWish, UpdateEntityWish);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityBuff, UpdateEntityBuff);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityPart, UpdateEntityPart);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityHP, UpdateEntityHP);
         eventCenter.RemoveEventListener(E_EventType.UI_Update_EntityDied, OnUpdateEntityDied);
         #endregion
 
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_Events, OnUpdateEvents);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_Events, UpdateEvents);
 
         #region Wish
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_WishToAvailable, OnUpdateWishToAvailable);
-        eventCenter.RemoveEventListener(E_EventType.UI_Update_WishToUnavailable, OnUpdateWishToUnavailable);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WishToAvailable, UnlockedWish);
+        eventCenter.RemoveEventListener(E_EventType.UI_Update_WishToUnavailable, LockWish);
         #endregion
 
         eventCenter.RemoveEventListener(E_EventType.UI_Update_IsConditionNotMet, OnUpdateIsConditionNotMet);
     }
+
     protected override void ButtonOnClick(string buttonName)
     {
         int point = Point;
         int partIndex = PartIndex;
+
         switch (buttonName)
         {
             #region 固有行动
             case "Button_InherentAction_Prepare":
-                if (ActOrMind == E_DiceType.Wild)
-                {
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                    break;
-                }
+                if (ActOrMind == E_DiceType.Wild) { EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet); break; }
                 SkillManager.ExcuteSkills(0, new PrepareOptionContext { diceType = ActOrMind });
                 break;
             case "Button_InherentAction_Adjust":
-                if (!(point == -1 || point == 1))
-                {
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                    break;
-                }
+                if (!(point == -1 || point == 1)) { EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet); break; }
                 SkillManager.ExcuteSkills(1, new AdjustOptionContext { change = point });
                 break;
             case "Button_InherentAction_Overturn":
@@ -962,260 +859,62 @@ public class BattlePanel : PanelBase
                 SkillManager.ExcuteSkills(2);
                 break;
             case "Button_InherentAction_Atk":
-                if (isSelectedWildDice || partIndex == -1)
-                {
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                    break;
-                }
+                if (isSelectedWildDice || partIndex == -1) { EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet); break; }
                 SkillManager.ExcuteSkills(3, new AtkOptionContext { index = partIndex });
                 break;
             #endregion
             #region 律
-            case "Button_Law_ChantingLaw":
-                SkillManager.ExcuteSkills(4);
-                break;
-            case "Button_Law_GunArt3":
-                SkillManager.ExcuteSkills(5);
-                break;
-            case "Button_Law_ShatteredStars":
-                SkillManager.ExcuteSkills(6);
-                break;
+            case "Button_Law_ChantingLaw": SkillManager.ExcuteSkills(4); break;
+            case "Button_Law_GunArt3": SkillManager.ExcuteSkills(5); break;
+            case "Button_Law_ShatteredStars": SkillManager.ExcuteSkills(6); break;
             #endregion
             #region 许愿
-            case "Button_Wish_Abundance":
-                SkillManager.ExcuteSkills(7);
-                break;
+            case "Button_Wish_Abundance": SkillManager.ExcuteSkills(7); break;
             case "Button_Wish_Vibrancy":
                 if (point > 0 && point <= 6)
-                {
-                    ColorfullOptionContext context = new ColorfullOptionContext();
-                    context.i = point;
-                    SkillManager.ExcuteSkills(8, context);
-                }
-                else
-                {
-                    Debug.LogWarning("玩家没有选择目标点数！");
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                }
+                    SkillManager.ExcuteSkills(8, new ColorfullOptionContext { i = point });
+                else { Debug.LogWarning("玩家没有选择目标点数！"); EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet); }
                 break;
-            case "Button_Wish_Infinite":
-                SkillManager.ExcuteSkills(9);
-                break;
-            case "Button_Wish_SmoothAndSteady":
-                SkillManager.ExcuteSkills(10);
-                break;
+            case "Button_Wish_Infinite": SkillManager.ExcuteSkills(9); break;
+            case "Button_Wish_SmoothAndSteady": SkillManager.ExcuteSkills(10); break;
             #endregion
             #region Other
-            case "Button_Explanation":
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
-                break;
-            case "Button_Settings":
-                UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top);
-                break;
+            case "Button_Explanation": EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied); break;
+            case "Button_Settings": UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top); break;
             case "Button_ReplayLevel":
                 ProgressManager.Instance.intoNewLevel(level);
                 UIManager.Instance.ChangePanel<BattlePanel, BattlePanel>();
                 break;
-            case "Button_ExitLevel":
-                UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>();
-                break;
-            default:
-                return;
+            case "Button_ExitLevel": UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>(); break;
+            default: return;
             #endregion
         }
     }
+
     protected override void ImageOnLeftClick(string imageName)
     {
         switch (imageName)
         {
-            case "Image_Time1Dice":
-                int selectedTime1Num = DiceManager.Instance.GetSelectedTime1DiceCount();
-                List<DiceBase> Time1List = DiceManager.Instance.dicePool[E_DiceType.Time1];
-                if (selectedTime1Num >= Time1List.Count)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList.ToList())
-                {
-                    if (item.type == E_DiceType.Time1)
-                    {
-                        selectedDiceList.Remove(item);
-                    }
-                }
-                for (int i = Time1List.Count - 1; i >= Time1List.Count - 1 - selectedTime1Num; i--)
-                {
-                    selectedDiceList.Add(Time1List[i]);
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_Time2Dice":
-                int selectedTime2Num = DiceManager.Instance.GetSelectedTime2DiceCount();
-                List<DiceBase> Time2List = DiceManager.Instance.dicePool[E_DiceType.Time2];
-                if (selectedTime2Num >= Time2List.Count)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList.ToList())
-                {
-                    if (item.type == E_DiceType.Time2)
-                    {
-                        selectedDiceList.Remove(item);
-                    }
-                }
-                for (int i = Time2List.Count - 1; i >= Time2List.Count - 1 - selectedTime2Num; i--)
-                {
-                    selectedDiceList.Add(Time2List[i]);
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_Time3Dice":
-                int selectedTime3Num = DiceManager.Instance.GetSelectedTime3DiceCount();
-                List<DiceBase> Time3List = DiceManager.Instance.dicePool[E_DiceType.Time3];
-                if (selectedTime3Num >= Time3List.Count)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList.ToList())
-                {
-                    if (item.type == E_DiceType.Time3)
-                    {
-                        selectedDiceList.Remove(item);
-                    }
-                }
-                for (int i = Time3List.Count - 1; i >= Time3List.Count - 1 - selectedTime3Num; i--)
-                {
-                    selectedDiceList.Add(Time3List[i]);
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_Time4Dice":
-                int selectedTime4Num = DiceManager.Instance.GetSelectedTime4DiceCount();
-                List<DiceBase> Time4List = DiceManager.Instance.dicePool[E_DiceType.Time4];
-                if (selectedTime4Num >= Time4List.Count)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList.ToList())
-                {
-                    if (item.type == E_DiceType.Time4)
-                    {
-                        selectedDiceList.Remove(item);
-                    }
-                }
-                for (int i = Time4List.Count - 1; i >= Time4List.Count - 1 - selectedTime4Num; i--)
-                {
-                    selectedDiceList.Add(Time4List[i]);
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_WildDice":
-                int selectedWildNum = DiceManager.Instance.GetSelectedWildDiceCount();
-                List<DiceBase> WildList = DiceManager.Instance.dicePool[E_DiceType.Wild];
-                if (selectedWildNum >= WildList.Count)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList.ToList())
-                {
-                    if (item.type == E_DiceType.Wild)
-                    {
-                        selectedDiceList.Remove(item);
-                    }
-                }
-                for (int i = WildList.Count - 1; i >= WildList.Count - 1 - selectedWildNum; i--)
-                {
-                    selectedDiceList.Add(WildList[i]);
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceSelectedCount);
-                break;
-            default:
-                return;
+            case "Image_Time1Dice": HandleTimeDiceClick(E_DiceType.Time1, true); break;
+            case "Image_Time2Dice": HandleTimeDiceClick(E_DiceType.Time2, true); break;
+            case "Image_Time3Dice": HandleTimeDiceClick(E_DiceType.Time3, true); break;
+            case "Image_Time4Dice": HandleTimeDiceClick(E_DiceType.Time4, true); break;
+            case "Image_WildDice": HandleTimeDiceClick(E_DiceType.Wild, true); break;
         }
-
     }
+
     protected override void ImageOnRightClick(string imageName)
     {
         switch (imageName)
         {
-            case "Image_Time1Dice":
-                if (DiceManager.Instance.GetSelectedTime1DiceCount() <= 0)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList)
-                {
-                    if (item.type == E_DiceType.Time1)
-                    {
-                        selectedDiceList.Remove(item);
-                        break;
-                    }
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_Time2Dice":
-                if (DiceManager.Instance.GetSelectedTime2DiceCount() <= 0)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList)
-                {
-                    if (item.type == E_DiceType.Time2)
-                    {
-                        selectedDiceList.Remove(item);
-                        break;
-                    }
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_Time3Dice":
-                if (DiceManager.Instance.GetSelectedTime3DiceCount() <= 0)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList)
-                {
-                    if (item.type == E_DiceType.Time3)
-                    {
-                        selectedDiceList.Remove(item);
-                        break;
-                    }
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_Time4Dice":
-                if (DiceManager.Instance.GetSelectedTime4DiceCount() <= 0)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList)
-                {
-                    if (item.type == E_DiceType.Time4)
-                    {
-                        selectedDiceList.Remove(item);
-                        break;
-                    }
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceSelectedCount);
-                break;
-            case "Image_WildDice":
-                if (DiceManager.Instance.GetSelectedWildDiceCount() <= 0)
-                {
-                    return;
-                }
-                foreach (DiceBase item in selectedDiceList)
-                {
-                    if (item.type == E_DiceType.Wild)
-                    {
-                        selectedDiceList.Remove(item);
-                        break;
-                    }
-                }
-                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceSelectedCount);
-                break;
-            default:
-                return;
+            case "Image_Time1Dice": HandleTimeDiceClick(E_DiceType.Time1, false); break;
+            case "Image_Time2Dice": HandleTimeDiceClick(E_DiceType.Time2, false); break;
+            case "Image_Time3Dice": HandleTimeDiceClick(E_DiceType.Time3, false); break;
+            case "Image_Time4Dice": HandleTimeDiceClick(E_DiceType.Time4, false); break;
+            case "Image_WildDice": HandleTimeDiceClick(E_DiceType.Wild, false); break;
         }
     }
+
     void InitTipsRegist()
     {
         #region 固有行动

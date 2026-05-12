@@ -31,6 +31,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         phase = 0;
         maxPhaseDice = phaseDice;
         this.phaseDice = phaseDice;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Phase);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeProgress);
     }
     /// <summary>
     /// 设置当前时间进度上限
@@ -206,7 +208,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
             DiceManager.Instance.ClearSelected();   // 清空选中区的骰子并刷新对应UI
 
             EventCenter.Instance.ClearEventListeners(E_EventType.Logic_PlayerActionExecuted);
-            
+
             this.level = level;
             switch (level)
             {

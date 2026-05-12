@@ -463,6 +463,10 @@ public class DiceManager : ManagerBase<DiceManager>
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
         entityDicePool.Clear();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_ActionDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MindDice);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDiceCount);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WildDiceCount);
     }
     /// <summary>
     /// 清空选中骰子
