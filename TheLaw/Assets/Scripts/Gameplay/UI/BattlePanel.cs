@@ -386,14 +386,12 @@ public class BattlePanel : PanelBase
     void UpdateSinglePartUI(int index)
     {
         Part part = (Part)ProgressManager.Instance.nowEntities[index];
-
         if (part == null)
         {
             // 没发现部位
             SetPartUnknown(index);
             return;
         }
-
         if (part.IsVisible && !part.isDestroyed && part.IsCouldBeAttacked())
         {
             // 发现部位，部位可攻击且没被破坏
@@ -762,9 +760,23 @@ public class BattlePanel : PanelBase
         #endregion
         #region Entity
         // hp
-        GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = ProgressManager.Instance.nowEntities[0].maxHp.ToString();
-        GetControl<Slider>("Slider_EntityHP").maxValue = ProgressManager.Instance.nowEntities[0].maxHp;
-        UpdateEntityHP();
+        if (level == 5)
+        {
+            // 第五关本体特殊处理
+            GetControl<Toggle>("Toggle_EntityPart0").interactable = false;
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = "∞";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = "∞";
+            Slider slider = GetControl<Slider>("Slider_EntityHP");
+            slider.maxValue = 1;
+            slider.value = 1;
+            slider.GetComponentInChildren<TextMeshProUGUI>().text = "<color=grey>本体</color>";
+        }
+        else
+        {
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = ProgressManager.Instance.nowEntities[0].maxHp.ToString();
+            GetControl<Slider>("Slider_EntityHP").maxValue = ProgressManager.Instance.nowEntities[0].maxHp;
+            UpdateEntityHP();
+        }
         // other
         GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = entityTips.name;
         UpdateEntityState();

@@ -18,7 +18,7 @@ public class Entity5 : Entity
 
         #region 状态管理器
         StateManager.Instance.ClearStates();
-        
+
         StateManager.Instance.RegisterStateData(
             E_StateType_5.equipoise,
             new ActionNode[] {
@@ -55,8 +55,8 @@ public class Entity5 : Entity
                 new DesireNode(E_DesireType.Entity5_WeDonNotNeedHimEitherJustLikeHer,throwupthem_Desire_WeDonNotNeedHimEitherJustLikeHer)
             }
         );
-        
-        StateManager.Instance.ChangeState(E_StateType_3.normal);
+
+        StateManager.Instance.ChangeState(E_StateType_5.equipoise);
         #endregion
 
         // 最后进行数值初始化
@@ -93,13 +93,13 @@ public class Entity5 : Entity
     {
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Left) > 0)
         {
-            EventManager.Instance.optionPool[E_OptionType.Level5_Option][0].IsVisible=true;
+            EventManager.Instance.optionPool[E_OptionType.Level5_Option][0].IsVisible = true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             StartCoroutine(DelayAddListener_OscillationLeft());
         }
-        else if(ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)
+        else if (ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)
         {
-            EventManager.Instance.optionPool[E_OptionType.Level5_Option][1].IsVisible=true;
+            EventManager.Instance.optionPool[E_OptionType.Level5_Option][1].IsVisible = true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             StartCoroutine(DelayAddListener_OscillationRight());
         }
@@ -124,18 +124,18 @@ public class Entity5 : Entity
     }
     public void unbalance_Action_Assemble()
     {
-        ProgressManager.Instance.nowEntities[1].hp=Math.Clamp(ProgressManager.Instance.nowEntities[1].hp+3,
-            ProgressManager.Instance.nowEntities[1].hp,ProgressManager.Instance.nowEntities[1].maxHp);
+        ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 3,
+            ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         if (ProgressManager.Instance.player.GetBuff(E_BuffType.Left) > 0)
         {
-            EventManager.Instance.optionPool[E_OptionType.Level5_Option][2].IsVisible=true;
+            EventManager.Instance.optionPool[E_OptionType.Level5_Option][2].IsVisible = true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             StartCoroutine(DelayAddListener_AssembleLeft());
         }
-        else if(ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)
+        else if (ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)
         {
-            EventManager.Instance.optionPool[E_OptionType.Level5_Option][3].IsVisible=true;
+            EventManager.Instance.optionPool[E_OptionType.Level5_Option][3].IsVisible = true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
             StartCoroutine(DelayAddListener_AssembleRight());
         }
@@ -160,8 +160,8 @@ public class Entity5 : Entity
     }
     public void throwupthem_Action_WishesAreEndless()
     {
-        ProgressManager.Instance.nowEntities[1].hp=Math.Clamp(ProgressManager.Instance.player.hp+1,
-            ProgressManager.Instance.nowEntities[1].hp,ProgressManager.Instance.nowEntities[1].maxHp);
+        ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.player.hp + 1,
+            ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         unbalance_Action_Oscillation();
     }
@@ -171,15 +171,15 @@ public class Entity5 : Entity
 
     public void equipoise_Desire_TheirWishes()
     {
-        ProgressManager.Instance.nowEntities[1].hp=Math.Clamp(ProgressManager.Instance.nowEntities[1].hp+5,
-            ProgressManager.Instance.nowEntities[1].hp,ProgressManager.Instance.nowEntities[1].maxHp);
+        ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 5,
+            ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
     }
 
     public void unbalance_Desire_Food()
     {
-        ProgressManager.Instance.nowEntities[1].hp=Math.Clamp(ProgressManager.Instance.nowEntities[1].hp+5,
-            ProgressManager.Instance.nowEntities[1].hp,ProgressManager.Instance.nowEntities[1].maxHp);
+        ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 5,
+            ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         ProgressManager.Instance.player.BeAttacked(Math.Abs(ProgressManager.Instance.player.hp - ProgressManager.Instance.nowEntities[1].hp));
     }
@@ -188,7 +188,7 @@ public class Entity5 : Entity
     {
         //玩家所有行动和思维骰点数-1（不会小于1），时间进度-1
         ProgressManager.Instance.AddTimeProgress(-1);
-            
+
         List<DiceBase> dicesToTransform = new List<DiceBase>();
 
         // 1. 处理行动骰子 (Action)
@@ -196,7 +196,7 @@ public class Entity5 : Entity
         {
             if (actionDice.value == 1)
             {
-                
+
             }
             else
             {
@@ -209,26 +209,26 @@ public class Entity5 : Entity
         {
             if (mindDice.value == 1)
             {
-                
+
             }
             else
             {
                 mindDice.value -= 1;      // 点数减1
             }
         }
-        
+
         DiceManager.Instance.SortPoolByValue(E_DiceType.Action);
         DiceManager.Instance.SortPoolByValue(E_DiceType.Mind);
     }
 
-    public bool IsPlayerFree=false;
-    
+    public bool IsPlayerFree = false;
+
     public void equipoise_Desire_Free()
     {
-        ProgressManager.Instance.player.hp=Math.Clamp(ProgressManager.Instance.player.hp+3,
-            ProgressManager.Instance.player.hp,ProgressManager.Instance.player.maxHp);
+        ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 3,
+            ProgressManager.Instance.player.hp, ProgressManager.Instance.player.maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
-        IsPlayerFree=true;
+        IsPlayerFree = true;
     }
 
     public void equipoise_Desire_Happiness()
@@ -247,7 +247,7 @@ public class Entity5 : Entity
     {
         ProgressManager.Instance.player.hp = 1;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
-        EventManager.Instance.optionPool[E_OptionType.Level5_Option][16].IsVisible=true;
+        EventManager.Instance.optionPool[E_OptionType.Level5_Option][16].IsVisible = true;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
     #endregion
