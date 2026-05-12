@@ -532,9 +532,9 @@ public class BattlePanel : PanelBase
 
                     // 渐入 → 闪动3次 → 渐出 → 销毁
                     DG.Tweening.Sequence seq = DOTween.Sequence();
-                    seq.Append(cg.DOFade(1, 0.3f));
-                    seq.Append(cg.DOFade(0.2f, 0.15f).SetLoops(6, LoopType.Yoyo));
-                    seq.Append(cg.DOFade(0, 0.3f));
+                    seq.Append(cg.DOFade(1, 1f));
+                    seq.Append(cg.DOFade(1f, 1f).SetLoops(6, LoopType.Yoyo));
+                    seq.Append(cg.DOFade(0, 1f));
                     seq.OnComplete(() => Destroy(flashTip));
                 }
             });
