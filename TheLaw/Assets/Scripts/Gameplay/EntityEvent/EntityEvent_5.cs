@@ -950,7 +950,7 @@ public class EntityEvent_5_13 : OptionBase
         }
     }
 
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
 
     public override bool IsUseDiceCombo { get; protected set; } = true;
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
@@ -1037,7 +1037,7 @@ public class EntityEvent_5_14 : OptionBase
             }
         }
     }
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
 
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
@@ -1120,7 +1120,7 @@ public class EntityEvent_5_15 : OptionBase
         }
     }
 
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
 
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;

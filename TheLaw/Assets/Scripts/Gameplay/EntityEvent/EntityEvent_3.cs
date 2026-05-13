@@ -33,7 +33,7 @@ public class EntityEvent_3_01 : OptionBase
 
     public override bool IsUseDiceCombo { get; protected set; } = true;
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleAction;
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
 
     #endregion
 
@@ -171,7 +171,7 @@ public class EntityEvent_3_02 : OptionBase
 
     public override bool IsUseDiceCombo { get; protected set; } = true;
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.Quadruple;
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
 
     #endregion
 
@@ -1165,7 +1165,7 @@ public class EntityEvent_3_12 : OptionBase
     }
 
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.MindActionPair;
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
 
     #endregion
@@ -1261,7 +1261,7 @@ public class EntityEvent_3_14 : OptionBase
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.DoubleMind;
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
     #endregion
 
@@ -1341,7 +1341,7 @@ public class EntityEvent_3_15 : OptionBase
         }
     }
     public override E_ComboType ComboType { get; protected set; } = E_ComboType.Quadruple;
-    public override bool IsDiceConditionsHave { get; protected set; } = false;
+    public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
     #endregion
 

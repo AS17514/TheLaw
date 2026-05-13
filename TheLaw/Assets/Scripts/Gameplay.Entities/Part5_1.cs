@@ -47,24 +47,26 @@ public class Part5_1 : Part
     /// </summary>
     public static void PartApear()
     {
+        if (ProgressManager.Instance.nowEntities[1] != null)
+        {
+            ProgressManager.Instance.nowEntities[1].IsVisible = true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+            return;
+        }
 
         GameObject managerObj = new GameObject("Part5_1");
 
-        // 关键修改 1：把新生成的组件存进一个局部变量 newPart 里
         Part5_1 newPart = managerObj.AddComponent<Part5_1>();
 
-        // 用新变量赋值给管理器
         ProgressManager.Instance.nowEntities[1] = newPart;
 
         newPart.IsVisible = true;
 
         if (ProgressManager.Instance.nowEntities[0] != null &&
-            ProgressManager.Instance.nowEntities[0] is Entity entity3)
+            ProgressManager.Instance.nowEntities[0] is Entity entity5)
         {
-            // 关键修改 2：把原本的 owner 改成 newPart.owner
-            newPart.owner = entity3;
+            newPart.owner = entity5;
 
-            // 关键修改 3：把原本的 this 改成 newPart
             newPart.owner.parts.Add(newPart);
 
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);

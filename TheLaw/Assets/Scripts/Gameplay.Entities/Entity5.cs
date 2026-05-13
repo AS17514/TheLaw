@@ -61,6 +61,12 @@ public class Entity5 : Entity
 
         // 最后进行数值初始化
         InitEntity(0, 999999);
+
+        if (ProgressManager.Instance.nowEntities[1] == null)
+        {
+            Part5_1.PartApear();
+            ProgressManager.Instance.nowEntities[1].IsVisible = false;
+        }
     }
 
     #region 行动
