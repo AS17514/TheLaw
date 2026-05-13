@@ -173,8 +173,10 @@ public class StateManager : ManagerBase<StateManager>
         if (currentExecutableDesire != null)
         {
             currentExecutableDesire.ExecuteLogic?.Invoke();
-            currentDesireIndex++;
-
+            if (currentState is E_StateType_5.unbalance)
+                currentDesireIndex = 0;
+            else
+                currentDesireIndex++;
             if (currentDesireIndex >= stateDesires[currentState].Length)
             {
                 currentDesireIndex = 0;
@@ -205,5 +207,16 @@ public class StateManager : ManagerBase<StateManager>
     {
         stateActions[state] = actions;
         stateDesires[state] = desires;
+    }
+    
+    /// <summary>
+    /// 第五关使用
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetDesireIndex(int index)
+    {
+        currentDesireIndex = index;
+        currentExecutableDesire = stateDesires[currentState][index];
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
     }
 }

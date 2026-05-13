@@ -43,8 +43,7 @@ public class Infinite : OptionBase
         if (ProgressManager.Instance.level == 5 &&
             StateManager.Instance.currentState is E_StateType_5.unbalance)
         {
-            StateManager.Instance.currentDesireIndex = 3;
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+            StateManager.Instance.SetDesireIndex(3);
         }
     }
 }

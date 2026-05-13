@@ -74,8 +74,7 @@ public class Abundance : OptionBase
                 if (ProgressManager.Instance.level == 5 &&
                     StateManager.Instance.currentState is E_StateType_5.unbalance)
                 {
-                    StateManager.Instance.currentDesireIndex = 1;
-                    EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
+                    StateManager.Instance.SetDesireIndex(1);
                 }
             }
             else
