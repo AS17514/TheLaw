@@ -119,10 +119,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         }
         ++this.phase;
         phaseDice = maxPhaseDice;
-        int i = 0;
-        if (player.GetBuff(E_BuffType.Up) > 0)
-            i = 1;
-        DiceManager.Instance.AddTimeDice(maxPhaseDice + i);
+        DiceManager.Instance.AddTimeDice(maxPhaseDice);
 
         if (level == 1)
         {

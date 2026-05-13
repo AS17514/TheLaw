@@ -25,13 +25,41 @@ public class DiceManager : ManagerBase<DiceManager>
     {
         if (dice != null)
         {
+            if ((dice.type is E_DiceType.Time1 || dice.type is E_DiceType.Time2 || dice.type is E_DiceType.Time3) &&
+                ProgressManager.Instance.player.GetBuff(E_BuffType.Up) > 0)
+            {
+                dice.value++;
+                switch (type)
+                {
+                    case E_DiceType.Time1:
+                        type=E_DiceType.Time2;
+                        break;
+                    case E_DiceType.Time2:
+                        type=E_DiceType.Time3;
+                        break;
+                    case E_DiceType.Time3:
+                        type=E_DiceType.Time4;
+                        break;
+                }
+            }
             this.dicePool[type].Add(dice);
         }
         else
         {
             switch (type)
             {
-                case E_DiceType.Time1: this.dicePool[type].Add(new TimeDice()); break;
+                case E_DiceType.Time1:
+                    if (ProgressManager.Instance.player.GetBuff(E_BuffType.Up) > 0)
+                    {
+                        type=E_DiceType.Time2;
+                        TimeDice timeDice = new TimeDice();
+                        timeDice.value = 2;
+                        timeDice.type = E_DiceType.Time2;
+                        dicePool[E_DiceType.Time2].Add(timeDice);
+                        break;
+                    }
+                    this.dicePool[type].Add(new TimeDice());
+                    break;
                 case E_DiceType.Action: this.dicePool[type].Add(new ActionDice()); break;
                 case E_DiceType.Mind: this.dicePool[type].Add(new MindDice()); break;
                 case E_DiceType.Wild: this.dicePool[type].Add(new WildDice()); break;
@@ -47,11 +75,7 @@ public class DiceManager : ManagerBase<DiceManager>
     public void AddTimeDice(int amount)
     {
         for (int i = 0; i < amount; i++)
-        {
-            this.dicePool[E_DiceType.Time1].Add(new TimeDice());
-        }
-
-        SortPoolByValue(E_DiceType.Time1);
+            AddDice(E_DiceType.Time1); 
 
         Debug.Log("AddTimeDice执行1次" + amount + "个");
     }
