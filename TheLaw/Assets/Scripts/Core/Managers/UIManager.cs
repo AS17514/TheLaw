@@ -114,35 +114,31 @@ public class UIManager : ManagerMonoBase<UIManager>
     /// <returns></returns>
     // UIManager.cs 内部
 
-    public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle) where T : PanelBase where K : PanelBase
+    public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle, bool showLoading = true) where T : PanelBase where K : PanelBase
     {
-        // 1. 开启 Loading
-        CreatPanel<LoadingPanel>(E_UILayer.Loading);
+        if (showLoading)
+            CreatPanel<LoadingPanel>(E_UILayer.Loading);
 
-        // 开启协程处理后续逻辑
-        StartCoroutine(DoChangePanelCoroutine<T, K>(layer));
+        StartCoroutine(DoChangePanelCoroutine<T, K>(layer, showLoading));
     }
 
-    private IEnumerator DoChangePanelCoroutine<T, K>(E_UILayer layer)
+    private IEnumerator DoChangePanelCoroutine<T, K>(E_UILayer layer, bool showLoading)
     where T : PanelBase where K : PanelBase
     {
-        // 1. Loading 淡入
-        yield return new WaitForSecondsRealtime(0.6f);
+        if (showLoading)
+            yield return new WaitForSecondsRealtime(0.6f);
 
-        // 2. 销毁旧的，实例化新的 (这里会卡一下，但 Loading 协程在后台跑)
-        // 注意：Instantiate 是同步的，执行时连 Loading 动画都会停一下
-        // 这是正常的，代表程序正在全力加载
         RemovePanel<T>();
         yield return null;
         yield return null;
         yield return null;
         CreatPanel<K>(layer);
 
-        // 3. 强制让 Loading 多展示一会儿（比如 1 秒），让玩家看清楚动画
-        yield return new WaitForSecondsRealtime(0f);
-
-        // 4. 移除 Loading
-        RemovePanel<LoadingPanel>();
+        if (showLoading)
+        {
+            yield return new WaitForSecondsRealtime(0f);
+            RemovePanel<LoadingPanel>();
+        }
     }
     /// <summary>
     /// 获取面板层级对象的transform组件

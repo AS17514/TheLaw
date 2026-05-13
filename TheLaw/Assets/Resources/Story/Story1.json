@@ -7,14 +7,14 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第一句",
+                    "text": "第一页第一句\n<color=grey><i>123</i></color>123",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
                     "text": "第一页第2句",
-                    "italic": false,
+                    "italic": true,
                     "alpha": 0.5,
                     "color": "#FFFFFF"
                 },

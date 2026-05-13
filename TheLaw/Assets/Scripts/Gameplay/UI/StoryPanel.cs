@@ -75,9 +75,11 @@ public class StoryPanel : PanelBase
         StoryLine line = storySegment.pages[pageIndex].lines[lineIndex];
         TextMeshProUGUI tmp = LineObj.GetComponentInChildren<TextMeshProUGUI>();
         tmp.text = line.text;
-        tmp.alpha = line.alpha;
         tmp.fontStyle = line.italic ? FontStyles.Italic : FontStyles.Normal;
-        ColorUtility.TryParseHtmlString(line.color, out Color color);
+        Color color;
+        if (!ColorUtility.TryParseHtmlString(line.color, out color))
+            color = Color.white;
+        color.a = line.alpha;
         tmp.color = color;
     }
     void NextLine()
