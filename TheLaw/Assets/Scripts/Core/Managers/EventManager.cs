@@ -110,7 +110,7 @@ public class EventManager : ManagerBase<EventManager>
 
     public OptionBase[] GetOptionPoolByType(E_OptionType type)
     {
-        return optionPool[type];
+        return optionPool.TryGetValue(type, out var pool) ? pool : null;
     }
     /// <summary>
     /// 按下按钮直接调用这个方法,然后前端参数直接往里面放就行。
@@ -119,7 +119,17 @@ public class EventManager : ManagerBase<EventManager>
     /// <param name="index"></param>
     public void ExcuteOption(E_OptionType type, int index, OptionContext context = null)
     {
-        optionPool[type][index].TriggerOption(context);
+        if (!optionPool.TryGetValue(type, out var pool) || pool == null)
+        {
+            Debug.LogWarning($"ExcuteOption: 未注册选项池 {type}");
+            return;
+        }
+        if (index < 0 || index >= pool.Length)
+        {
+            Debug.LogWarning($"ExcuteOption: 索引越界 {type}[{index}]，长度 {pool.Length}");
+            return;
+        }
+        pool[index].TriggerOption(context);
     }
     
     /// <summary>
@@ -194,6 +204,7 @@ public class EventManager : ManagerBase<EventManager>
                 });
                 break;
             case 4:
+                optionPool.Add(E_OptionType.Level4_Option, Array.Empty<OptionBase>());
                 break;
             case 5:
                 optionPool.Add(E_OptionType.Level5_Option, new OptionBase[]

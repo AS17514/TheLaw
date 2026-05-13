@@ -63,13 +63,13 @@ public class EntityEvent_5_01 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -141,13 +141,13 @@ public class EntityEvent_5_02 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -221,13 +221,13 @@ public class EntityEvent_5_03 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -302,13 +302,13 @@ public class EntityEvent_5_04 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -384,13 +384,13 @@ public class EntityEvent_5_05 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -449,13 +449,13 @@ public class EntityEvent_5_06 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -515,13 +515,13 @@ public class EntityEvent_5_07 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -580,13 +580,13 @@ public class EntityEvent_5_08 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -648,13 +648,13 @@ public class EntityEvent_5_09 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -713,13 +713,13 @@ public class EntityEvent_5_10 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -794,13 +794,13 @@ public class EntityEvent_5_11 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -887,13 +887,13 @@ public class EntityEvent_5_12 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -972,13 +972,13 @@ public class EntityEvent_5_13 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -1059,13 +1059,13 @@ public class EntityEvent_5_14 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -1141,13 +1141,13 @@ public class EntityEvent_5_15 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -1207,13 +1207,13 @@ public class EntityEvent_5_16 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -1284,13 +1284,13 @@ public class EntityEvent_5_17 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
@@ -1350,13 +1350,13 @@ public class EntityEvent_5_18 : OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }

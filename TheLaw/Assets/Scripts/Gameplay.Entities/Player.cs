@@ -69,11 +69,7 @@ public class Player : CharacterBase
             i = 1;
         base.TakeDamage(damage+i);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
-
-        if (hp == 0)
-        {
-            Die();
-        }
+        // 致死时 Die() 已由 CharacterBase.TakeDamage 调用，勿重复触发 UI_Update_PlayerDied
     }
 
     /// <summary>

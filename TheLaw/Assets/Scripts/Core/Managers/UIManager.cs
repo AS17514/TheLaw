@@ -201,7 +201,9 @@ public class UIManager : ManagerMonoBase<UIManager>
     /// </summary>
     public void ShakePanel<T>() where T : PanelBase
     {
-        RectTransform rectTransform = GetPanel<T>().GetComponent<RectTransform>();
+        T panel = GetPanel<T>();
+        if (panel == null) return;
+        RectTransform rectTransform = panel.GetComponent<RectTransform>();
         // 面板振动效果
         rectTransform.DOShakeAnchorPos(0.3f, 10).OnComplete(() =>
             {

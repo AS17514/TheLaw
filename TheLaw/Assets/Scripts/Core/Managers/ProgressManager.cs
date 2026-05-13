@@ -53,7 +53,10 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void SetmaxPhaseDice(int maxPhaseDice)
     {
         this.maxPhaseDice = maxPhaseDice;
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_MaxTimeProgress, this.maxPhaseDice);
+        if (phaseDice > maxPhaseDice)
+            phaseDice = maxPhaseDice;
+        // 与「时间进度上限」无关；此前误用 UI_Update_MaxTimeProgress 会错误改写 Slider_TimeProgress
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_TimeDicePerPhase, this.phaseDice);
     }
 
     /// <summary>

@@ -55,13 +55,13 @@ public class SmoothAndSteady:OptionBase
                 : true;
             if (IsUseDiceCombo == true)
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(ComboType)
                     : true;
             }
             else
             {
-                result = IsDiceConditionsHave
+                result &= IsDiceConditionsHave
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
