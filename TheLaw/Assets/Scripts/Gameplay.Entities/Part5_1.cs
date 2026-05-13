@@ -49,7 +49,7 @@ public class Part5_1 : Part
     {
         if (ProgressManager.Instance.nowEntities[1] != null)
         {
-            ProgressManager.Instance.nowEntities[1].IsVisible = true;
+            ((Part)ProgressManager.Instance.nowEntities[1]).IsVisible = true;
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
             return;
         }
