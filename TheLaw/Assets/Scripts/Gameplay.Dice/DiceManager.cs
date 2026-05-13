@@ -25,23 +25,6 @@ public class DiceManager : ManagerBase<DiceManager>
     {
         if (dice != null)
         {
-            if ((dice.type is E_DiceType.Time1 || dice.type is E_DiceType.Time2 || dice.type is E_DiceType.Time3) &&
-                ProgressManager.Instance.player.GetBuff(E_BuffType.Up) > 0)
-            {
-                dice.value++;
-                switch (type)
-                {
-                    case E_DiceType.Time1:
-                        type=E_DiceType.Time2;
-                        break;
-                    case E_DiceType.Time2:
-                        type=E_DiceType.Time3;
-                        break;
-                    case E_DiceType.Time3:
-                        type=E_DiceType.Time4;
-                        break;
-                }
-            }
             this.dicePool[type].Add(dice);
         }
         else
