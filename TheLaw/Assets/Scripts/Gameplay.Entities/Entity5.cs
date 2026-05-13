@@ -65,7 +65,7 @@ public class Entity5 : Entity
         if (ProgressManager.Instance.nowEntities[1] == null)
         {
             Part5_1.PartApear();
-            ProgressManager.Instance.nowEntities[1].IsVisible = false;
+            ((Part)ProgressManager.Instance.nowEntities[1]).IsVisible = false;
         }
     }
 
