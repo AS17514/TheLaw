@@ -2,64 +2,64 @@
     "title": "初始剧情",
     "afterStory": "SelectLevel",
     "unLockLevel": 1,
-    "pages": [
+  "pages": [
+    {
+      "page": 1,
+      "lines": [
         {
-            "page": 1,
-            "lines": [
-                {
-                    "text": "第一页第一句\n<color=grey><i>123</i></color>123",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "第一页第2句",
-                    "italic": true,
-                    "alpha": 0.5,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "第一页第3句",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "第一页第4句",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "第一页第5句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                }
-            ]
+          "text": "第一页第一句\n<color=grey><i>123</i></color>123",
+          "italic": false,
+          "alpha": 1,
+          "color": "#FFFFFF"
         },
         {
-            "page": 2,
-            "lines": [
-                {
-                    "text": "第2页第一句",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "第2页第2句",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "第2页第3句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                }
-            ]
+          "text": "第一页第2句",
+          "italic": true,
+          "alpha": 0.5,
+          "color": "#FFFFFF"
+        },
+        {
+          "text": "第一页第3句",
+          "italic": false,
+          "alpha": 1,
+          "color": "#FFFFFF"
+        },
+        {
+          "text": "第一页第4句",
+          "italic": false,
+          "alpha": 1,
+          "color": "#FFFFFF"
+        },
+        {
+          "text": "第一页第5句",
+          "italic": true,
+          "alpha": 1,
+          "color": "#FFAA00"
         }
-    ]
+      ]
+    },
+    {
+      "page": 2,
+      "lines": [
+        {
+          "text": "第2页第一句",
+          "italic": false,
+          "alpha": 1,
+          "color": "#FFFFFF"
+        },
+        {
+          "text": "第2页第2句",
+          "italic": false,
+          "alpha": 1,
+          "color": "#FFFFFF"
+        },
+        {
+          "text": "第2页第3句",
+          "italic": true,
+          "alpha": 1,
+          "color": "#FFAA00"
+        }
+      ]
+    }
+  ]
 }

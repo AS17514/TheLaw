@@ -16,6 +16,10 @@ public class LevelSelectPanel : PanelBase
         print(nowLevel);
         // 默认选中当前最新进度
         selectedLevel = nowLevel;
+        if (nowLevel == 6)
+        {
+            selectedLevel = 5;
+        }
 
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
         InitLevelButton();
@@ -57,7 +61,7 @@ public class LevelSelectPanel : PanelBase
                 tmp.text = "行";
                 break;
             case 4:
-                tmp.text = "???";
+                tmp.text = "住";
                 break;
             case 5:
                 tmp.text = "天平";
