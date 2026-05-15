@@ -79,6 +79,8 @@ public class LevelSelectPanel : PanelBase
         switch (buttonName)
         {
             case "Button_EnterLevel":
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.EnterLevelClick, false });
                 if (selectedLevel != 0)
                 {
                     Debug.Log($"进入第{selectedLevel}关开头剧情");
@@ -92,31 +94,45 @@ public class LevelSelectPanel : PanelBase
                 UIManager.Instance.ChangePanel<LevelSelectPanel, StoryPanel>();
                 break;
             case "Button_Back":
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.BackClick, false });
                 UIManager.Instance.ChangePanel<LevelSelectPanel, StartMenuPanel>();
                 break;
             case "Button_Level0":
                 selectedLevel = 0;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.LevelSelectClick, false });
                 break;
             case "Button_Level1":
                 selectedLevel = 1;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.LevelSelectClick, false });
                 break;
             case "Button_Level2":
                 selectedLevel = 2;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.LevelSelectClick, false });
                 break;
             case "Button_Level3":
                 selectedLevel = 3;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.LevelSelectClick, false });
                 break;
             case "Button_Level4":
                 selectedLevel = 4;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.LevelSelectClick, false });
                 break;
             case "Button_Level5":
                 selectedLevel = 5;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedLevelTitle);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.LevelSelectClick, false });
                 break;
             default:
                 break;

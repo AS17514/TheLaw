@@ -15,6 +15,8 @@ public class StartMenuPanel : PanelBase
         switch (buttonName)
         {
             case "Button_StartGame":
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.StartGameClick, false });
                 GetControl<Button>("Button_StartGame").interactable = false;
                 if (JsonManager.Instance.LoadDataByType(E_SaveDataType.StoryProgress) == 0)
                 {
@@ -35,13 +37,16 @@ public class StartMenuPanel : PanelBase
 
                 break;
             case "Button_QuitGame":
-                // 编辑器下停止运行
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.QuitGameClick, false });
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
 #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
+                    UnityEditor.EditorApplication.isPlaying = false;
 #else
-                // 打包后退出程序
-                Application.Quit();
+                    Application.Quit();
 #endif
+                });
                 break;
             default:
                 return;

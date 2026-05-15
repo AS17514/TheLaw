@@ -31,6 +31,11 @@ public enum E_SFX
     SelectDice,            // 选择骰子
     Prepare,               // 准备
     PlayerWish,            // 玩家许愿
+    StartGameClick,        // 主界面点击进入游戏
+    QuitGameClick,         // 主界面点击退出游戏
+    LevelSelectClick,      // 选关界面选择关卡
+    EnterLevelClick,       // 选关界面进入关卡
+    BackClick,             // 选关界面返回主菜单
 }
 public class AudioManager : ManagerMonoBase<AudioManager>
 {
