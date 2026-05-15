@@ -155,6 +155,8 @@ public class StoryPanel : PanelBase
         else
         {
             currentPage--;
+            EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                new object[] { E_SFX.StoryPageFlip, false });
             maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
             print(maxCurrentLineIndex);
             GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = (currentPage + 1).ToString();

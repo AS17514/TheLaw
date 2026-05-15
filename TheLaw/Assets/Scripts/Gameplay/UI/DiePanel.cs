@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class DiePanel : PanelBase
 {
+    void Start()
+    {
+        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
+            new object[] { E_BGM.GameOver, true });
+    }
+
     protected override void ButtonOnClick(string buttonName)
     {
         UIManager.Instance.RemovePanel<BattlePanel>();

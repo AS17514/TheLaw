@@ -11,6 +11,8 @@ public class LevelSelectPanel : PanelBase
     protected override void Awake()
     {
         base.Awake();
+        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
+            new object[] { E_BGM.LevelSelect, true });
         InitEvent();
         nowLevel = JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress);
         print(nowLevel);
