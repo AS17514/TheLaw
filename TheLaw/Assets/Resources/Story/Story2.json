@@ -1,5 +1,5 @@
 {
-    "title": "食",
+    "title": "开端",
     "afterStory": "Battle",
     "nextBattle": 1,
     "pages": [
@@ -9,7 +9,7 @@
                 {
                     "text": "事务所内，档案和文件袋飞散着翻动声。",
                     "italic": true,
-                    "alpha": 1.5,
+                    "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
@@ -62,7 +62,7 @@
                 {
                     "text": "XXXX年X月早辰，x村门口。",
                     "italic": true,
-                    "alpha": 1.5,
+                    "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
@@ -97,7 +97,7 @@
                 },
                 {
                     "text": "   “我想要找回我和星星的记忆。”",
-                    "italic": false,
+                    "italic": true,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
@@ -109,42 +109,6 @@
                 }
             ]
         },
-        {
-            "page": 3,
-            "lines": [
-                {
-                    "text": "   刚进村落，白辰就感觉到一阵十分明显的违和感：",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "   无论是难以被称作房屋的建筑，还是由各种物体拼接起来的生命体，这让白辰一度怀疑是不是自己的认知滤网被强行关闭了。",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "   但惊讶归惊讶，白辰还是清楚自己的职责，白辰压下震惊，拿出记录仪开始工作。笔尖在笔记本上划过：",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "   “x村初步调查：‘律’的影响范围覆盖全村，现实规则被严重扭曲。村民已失去自主意识，仅存本能活动。规律不明，待进一步探索。”",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                },
-                {
-                    "text": "   在村庄的青石板路上走了一会，村民都无一例外地“无法交流”，虽说不可交流，实际上这些“村民”更像是没有意识的靠本能驱动的人偶一般在街道上活动着，即便身处如此怪异的区域都无动于衷。",
-                    "italic": false,
-                    "alpha": 1,
-                    "color": "#FFFFFF"
-                }
-            ]
-        }
-        
         {
             "page": 3,
             "lines": [

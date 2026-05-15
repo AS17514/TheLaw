@@ -1,5 +1,5 @@
 {
-    "title": "第二关开始",
+    "title": "面具与华丽舞蹈",
     "afterStory": "Battle",
     "nextBattle": 2,
     "pages": [
@@ -7,34 +7,28 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   刚收集到的情报微不足道，还需要进一步的探索。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
+                    "text": "   白辰往更深处走去，远远地他就听到一阵喧闹，放眼望去，半山腰上燃着火焰。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第3句",
-                    "italic": true,
+                    "text": "   “那应该是祭台的位置吧。”看着情报上附带的地图白辰确认着。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第4句",
-                    "italic": true,
+                    "text": "   ——那里肯定会有很重要的情报，凭着直觉，白辰起身向山上跑去。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第5句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -42,16 +36,130 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "第一页第一句",
+                    "text": "   村庄的路还是很宽敞的，道路两旁排列着规整的房屋——要是房子正常点就好了。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
-                    "italic": true,
+                    "text": "   跟着地图，白辰穿过了一排晾衣服的空地，就当他要走出去时，一排衣服像封锁线般拦在了白辰面前。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “不要走，快来看看我的衣服吧。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一个天真的声音从衣架后传出，透过光隐约映出了祂的轮廓。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “这是新的怪物吗？”白辰本能地把手伸向腰间，目光始终盯着衣服后移动的身影。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你看你看，这些都是我的衣服，你觉得怎么样。”拦路者像个期待夸奖的孩子般自顾自说着，但那身影始终与白辰隔着相当的一段距离。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   见来者没有接近的意图，白辰也就把手从枪套上放下。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “是吗，你也是来欣赏我的衣服的吗，快来看看这个，这个是现在的流行款式，腰线上的花边可以很好的衬出身材的优美......”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   黑影突然起了兴致，开始滔滔不绝地分享自己的装扮。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “如果是你的话，你觉得这些衣服美丽吗？”一长串的评论后，黑影停下来问道。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “衣服的话，要合适的才会显得好看吧。”白辰脱口而出。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “......”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一段长久的沉默。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰以为黑影没有听清楚他的话，又重复说：",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我说，要合适的才......”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你也要用脸来评价吗！”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   黑影突然尖声打断了他，声音里满是被刺痛的愤怒，",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “如此肤浅！明明穿着好看的衣服就可以了！”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   刚刚白辰无心的话显然深深地刺激了它，黑影在衣服背后大吼着，周围的衣物无风自动，如同活物般将白辰团团围住。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我的一切都会是美丽的......”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   黑影喃喃着，下一秒，晾衣绳如同鞭子般向白辰抽来......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         }

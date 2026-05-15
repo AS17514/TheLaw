@@ -1,5 +1,5 @@
 {
-    "title": "第二关结束",
+    "title": "流星",
     "afterStory": "SelectLevel",
     "unlockLevel": 3,
     "pages": [
@@ -7,34 +7,88 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   ——哗。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
+                    "text": "   一声脆响过后，所有衣服和晾衣绳都落下来堆在了地上。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第3句",
-                    "italic": true,
+                    "text": "   见那堆衣服不再动弹，白辰暂时松了一口气。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第4句",
-                    "italic": true,
+                    "text": "   衣堆顶上，醒目地落着一块破布，这块布已经很陈旧，和底下成堆的华丽服饰显得格格不入。白辰将布捡起来仔细端详，殷红的字迹依然醒目地留在上面：",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第5句",
+                    "text": "   ——“如果实现了你会怎么样呢？”",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——“我会自信地生活下去。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   从衣服背后走出来都无法做到，得到了伪装之后又怎么可能会自信地活着呢。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰长叹一声，把布塞回包里，显然，刚刚的黑影也是许愿的其中一人。祂也显然没有完成“自信地生活下去”这一承诺。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   那个女孩在寻求什么呢，或者说那个“<i>律<i>”在寻求什么呢？",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “愿望和承诺......吗？”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰想着想着，目光渐渐地被地上的一抹亮光吸引了。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——那是一颗<color=#FFAA00>星星</color>。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   想要触碰的欲望很强烈，白辰如同被牵引般向星星伸出手。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   接触到祂的一瞬间，突然地一阵白光将白辰包围，这种光白辰并不陌生——这是他那早已破碎的星星的光。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -42,13 +96,304 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "第一页第一句",
-                    "italic": false,
+                    "text": "   一个无比普通的夜晚，星光如往常般闪烁。",
+                    "italic": true,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
+                    "text": "   躺在草坪上的男孩问到：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “安，星星会掉下来吗？”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安侧过头，眼睛很亮：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “唔......不知道，但是，如果星星掉下来的话，一定可以实现愿望吧。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “大家，都会变得很幸福。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   她的语气很轻，像在说一件理所当然的事。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        },
+        {
+            "page": 3,
+            "lines": [
+                {
+                    "text": "   他们的话成真了——",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一个普通的午后，星星从天空中坠落，不偏不倚，刚好落在了女孩的脚边。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安将祂轻轻的捧起，端详着祂的模样。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他们从未见过如此独特的星星——",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一颗小小的，散发冷光的星星，没有温度，却异常干净。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他们捧着这颗星星走遍了村庄，所有人都看见了这颗奇特的星星",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   所有人都知道了——对着安许愿，愿望就会实现。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   在捡到星星的那个晚上，安对着星星许下了一个愿望：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   <color=#FFAA00>“我希望能让所有人都幸福，哪怕我自己不幸也没有关系。”</color>",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   于是，“神明”回应了她。只要有人向安许下愿望，祂就会兑现。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安成了愿望的载体，成了村民口中的“神明”。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        },
+        {
+            "page": 4,
+            "lines": [
+                {
+                    "text": "   偏僻的小镇恢复了些许活力，",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   人们将女孩高高捧起，为她修建祭坛和神庙，为她献上礼服和贡品。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一切都为了让女孩认可他们的虔诚，然后，让女孩实现他们的愿望。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安做到了，她实现了大家的愿望。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “这个星星好厉害，祂可以变出食物和衣服诶。安也好厉害，可以让星星实现愿望。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩兴高采烈地夸赞着。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “嗯，有了星星，一定可以让大家变得幸福的。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   女孩端坐在高台上说着，祭台的阴影遮住了安的脸，但男孩还是看到了她的表情",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——疲惫又充满希望。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        },
+        {
+            "page": 5,
+            "lines": [
+                {
+                    "text": "   ......但，有什么悄悄地在改变——",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   人们发现，即使缺席了朝贡，扭曲了事实，只要开口，安仍会为他们祈祷。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   于是他们渐渐明白了，女孩会实现他们的每一个愿望——",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   只要对着她装模作样地许愿就可以了。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   祭礼和祷词在一点点缩水，安的礼服也变得陈旧肮脏，",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   沸腾的村庄将欲望煮成了贪婪，把虔诚熔成了狂妄。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   最后，只有男孩会看着安的脸了。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   她的脸变得苍白，连同她怀里的星星一起。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你不许愿吗？”安问他。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “愿望吗……我想想......”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我想去外面，搬去大城市生活。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “<color=#FFAA00>愿望实现之后，你会怎么做呢？</color>”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安反问到，所有来许愿的人都是如此，男孩也不例外。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “<color=#FFAA00>我会去学画画，把我和你都画下来。还有这颗星星，我也会画上去。</color>”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩一脸认真地回答着。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安笑了。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   那是星星坠落前，安原本的样子。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   干净，柔软，还没有被愿望榨取过的疲惫。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “一定要兑现哦。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩用力点着头。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他隐隐觉着，这是他最后一次，看到她这样的笑。",
                     "italic": true,
                     "alpha": 1,
                     "color": "#FFAA00"
