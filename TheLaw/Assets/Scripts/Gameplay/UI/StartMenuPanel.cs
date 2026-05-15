@@ -4,6 +4,12 @@ using UnityEngine.UI;
 
 public class StartMenuPanel : PanelBase
 {
+    void Start()
+    {
+        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
+            new object[] { E_BGM.StartMenu, true });
+    }
+
     protected override void ButtonOnClick(string buttonName)
     {
         switch (buttonName)

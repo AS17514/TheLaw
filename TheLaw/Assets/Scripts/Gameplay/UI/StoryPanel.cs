@@ -11,6 +11,7 @@ public class StoryPanel : PanelBase
 {
     StorySegment storySegment;
     GameObject storyLineObj;
+    ScrollRect scrollRect;
     Transform content;
     Dictionary<int, int> pageProgress;
     int currentLineIndex;
@@ -27,7 +28,8 @@ public class StoryPanel : PanelBase
         // 加载文本预制体
         storyLineObj = Resources.Load<GameObject>("Prefabs/UI/Story/StoryLine");
         // 得到滑动框
-        content = GetControl<ScrollRect>("Scroll View_Story").content;
+        scrollRect = GetControl<ScrollRect>("Scroll View_Story");
+        content = scrollRect.content;
         // 得到故事段
         storySegment = StoryManager.Instance.storySegment;
         // 生成进度字典
@@ -85,6 +87,20 @@ public class StoryPanel : PanelBase
         color.a = line.alpha;
         tmp.color = color;
     }
+    void ScrollToBottom(bool animated)
+    {
+        Canvas.ForceUpdateCanvases();
+        if (animated)
+        {
+            DOTween.To(() => scrollRect.verticalNormalizedPosition,
+                       x => scrollRect.verticalNormalizedPosition = x,
+                       0f, 0.3f).SetEase(Ease.OutCubic);
+        }
+        else
+        {
+            scrollRect.verticalNormalizedPosition = 0;
+        }
+    }
     void NextLine()
     {
         // 如果看到最后一页最后一句，就显示继续按钮
@@ -100,7 +116,6 @@ public class StoryPanel : PanelBase
                 pageProgress.Add(currentPage + 1, 0);
             }
             NextPage();
-
         }
         else
         {
@@ -112,6 +127,7 @@ public class StoryPanel : PanelBase
             currentLineIndex++;
             pageProgress[currentPage] = currentLineIndex;
             CreatStoryLine(currentPage, currentLineIndex);
+            ScrollToBottom(true);
         }
     }
     void NextPage()
@@ -141,6 +157,7 @@ public class StoryPanel : PanelBase
                 CreatStoryLine(currentPage, i);
             }
             currentLineIndex = pageProgress[currentPage];
+            ScrollToBottom(false);
             // 设置按钮按下后不是选中状态，防止和推进剧情抢按键
             EventSystem.current.SetSelectedGameObject(null);
         }
@@ -155,6 +172,8 @@ public class StoryPanel : PanelBase
         else
         {
             currentPage--;
+            EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                new object[] { E_SFX.StoryPageFlip, false });
             maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
             print(maxCurrentLineIndex);
             GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = (currentPage + 1).ToString();
