@@ -18,11 +18,20 @@ public class Entity4 : Entity
     public override int GetPhaseDiceModifier()
         => GetBuff(E_BuffType.Want3) > 0 ? -1 : 0;
     
+    public bool IsDestroyed=false;
   public override void InitEntity(int initialDesire = 0, int maxHp = 10)
     {
         AddBuff(E_BuffType.Desire, initialDesire);
         this.maxHp = maxHp;
         this.hp = maxHp;
+    }
+
+    public override void Die()
+    {
+        AddBuff(E_BuffType.Desire,-1);
+        IsDestroyed = true;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+        base.Die();
     }
 
     public override void ManualInit()
@@ -122,7 +131,15 @@ public class Entity4 : Entity
         {
             temp.Remove(3);
         }
-        if (length > 0)
+        if (IsDestroyed)
+            temp.Remove(0);
+        if (ProgressManager.Instance.TryGetPart(2, out Part p2) && p2 != null && p2.isDestroyed)
+            temp.Remove(1);
+        if (ProgressManager.Instance.TryGetPart(1, out Part p3) && p3 != null && p3.isDestroyed)
+            temp.Remove(2);
+        if (ProgressManager.Instance.TryGetPart(2, out Part p4) && p4 != null && p4.isDestroyed)
+            temp.Remove(3);
+        if (temp.Count > 0)
         {
             if(E_BuffType.TryParse($"Want{temp[Random.Range(0, length)]}", out E_BuffType want))
                 AddBuff(want,1);

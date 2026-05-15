@@ -7,6 +7,9 @@ using UnityEngine.Events;
 enum E_EntityEvent_4
 {
     contentment,//知足
+    exchange,//交流
+    echo,//回声
+    reverberate,//回响
 }
 
 public class EntityEvent_4_01 : OptionBase
@@ -42,13 +45,8 @@ public class EntityEvent_4_01 : OptionBase
 
 
     #endregion
-
-    public EntityEvent_4_01()
-    {
-        ExecuteLogic = ExecuteLogicImpl;
-    }
-
-    private void ExecuteLogicImpl()
+    
+    protected override void ExecuteLogicImpl(object info=null)
     {
         EventCenter.Instance.RemoveEventListener(
             E_EventType.Logic_PlayerActionExecuted, NeverRespond);
@@ -72,4 +70,360 @@ public class EntityEvent_4_01 : OptionBase
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
     }
+}
+public class EntityEvent_4_02 : OptionBase
+{
+    #region OptionBase属性
+    
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 2;
+    public override string OptionName { get; protected set; } = "交流";
+    public override string OptionDescription { get; protected set; } = "";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+
+    public override int sonID { get; protected set; } = 3;
+
+    public override bool IsVisible { get; set; } = true;
+
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 0, E_CompareType.Any),
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.exchange;
+
+
+    #endregion
+    
+}
+
+public class EntityEvent_4_03OptionContext : OptionBase
+{
+    public int index;//1<=index<=4
+}
+public class EntityEvent_4_03 : OptionBase
+{
+    #region OptionBase属性
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 3;
+    public override string OptionName { get; protected set; } = "回声";
+    public override string OptionDescription { get; protected set; } = "选择一个部位，清除对象对应部位数字的“渴望”效果";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 1, E_CompareType.Equal),
+                new DiceCondition(E_DiceType.Action, 3, E_CompareType.Equal),
+                new DiceCondition(E_DiceType.Action, 5, E_CompareType.Equal),
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        if(info is EntityEvent_4_03OptionContext ctx)
+        {
+            switch (ctx.index)
+            {
+                case 1:
+                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want0);
+                    break;
+                case 2:
+                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want1);
+                    break;
+                case 3:
+                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want2);
+                    break;
+                case 4:
+                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want3);
+                    break;
+            }
+        }
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.echo;
+
+
+    #endregion
+    
+}
+public class EntityEvent_4_04 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 4;
+    public override string OptionName { get; protected set; } = "回响";
+    public override string OptionDescription { get; protected set; } = "对象“欲望”-1";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Mind, 2, E_CompareType.Equal),
+                new DiceCondition(E_DiceType.Mind, 4, E_CompareType.Equal),
+                new DiceCondition(E_DiceType.Mind, 6, E_CompareType.Equal),
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        ProgressManager.Instance.TryGetEntity().AddBuff(E_BuffType.Desire,-1);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.reverberate;
+
+
+    #endregion
+    
+}
+public class EntityEvent_4_05 : OptionBase
+{
+    #region OptionBase属性
+    
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 5;
+    public override string OptionName { get; protected set; } = "观察";
+    public override string OptionDescription { get; protected set; } = "房间，三扇奇怪的和背后的出口";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override bool IsVisible { get; set; } = true;
+    public override int sonID { get; protected set; } = 3;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Mind, 0, E_CompareType.Any),
+                
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 6);//2号门
+        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 7);//3号门
+        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 8);//出口
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.reverberate;
+
+
+    #endregion
+    
+}
+public class EntityEvent_4_06 : OptionBase
+{
+    #region OptionBase属性
+    
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 6;
+    public override string OptionName { get; protected set; } = "1号门";
+    public override string OptionDescription { get; protected set; } = "";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 1, E_CompareType.Equal),
+                
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        Part4_1.PartApear();
+        IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.reverberate;
+
+
+    #endregion
+    
+}
+public class EntityEvent_4_07 : OptionBase
+{
+    #region OptionBase属性
+    
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 7;
+    public override string OptionName { get; protected set; } = "2号门";
+    public override string OptionDescription { get; protected set; } = "";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 3, E_CompareType.Equal),
+                
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        Part4_1.PartApear();
+        IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.reverberate;
+
+
+    #endregion
+    
+}
+public class EntityEvent_4_08 : OptionBase
+{
+    #region OptionBase属性
+    
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 8;
+    public override string OptionName { get; protected set; } = "3号门";
+    public override string OptionDescription { get; protected set; } = "";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 5, E_CompareType.Equal),
+                
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        Part4_3.PartApear();
+        IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.reverberate;
+
+
+    #endregion
+    
+}
+public class EntityEvent_4_09 : OptionBase
+{
+    #region OptionBase属性
+    
+    public override int LevelID { get; protected set; } = 4;
+    public override int OptionID { get; protected set; } = 9;
+    public override string OptionName { get; protected set; } = "出口";
+    public override string OptionDescription { get; protected set; } = "";
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 0, E_CompareType.Any),
+                
+            };
+        }
+    }
+
+    
+    
+    
+    #endregion
+    
+    protected override void ExecuteLogicImpl(object info=null)
+    {
+        IsVisible = false;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+        DiceManager.Instance.ConsumeValidSelectedDice();
+    }
+
+    #region 本身属性
+    E_EntityEvent_4 entityEvent_4Type = E_EntityEvent_4.reverberate;
+
+
+    #endregion
+    
 }

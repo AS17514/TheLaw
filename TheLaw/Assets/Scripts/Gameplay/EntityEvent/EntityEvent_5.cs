@@ -170,7 +170,7 @@ public class EntityEvent_5_02 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                        }
+            }
             LastTriggerSuccess = result;
 
         }

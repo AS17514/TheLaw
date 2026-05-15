@@ -37,6 +37,12 @@ public abstract class Entity : CharacterBase
     {
         return buffs.ContainsKey(type) ? buffs[type] : 0;
     }
+
+    public void RemoveBuff(E_BuffType type)
+    {
+        if (buffs.ContainsKey(type)) buffs[type] = 0;
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityBuff);
+    }
     #endregion
     public List<Part> parts = new List<Part>();
     public string entityName;
