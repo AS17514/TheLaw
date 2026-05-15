@@ -1,5 +1,5 @@
 {
-    "title": "村口大门",
+    "title": "食",
     "afterStory": "Battle",
     "nextBattle": 1,
     "pages": [
@@ -7,34 +7,52 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "事务所内，档案和文件袋飞散着翻动声。",
+                    "italic": true,
+                    "alpha": 1.5,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “X村那个地方似乎有一个不得了的‘律’，有谁想自告奋勇地调查一下吗？”",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
+                    "text": "   白衣服的社长埋头整理着情报，任务和工作在他嘴里就和女高中生相约去新开的甜品店一样。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第3句",
-                    "italic": true,
+                    "text": "   那天，白辰画上的星星碎了，光芒散了一地。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第4句",
-                    "italic": true,
+                    "text": "   “……”",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第5句",
-                    "italic": true,
+                    "text": "   白辰沉默地望着失色的星星，",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   良久，他缓缓举起了手：",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我来。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -42,16 +60,182 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "第一页第一句",
+                    "text": "XXXX年X月早辰，x村门口。",
+                    "italic": true,
+                    "alpha": 1.5,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   几个村民木然地站在路边，眼神空洞地望着远方。直到白辰走到他们三米开外，他们才像刚被唤醒的人偶般缓缓转动脖子。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
-                    "italic": true,
+                    "text": "   “你，也是来许愿的？”",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “这里，要许了愿才可以进去。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   这和情报相符，来到这个村庄可以实现自己的愿望，但慕名而来又可以全身而退的人寥寥无几。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——但是，他来这里可不只是为了调查。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我想要找回我和星星的记忆。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “星星”这个词似乎刺激到了村民什么，但很快他们便放白辰进去了。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        },
+        {
+            "page": 3,
+            "lines": [
+                {
+                    "text": "   刚进村落，白辰就感觉到一阵十分明显的违和感：",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   无论是难以被称作房屋的建筑，还是由各种物体拼接起来的生命体，这让白辰一度怀疑是不是自己的认知滤网被强行关闭了。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   但惊讶归惊讶，白辰还是清楚自己的职责，白辰压下震惊，拿出记录仪开始工作。笔尖在笔记本上划过：",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “x村初步调查：‘律’的影响范围覆盖全村，现实规则被严重扭曲。村民已失去自主意识，仅存本能活动。规律不明，待进一步探索。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   在村庄的青石板路上走了一会，村民都无一例外地“无法交流”，虽说不可交流，实际上这些“村民”更像是没有意识的靠本能驱动的人偶一般在街道上活动着，即便身处如此怪异的区域都无动于衷。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        }
+        
+        {
+            "page": 3,
+            "lines": [
+                {
+                    "text": "   刚进村落，白辰就感觉到一阵十分明显的违和感：",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   无论是难以被称作房屋的建筑，还是由各种物体拼接起来的生命体，这让白辰一度怀疑是不是自己的认知滤网被强行关闭了。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   但惊讶归惊讶，白辰还是清楚自己的职责，白辰压下震惊，拿出记录仪开始工作。笔尖在笔记本上划过：",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “x村初步调查：‘律’的影响范围覆盖全村，现实规则被严重扭曲。村民已失去自主意识，仅存本能活动。规律不明，待进一步探索。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   在村庄的青石板路上走了一会，村民都无一例外地“无法交流”，虽说不可交流，实际上这些“村民”更像是没有意识的靠本能驱动的人偶一般在街道上活动着，即便身处如此怪异的区域都无动于衷。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        },
+        {
+            "page": 4,
+            "lines": [
+                {
+                    "text": "   走着走着白辰来到了一栋白色，看起来并不是特别混乱的房子跟前。目光触到墙皮的一瞬——星光，火焰还有混乱，强行掰开了白辰的记忆。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   突如其来的异像让他连连后退，直觉告诉他这个建筑非比寻常。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白色建筑的大门沉重又古朴，但白辰很轻易地就可以将其推开。白色建筑里面是一个饭堂一般的地方，木质长桌上摆满了食物，长桌上的一个黑影引起了白辰的注意。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我……好饿……”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   黑影如是叫唤着，边说着边把食物往嘴里填塞，",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你......也是......来给我吃的吗？”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   黑影直直地盯着白辰，就像看着一个令人垂涎欲滴的食物一样。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “嘿......嘿嘿......，又可以......吃东西了......真开心。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   看着眼前的怪物，怀着一点点可以交流的希望，白辰握紧了腰间的枪，径直向黑影走去......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         }
