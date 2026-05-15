@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class OptionBase
 {
@@ -13,7 +14,7 @@ public abstract class OptionBase
     public virtual string OptionName { get; protected set; }
     public virtual string OptionDescription { get; protected set; }
     public virtual E_OptionType OptionType { get; protected set; }
-    public virtual bool IsVisible { get;  set; }=false;
+    //public virtual bool IsVisible { get;  set; }=false;
     public virtual bool IsDiceConditionsHave{ get; protected set; }=true;
     public virtual E_ComboType ComboType { get; protected set; }
     public virtual bool IsUseDiceCombo{ get; protected set; }=false;
@@ -29,6 +30,28 @@ public abstract class OptionBase
     public virtual bool IsResponseOption { get; } = false;//专门用来进行应对选项有关的判断。
     // 新增：该选项绑定的新手引导类型（默认为 None，表示没有引导）
     public virtual E_TutorialType BindTutorial { get; } = E_TutorialType.None;
+    #endregion
+
+    #region 震撼亚洲的新框架的代码部分喵
+
+    private bool _isVisible = false;
+    public virtual bool IsVisible
+    {
+        get => _isVisible;
+        set
+        {
+            _isVisible = value;
+            if (value && GetNeverRespondHandler() != null)
+                EventManager.Instance.RegisterPendingResponse(this);
+            else if (!value)
+                EventManager.Instance.UnregisterPendingResponse(this);
+        }
+    }
+
+    public virtual UnityAction<object> GetNeverRespondHandler() => null;  // 应对型 Option 重写返回 NeverRespond
+
+    
+    
     #endregion
     // --- 委托定义区 ---
     // 用 Action 储存无返回值的方法。如果需要传参，可以用 Action<T>

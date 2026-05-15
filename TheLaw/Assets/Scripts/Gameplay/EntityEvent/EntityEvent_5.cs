@@ -56,6 +56,7 @@ public class EntityEvent_5_01 : OptionBase
     #endregion
     public override void TriggerOption(OptionContext optionContext = null)
     {
+        
         if (IsVisible)
         {
             bool result = IsSpecialConditionsHave
@@ -90,7 +91,7 @@ public class EntityEvent_5_01 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                        }
+            }
             LastTriggerSuccess = result;
 
         }
