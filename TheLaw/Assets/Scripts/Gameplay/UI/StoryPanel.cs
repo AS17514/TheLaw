@@ -21,6 +21,9 @@ public class StoryPanel : PanelBase
 
     void Start()
     {
+        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
+            new object[] { E_BGM.Story, true });
+
         // 加载文本预制体
         storyLineObj = Resources.Load<GameObject>("Prefabs/UI/Story/StoryLine");
         // 得到滑动框
@@ -121,6 +124,8 @@ public class StoryPanel : PanelBase
         else
         {
             currentPage++;
+            EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                new object[] { E_SFX.StoryPageFlip, false });
             maxCurrentLineIndex = storySegment.pages[currentPage].lines.Count - 1;
             print(maxCurrentLineIndex);
             // 改变页码

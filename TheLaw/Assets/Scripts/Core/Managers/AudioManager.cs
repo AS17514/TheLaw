@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,17 @@ public enum E_BGM
 
 public enum E_SFX
 {
-
+    LevelOptionExecution,  // 关卡选项执行
+    StoryPageFlip,         // 剧情翻页
+    Attack,                // 攻击
+    Adjust,                // 调整
+    ChantingLaw,           // 念诵诗句时呼吸的节奏
+    GunArt3,               // "枪械"艺术装置3
+    ShatteredStars,        // 画下的星星将破碎地放光
+    Overturn,              // 推翻
+    SelectDice,            // 选择骰子
+    Prepare,               // 准备
+    PlayerWish,            // 玩家许愿
 }
 public class AudioManager : ManagerMonoBase<AudioManager>
 {

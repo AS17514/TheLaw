@@ -87,8 +87,10 @@ public class SmoothAndSteady:OptionBase
                 // 所以变化量 = 目标值(1) - 当前值
                 DiceManager.Instance.ModifyDieValue(targetDice, 1 - targetDice.value);
 
-                // 5. 触发事件并清空选中框（【删除了 ConsumeValidSelectedDice】，因为这是修改而不是消耗）
+                // 5. 触发事件并清空选中框
                 DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.PlayerWish, false });
 
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToUnavailable);
@@ -106,7 +108,8 @@ public class SmoothAndSteady:OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }

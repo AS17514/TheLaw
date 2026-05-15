@@ -73,6 +73,8 @@ public class GunArt3 : OptionBase
                             ActionDice tempDice=new ActionDice();
                             tempDice.value = 1;
                             DiceManager.Instance.AddDice(E_DiceType.Action, tempDice);
+                            EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                                new object[] { E_SFX.GunArt3, false });
                         }
                     }
                 }
@@ -82,7 +84,8 @@ public class GunArt3 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }

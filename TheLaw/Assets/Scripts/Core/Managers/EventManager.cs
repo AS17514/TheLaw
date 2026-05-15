@@ -130,6 +130,11 @@ public class EventManager : ManagerBase<EventManager>
             return;
         }
         pool[index].TriggerOption(context);
+        if (pool[index].LastTriggerSuccess)
+        {
+            EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                new object[] { E_SFX.LevelOptionExecution, false });
+        }
     }
     
     /// <summary>

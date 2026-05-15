@@ -70,6 +70,8 @@ public class Adjust : OptionBase
                         if (adjustCtx.change == -1 || adjustCtx.change == 1)
                         {
                             DiceManager.Instance.ModifyDieValue(dice, adjustCtx.change);
+                            EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                                new object[] { E_SFX.Adjust, false });
                             DiceManager.Instance.ClearSelected();
                         }
                         else
@@ -85,7 +87,8 @@ public class Adjust : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }

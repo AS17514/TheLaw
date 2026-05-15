@@ -66,6 +66,8 @@ public class Overturn : OptionBase
                     else
                     {
                         DiceManager.Instance.RerollDieAt(dice.type, dice.index);
+                        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                            new object[] { E_SFX.Overturn, false });
                     }
                 }
                 DiceManager.Instance.ClearSelected();
@@ -77,7 +79,8 @@ public class Overturn : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
         }
     }
 }

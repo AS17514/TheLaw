@@ -33,7 +33,7 @@ public class Atk : OptionBase
 
     public override void TriggerOption(OptionContext optionContext = null)
     {
-        if (!IsVisible) return;
+        if (!IsVisible) { LastTriggerSuccess = false; return; }
 
         // 1. 特殊条件检测(应该不需要)
         bool result = IsSpecialConditionsHave ? EventManager.Instance.IsSpecialConditionsMet(specialConditions) : true;
@@ -42,27 +42,13 @@ public class Atk : OptionBase
 
         // 2. 验证：必须刚好选中 2 颗骰子
         
-        bool isNeedAtk=false;
-        if (result && selected != null && selected.Count == 2&& optionContext is AtkOptionContext atkCtx)
+        bool isNeedAtk = false;
+        if (result && selected != null && selected.Count == 2 && optionContext is AtkOptionContext atkCtx)
         {
-            
             foreach (var characterBase in ProgressManager.Instance.nowEntities)
             {
-                if (characterBase == null)
-                {
-                    continue; 
-                }
-                if (characterBase is Entity)
-                {
-                    continue;
-                }
-                else
-                {
-                    if (characterBase.hp != 0)
-                    {
-                        isNeedAtk = true;
-                    }
-                }
+                if (characterBase != null && characterBase.hp != 0)
+                    isNeedAtk = true;
             }
 
             if (!isNeedAtk)
@@ -90,8 +76,11 @@ public class Atk : OptionBase
                     dice1.isValid = true;
                     dice2.isValid = true;
                     DiceManager.Instance.ConsumeValidSelectedDice();
-                    
+
                     DiceManager.Instance.ClearSelected();
+                    LastTriggerSuccess = true;
+                    EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                        new object[] { E_SFX.Attack, false });
                     return; // 技能顺利执行完毕，退出
                 }
                 else
@@ -102,6 +91,7 @@ public class Atk : OptionBase
         }
 
         // 只要数量不对、或者混进了百搭/其他骰子，统一触发报错提示
+        LastTriggerSuccess = false;
         DiceManager.Instance.ClearSelected();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
     }

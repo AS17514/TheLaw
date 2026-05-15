@@ -64,6 +64,8 @@ public class ShatteredStars : OptionBase
                     {
                         DiceManager.Instance.ModifyDieValue(dice, 3);
                         DiceManager.Instance.AddDice(E_DiceType.Wild);
+                        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                            new object[] { E_SFX.ShatteredStars, false });
                     }
                 }
                 DiceManager.Instance.ClearSelected();
@@ -72,7 +74,8 @@ public class ShatteredStars : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }

@@ -91,13 +91,16 @@ public class Prepare : OptionBase
             {
                 ExecuteLogic?.Invoke();
                 DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.Prepare, false });
                 DiceManager.Instance.ClearSelected();
             }
             else
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
         }
     }
 }

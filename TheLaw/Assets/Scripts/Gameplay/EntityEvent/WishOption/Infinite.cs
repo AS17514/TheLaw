@@ -38,7 +38,10 @@ public class Infinite : OptionBase
     
     public override void TriggerOption(OptionContext optionContext = null)
     {
-        isInfinite=true;
+        LastTriggerSuccess = true;
+        isInfinite = true;
+        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+            new object[] { E_SFX.PlayerWish, false });
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToUnavailable);
         if (ProgressManager.Instance.level == 5 &&
             StateManager.Instance.currentState is E_StateType_5.unbalance)
