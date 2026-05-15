@@ -91,18 +91,27 @@ public class UIManager : ManagerMonoBase<UIManager>
     /// 隐藏指定类型的面板，然后将其删除并从字典中移除
     /// </summary>
     /// <typeparam name="T">面板类型</typeparam>
-    public void RemovePanel<T>(UnityAction onDestroyed = null) where T : PanelBase
+    public void RemovePanel<T>(UnityAction onDestroyed = null, bool animate = true) where T : PanelBase
     {
         string name = typeof(T).Name;
         if (panels.ContainsKey(name))
         {
             T panel = panels[name] as T;
-            panel.HideSelf(() =>
+            if (animate)
+            {
+                panel.HideSelf(() =>
+                {
+                    Destroy(panel.gameObject);
+                    panels.Remove(name);
+                    onDestroyed?.Invoke();
+                });
+            }
+            else
             {
                 Destroy(panel.gameObject);
                 panels.Remove(name);
                 onDestroyed?.Invoke();
-            });
+            }
         }
     }
     /// <summary>
@@ -112,10 +121,10 @@ public class UIManager : ManagerMonoBase<UIManager>
     /// <typeparam name="T">删除的面板</typeparam>
     /// <typeparam name="K">生成的面板</typeparam>
     /// <returns></returns>
-    // UIManager.cs 内部
-
     public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle, bool showLoading = true) where T : PanelBase where K : PanelBase
     {
+        AudioManager.Instance.StopBGM();
+
         if (showLoading)
             CreatPanel<LoadingPanel>(E_UILayer.Loading);
 
@@ -128,16 +137,24 @@ public class UIManager : ManagerMonoBase<UIManager>
         if (showLoading)
             yield return new WaitForSecondsRealtime(0.6f);
 
-        RemovePanel<T>();
-        yield return null;
-        yield return null;
-        yield return null;
+        bool removed = false;
+        RemovePanel<T>(onDestroyed: () => removed = true, animate: false);
+        while (!removed)
+            yield return null;
         CreatPanel<K>(layer);
 
         if (showLoading)
         {
-            yield return new WaitForSecondsRealtime(0f);
+            // loading强制等待的时间（至少）
+            yield return new WaitForSecondsRealtime(3f);
             RemovePanel<LoadingPanel>();
+        }
+
+        // Loading移除后播放新面板的BGM
+        var newPanel = GetPanel<K>();
+        if (newPanel?.BGMType != null)
+        {
+            AudioManager.Instance.PlayBGM(newPanel.BGMType.Value);
         }
     }
     /// <summary>
@@ -190,7 +207,9 @@ public class UIManager : ManagerMonoBase<UIManager>
         Debug.Log($"读取插入剧情段{index}");
         StoryManager.Instance.storySegment = JsonConvert.DeserializeObject<StorySegment>(data.text);
         // 插入故事就不设置故事段值了
+        AudioManager.Instance.PauseBGM();
         CreatPanel<StoryPanel>(E_UILayer.Top);
+        AudioManager.Instance.PlayBGM(E_BGM.Story);
     }
     /// <summary>
     /// 随时能用的震屏效果

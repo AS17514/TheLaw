@@ -79,9 +79,11 @@ public abstract class PanelBase : MonoBehaviour
             // 因为不经过事件中心所以会自己销毁
             if (childrenControls[i] is Button)
             {
+                (childrenControls[i] as Button).navigation = new Navigation { mode = Navigation.Mode.None };
                 (childrenControls[i] as Button).onClick.AddListener(() =>
                 {
                     ButtonOnClick(currentName);
+                    EventSystem.current.SetSelectedGameObject(null);
                 });
             }
             else if (childrenControls[i] is Slider)
@@ -243,6 +245,12 @@ public abstract class PanelBase : MonoBehaviour
             hideCallBack?.Invoke();
         });
     }
+    #endregion
+    #region 音频
+    /// <summary>
+    /// 面板对应的BGM，null表示无BGM。子类override返回自己的BGM类型。
+    /// </summary>
+    public virtual E_BGM? BGMType => null;
     #endregion
     #region 其他方法
     /// <summary>

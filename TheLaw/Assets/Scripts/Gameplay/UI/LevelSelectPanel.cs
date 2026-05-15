@@ -8,11 +8,14 @@ public class LevelSelectPanel : PanelBase
 {
     int nowLevel;
     int selectedLevel;
+    public override E_BGM? BGMType => E_BGM.StartMenu;
+    Sprite unknown;
     protected override void Awake()
     {
         base.Awake();
         InitEvent();
         nowLevel = JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress);
+        unknown = Resources.Load<Sprite>("Prefabs/UI/SelectLevel/Image_Unknown");
         print(nowLevel);
         // 默认选中当前最新进度
         selectedLevel = nowLevel;
@@ -33,13 +36,23 @@ public class LevelSelectPanel : PanelBase
         for (int i = 1; i < 6; i++)
         {
             Button button = GetControl<Button>($"Button_Level{i}");
-            if (nowLevel >= i)
+            if (nowLevel < i)
             {
-                button.interactable = true;
-            }
-            else
-            {
-                break;
+                button.interactable = false;
+                Image img = button.GetComponent<Image>();
+                Color c = img.color;
+                c.a = 0.3f;
+                img.color = c;
+
+                Transform imgTrans = button.transform.Find("Image");
+                if (imgTrans != null)
+                {
+                    Image childImg = imgTrans.GetComponent<Image>();
+                    {
+                        childImg.sprite = unknown;
+                        childImg.SetNativeSize();
+                    }
+                }
             }
         }
     }
@@ -49,7 +62,7 @@ public class LevelSelectPanel : PanelBase
         switch (selectedLevel)
         {
             case 0:
-                tmp.text = "村口大门";
+                tmp.text = "开端";
                 break;
             case 1:
                 tmp.text = "食";

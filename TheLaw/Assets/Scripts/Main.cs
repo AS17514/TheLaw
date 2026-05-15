@@ -12,5 +12,6 @@ public class Main : MonoBehaviour
         AudioManager.Instance.Init();
         // 显示开始界面
         UIManager.Instance.CreatPanel<StartMenuPanel>(E_UILayer.Middle);
+        AudioManager.Instance.PlayBGM(E_BGM.StartMenu);
     }
 }
