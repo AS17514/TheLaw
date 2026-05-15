@@ -183,7 +183,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         int i = 0;
         if (player.GetBuff(E_BuffType.Right) > 0)//玩家消耗时间骰时时间进度额外-1
             i = 1;
-        timeProgress = Math.Clamp(timeProgress + add - i, 0, this.currentTimeProgress);
+        timeProgress = Math.Clamp(timeProgress + add+ProgressManager.Instance.TryGetEntity().GetTimeProgressModifier() - i, 0, this.currentTimeProgress);
         if (timeProgress == currentTimeProgress)
         {
             StateManager.Instance.ExecuteCurrentAction();
@@ -399,6 +399,18 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         {
             partBox = null;
             return false;
+        }
+    }
+    public Entity TryGetEntity()
+    {
+        
+        if (nowEntities[0] != null && nowEntities[0] is Entity entity)
+        {
+            return entity;
+        }
+        else
+        {
+            return null;
         }
     }
     #endregion

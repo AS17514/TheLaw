@@ -40,6 +40,10 @@ public abstract class Entity : CharacterBase
     #endregion
     public List<Part> parts = new List<Part>();
     public string entityName;
+    public virtual int GetDamageReduction() => 0;       // Want0: 受到的伤害 -N
+    public virtual int GetDamageBonus() => 0;            // Want2: 造成的伤害 +N
+    public virtual int GetTimeProgressModifier() => 0;   // Want1: 时间进度修正
+    public virtual int GetPhaseDiceModifier() => 0;      // Want3: 阶段骰子修正
     public override void Die()
     {
         //怪物死亡，玩家胜利

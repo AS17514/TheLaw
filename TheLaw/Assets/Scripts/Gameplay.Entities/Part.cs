@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,5 +29,10 @@ public class Part : CharacterBase
     public override bool IsCouldBeAttacked()
     {
         return !isDestroyed;
+    }
+
+    public void AddHp(int heal)
+    {
+        hp = Math.Clamp(hp+heal,hp, maxHp);
     }
 }

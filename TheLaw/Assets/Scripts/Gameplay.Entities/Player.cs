@@ -67,7 +67,7 @@ public class Player : CharacterBase
         int i = 0;
         if (buffs[E_BuffType.Left] > 0)
             i = 1;
-        base.TakeDamage(damage+i);
+        base.TakeDamage(damage+i+ProgressManager.Instance.TryGetEntity().GetDamageBonus());
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
         // 致死时 Die() 已由 CharacterBase.TakeDamage 调用，勿重复触发 UI_Update_PlayerDied
     }
