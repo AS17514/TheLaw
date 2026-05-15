@@ -11,7 +11,11 @@ public abstract class Entity : CharacterBase
     protected Dictionary<E_BuffType, int> buffs = new Dictionary<E_BuffType, int>
     {
         {E_BuffType.Desire,0 },
-        {E_BuffType.Tatters,0}
+        {E_BuffType.Tatters,0},
+        {E_BuffType.Want0,0},
+        {E_BuffType.Want1,0},
+        {E_BuffType.Want2,0},
+        {E_BuffType.Want3,0},
     };
     public Dictionary<E_BuffType, int> UI_buffs { get { return buffs; } }
     public override bool IsPlayer => false;

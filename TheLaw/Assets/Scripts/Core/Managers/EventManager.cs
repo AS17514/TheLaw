@@ -3,8 +3,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class OptionExecutedArgs
+{
+    public E_OptionType OptionType; // 哪个关卡的选项池，如 Level5_Option
+    public int OptionID; // 哪个选项，如 11 对应"回忆"
+}
+
 public class EventManager : ManagerBase<EventManager>
 {
+
+    #region  震撼亚洲的新框架的代码部分喵
+
+    private List<OptionBase> pendingResponseOptions = new List<OptionBase>();
+
+    public void RegisterPendingResponse(OptionBase option)
+    {
+        if (!pendingResponseOptions.Contains(option))
+            pendingResponseOptions.Add(option);
+    }
+
+    public void UnregisterPendingResponse(OptionBase option)
+    {
+        pendingResponseOptions.Remove(option);
+    }
+
+    private void FlushPendingRegistrations()
+    {
+        foreach (var opt in pendingResponseOptions)
+        {
+            EventCenter.Instance.AddEventListener(
+                E_EventType.Logic_PlayerActionExecuted, opt.GetNeverRespondHandler());
+        }
+        pendingResponseOptions.Clear();
+    }
+
+    private Dictionary<int, List<OptionBase>> fatherToSonsIndex;
+
+    public bool UnLockOption(E_OptionType type,int index)
+    {
+        if (optionPool.ContainsKey(type) && optionPool[type][index] != null)
+        {
+            if (!optionPool[type][index].IsVisible)
+            {
+                optionPool[type][index].IsVisible=true;
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    #endregion
+    
     public Dictionary<E_OptionType, OptionBase[]> optionPool = new Dictionary<E_OptionType, OptionBase[]>
     {
         {
@@ -119,24 +173,51 @@ public class EventManager : ManagerBase<EventManager>
     /// <param name="index"></param>
     public void ExcuteOption(E_OptionType type, int index, OptionContext context = null)
     {
+        FlushPendingRegistrations();
+
         if (!optionPool.TryGetValue(type, out var pool) || pool == null)
-        {
-            Debug.LogWarning($"ExcuteOption: 未注册选项池 {type}");
-            return;
-        }
+        { Debug.LogWarning($"ExcuteOption: 未注册选项池 {type}"); return; }
         if (index < 0 || index >= pool.Length)
-        {
-            Debug.LogWarning($"ExcuteOption: 索引越界 {type}[{index}]，长度 {pool.Length}");
-            return;
-        }
+        { Debug.LogWarning($"ExcuteOption: 索引越界 {type}[{index}]，长度 {pool.Length}");return; }
+
         pool[index].TriggerOption(context);
+
         if (pool[index].LastTriggerSuccess)
         {
+            // 1. 自动解锁 father-son 链
+            TryUnlockSons(type, pool[index].OptionID);
+
+            // 2. 同时广播事件（给第三层复杂条件用）
+            EventCenter.Instance.EventTrigger(
+                E_EventType.Logic_OptionExecuted,
+                new OptionExecutedArgs
+                {
+                    OptionType = type,
+                    OptionID = pool[index].OptionID
+                }
+            );
+
+            // 3. 原有的 SFX
             EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
                 new object[] { E_SFX.LevelOptionExecution, false });
+        
         }
     }
     
+    private void TryUnlockSons(E_OptionType type, int fatherOptionID)
+    {
+        if (fatherToSonsIndex == null) return;
+        if (!fatherToSonsIndex.TryGetValue(fatherOptionID, out var sons)) return;
+
+        foreach (var son in sons)
+        {
+            if (son.OptionType == type && !son.IsVisible)
+            {
+                son.IsVisible = true;  // IsVisible setter 自动触发 pending 注册（如果是应对型）
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+            }
+        }
+    }
     /// <summary>
     /// 重新注册选项池数据
     /// 每次调用都会清空旧数据并重新写入
@@ -146,6 +227,8 @@ public class EventManager : ManagerBase<EventManager>
         // 每次输入时先清空原本存的东西
         optionPool.Clear();
 
+        fatherToSonsIndex = new Dictionary<int, List<OptionBase>>();
+        
         // 重新写入内容
 
         switch (level)
@@ -236,6 +319,18 @@ public class EventManager : ManagerBase<EventManager>
 
                 });
                 break;
+        }
+        foreach (var kv in optionPool)
+        {
+            foreach (var opt in kv.Value)
+            {
+                if (opt.fatherID != 0)
+                {
+                    if (!fatherToSonsIndex.ContainsKey(opt.fatherID))
+                        fatherToSonsIndex[opt.fatherID] = new List<OptionBase>();
+                    fatherToSonsIndex[opt.fatherID].Add(opt);
+                }
+            }
         }
     }
 }

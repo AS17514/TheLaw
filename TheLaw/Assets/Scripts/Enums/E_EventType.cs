@@ -70,7 +70,9 @@ public enum E_EventType
     #endregion
 
     #region 后端
-    Logic_PlayerActionExecuted
+    Logic_PlayerActionExecuted,
+    Logic_OscillationTriggered,//事件延迟注册,第五关将来优化可能会用
+    Logic_OptionExecuted,
     #endregion
 
 

@@ -353,7 +353,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         //加载当前关卡已解锁的许愿，并且把许愿更新为可用状态。
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToAvailable);
 
-        Init(6, 6, 1);
+        Init(12, 12, 6);
 
         DiceManager.Instance.AddTimeDice(1);
 
@@ -381,6 +381,25 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         Init(1, 1, 1);
 
         DiceManager.Instance.AddTimeDice(1);
+    }
+
+    public bool TryGetPart(int index,out Part partBox)
+    {
+        if (index > 0 && index < nowEntities.Length)
+        {
+            if (nowEntities[index] != null && nowEntities[index] is Part part)
+            {
+                partBox = part;
+                return true;
+            }
+            partBox = null;
+            return false;
+        }
+        else
+        {
+            partBox = null;
+            return false;
+        }
     }
     #endregion
 }

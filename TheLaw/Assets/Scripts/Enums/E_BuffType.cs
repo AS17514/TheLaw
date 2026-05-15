@@ -9,5 +9,9 @@ public enum E_BuffType
     Up,//
     Down,
     Left,
-    Right
+    Right,
+    Want0,//渴望0
+    Want1,
+    Want2,
+    Want3,
 }
