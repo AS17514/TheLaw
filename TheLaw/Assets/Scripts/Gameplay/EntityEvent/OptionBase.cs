@@ -36,6 +36,8 @@ public abstract class OptionBase
 
     // --- 通用方法 ---
     // 外部（比如UI按钮点击后）统一调用这个方法
+    // LastTriggerSuccess 记录上次调用是否成功执行（供 EventManager 读取）
+    public bool LastTriggerSuccess { get; protected set; }
     public virtual void TriggerOption(OptionContext optionContext=null)
     {
         if (IsVisible)
@@ -62,8 +64,11 @@ public abstract class OptionBase
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
             }
-            
+            LastTriggerSuccess = result;
         }
-
+        else
+        {
+            LastTriggerSuccess = false;
+        }
     }
 }

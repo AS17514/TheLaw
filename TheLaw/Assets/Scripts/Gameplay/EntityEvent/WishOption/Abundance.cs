@@ -70,6 +70,8 @@ public class Abundance : OptionBase
                 DiceManager.Instance.GetRandomDice(E_DiceType.Action,E_DiceType.Mind);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_WishToUnavailable);
                 DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.PlayerWish, false });
 
                 if (ProgressManager.Instance.level == 5 &&
                     StateManager.Instance.currentState is E_StateType_5.unbalance)
@@ -81,7 +83,8 @@ public class Abundance : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }

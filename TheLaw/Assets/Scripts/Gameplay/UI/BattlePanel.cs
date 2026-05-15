@@ -102,6 +102,9 @@ public class BattlePanel : PanelBase
 
     void Start()
     {
+        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
+            new object[] { E_BGM.Battle, true });
+
         rectTransform = GetComponent<RectTransform>();
         level = ProgressManager.Instance.level;
         LoadAllResources();
@@ -220,6 +223,8 @@ public class BattlePanel : PanelBase
                 if (isOn)
                 {
                     if (!selectedDiceList.Contains(currentItem)) selectedDiceList.Add(currentItem);
+                    EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                        new object[] { E_SFX.SelectDice, false });
                     DiceManager.Instance.SortSelectedByValue();
                     EventCenter.Instance.EventTrigger(E_EventType.UI_Update_SelectedDice);
                 }

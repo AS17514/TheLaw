@@ -87,7 +87,8 @@ public class EntityEvent_2_01 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
         else
@@ -206,7 +207,8 @@ public class EntityEvent_2_02 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -289,7 +291,8 @@ public class EntityEvent_2_03 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -366,7 +369,8 @@ public class EntityEvent_2_04 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -454,7 +458,8 @@ public class EntityEvent_2_05 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -554,7 +559,8 @@ public class EntityEvent_2_06 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -638,7 +644,8 @@ public class EntityEvent_2_07 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -702,7 +709,8 @@ public class EntityEvent_2_08 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -773,7 +781,8 @@ public class EntityEvent_2_09 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -867,7 +876,8 @@ public class EntityEvent_2_10 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -956,7 +966,8 @@ public class EntityEvent_2_11 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -1045,7 +1056,8 @@ public class EntityEvent_2_12 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }
@@ -1123,7 +1135,8 @@ public class EntityEvent_2_13 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
 
         }
     }

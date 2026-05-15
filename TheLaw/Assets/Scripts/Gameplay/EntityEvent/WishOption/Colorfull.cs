@@ -89,6 +89,8 @@ public class Colorfull : OptionBase
                     
                     // 清空选中框，让骰子退回池子展示区
                     DiceManager.Instance.ClearSelected();
+                    EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                        new object[] { E_SFX.PlayerWish, false });
 
                     // 通知 DiceManager 重新排序并刷新这些受影响的类型的 UI
                     foreach (var type in typesToUpdate)
@@ -117,6 +119,6 @@ public class Colorfull : OptionBase
         // 4. 失败分支：退回骰子并提示条件不足
         DiceManager.Instance.ClearSelected();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-    
+            LastTriggerSuccess = result;    
     }
 }

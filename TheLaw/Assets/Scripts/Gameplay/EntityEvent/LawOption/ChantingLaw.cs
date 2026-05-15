@@ -71,13 +71,16 @@ public class ChantingLaw : OptionBase
                             DiceManager.Instance.TransformDie(dice,E_DiceType.Action);
                     }
                 }
+                EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
+                    new object[] { E_SFX.ChantingLaw, false });
                 DiceManager.Instance.ClearSelected();
             }
             else
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-            }
+                        }
+            LastTriggerSuccess = result;
             
         }
     }
