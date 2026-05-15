@@ -121,6 +121,24 @@ public class EventManager : ManagerBase<EventManager>
             }
         },
         {
+            E_OptionType.Level4_Option, new OptionBase[]
+            {
+                new EntityEvent_4_01(), //应对——知足(๑˘︶˘๑)
+                new EntityEvent_4_02(), //交流
+                new EntityEvent_4_03(), //回声
+                new EntityEvent_4_04(), //回响
+                new EntityEvent_4_05(), //观察
+                new EntityEvent_4_06(), //1号门
+                new EntityEvent_4_07(), //2号门
+                new EntityEvent_4_08(), //3号门
+                new EntityEvent_4_09(), //出口
+                new EntityEvent_4_10(), //决定离开，所以拿出了钥匙
+                new EntityEvent_4_11(), //那么离开吧
+                new EntityEvent_4_12(), //不疲倦吗？
+                new EntityEvent_4_13(), //困住你的是你自己，你可以离开
+            }
+        },
+        {
             E_OptionType.Level5_Option, new OptionBase[]
             {
                 new EntityEvent_5_01(),//应对——趁势(ノ￣ー￣)ノ
@@ -292,7 +310,22 @@ public class EventManager : ManagerBase<EventManager>
                 });
                 break;
             case 4:
-                optionPool.Add(E_OptionType.Level4_Option, Array.Empty<OptionBase>());
+                optionPool.Add(E_OptionType.Level4_Option, new OptionBase[]
+                {
+                    new EntityEvent_4_01(), //应对——知足(๑˘︶˘๑)
+                    new EntityEvent_4_02(), //交流
+                    new EntityEvent_4_03(), //回声
+                    new EntityEvent_4_04(), //回响
+                    new EntityEvent_4_05(), //观察
+                    new EntityEvent_4_06(), //1号门
+                    new EntityEvent_4_07(), //2号门
+                    new EntityEvent_4_08(), //3号门
+                    new EntityEvent_4_09(), //出口
+                    new EntityEvent_4_10(), //决定离开，所以拿出了钥匙
+                    new EntityEvent_4_11(), //那么离开吧
+                    new EntityEvent_4_12(), //不疲倦吗？
+                    new EntityEvent_4_13(), //困住你的是你自己，你可以离开
+                });
                 break;
             case 5:
                 optionPool.Add(E_OptionType.Level5_Option, new OptionBase[]

@@ -185,7 +185,10 @@ public class Entity4 : Entity
             part.isDestroyed = false;
             part.hp=Math.Clamp(2*GetBuff(E_BuffType.Desire),1,part.maxHp);
             if(GetBuff(E_BuffType.Desire) <=1)
-                AddBuff(E_BuffType.Desire,2);
+            {
+                AddBuff(E_BuffType.Desire, 2);
+                EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 11);
+            }
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
             break;
         }
