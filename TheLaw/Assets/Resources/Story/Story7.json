@@ -7,34 +7,52 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   随着从头盔伸出来的锁链被打断，半人马的车轮再也撑不住上半身的重量，连带着车轴一同裂成了碎块；",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
+                    "text": "   被拴住的小猫也只呜咽了几声就没有了气息。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第3句",
-                    "italic": true,
+                    "text": "   “这次是好奇的猫吗，为了满足自己的好奇也会许下不会完成的承诺呢。”",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第4句",
-                    "italic": true,
+                    "text": "   白辰低估着，在路边挑了一块干净的地方包扎自己的伤口，",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第5句",
-                    "italic": true,
+                    "text": "   就在这时，怪物殒命的地方，又亮起了一点熟悉的光芒",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——那是第二块星星碎片。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   即使被黑色的污泥覆盖，也掩盖不住它清冷的光。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰不再惊讶，只是用绷带擦拭着手上的血迹，小心地将星星捧在掌心......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -42,16 +60,171 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "第一页第一句",
-                    "italic": false,
+                    "text": "   愿望是需要承诺的，尤其载体只是一个孩子。",
+                    "italic": true,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
+                    "text": "   安无法实现一些愿望了，有具体的原因，但没有人会愿意去深究这些。",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他们只是转身离去，抛弃了不再有用的“神明”。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   面对无法下金蛋的母鸡，人们想的是剖开它，用最残暴和理性的方式去一探究竟。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   面对唾手可得的奇迹，又有什么人会忍得住不去研究祂",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——就像对下金蛋的母鸡一样，去把奇迹量产呢？",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   于是，人们抢走了女孩的星星，",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他们高举着星星走向祭台，同行的人占满了整条街道，但没有一个人为了女孩。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   为女孩建立的祭台上，他们对着天空许愿：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “再降下更多星星吧，这样所有人都可以许愿了。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   隐约有一个缥缈又伟大的存在回应道：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “愿望实现之后呢，你们会怎么样呢？”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFF00FF"
+                },
+                {
+                    "text": "   他们喊着：“这样我们就不再需要安了！”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FF0000FF"
+                }
+            ]
+        },
+        {
+            "page": 3,
+            "lines": [
+                {
+                    "text": "   他们的愿望实现了，连同男孩的愿望一起。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   因为一连串奇特又合理的原因，男孩要和家人搬去大城市生活。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   那一天，他亲眼看到，安被失智的村民们用麻绳捆住双手，直直地吊在祭坛中央，胸口上还挂着装着星星的布袋。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   祭台下人头攒动，人群的眼睛里满是欲望和贪婪。一句",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   曾经的信徒高呼着愿望，用所谓的“理性”粉饰着对一个孩子的献祭。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   火焰窜上了木台，晃眼的火光也没能照亮女孩和星星的苍白。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩像人潮里的溺水者搬疯狂地扒开人群，拼命地向祭台游去。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   冲到台下时，他猛然发现——",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   星星碎了，细白的碎屑飘向空中，升腾出一缕暖白的丝线。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   捆绑着女孩的木桩也随之崩落，安重重的砸倒在地上，滚落在石阶脚边。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   信徒们并不在意这个小小的“祭品”，只是在星星碎屑上升时狂欢地叫喊，争先恐后地尝试抓住那一缕线。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩最后只有一个念头：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——如果，没有实现就好了。",
+                    "italic": true,
+                    "alpha": 0.8,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——如果，结果不是这样就好了。",
+                    "italic": true,
+                    "alpha": 0.8,
+                    "color": "#FFFFFF"
                 }
             ]
         }
