@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ProgressManager : ManagerMonoBase<ProgressManager>
 {
     public int level;//当前关卡
@@ -22,12 +21,21 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public void PartStateChange(int index,bool state)
     {
         PartState[index]=state?1:-1;
-        if (PartState.Exists(PartState => PartState != -1))
+        if (PartState.Exists(s => s != -1))
         {
             return;
         }
         EventManager.Instance.UnLockOption(E_OptionType.Level4_Option,10);
     }
+
+    public void PartStateReset()
+    {
+        for (int i = 0; i < PartState.Count; i++)
+        {
+            PartState[i] = 0;
+        }
+    }
+    
     /// <summary>
     /// 初始化当前进度，设置当前关卡与本关初始时间进度上限
     /// </summary>
@@ -215,6 +223,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         {
             // 在进入新关卡、生成新怪物之前，先彻底清理上一关的残留数据
             ClearOldEntities();
+            PartStateReset();
             // 清空上一关遗留的骰子数据
             DiceManager.Instance.ClearPool();       // 清空基础骰子池、怪物骰子池并刷新对应UI
             DiceManager.Instance.ClearSelected();   // 清空选中区的骰子并刷新对应UI

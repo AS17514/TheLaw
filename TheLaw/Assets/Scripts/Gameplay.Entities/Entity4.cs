@@ -19,6 +19,17 @@ public class Entity4 : Entity
         => GetBuff(E_BuffType.Want3) > 0 ? -1 : 0;
     
     public bool IsDestroyed=false;
+    public int CountMissingWants()
+    {
+        int count = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            string name = $"Want{i}";
+            if (E_BuffType.TryParse(name, out E_BuffType type) && GetBuff(type) <= 0)
+                count++;
+        }
+        return count;
+    }
   public override void InitEntity(int initialDesire = 0, int maxHp = 10)
     {
         AddBuff(E_BuffType.Desire, initialDesire);
@@ -90,11 +101,7 @@ public class Entity4 : Entity
 
     public E_IntentType GetCurrentAction(out Action action)
     {
-        int length = 0;
-        length+=GetBuff(E_BuffType.Want0)>0?0:1;
-        length+=GetBuff(E_BuffType.Want1)>0?0:1;
-        length+=GetBuff(E_BuffType.Want2)>0?0:1;
-        length+=GetBuff(E_BuffType.Want3)>0?0:1;
+        int length = CountMissingWants();
         if (length < GetBuff(E_BuffType.Desire))
         {
             action=CanItBeFurtherEnriched+AddWantToAction();
@@ -110,12 +117,8 @@ public class Entity4 : Entity
     
     public void CanItBeFurtherEnriched()
     {
-        int length = 0;
+        int length = CountMissingWants();
         List<int> temp = new  List<int> { 0,1,2,3 };
-        length+=GetBuff(E_BuffType.Want0)>0?0:1;
-        length+=GetBuff(E_BuffType.Want1)>0?0:1;
-        length+=GetBuff(E_BuffType.Want2)>0?0:1;
-        length+=GetBuff(E_BuffType.Want3)>0?0:1;
         if (GetBuff(E_BuffType.Want0) > 0)
         {
             temp.Remove(0);
@@ -134,11 +137,11 @@ public class Entity4 : Entity
         }
         if (IsDestroyed)
             temp.Remove(0);
-        if (ProgressManager.Instance.TryGetPart(2, out Part p2) && p2 != null && p2.isDestroyed)
+        if (ProgressManager.Instance.TryGetPart(1, out Part p1) && p1 != null && p1.isDestroyed)
             temp.Remove(1);
-        if (ProgressManager.Instance.TryGetPart(1, out Part p3) && p3 != null && p3.isDestroyed)
+        if (ProgressManager.Instance.TryGetPart(2, out Part p2) && p2 != null && p2.isDestroyed)
             temp.Remove(2);
-        if (ProgressManager.Instance.TryGetPart(2, out Part p4) && p4 != null && p4.isDestroyed)
+        if (ProgressManager.Instance.TryGetPart(3, out Part p3) && p3 != null && p3.isDestroyed)
             temp.Remove(3);
         if (temp.Count > 0)
         {
@@ -277,14 +280,10 @@ public class Entity4 : Entity
     }
     public void Want3()
     {
-        foreach (var dice in new List<DiceBase>(DiceManager.Instance.dicePool[E_DiceType.Time4]))
-            DiceManager.Instance.ModifyDieValue(dice, 1);
-        foreach (var dice in new List<DiceBase>(DiceManager.Instance.dicePool[E_DiceType.Time3]))
-            DiceManager.Instance.ModifyDieValue(dice, 1);
-        foreach (var dice in new List<DiceBase>(DiceManager.Instance.dicePool[E_DiceType.Time2]))
-            DiceManager.Instance.ModifyDieValue(dice, 1);
-        foreach (var dice in new List<DiceBase>(DiceManager.Instance.dicePool[E_DiceType.Time1]))
-            DiceManager.Instance.ModifyDieValue(dice, 1);
+        E_DiceType[] timeTypes = { E_DiceType.Time4, E_DiceType.Time3, E_DiceType.Time2, E_DiceType.Time1 };
+        foreach (var type in timeTypes)
+        foreach (var dice in new List<DiceBase>(DiceManager.Instance.dicePool[type]))
+             DiceManager.Instance.ModifyDieValue(dice, 1);
     }
     
     #endregion

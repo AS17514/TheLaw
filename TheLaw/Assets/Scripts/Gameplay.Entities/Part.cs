@@ -35,4 +35,24 @@ public class Part : CharacterBase
     {
         hp = Math.Clamp(hp+heal,hp, maxHp);
     }
+    public static void SpawnPart<T>(int index,string name) where T : Part
+    {
+        if (ProgressManager.Instance.TryGetPart(index, out var part))
+        {
+            part.IsVisible = true;
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+            return;
+        }
+        GameObject obj = new GameObject(name);
+        T newPart=obj.AddComponent<T>();
+        ProgressManager.Instance.nowEntities[index] = newPart;
+        newPart.IsVisible=true;
+        ProgressManager.Instance.PartStateChange(index, true);
+        if (ProgressManager.Instance.TryGetEntity() is Entity entity)
+        {
+            newPart.owner = entity;
+            entity.parts.Add(newPart);
+        }
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+    }
 }

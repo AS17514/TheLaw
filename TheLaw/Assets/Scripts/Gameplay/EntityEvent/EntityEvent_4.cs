@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 
 enum E_EntityEvent_4
@@ -66,15 +62,7 @@ public class EntityEvent_4_01 : OptionBase
     
     public void NeverRespond(object info = null)
     {
-        if(ProgressManager.Instance.nowEntities[0] is Entity entity)
-        {
-            int length = 0;
-            length += entity.GetBuff(E_BuffType.Want0) > 0 ? 0 : 1;
-            length += entity.GetBuff(E_BuffType.Want1) > 0 ? 0 : 1;
-            length += entity.GetBuff(E_BuffType.Want2) > 0 ? 0 : 1;
-            length += entity.GetBuff(E_BuffType.Want3) > 0 ? 0 : 1;
-            ProgressManager.Instance.player.BeAttacked(length);
-        }
+        ProgressManager.Instance.player.BeAttacked(((Entity4)ProgressManager.Instance.TryGetEntity()).CountMissingWants());
         this.IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         EventCenter.Instance.RemoveEventListener(E_EventType.Logic_PlayerActionExecuted, NeverRespond);
@@ -160,21 +148,9 @@ public class EntityEvent_4_03 : OptionBase
     {
         if(info is EntityEvent_4_03OptionContext ctx)
         {
-            switch (ctx.index)
-            {
-                case 1:
-                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want0);
-                    break;
-                case 2:
-                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want1);
-                    break;
-                case 3:
-                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want2);
-                    break;
-                case 4:
-                    ProgressManager.Instance.TryGetEntity().RemoveBuff(E_BuffType.Want3);
-                    break;
-            }
+            string wn = $"Want{ctx.index - 1}";
+            if (E_BuffType.TryParse(wn, out E_BuffType w))
+                ProgressManager.Instance.TryGetEntity().RemoveBuff(w);
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         DiceManager.Instance.ConsumeValidSelectedDice();
@@ -342,7 +318,7 @@ public class EntityEvent_4_07 : OptionBase
     
     protected override void ExecuteLogicImpl(object info=null)
     {
-        Part4_1.PartApear();
+        Part4_2.PartApear();
         IsVisible = false;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         DiceManager.Instance.ConsumeValidSelectedDice();

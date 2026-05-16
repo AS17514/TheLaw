@@ -34,36 +34,5 @@ public class Part4_1 : Part
     /// <summary>
     /// 静态方法，外部需要生成部位的时候调用。
     /// </summary>
-    public static void PartApear()
-    {
-        if (ProgressManager.Instance.nowEntities[1] != null)
-        {
-            ((Part)ProgressManager.Instance.nowEntities[1]).IsVisible = true;
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
-            return;
-        }
-
-        GameObject managerObj = new GameObject("Part4_1");
-
-        Part4_1 newPart = managerObj.AddComponent<Part4_1>();
-
-        ProgressManager.Instance.nowEntities[1] = newPart;
-        ProgressManager.Instance.PartStateChange(1,true);
-
-        newPart.IsVisible = true;
-
-        if (ProgressManager.Instance.nowEntities[0] != null &&
-            ProgressManager.Instance.nowEntities[0] is Entity entity4)
-        {
-            newPart.owner = entity4;
-
-            newPart.owner.parts.Add(newPart);
-
-            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
-        }
-        else if (ProgressManager.Instance.nowEntities[0] == null)
-        {
-            Debug.Log("ProgressManager.Instance.nowEntities[0]为空,为何啊........");
-        }
-    }
+    public static void PartApear()=> Part.SpawnPart<Part4_1>(1, "Part4_1");
 }
