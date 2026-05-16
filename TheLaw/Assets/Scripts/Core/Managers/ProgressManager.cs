@@ -375,7 +375,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         Init(12, 12, 6);
 
-        DiceManager.Instance.AddTimeDice(1);
+        DiceManager.Instance.AddTimeDice(6);
 
     }
     public void initLevel5()

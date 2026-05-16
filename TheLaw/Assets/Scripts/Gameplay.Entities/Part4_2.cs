@@ -6,7 +6,7 @@ public class Part4_2 : Part
 {
     public void InitPart()
     {
-        partName = "2号门";
+        partName = "内容物2";
         id = 2;
         maxHp = 9;
         hp = maxHp;

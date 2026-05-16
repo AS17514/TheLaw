@@ -84,7 +84,11 @@ public class BattlePanel : PanelBase
         {
             for (int i = 0; i <= 4; i++)
             {
-                if (GetControl<Toggle>($"Toggle_EntityPart{i}").isOn) return i;
+                if (GetControl<Toggle>($"Toggle_EntityPart{i}").isOn)
+                {
+                    if(level == 4 && i >= 1)return i - 1;
+                    return i;
+                }
             }
             return -1;
         }
@@ -389,6 +393,73 @@ public class BattlePanel : PanelBase
 
     void UpdateSinglePartUI(int index)
     {
+        if (level == 4)
+        {
+            if (index == 1)
+            {
+                // 槽位1：读取 Entity4 本体
+                Entity4 entity = ProgressManager.Instance.nowEntities[0] as Entity4;
+                if (entity != null)
+                {
+                    // 用 SetPartValues 风格显示实体数据
+                    // 但实体没有 partName / IsVisible / isDestroyed
+                    // 需要直接操作 UI 控件
+                    GetControl<Toggle>($"Toggle_EntityPart1").interactable = true; 
+                    GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart1Name").text = entityTips.name;
+                    GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart1HP").text = entity.hp.ToString();
+                    GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart1MaxHP").text = entity.maxHp.ToString();
+                    Slider slider = GetControl<Slider>("Slider_EntityPart1HP");
+                    slider.maxValue = entity.maxHp;
+                    slider.value = entity.hp;
+                }
+                return;
+            }
+            else
+            {
+                // 槽位2-4：映射到 nowEntities[1-3]（即 Part4_1/2/3）
+                // index=2 → nowEntities[1], index=3 → nowEntities[2], index=4 → nowEntities[3]
+                int mappedIndex = index - 1;
+                Part part_ = (Part)ProgressManager.Instance.nowEntities[mappedIndex];
+                if (part_ == null)
+                {
+                    SetPartUnknown(index);
+                    return;
+                }
+                // tooltip 下标：Part4_1(mappedIndex=1) → parts[0]，所以用 mappedIndex-1
+                int tipIndex = mappedIndex - 1;
+
+                // ─── 状态A：已发现 + 未破坏 + 可攻击 ───
+                if (part_.IsVisible && !part_.isDestroyed && part_.IsCouldBeAttacked())
+                {
+                    SetPartValues(index, part_, true);
+                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}",
+                        entityPartTips.parts[tipIndex][0],
+                        entityPartTips.parts[tipIndex][1]);
+                }
+                // ─── 状态B：已发现 + 未破坏 + 不可攻击 ───
+                else if (!part_.isDestroyed && !part_.IsCouldBeAttacked())
+                {
+                    SetPartValues(index, part_, false);
+                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}",
+                        entityPartTips.parts[tipIndex][0],
+                        entityPartTips.parts[tipIndex][1]);
+                }
+                // ─── 状态C：已发现 + 已破坏 ───
+                else if (part_.IsVisible && part_.isDestroyed)
+                {
+                    SetPartValues(index, part_, false, " (已破坏)");
+                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}",
+                        entityPartTips.parts[tipIndex][0],
+                        entityPartTips.parts[tipIndex][1]);
+                }
+                // ─── 兜底：未发现 ───
+                else
+                {
+                    SetPartUnknown(index);
+                }
+                return;
+            }
+        }
         Part part = (Part)ProgressManager.Instance.nowEntities[index];
         if (part == null)
         {
@@ -445,6 +516,12 @@ public class BattlePanel : PanelBase
 
     void UpdateEntityHP(object obj = null)
     {
+        if (level == 4)
+        {
+            // HP 已移到部位1，刷新部位槽位1而不是本体区
+            UpdateSinglePartUI(1);
+            return;
+        }
         GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = ProgressManager.Instance.nowEntities[0].hp.ToString();
         GetControl<Slider>("Slider_EntityHP").value = ProgressManager.Instance.nowEntities[0].hp;
     }
@@ -788,6 +865,13 @@ public class BattlePanel : PanelBase
         }
         // other
         GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = entityTips.name;
+        if (level == 4)
+        {
+            GetControl<Toggle>("Toggle_EntityPart0").interactable = false;
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = "";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = "";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = "";
+        }
         UpdateEntityState();
         UpdateEntityAction();
         UpdateEntityWish();

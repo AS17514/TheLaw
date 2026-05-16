@@ -215,7 +215,6 @@ public class EntityEvent_4_05 : OptionBase
     public override string OptionDescription { get; protected set; } = "房间，三扇奇怪的和背后的出口";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
     public override bool IsVisible { get; set; } = true;
-    public override int sonID { get; protected set; } = 3;
     public override DiceCondition[] DiceCost
     {
         get
@@ -235,9 +234,6 @@ public class EntityEvent_4_05 : OptionBase
     
     protected override void ExecuteLogicImpl(object info=null)
     {
-        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 6);//2号门
-        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 7);//3号门
-        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option, 8);//出口
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         DiceManager.Instance.ConsumeValidSelectedDice();
     }
@@ -258,6 +254,7 @@ public class EntityEvent_4_06 : OptionBase
     public override string OptionName { get; protected set; } = "1号门";
     public override string OptionDescription { get; protected set; } = "";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override int fatherID  { get; protected set; } = 5;
     public override DiceCondition[] DiceCost
     {
         get
@@ -299,6 +296,7 @@ public class EntityEvent_4_07 : OptionBase
     public override string OptionName { get; protected set; } = "2号门";
     public override string OptionDescription { get; protected set; } = "";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override int fatherID  { get; protected set; } = 5;
     public override DiceCondition[] DiceCost
     {
         get
@@ -340,6 +338,7 @@ public class EntityEvent_4_08 : OptionBase
     public override string OptionName { get; protected set; } = "3号门";
     public override string OptionDescription { get; protected set; } = "";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override int fatherID  { get; protected set; } = 5;
     public override DiceCondition[] DiceCost
     {
         get
@@ -381,6 +380,7 @@ public class EntityEvent_4_09 : OptionBase
     public override string OptionName { get; protected set; } = "出口";
     public override string OptionDescription { get; protected set; } = "";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override int fatherID  { get; protected set; } = 5;
     public override DiceCondition[] DiceCost
     {
         get
@@ -421,7 +421,6 @@ public class EntityEvent_4_10 : OptionBase
     public override string OptionName { get; protected set; } = "决定离开，所以拿出了钥匙";
     public override string OptionDescription { get; protected set; } = "";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
-    public override int sonID { get; protected set; } = 11;
 
     public override DiceCondition[] DiceCost
     {
@@ -463,6 +462,7 @@ public class EntityEvent_4_11 : OptionBase
     public override string OptionName { get; protected set; } = "那么离开吧";
     public override string OptionDescription { get; protected set; } = "获得胜利";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level4_Option;
+    public override int fatherID  { get; protected set; } = 10;
     public override DiceCondition[] DiceCost
     {
         get
