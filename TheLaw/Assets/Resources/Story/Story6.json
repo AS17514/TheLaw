@@ -1,5 +1,5 @@
 {
-    "title": "第三关开始",
+    "title": "不停的脚步",
     "afterStory": "Battle",
     "nextBattle": 3,
     "pages": [
@@ -7,34 +7,40 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   眼前的光景逐渐消散，白辰回到了现实，时间并没有过去多久，太阳还是依旧挂在天上，只是稍微往头顶处移动了一些。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
+                    "text": "   “这是......我的回忆？”",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第3句",
-                    "italic": true,
+                    "text": "   没有证据，这只是白辰看到那些景象后做出的判断。白辰自己也不确定这是否正确，但他的心里有什么空缺的东西正被慢慢填起。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第4句",
-                    "italic": true,
+                    "text": "   “安。”每次读出这个名字，他都会感到一阵温暖与心痛，但他从未认识任何一个叫做安的女孩。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第5句",
-                    "italic": true,
+                    "text": "   “如果再找找，会有更多线索的。”",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他用那块写着字的破布小心翼翼地将星星碎片包好放进背包深处。加快脚步向半山腰的祭台走去。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -42,16 +48,52 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "第一页第一句",
+                    "text": "   也许是刚刚的两场战斗让白辰提高了警惕，抑或是他还没有触发到其他村民的攻击底线，",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
-                    "italic": true,
+                    "text": "   白辰一路上畅通无阻，很快，他就来到了祭坛所在的山脚处。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   刚踏上坡路，一阵破旧车轮滚动的声音就从上方传来。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一个半人马形态的怪物猛地冲了下来，上半身穿着一件崭新的宇航服，四个车轮在石板路上溅起火星。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   得益于四个轮子，这个怪物很快就接近了白辰，",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   要不是有着几年做调查员的经验，白辰才堪堪躲过祂的轮毂。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   也许是刚刚行动的失手，怪物在远处发出一声嘶吼，",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   即使隔着头盔，白辰也能感觉到那令人发毛的注视。第二轮攻势转瞬即至，没有迟疑，白辰拔出手枪，扣动了扳机......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         }

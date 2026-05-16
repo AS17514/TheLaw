@@ -76,7 +76,7 @@
                 "text": "   理所当然，从未改变。",
                 "italic": true,
                 "alpha": 1,
-                "color": "#FFAA00"
+                "color": "#FFFF00FF"
             }
         ]
     },
@@ -133,7 +133,7 @@
             },
             {
                 "text": "   “白辰。”",
-                "italic": true,
+                "italic": false,
                 "alpha": 1,
                 "color": "#FFFFFF"
             }
