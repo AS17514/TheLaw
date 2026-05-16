@@ -4,12 +4,14 @@ using System.IO;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class StoryPanel : PanelBase
 {
+    public override E_BGM? BGMType => E_BGM.Story;
+
     StorySegment storySegment;
+    int storySegmentIndex;
     GameObject storyLineObj;
     ScrollRect scrollRect;
     Transform content;
@@ -22,9 +24,6 @@ public class StoryPanel : PanelBase
 
     void Start()
     {
-        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
-            new object[] { E_BGM.Story, true });
-
         // 加载文本预制体
         storyLineObj = Resources.Load<GameObject>("Prefabs/UI/Story/StoryLine");
         // 得到滑动框
@@ -54,11 +53,19 @@ public class StoryPanel : PanelBase
     }
     void OnDestroy()
     {
+        if (storySegment == null) return;
         // 如果不是插入剧情，就记录剧情进度
         if (storySegment.afterStory != "BackToBattle")
         {
-            // 看完剧情记录当前看过的剧情进度，解锁设定的最大关卡进度（取最大值）
-            JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.StoryProgress, StoryManager.Instance.segment);
+            try
+            {
+                // 看完剧情记录当前看过的剧情进度，解锁设定的最大关卡进度（取最大值）
+                // 可能会出现中途退出，场景销毁，找不到管理器的情况，套个try自欺欺人一下
+                // 死↘了↗都→要→try↗
+                JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.StoryProgress, StoryManager.Instance.segment);
+            }
+            catch (System.Exception) { }
+
             if (JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress) < storySegment.unlockLevel)
             {
                 JsonManager.Instance.AdjustSaveDataByType(E_SaveDataType.LevelProgress, storySegment.unlockLevel);
@@ -158,8 +165,6 @@ public class StoryPanel : PanelBase
             }
             currentLineIndex = pageProgress[currentPage];
             ScrollToBottom(false);
-            // 设置按钮按下后不是选中状态，防止和推进剧情抢按键
-            EventSystem.current.SetSelectedGameObject(null);
         }
     }
     void PreviousPage()
@@ -188,7 +193,6 @@ public class StoryPanel : PanelBase
             }
             // 设置当前段数为段数上限
             currentLineIndex = maxCurrentLineIndex;
-            EventSystem.current.SetSelectedGameObject(null);
         }
     }
     void ShowContinueButton()
@@ -260,6 +264,7 @@ public class StoryPanel : PanelBase
                         UIManager.Instance.ChangePanel<StoryPanel, LevelSelectPanel>();
                         break;
                     case "BackToBattle":
+                        AudioManager.Instance.ResumeBGM();
                         UIManager.Instance.RemovePanel<StoryPanel>();
                         break;
                     case "End":

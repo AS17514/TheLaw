@@ -22,6 +22,9 @@ public enum E_IntentType
     Entity3_Gravity,//引力
     Entity3_AnEmptyPlanet,//空无一人的星球
     
+    Entity4_CanItBeFurtherEnriched,//还可以再丰富点
+    Entity4_WhyCanNotWePutDownLess,//为什么不能放下更多
+    
     Entity5_Equipoise,//“平衡”
     Entity5_Oscillation,//震荡
     Entity5_Assemble,//集合

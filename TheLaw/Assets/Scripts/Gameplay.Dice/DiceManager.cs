@@ -57,10 +57,8 @@ public class DiceManager : ManagerBase<DiceManager>
     /// <param name="amount"></param>
     public void AddTimeDice(int amount)
     {
-        for (int i = 0; i < amount; i++)
+        for (int i = 0; i < (amount+ProgressManager.Instance.TryGetEntity().GetPhaseDiceModifier()); i++)
             AddDice(E_DiceType.Time1); 
-
-        Debug.Log("AddTimeDice执行1次" + amount + "个");
     }
     /// <summary>
     /// 获得池中某种骰子的个数

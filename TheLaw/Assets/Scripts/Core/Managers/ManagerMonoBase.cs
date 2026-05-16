@@ -8,18 +8,35 @@ public class ManagerMonoBase<T> : MonoBehaviour where T : MonoBehaviour
     // 继承了mono，自动处理挂载的单例基类
     private static T instance;
 
+    private static bool ApplicationIsQuitting = false;
+
     public static T Instance
     {
         get
         {
-            if (instance == null)
+            if (instance == null && !ApplicationIsQuitting)
             {
-                GameObject gameObject = new GameObject { name = typeof(T).Name };
-                instance = gameObject.AddComponent<T>();
-                DontDestroyOnLoad(gameObject);
+                instance = FindObjectOfType<T>();
+                if (instance == null)
+                {
+                    GameObject gameObject = new GameObject { name = typeof(T).Name };
+                    instance = gameObject.AddComponent<T>();
+                    DontDestroyOnLoad(gameObject);
+                }
             }
             return instance;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
+    }
+
+    private void OnApplicationQuit()
+    {
+        ApplicationIsQuitting = true;
     }
 }
 

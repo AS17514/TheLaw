@@ -4,11 +4,7 @@ using UnityEngine.UI;
 
 public class StartMenuPanel : PanelBase
 {
-    void Start()
-    {
-        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
-            new object[] { E_BGM.StartMenu, true });
-    }
+    public override E_BGM? BGMType => E_BGM.StartMenu;
 
     protected override void ButtonOnClick(string buttonName)
     {
@@ -39,7 +35,7 @@ public class StartMenuPanel : PanelBase
             case "Button_QuitGame":
                 EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
                     new object[] { E_SFX.QuitGameClick, false });
-                DOVirtual.DelayedCall(0.5f, () =>
+                DOVirtual.DelayedCall(2f, null).OnComplete(() =>
                 {
 #if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;

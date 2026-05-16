@@ -51,11 +51,16 @@ public abstract class OptionBase
     public virtual UnityAction<object> GetNeverRespondHandler() => null;  // 应对型 Option 重写返回 NeverRespond
 
     
-    
+    public OptionBase()
+    {
+        ExecuteLogic = ExecuteLogicImpl;
+    }
+
+    protected virtual void ExecuteLogicImpl(object info=null){}
     #endregion
     // --- 委托定义区 ---
     // 用 Action 储存无返回值的方法。如果需要传参，可以用 Action<T>
-    public virtual Action ExecuteLogic { get; protected set; }
+    public virtual Action<object> ExecuteLogic { get; protected set; }
 
     // --- 通用方法 ---
     // 外部（比如UI按钮点击后）统一调用这个方法
@@ -81,7 +86,7 @@ public abstract class OptionBase
                     : true;
             }
             if(result)
-                ExecuteLogic?.Invoke();
+                ExecuteLogic?.Invoke(optionContext);
             else
             {
                 DiceManager.Instance.ClearSelected();

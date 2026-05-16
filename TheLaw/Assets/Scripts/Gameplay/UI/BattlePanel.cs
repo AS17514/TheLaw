@@ -50,6 +50,8 @@ public class EntityPartTips
 }
 public class BattlePanel : PanelBase
 {
+    public override E_BGM? BGMType => E_BGM.Battle;
+
     //  记录一下选中骰列表
     List<DiceBase> selectedDiceList = DiceManager.Instance.selectedDice;
     RectTransform rectTransform;
@@ -102,9 +104,6 @@ public class BattlePanel : PanelBase
 
     void Start()
     {
-        EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_BGM,
-            new object[] { E_BGM.Battle, true });
-
         rectTransform = GetComponent<RectTransform>();
         level = ProgressManager.Instance.level;
         LoadAllResources();

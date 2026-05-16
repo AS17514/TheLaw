@@ -49,6 +49,8 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     // 初始音量
     public float BGMVolume = 0.5f;
     public float SFXVolume = 0.5f;
+    // BGM暂停状态标记，防止未暂停时调用Resume导致从头播放
+    private bool _isBgmPaused;
 
     // 初始化音频列表
     List<AudioSource> audios = new List<AudioSource>();
@@ -135,6 +137,7 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         {
             return;
         }
+        _isBgmPaused = false;
         bgmComponent.clip = bgms[bgm];
         bgmComponent.loop = isLoop;
         bgmComponent.Play();
@@ -144,11 +147,12 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     /// </summary>
     public void PauseBGM()
     {
-        if (bgmComponent == null)
+        if (bgmComponent == null || !bgmComponent.isPlaying)
         {
             return;
         }
         bgmComponent.Pause();
+        _isBgmPaused = true;
     }
     /// <summary>
     /// 停止播放，继续播放时重新开始
@@ -159,7 +163,20 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         {
             return;
         }
+        _isBgmPaused = false;
         bgmComponent.Stop();
+    }
+    /// <summary>
+    /// 从暂停位置继续播放，仅在BGM处于暂停状态时有效
+    /// </summary>
+    public void ResumeBGM()
+    {
+        if (bgmComponent == null || !_isBgmPaused)
+        {
+            return;
+        }
+        bgmComponent.Play();
+        _isBgmPaused = false;
     }
     /// <summary>
     /// 设置bgm音量并实时更新音量大小

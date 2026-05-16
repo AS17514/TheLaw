@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ProgressManager : ManagerMonoBase<ProgressManager>
 {
     public int level;//当前关卡
@@ -17,6 +16,26 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public ProgressManager()
     {
     }
+    public List<int> PartState=new List<int> { 0,0,0,0};
+
+    public void PartStateChange(int index,bool state)
+    {
+        PartState[index]=state?1:-1;
+        if (PartState.Exists(s => s != -1))
+        {
+            return;
+        }
+        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option,10);
+    }
+
+    public void PartStateReset()
+    {
+        for (int i = 0; i < PartState.Count; i++)
+        {
+            PartState[i] = 0;
+        }
+    }
+    
     /// <summary>
     /// 初始化当前进度，设置当前关卡与本关初始时间进度上限
     /// </summary>
@@ -183,7 +202,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         int i = 0;
         if (player.GetBuff(E_BuffType.Right) > 0)//玩家消耗时间骰时时间进度额外-1
             i = 1;
-        timeProgress = Math.Clamp(timeProgress + add - i, 0, this.currentTimeProgress);
+        timeProgress = Math.Clamp(timeProgress + add+ProgressManager.Instance.TryGetEntity().GetTimeProgressModifier() - i, 0, this.currentTimeProgress);
         if (timeProgress == currentTimeProgress)
         {
             StateManager.Instance.ExecuteCurrentAction();
@@ -204,6 +223,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         {
             // 在进入新关卡、生成新怪物之前，先彻底清理上一关的残留数据
             ClearOldEntities();
+            PartStateReset();
             // 清空上一关遗留的骰子数据
             DiceManager.Instance.ClearPool();       // 清空基础骰子池、怪物骰子池并刷新对应UI
             DiceManager.Instance.ClearSelected();   // 清空选中区的骰子并刷新对应UI
@@ -399,6 +419,18 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         {
             partBox = null;
             return false;
+        }
+    }
+    public Entity TryGetEntity()
+    {
+        
+        if (nowEntities[0] != null && nowEntities[0] is Entity entity)
+        {
+            return entity;
+        }
+        else
+        {
+            return null;
         }
     }
     #endregion

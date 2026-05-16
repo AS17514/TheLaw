@@ -39,11 +39,11 @@ public class Prepare : OptionBase
         }
     }
 
-    public override Action ExecuteLogic
+    public override Action<object> ExecuteLogic
     {
         get
         {
-            return () =>
+            return (_) =>
             {
                 // 找出真正被选中且符合条件的那个骰子
                 int timeValue = 0;
@@ -89,7 +89,7 @@ public class Prepare : OptionBase
             }
             if (result && optionContext is PrepareOptionContext)
             {
-                ExecuteLogic?.Invoke();
+                ExecuteLogic?.Invoke(null);
                 DiceManager.Instance.AddDice((optionContext as PrepareOptionContext).diceType, null);
                 EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
                     new object[] { E_SFX.Prepare, false });

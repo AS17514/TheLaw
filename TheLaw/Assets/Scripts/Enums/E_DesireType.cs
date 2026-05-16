@@ -18,6 +18,9 @@ public enum E_DesireType
     Entity3_IWantToLeaveLikeYou,//我想和你一样离开
     Entity3_RunAwayHopingThatYourRunningWonNotBeGivenThatNameAgain,//逃跑，希望自己的奔跑不要再被冠以那样的名字
     
+    Entity4_IDonNotWantABrokenMirror,//我不要破碎的镜子
+    Entity4_IDonNotWantALifeThatRemainsUnchanged,//我不要成不变的生活
+    
     Entity5_TheirWishes,//“他们”的愿望
     Entity5_Food,//食物
     Entity5_Praise,//称赞
