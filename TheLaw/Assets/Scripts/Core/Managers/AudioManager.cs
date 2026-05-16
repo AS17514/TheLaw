@@ -36,6 +36,8 @@ public enum E_SFX
     LevelSelectClick,      // 选关界面选择关卡
     EnterLevelClick,       // 选关界面进入关卡
     BackClick,             // 选关界面返回主菜单
+    PlayerDie,              //玩家死亡
+    PlayerBeHit,            //玩家受击
 }
 public class AudioManager : ManagerMonoBase<AudioManager>
 {

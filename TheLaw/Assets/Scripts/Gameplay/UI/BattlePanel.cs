@@ -616,8 +616,12 @@ public class BattlePanel : PanelBase
     void OnUpdateMindDice(object obj) => UpdateDice<MindDice>();
     void OnUpdateTimeDice(object obj) { UpdateTimeDiceCount(); UpdateTimeDiceSelectedCount(); }
 
-    void OnUpdatePlayerDied(object obj) => UIManager.Instance.ChangePanel<BattlePanel, DiePanel>(showLoading: false);
-
+    void OnUpdatePlayerDied(object obj) 
+    {
+        AudioManager.Instance.PlaySFX(E_SFX.PlayerDie, false);
+        AudioManager.Instance.StopAllSFX();
+        UIManager.Instance.ChangePanel<BattlePanel, DiePanel>(showLoading: false);
+    }
     void OnUpdateEntityDied(object obj)
     {
         Debug.Log("触发胜利");
