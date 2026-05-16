@@ -19,13 +19,13 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “那应该是祭台的位置吧。”看着情报上附带的地图白辰确认着。",
+                    "text": "   “那应该是祭台的位置吧。”白辰看着情报上附带的地图。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   ——那里肯定会有很重要的情报，凭着直觉，白辰起身向山上跑去。",
+                    "text": "   那里一定会有很重要的情报，凭着直觉，白辰起身向山上走去。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
@@ -36,37 +36,49 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "   村庄的路还是很宽敞的，道路两旁排列着规整的房屋——要是房子正常点就好了。",
+                    "text": "   村庄的道路还算宽敞，道路两旁排列着规整的房屋——如果那些扭曲的结构能被称作“房屋”的话。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   跟着地图，白辰穿过了一排晾衣服的空地，就当他要走出去时，一排衣服像封锁线般拦在了白辰面前。",
+                    "text": "   穿过一片晾衣的空地时，一排衣服如封锁线般拦在了白辰面前。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “不要走，快来看看我的衣服吧。”",
+                    "text": "   “不要走。”",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   一个天真的声音从衣架后传出，透过光隐约映出了祂的轮廓。",
+                    "text": "   一个天真的声音从衣架后传出，光影隐约勾勒出祂的轮廓。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “这是新的怪物吗？”白辰本能地把手伸向腰间，目光始终盯着衣服后移动的身影。",
+                    "text": "   “快来看看我的衣服吧。”",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “你看你看，这些都是我的衣服，你觉得怎么样。”拦路者像个期待夸奖的孩子般自顾自说着，但那身影始终与白辰隔着相当的一段距离。",
+                    "text": "   白辰本能地把手伸向腰间，目光始终盯着衣服后移动的身影。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你看你看，这些都是我的衣服，你觉得怎么样。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   拦路者像个急于炫耀的孩子般自顾自说着，但始终与白辰隔着相当的一段距离。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
@@ -90,7 +102,13 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “如果是你的话，你觉得这些衣服美丽吗？”一长串的评论后，黑影停下来问道。",
+                    "text": "   “如果是你的话，你觉得这些衣服美吗？”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一长串的评论后，黑影停下来问道。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
@@ -120,7 +138,7 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “我说，要合适的才......”",
+                    "text": "   “我说，要合适的才——”",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
@@ -150,7 +168,7 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “我的一切都会是美丽的......”",
+                    "text": "   “我的一切......都会是美丽的......”",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"

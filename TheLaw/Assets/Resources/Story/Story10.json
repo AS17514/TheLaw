@@ -7,51 +7,130 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   从回忆的洪流中浮起，白辰缓缓睁开眼睛。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第3句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第4句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第5句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                }
-            ]
-        },
-        {
-            "page": 2,
-            "lines": [
-                {
-                    "text": "第一页第一句",
+                    "text": "   他找到了，",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
-                    "italic": true,
+                    "text": "   那些碎片，那些画面，那些被抹去又被归还的东西。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他将第三颗星星收好，动作很轻。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   在白辰回忆的时间里，街道上挤满了奇形怪状的“村民”，拎着失神的眼睛向祭坛游荡。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一路上，那些狂热的“村民”都没有对他发起攻击，仿佛他已被视为同类，或是被更强大的意志所忽略。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰畅通无阻地到达了山腰处的祭台旁，这里早已汇聚了一圈又一圈的村民。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   祭台上的火堆映红了白辰的脸，红色的火光映在他的眼睛和泪滴里，周围的一切都和那天一模一样。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “献......祭......，安......不需要......”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “村民”围在祭坛旁边喃喃自语，白辰紧紧握着手枪，但这些情绪有着比他们更加重要的事物在白辰面前。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他穿过人群，目光落向祭坛中央",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——一座巨大的天平。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “愿望”汇聚到这里了，这就是“承诺”原本的样子吗？",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰盯着面前的庞然大物。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   天平默不作声，和众多的“律”一样，没有感情，没有想法。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   只对特定的刺激，做出特定的反应。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我也和众多愿望一起被放在这个天平的其中一端上称量了吧。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   天平像是被什么激发了一样，将祂举着黄铜盘子的手臂伸到了白辰面前。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   看着天平的反应，“村民”被激怒了，他们感到了威胁。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我们......也......不需要......他......”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰突然明白了，面对着如潮水般涌来的怪物，他毅然举起了枪......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         }

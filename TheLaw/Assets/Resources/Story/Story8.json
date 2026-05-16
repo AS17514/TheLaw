@@ -1,57 +1,142 @@
 {
     "title": "等待那门扉被打开",
-    "afterStory": "SelectLevel",
-    "unlockLevel": 5,
+    "afterStory": "Battle",
+    "nextBattle": 4,
     "pages": [
         {
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   “如果，结果不是这样就好了。”",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第3句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第4句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                },
-                {
-                    "text": "第一页第5句",
-                    "italic": true,
-                    "alpha": 1,
-                    "color": "#FFAA00"
-                }
-            ]
-        },
-        {
-            "page": 2,
-            "lines": [
-                {
-                    "text": "第一页第一句",
+                    "text": "   白辰从回忆中脱身，低声重复着。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
-                    "italic": true,
+                    "text": "   太阳已经西斜，夜幕开始降临，晚霞还在挣扎着最后的时光。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他重新拿起背包，回忆里的火焰在脑海里挥之不去，过去与现在的村庄在白辰眼里交织在一起，混乱的景象让他的头有点发晕。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我需要休息一下。”白辰对自己说，理智告诉他，必须让剧烈波动的情绪稳定下来。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他在村中寻找，挑了一栋外观相对完好的宅子。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   即便其华丽与村落格格不入，也比那些散发不祥气息的扭曲房屋要好得多。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   房门虚掩着，白辰轻轻地一推，它便敞开了，",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   内部比外表要更为奢华，名画、金钱、水晶吊灯——一切堆砌成一种病态的美。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   无论如何这里都不像一个可以提供住宿的地方吧。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰当即后悔踏进这里，转身要出去时，来时的门以消失不见，只留下一面挂着画作的白墙。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他不该犯这样的错误，是刚刚的情绪影响了自己。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   没等他再想下去，屋子已经开始了祂的行动。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “是主动钻过来的东西，嘻嘻”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一行字浮在面前的镜子上。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “那你也来填满我的宅子吧。”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   周围的墙壁迅速收缩，向他逼近。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   情急之下，白辰抽枪射向镜子，玻璃四溅。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   屋子仿佛是因玻璃的破碎而感到嫌弃般，从旁生出一扇门扉将破碎的镜子丢弃在外。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我不需要破碎的东西！”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   飞起的家具拼成了这行字。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   趁着房子恼火，白辰也做好了战斗的准备......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         }

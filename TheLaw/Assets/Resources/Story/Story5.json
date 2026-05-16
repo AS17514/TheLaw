@@ -7,25 +7,25 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "   ——哗。",
+                    "text": "   ——哗,一声脆响",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   一声脆响过后，所有衣服和晾衣绳都落下来堆在了地上。",
+                    "text": "   所有衣服和晾衣绳都落了下来,堆在了地上。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   见那堆衣服不再动弹，白辰暂时松了一口气。",
+                    "text": "   白辰松了口气，衣堆顶上，一块醒目的破布躺着。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   衣堆顶上，醒目地落着一块破布，这块布已经很陈旧，和底下成堆的华丽服饰显得格格不入。白辰将布捡起来仔细端详，殷红的字迹依然醒目地留在上面：",
+                    "text": "   这块布已经很陈旧，和底下成堆的华丽服饰显得格格不入。白辰将布捡起来仔细端详，殷红的字迹依然醒目地留在上面：",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
@@ -33,13 +33,13 @@
                 {
                     "text": "   ——“如果实现了你会怎么样呢？”",
                     "italic": true,
-                    "alpha": 1,
+                    "alpha": 0.5,
                     "color": "#FFFF00FF"
                 },
                 {
                     "text": "   ——“我会自信地生活下去。”",
                     "italic": true,
-                    "alpha": 1,
+                    "alpha": 0.5,
                     "color": "#FFFFFF"
                 },
                 {
@@ -49,25 +49,25 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   白辰长叹一声，把布塞回包里，显然，刚刚的黑影也是许愿的其中一人。祂也显然没有完成“自信地生活下去”这一承诺。",
+                    "text": "   白辰将布收好，这又是另一个未能兑现的承诺。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   那个女孩在寻求什么呢，或者说那个“<i>律<i>”在寻求什么呢？",
+                    "text": "   那个女孩在寻求什么？",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “愿望和承诺......吗？”",
+                    "text": "   或者说，那个“<i>律<i>”在寻求什么？",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   白辰想着想着，目光渐渐地被地上的一抹亮光吸引了。",
+                    "text": "   正想着，他的目光被地上一抹亮光攥住。",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"

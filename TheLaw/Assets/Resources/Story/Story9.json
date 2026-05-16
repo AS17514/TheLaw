@@ -7,34 +7,100 @@
             "page": 1,
             "lines": [
                 {
-                    "text": "第一页第1句",
+                    "text": "   房屋轰然倒塌，",
                     "italic": false,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第2句",
-                    "italic": true,
+                    "text": "   被掩埋的前一刻，白辰跑出了门外。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第3句",
-                    "italic": true,
+                    "text": "   第三颗光亮如约而至，崩落的碎屑被收进掉落的星星里。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第4句",
-                    "italic": true,
+                    "text": "   星星就落在白辰脚边，他没有去立刻捡。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第5句",
-                    "italic": true,
+                    "text": "   夜风穿过废墟，吹动他的衣角。",
+                    "italic": false,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   白辰站在那里，盯着那一束微光。他的职业生涯中他头一次产生了如此强烈的迟疑。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他在抗拒着回忆，",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他不愿意看到安最后的样子。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   或者说",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——他不敢看到。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   发光的星星静静地在地上，望着他。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   然后，他感到有什么东西从背后推了自己一下，轻柔而又坚决。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “是你吗？安？”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他轻声问，尽管他自己都不相信自己的话。",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你想让我记起来，对吗？”",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他深吸一口气，慢慢地把手盖在了星星上......",
+                    "italic": false,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -42,16 +108,285 @@
             "page": 2,
             "lines": [
                 {
-                    "text": "第一页第一句",
-                    "italic": false,
+                    "text": "   男孩跪在安的身边，小心翼翼地抱住她的身子。",
+                    "italic": true,
                     "alpha": 1,
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "第一页第二句",
+                    "text": "   “安，和我一起走吧，离开这里。”",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩用尽全身力气抱起安，但没走几步就摔倒在地上。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   这样重复了几次，直到男孩再也没有力气，只能把安紧紧地护着。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “白辰。”安轻轻喊着男孩的名字。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “嗯，我在”男孩的声音里藏着哽咽。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “把我放下吧，我不能离开这里，因为我许下过<color=#FFFF00FF>愿望</color>了。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “什么？”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我希望可以让其他人幸福，只要能实现，哪怕自己不幸也没有关系。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFF00FF"
+                },
+                {
+                    "text": "   “......”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩不敢看安的眼睛，他沉默着说不出话。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “这不是愿望，是<color=#FFFF00FF>承诺</color>啊，没有遵守约定的人会受到惩罚的”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “承诺？惩罚？”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   安只是惨白地笑着，周围混乱的一切已经是回答了。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “你走吧，你的愿望不是离开吗？到时候你学会了画画，要为我画一张画哦，<color=#FFFF00FF>这是你答应过我的</color>。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “要把我画得好看一点哦。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFF00FF"
+                },
+                {
+                    "text": "   男孩一怔，",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——为什么，会存在这么残酷的奇迹。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ——为什么，必须要是安呢。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他的嘴巴开合着，最后只在喉咙里挤出一句：",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我不要......你离开......”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我不要......我不要......”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他抱着安，不断重复着",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   周围的一切像是在地狱般，所有人满溢的愿望挤在这个狭小的村落，直言不讳的欲望在此处汇聚。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他是如此的无力和弱小，他的肩膀微微颤抖着，虽然抱着安，但似乎自己才是被紧紧抱着的那个。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “那好，我答应你，我不会离......”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   话没有说完，",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   似乎到了“不再需要安”的承诺兑现的时候了。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   她的身子顷刻变得透明，只是在男孩的手里有着残存的重量。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “如果，实现了愿望，会怎么样吗？”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFF00FF"
+                },
+                {
+                    "text": "   男孩不自主的开口问道。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “那就忘了这一切吧，包括我，全部都忘了吧，在外面好好地生活。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   ......",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                }
+            ]
+        },
+        {
+            "page": 3,
+            "lines": [
+                {
+                    "text": "   路边的山脉与树林飞速掠过，一辆驶向 X 城的车，穿梭在沟壑间。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   男孩的心里，激动又不安，甚至带着一丝莫名的失落。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   车窗外的夜空——明明是第一次见，为什么会如此熟悉？",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   一瞬光芒划过天际，紧接着，是第二道、第三道…… 无数道光芒划破夜空，像一场盛大的、毁灭的雨。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “这是——流星雨吗？”男孩呆呆望着天空。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “奇怪,为什么......我会哭。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他一遍遍擦干眼泪，可泪水止不住地往下落。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   “我是不是,忘了什么......忘了一个很重要的人。”",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   他望着那些星星，每一颗都很像，却又都不一样。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   脑海里，固执地浮现出一颗独一无二的星星——",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   清冷、干净，永远停在一个女孩的掌心。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   它们正坠向何方？",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
+                },
+                {
+                    "text": "   也许，都与我无关了，他想。",
+                    "italic": true,
+                    "alpha": 1,
+                    "color": "#FFFFFF"
                 }
             ]
         }
