@@ -17,6 +17,17 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
     public ProgressManager()
     {
     }
+    public List<int> PartState=new List<int> { 0,0,0,0};
+
+    public void PartStateChange(int index,bool state)
+    {
+        PartState[index]=state?1:-1;
+        if (PartState.Exists(PartState => PartState != -1))
+        {
+            return;
+        }
+        EventManager.Instance.UnLockOption(E_OptionType.Level4_Option,10);
+    }
     /// <summary>
     /// 初始化当前进度，设置当前关卡与本关初始时间进度上限
     /// </summary>

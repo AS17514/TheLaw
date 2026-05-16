@@ -26,6 +26,7 @@ public class Part4_2 : Part
 
     public override void Die()
     {
+        ProgressManager.Instance.PartStateChange(2,false);
         ProgressManager.Instance.TryGetEntity().AddBuff(E_BuffType.Desire,-1);
         base.Die();
     }
@@ -47,7 +48,7 @@ public class Part4_2 : Part
         Part4_2 newPart = managerObj.AddComponent<Part4_2>();
 
         ProgressManager.Instance.nowEntities[2] = newPart;
-
+        ProgressManager.Instance.PartStateChange(2,true);
         newPart.IsVisible = true;
 
         if (ProgressManager.Instance.nowEntities[0] != null &&

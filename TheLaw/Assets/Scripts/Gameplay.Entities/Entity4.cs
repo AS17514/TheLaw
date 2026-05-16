@@ -29,6 +29,7 @@ public class Entity4 : Entity
     public override void Die()
     {
         AddBuff(E_BuffType.Desire,-1);
+        ProgressManager.Instance.PartStateChange(0,false);
         IsDestroyed = true;
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         base.Die();
@@ -37,7 +38,7 @@ public class Entity4 : Entity
     public override void ManualInit()
     {
         base.ManualInit(); // 必须先调用父类，把自己注册进 BuffManager
-
+        ProgressManager.Instance.PartStateChange(0,true);
         #region 状态管理器
         StateManager.Instance.ClearStates();
 
