@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Entity4 : Entity
 {
+    public string entityName="内容物0";
     public override int GetDamageReduction()
         => GetBuff(E_BuffType.Want0) > 0 ? 1 : 0;
 
@@ -42,8 +43,6 @@ public class Entity4 : Entity
         AddBuff(E_BuffType.Desire,-1);
         ProgressManager.Instance.PartStateChange(0,false);
         IsDestroyed = true;
-        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
-        base.Die();
     }
 
     public override void ManualInit()
@@ -70,7 +69,7 @@ public class Entity4 : Entity
         #endregion
 
         // 最后进行数值初始化
-        InitEntity(1, 36);
+        InitEntity(1, 9);
     }
     
     private void OnDestroy()
