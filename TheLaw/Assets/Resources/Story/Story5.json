@@ -73,7 +73,7 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   ——那是一颗<color=#FFAA00>星星</color>。",
+                    "text": "   ——那是一颗<color=#FFFF00FF>星星</color>。",
                     "italic": true,
                     "alpha": 1,
                     "color": "#FFFFFF"
@@ -191,10 +191,10 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   <color=#FFAA00>“我希望能让所有人都幸福，哪怕我自己不幸也没有关系。”</color>",
+                    "text": "   “我希望能让所有人都幸福，哪怕我自己不幸也没有关系。”",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFFFFF"
+                    "color": "#FFFF00FF"
                 },
                 {
                     "text": "   于是，“神明”回应了她。只要有人向安许下愿望，祂就会兑现。",
@@ -339,10 +339,10 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “<color=#FFAA00>愿望实现之后，你会怎么做呢？</color>”",
+                    "text": "   “愿望实现之后，你会怎么做呢？”",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFFFFF"
+                    "color": "#FFFF00FF"
                 },
                 {
                     "text": "   安反问到，所有来许愿的人都是如此，男孩也不例外。",
@@ -351,10 +351,10 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   “<color=#FFAA00>我会去学画画，把我和你都画下来。还有这颗星星，我也会画上去。</color>”",
+                    "text": "   “我会去学画画，把我和你都画下来。还有这颗星星，我也会画上去。”",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFFFFF"
+                    "color": "#FFFF00FF"
                 },
                 {
                     "text": "   男孩一脸认真地回答着。",
@@ -393,10 +393,10 @@
                     "color": "#FFFFFF"
                 },
                 {
-                    "text": "   他隐隐觉着，这是他最后一次，看到她这样的笑。",
+                    "text": "   他隐隐觉着，这是他最后一次，看到安这样的笑。",
                     "italic": true,
                     "alpha": 1,
-                    "color": "#FFAA00"
+                    "color": "#FFFFFF"
                 }
             ]
         }
