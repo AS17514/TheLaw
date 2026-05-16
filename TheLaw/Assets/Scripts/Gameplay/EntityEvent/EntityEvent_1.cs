@@ -142,7 +142,7 @@ public class EntityEvent_1_01 : OptionBase
         Debug.Log("没闪避");
 
         int hit = DiceManager.Instance.entityDicePool.Count;
-        int tempAtk = 4;
+        int tempAtk = 4-ProgressManager.Instance.PartState.FindAll(x => x == -1).Count;
         ProgressManager.Instance.player.BeAttacked(hit * tempAtk);
         //之后取消该选项的显示。
         this.IsVisible = false;

@@ -20,6 +20,7 @@ public class Part1_1 : Part
 
     public override void Die()
     {
+        ProgressManager.Instance.PartStateChange(1,false);
         base.Die();
         if (ProgressManager.Instance.nowEntities[2] != null && ProgressManager.Instance.nowEntities[2] is Part1_2 part2)
         {
@@ -45,7 +46,7 @@ public class Part1_1 : Part
         ProgressManager.Instance.nowEntities[1] = newPart;
 
         newPart.IsVisible = true;
-
+        ProgressManager.Instance.PartStateChange(1,true);
         if (ProgressManager.Instance.nowEntities[0] != null &&
             ProgressManager.Instance.nowEntities[0] is Entity entity1)
         {
