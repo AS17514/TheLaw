@@ -618,10 +618,11 @@ public class BattlePanel : PanelBase
 
     void OnUpdatePlayerDied(object obj) 
     {
-        AudioManager.Instance.PlaySFX(E_SFX.PlayerDie, false);
         AudioManager.Instance.StopAllSFX();
+        AudioManager.Instance.PlaySFX(E_SFX.PlayerDie, false);
         UIManager.Instance.ChangePanel<BattlePanel, DiePanel>(showLoading: false);
     }
+    
     void OnUpdateEntityDied(object obj)
     {
         Debug.Log("触发胜利");

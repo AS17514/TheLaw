@@ -228,8 +228,13 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     {
         foreach (AudioSource audio in audios)
         {
-            audio.Stop();
+            if (audio != null)
+            {
+                audio.Stop();
+                Destroy(audio);
+            }
         }
+        audios.Clear();
     }
     /// <summary>
     /// 设置音效音量并实时更新所有音效组件的音量
