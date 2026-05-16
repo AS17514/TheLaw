@@ -53,7 +53,8 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     public float SFXVolume = 0.5f;
     // BGM暂停状态标记，防止未暂停时调用Resume导致从头播放
     private bool _isBgmPaused;
-
+    private bool _isSFXPaused;//玩家死亡时使用
+    private bool _isSFXDeathPaused;
     // 初始化音频列表
     List<AudioSource> audios = new List<AudioSource>();
 
@@ -143,6 +144,7 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         bgmComponent.clip = bgms[bgm];
         bgmComponent.loop = isLoop;
         bgmComponent.Play();
+        _isSFXPaused = false;
     }
     /// <summary>
     /// 暂停播放，继续播放时从暂停点开始
@@ -215,11 +217,19 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     /// <param name="isLoop">是否循环播放</param>
     public void PlaySFX(E_SFX sfx, bool isLoop)
     {
+        if (sfx is not E_SFX.PlayerDie&&_isSFXPaused)return;
         AudioSource audio = sfxPlayer.AddComponent<AudioSource>();
         audios.Add(audio);
         audio.clip = sfxs[sfx];
         audio.loop = isLoop;
         audio.Play();
+    }
+    /// <summary>
+    /// 玩家死亡调用，停止音效
+    /// </summary>
+    public void SuppressAllSfx()
+    {
+        _isSFXPaused = true;
     }
     /// <summary>
     /// 停止所有音效，随后自动删除并移出列表

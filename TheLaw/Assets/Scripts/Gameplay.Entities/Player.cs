@@ -59,6 +59,7 @@ public class Player : CharacterBase
     }
     public override void Die()
     {
+        AudioManager.Instance.SuppressAllSfx();
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerDied);
     }
 
