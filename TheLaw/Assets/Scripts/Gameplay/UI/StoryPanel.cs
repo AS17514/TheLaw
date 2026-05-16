@@ -75,7 +75,7 @@ public class StoryPanel : PanelBase
     void Init()
     {
         // 标题
-        GetControl<TextMeshProUGUI>("Text (TMP)_Titel").text = storySegment.title;
+        GetControl<TextMeshProUGUI>("Text (TMP)_Title").text = storySegment.title;
         // 页码
         GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = "1";
         GetControl<TextMeshProUGUI>("Text (TMP)_MaxPage").text = storySegment.pages.Count.ToString();
