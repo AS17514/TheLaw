@@ -339,7 +339,7 @@ public class BattlePanel : PanelBase
                 GameObject buff = Instantiate(resources["Buff"], content);
                 buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
-                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
             }
         }
     }
@@ -408,7 +408,7 @@ public class BattlePanel : PanelBase
                 GameObject buff = Instantiate(resources["Buff"], content);
                 buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
-                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
             }
         }
     }
@@ -901,9 +901,13 @@ public class BattlePanel : PanelBase
         if (level == 4)
         {
             GetControl<Toggle>("Toggle_EntityPart0").interactable = false;
-            GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = "";
-            GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = "";
-            GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = "";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart0Name").text = "<color=grey>本体</color>";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = "住";
+            Slider slider = GetControl<Slider>("Slider_EntityHP");
+            slider.maxValue = 1;
+            slider.value = 0;
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = "null";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = "null";
         }
         UpdateEntityState();
         UpdateEntityAction();
