@@ -146,7 +146,7 @@ public class UIManager : ManagerMonoBase<UIManager>
         if (showLoading)
         {
             // loading强制等待的时间（至少）
-            yield return new WaitForSecondsRealtime(3f);
+            yield return new WaitForSecondsRealtime(0f);
             RemovePanel<LoadingPanel>();
         }
 
