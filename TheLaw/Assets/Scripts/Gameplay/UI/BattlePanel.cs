@@ -339,7 +339,7 @@ public class BattlePanel : PanelBase
                 GameObject buff = Instantiate(resources["Buff"], content);
                 buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
-                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
             }
         }
     }
