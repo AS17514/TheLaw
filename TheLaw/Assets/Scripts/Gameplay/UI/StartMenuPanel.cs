@@ -44,8 +44,11 @@ public class StartMenuPanel : PanelBase
 #endif
                 });
                 break;
+            case "Button_Settings":
+                UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top);
+                break;
             default:
-                return;
+                break;
         }
     }
 }

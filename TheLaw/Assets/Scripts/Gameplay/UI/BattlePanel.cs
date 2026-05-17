@@ -1028,7 +1028,9 @@ public class BattlePanel : PanelBase
                 UIManager.Instance.ChangePanel<BattlePanel, BattlePanel>();
                 break;
             case "Button_ExitLevel": UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>(); break;
-            default: return;
+            case "Button_BackToStartMenu": UIManager.Instance.ChangePanel<BattlePanel, StartMenuPanel>(); break;
+            case "Button_BackToSelectLevel": UIManager.Instance.ChangePanel<BattlePanel, LevelSelectPanel>(); break;
+            default: break;
             #endregion
         }
     }

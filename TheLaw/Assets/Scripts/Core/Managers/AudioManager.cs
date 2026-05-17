@@ -110,6 +110,11 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         {
             SetSFXVolume((float)obj);
         });
+
+        // 加载持久化音频设置
+        AudioSettingsData audioSettings = JsonManager.Instance.LoadAudioSettings();
+        SetBGMVolume(audioSettings.bgmVolume);
+        SetSFXVolume(audioSettings.sfxVolume);
     }
 
     #region BGM
@@ -222,6 +227,7 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         audios.Add(audio);
         audio.clip = sfxs[sfx];
         audio.loop = isLoop;
+        audio.volume = SFXVolume;
         audio.Play();
     }
     /// <summary>

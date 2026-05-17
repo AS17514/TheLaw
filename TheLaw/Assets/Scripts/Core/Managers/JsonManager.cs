@@ -21,11 +21,18 @@ public class TutorialSaveData
     public Dictionary<string, int> TutorialTriggerStates = new Dictionary<string, int>();
 }
 
+public class AudioSettingsData
+{
+    public float bgmVolume = 0.5f;
+    public float sfxVolume = 0.5f;
+}
+
 public class JsonManager : ManagerBase<JsonManager>
 {
     string path;
     string savePath;
     string tutorialSavePath;
+    string audioSettingsPath;
 
     JsonManager()
     {
@@ -33,6 +40,7 @@ public class JsonManager : ManagerBase<JsonManager>
         path = Application.persistentDataPath + "/Data/";
         savePath = path + "SaveData.json";
         tutorialSavePath = path + "TutorialSaveData.json";
+        audioSettingsPath = path + "AudioSettings.json";
 
         // 创建数据文件夹
         if (!Directory.Exists(path))
@@ -44,6 +52,13 @@ public class JsonManager : ManagerBase<JsonManager>
         CreatDefaultSave();
         // 初始化默认教程存档
         CreateDefaultTutorialSave();
+        // 初始化默认音频存档
+        CreateDefaultAudioSettings();
+    }
+    void CreateDefaultAudioSettings()
+    {
+        if (!File.Exists(audioSettingsPath))
+            Save(audioSettingsPath, new AudioSettingsData());
     }
     void CreatDefaultSave()
     {
@@ -152,5 +167,16 @@ public class JsonManager : ManagerBase<JsonManager>
         Save(tutorialSavePath, tutorialData);
 
         Debug.Log("<color=yellow>[Tutorial] 所有新手引导记录已通过JSON重置</color>");
+    }
+    public void SaveAudioSettings(float bgmVolume, float sfxVolume)
+    {
+        AudioSettingsData data = Load<AudioSettingsData>(audioSettingsPath);
+        data.bgmVolume = bgmVolume;
+        data.sfxVolume = sfxVolume;
+        Save(audioSettingsPath, data);
+    }
+    public AudioSettingsData LoadAudioSettings()
+    {
+        return Load<AudioSettingsData>(audioSettingsPath);
     }
 }

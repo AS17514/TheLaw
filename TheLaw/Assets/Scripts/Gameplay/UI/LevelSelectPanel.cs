@@ -147,6 +147,9 @@ public class LevelSelectPanel : PanelBase
                 EventCenter.Instance.EventTrigger(E_EventType.Audio_Play_SFX,
                     new object[] { E_SFX.LevelSelectClick, false });
                 break;
+            case "Button_Settings":
+                UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top);
+                break;
             default:
                 break;
         }

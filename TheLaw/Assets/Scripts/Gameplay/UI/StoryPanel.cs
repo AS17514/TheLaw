@@ -199,13 +199,11 @@ public class StoryPanel : PanelBase
     {
         CanvasGroup canvasGroup = GetControl<Button>("Button_Continue").GetComponent<CanvasGroup>();
 
-        canvasGroup.DOFade(1f, 0.3f);
-
-        // 渐变结束后允许点击
-        DOVirtual.DelayedCall(0.3f, () =>
+        canvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
         {
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
+            canvasGroup.DOFade(0.5f, 0.8f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         });
     }
     protected override void ButtonOnClick(string buttonName)
@@ -238,8 +236,12 @@ public class StoryPanel : PanelBase
                     UIManager.Instance.ShakePanel<StoryPanel>();
                 }
                 break;
+            case "Button_Settings":
+                UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top);
+                break;
             case "Button_Skip":
             case "Button_Continue":
+                GetControl<Button>("Button_Continue").GetComponent<CanvasGroup>().DOKill();
                 // 根据剧情段文件设置的下一步执行
                 switch (storySegment.afterStory)
                 {
