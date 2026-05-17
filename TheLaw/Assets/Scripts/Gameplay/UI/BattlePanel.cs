@@ -86,7 +86,7 @@ public class BattlePanel : PanelBase
             {
                 if (GetControl<Toggle>($"Toggle_EntityPart{i}").isOn)
                 {
-                    if(level == 4 && i >= 1)return i - 1;
+                    if (level == 4 && i >= 1) return i - 1;
                     return i;
                 }
             }
@@ -105,6 +105,7 @@ public class BattlePanel : PanelBase
 
     // 资源加载
     Dictionary<string, GameObject> resources = new Dictionary<string, GameObject>();
+    Dictionary<string, Sprite> spriteResources = new Dictionary<string, Sprite>();
 
     void Start()
     {
@@ -118,12 +119,29 @@ public class BattlePanel : PanelBase
 
     void LoadAllResources()
     {
-        GameObject[] gameObjects = Resources.LoadAll<GameObject>("Prefabs/UI/Battle");
-        foreach (GameObject gameObject in gameObjects)
+        UnityEngine.Object[] gameObjects = Resources.LoadAll<UnityEngine.Object>("Prefabs/UI/Battle");
+        foreach (UnityEngine.Object obj in gameObjects)
         {
-            if (!resources.ContainsKey(gameObject.name))
-                resources.Add(gameObject.name, gameObject);
+            if (obj is GameObject go)
+            {
+                if (!resources.ContainsKey(go.name))
+                    resources.Add(go.name, go);
+            }
         }
+        // 加载Buff图片
+        UnityEngine.Object[] buffSprites = Resources.LoadAll<UnityEngine.Object>("UI/BattlePanel");
+        foreach (UnityEngine.Object obj in buffSprites)
+        {
+            if (obj is Sprite sprite)
+            {
+                if (!spriteResources.ContainsKey(sprite.name))
+                    spriteResources.Add(sprite.name, sprite);
+            }
+        }
+        // 加载默认精灵
+        Sprite defaultSprite = Resources.Load<Sprite>("UI/Default");
+        if (defaultSprite != null && !spriteResources.ContainsKey("Default"))
+            spriteResources.Add("Default", defaultSprite);
         // 加载文本描述
         playerTips = JsonConvert.DeserializeObject<PlayerTips>(Resources.Load<TextAsset>($"TipsText/PlayerTips").text);
         entityTips = JsonConvert.DeserializeObject<EntityTips>(Resources.Load<TextAsset>($"TipsText/Entity{level}Tips").text);
@@ -217,7 +235,7 @@ public class BattlePanel : PanelBase
         foreach (T item in Dice)
         {
             T currentItem = item;
-            Toggle toggle = Instantiate(resources[typeof(T).Name], content).GetComponentInChildren<Toggle>();
+            Toggle toggle = Instantiate(resources[typeof(T).Name], content).GetComponent<Toggle>();
             DiceMark toggleDie = toggle.AddComponent<DiceMark>();
             toggleDie.mark = item;
             toggle.GetComponentInChildren<TextMeshProUGUI>().text = currentItem.value.ToString();
@@ -300,6 +318,14 @@ public class BattlePanel : PanelBase
         GetControl<Slider>("Slider_PlayerHP").value = BuffManager.Instance.player.hp;
     }
 
+    Sprite GetBuffSprite(E_BuffType buffType)
+    {
+        string key = $"Buff_{buffType}";
+        if (spriteResources.ContainsKey(key)) return spriteResources[key];
+        if (spriteResources.ContainsKey("Default")) return spriteResources["Default"];
+        return null;
+    }
+
     void UpdatePlayerBuff(object obj = null)
     {
         Dictionary<E_BuffType, int> keyValuePairs = BuffManager.Instance.player.UI_buffs;
@@ -310,7 +336,8 @@ public class BattlePanel : PanelBase
         {
             if (item.Value != 0)
             {
-                GameObject buff = Instantiate(resources[$"Buff_{item.Key}"], content);
+                GameObject buff = Instantiate(resources["Buff"], content);
+                buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
                 RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
             }
@@ -378,7 +405,8 @@ public class BattlePanel : PanelBase
         {
             if (item.Value != 0)
             {
-                GameObject buff = Instantiate(resources[$"Buff_{item.Key}"], content);
+                GameObject buff = Instantiate(resources["Buff"], content);
+                buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
                 RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
             }
@@ -404,7 +432,7 @@ public class BattlePanel : PanelBase
                     // 用 SetPartValues 风格显示实体数据
                     // 但实体没有 partName / IsVisible / isDestroyed
                     // 需要直接操作 UI 控件
-                    GetControl<Toggle>($"Toggle_EntityPart1").interactable = true; 
+                    GetControl<Toggle>($"Toggle_EntityPart1").interactable = true;
                     GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart1Name").text = entityTips.name;
                     GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart1HP").text = entity.hp.ToString();
                     GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart1MaxHP").text = entity.maxHp.ToString();
@@ -656,7 +684,7 @@ public class BattlePanel : PanelBase
 
     void LockWish(object obj = null)
     {
-        Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").GetComponentsInChildren<Button>();
+        Button[] buttons = GetControl<Image>("Wish").GetComponentsInChildren<Button>();
         foreach (Button item in buttons) item.interactable = false;
     }
     #endregion
@@ -693,13 +721,13 @@ public class BattlePanel : PanelBase
     void OnUpdateMindDice(object obj) => UpdateDice<MindDice>();
     void OnUpdateTimeDice(object obj) { UpdateTimeDiceCount(); UpdateTimeDiceSelectedCount(); }
 
-    void OnUpdatePlayerDied(object obj) 
+    void OnUpdatePlayerDied(object obj)
     {
         AudioManager.Instance.StopAllSFX();
         AudioManager.Instance.PlaySFX(E_SFX.PlayerDie, false);
         UIManager.Instance.ChangePanel<BattlePanel, DiePanel>(showLoading: false);
     }
-    
+
     void OnUpdateEntityDied(object obj)
     {
         Debug.Log("触发胜利");
@@ -840,6 +868,10 @@ public class BattlePanel : PanelBase
         #region 玩家/骰面板
         UpdateDice<ActionDice>();
         UpdateDice<MindDice>();
+        UpdateTimeDiceCount();
+        UpdateTimeDiceSelectedCount();
+        UpdateWildDiceCount();
+        UpdateWildDiceSelectedCount();
         UpdatePlayerHP();
         UpdatePlayerBuff();
         UpdateTimeDiceCount();
@@ -852,10 +884,11 @@ public class BattlePanel : PanelBase
             GetControl<Toggle>("Toggle_EntityPart0").interactable = false;
             GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = "∞";
             GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = "∞";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart0Name").text = "<color=grey>本体</color>";
             Slider slider = GetControl<Slider>("Slider_EntityHP");
             slider.maxValue = 1;
             slider.value = 1;
-            slider.GetComponentInChildren<TextMeshProUGUI>().text = "<color=grey>本体</color>";
+
         }
         else
         {

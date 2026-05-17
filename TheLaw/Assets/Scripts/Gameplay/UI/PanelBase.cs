@@ -98,6 +98,7 @@ public abstract class PanelBase : MonoBehaviour
                 (childrenControls[i] as Toggle).onValueChanged.AddListener((value) =>
                 {
                     ToggleOnValueChanged(currentName, value);
+                    EventSystem.current.SetSelectedGameObject(null);
                 });
             }
             // 只对时间骰和百搭骰添加这个监听，不然会出现无响应bug
