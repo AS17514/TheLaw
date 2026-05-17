@@ -684,7 +684,7 @@ public class BattlePanel : PanelBase
 
     void LockWish(object obj = null)
     {
-        Button[] buttons = GetControl<TextMeshProUGUI>("Text (TMP)_Wish").GetComponentsInChildren<Button>();
+        Button[] buttons = GetControl<Image>("Wish").GetComponentsInChildren<Button>();
         foreach (Button item in buttons) item.interactable = false;
     }
     #endregion
@@ -884,10 +884,11 @@ public class BattlePanel : PanelBase
             GetControl<Toggle>("Toggle_EntityPart0").interactable = false;
             GetControl<TextMeshProUGUI>("Text (TMP)_EntityHP").text = "∞";
             GetControl<TextMeshProUGUI>("Text (TMP)_EntityMaxHP").text = "∞";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart0Name").text = "<color=grey>本体</color>";
             Slider slider = GetControl<Slider>("Slider_EntityHP");
             slider.maxValue = 1;
             slider.value = 1;
-            slider.GetComponentInChildren<TextMeshProUGUI>().text = "<color=grey>本体</color>";
+
         }
         else
         {
