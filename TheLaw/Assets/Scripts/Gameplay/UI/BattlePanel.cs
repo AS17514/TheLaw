@@ -1041,12 +1041,7 @@ public class BattlePanel : PanelBase
             #region Other
             case "Button_Explanation":
                 UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
-                UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorial(
-                    E_TutorialType.None,
-                    GetControl<Image>("None1").rectTransform,
-                    GetControl<Image>("None2").rectTransform,
-                    null
-                );
+                UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorialByNaming(E_TutorialType.None, this);
                 break;
             case "Button_Settings": UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top); break;
             case "Button_ReplayLevel":

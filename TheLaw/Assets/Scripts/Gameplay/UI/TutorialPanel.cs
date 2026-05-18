@@ -90,18 +90,47 @@ public class TutorialPanel : PanelBase
         _textCG.DOFade(0, 0.2f);
     }
 
+    TutorialConfigData LoadConfig()
+    {
+        return JsonConvert.DeserializeObject<TutorialConfigData>(
+            Resources.Load<TextAsset>("Tutorial/TutorialSteps").text);
+    }
+
     /// <summary>
-    /// 外部调用。传入教程类型和目标控件（按步骤顺序）。
+    /// 按命名约定自动查找目标：{枚举名}{步号}，从1开始，如 MeetDodge1, MeetDodge2。
+    /// </summary>
+    public void ShowTutorialByNaming(E_TutorialType tutorialType, PanelBase targetPanel)
+    {
+        TutorialConfigData config = LoadConfig();
+        TutorialConfig tc = config?.tutorials?.Find(t => t.type == tutorialType.ToString());
+        int stepCount = tc?.steps?.Count ?? 1;
+        RectTransform[] targets = new RectTransform[stepCount];
+        for (int i = 0; i < stepCount; i++)
+        {
+            try
+            {
+                Image img = targetPanel.GetControl<Image>($"{tutorialType}{i + 1}");
+                if (img != null) targets[i] = img.rectTransform;
+            }
+            catch { Debug.LogWarning($"教程目标 {tutorialType}{i + 1} 未找到"); }
+        }
+        ShowTutorial(tutorialType, targets);
+    }
+
+    /// <summary>
+    /// 外部调用。传入教程类型和目标控件。
     /// </summary>
     public void ShowTutorial(E_TutorialType tutorialType, params RectTransform[] targets)
     {
-        TutorialConfigData config = JsonConvert.DeserializeObject<TutorialConfigData>(
-            Resources.Load<TextAsset>("Tutorial/TutorialSteps").text);
-        _currentTutorial = config.tutorials.Find(t => t.type == tutorialType.ToString());
+        _currentTutorial = LoadConfig().tutorials.Find(t => t.type == tutorialType.ToString());
         if (_currentTutorial == null || _currentTutorial.steps.Count == 0)
         {
-            Debug.LogWarning($"教程 {tutorialType} 无配置");
-            return;
+            Debug.LogWarning($"教程 {tutorialType} 无配置，使用默认文本");
+            _currentTutorial = new TutorialConfig
+            {
+                type = tutorialType.ToString(),
+                steps = new List<TutorialStepData> { new() }
+            };
         }
         _stepTargets = targets;
         _currentStep = -1;
@@ -118,17 +147,23 @@ public class TutorialPanel : PanelBase
         }
 
         var step = _currentTutorial.steps[_currentStep];
-        _titleText.text = step.title;
-        _contentText.text = step.content;
+        _titleText.text = string.IsNullOrEmpty(step.title) ? "默认标题" : step.title;
+        _contentText.text = string.IsNullOrEmpty(step.content) ? "默认说明文本" : step.content;
 
         if (_stepTargets != null && _currentStep < _stepTargets.Length)
             DoMoveHole(_stepTargets[_currentStep]);
 
-        // 最后一步不闪，前面步骤闪
+        _promptCG.gameObject.SetActive(true);
         bool isLast = _currentStep >= _currentTutorial.steps.Count - 1;
-        _promptCG.gameObject.SetActive(!isLast);
-        if (!isLast)
+        if (isLast)
+        {
+            _promptCG.DOKill();
+            _promptCG.alpha = 1f;
+        }
+        else
+        {
             StartPromptFlash();
+        }
     }
 
     void StartPromptFlash()
@@ -148,22 +183,30 @@ public class TutorialPanel : PanelBase
         UIManager.Instance.RemovePanel<TutorialPanel>();
     }
 
+    protected override void ButtonOnClick(string buttonName)
+    {
+        if (buttonName == "Button_SkipTutorial")
+            CloseTutorial();
+    }
+
     public void DoMoveHole(RectTransform target, float duration = 0.3f)
     {
+        RectTransform rootRect = (RectTransform)transform;
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, target.position);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_maskRect, screenPoint, null, out Vector2 center);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_maskRect, screenPoint, null, out Vector2 maskCenter);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rootRect, screenPoint, null, out Vector2 uiCenter);
         Vector2 size = target.sizeDelta + holePadding;
 
-        _mat.DOVector(center, HoleCenter, duration).SetEase(Ease.OutQuad);
+        _mat.DOVector(maskCenter, HoleCenter, duration).SetEase(Ease.OutQuad);
         _mat.DOVector(size, HoleSize, duration).SetEase(Ease.OutQuad);
 
-        Vector2 textPos = GetSafeTextPosition(center, size);
+        Vector2 textPos = GetSafeTextPosition(uiCenter, size);
         tutorialText.gameObject.SetActive(true);
         tutorialText.DOAnchorPos(textPos, duration);
         _textCG.DOFade(1, duration);
 
         highlightBorder.gameObject.SetActive(true);
-        highlightBorder.DOAnchorPos(center, duration);
+        highlightBorder.DOAnchorPos(uiCenter, duration);
         highlightBorder.DOSizeDelta(size, duration);
         _borderCG.DOFade(1, duration);
     }
