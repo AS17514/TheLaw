@@ -616,7 +616,7 @@ public class BattlePanel : PanelBase
             // 没有骰子需求，删除滑动框省空间
             else
             {
-                Destroy(eventObj.GetComponent<ScrollRect>().gameObject);
+                Destroy(eventObj.GetComponentInChildren<ScrollRect>().gameObject);
             }
             // 给事件加点击委托
             Button eventButton = eventObj.GetComponentInChildren<Button>();
