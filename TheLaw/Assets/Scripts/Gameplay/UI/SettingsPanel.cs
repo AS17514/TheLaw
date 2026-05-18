@@ -11,6 +11,7 @@ public class SettingsPanel : PanelBase
     Transform TipTrans;
     TextMeshProUGUI tipText;
     bool isClosing;
+    int _easterEggClicks;
     float x;
     public float rotationSpeed = 1;
     public float speedMultiple = 50;
@@ -50,6 +51,23 @@ public class SettingsPanel : PanelBase
             UIManager.Instance.RemovePanel<SettingsPanel>();
         });
         trigger.triggers.Add(entry);
+        // 齿轮彩蛋：点击10次自动获胜
+        Image gear = GetControl<Image>("Image_EasterEgg");
+        gear.raycastTarget = true;
+        EventTrigger gearTrigger = gear.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry gearEntry = new EventTrigger.Entry();
+        gearEntry.eventID = EventTriggerType.PointerClick;
+        gearEntry.callback.AddListener((data) =>
+        {
+            _easterEggClicks++;
+            if (_easterEggClicks >= 10)
+            {
+                _easterEggClicks = 0;
+                UIManager.Instance.RemovePanel<SettingsPanel>();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
+            }
+        });
+        gearTrigger.triggers.Add(gearEntry);
         StartCrazyEffects();
     }
     void StartCrazyEffects()

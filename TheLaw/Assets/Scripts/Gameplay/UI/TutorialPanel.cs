@@ -1,38 +1,85 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+public class TutorialStepData
+{
+    public string title;
+    public string content;
+}
+
+public class TutorialConfig
+{
+    public string type;
+    public List<TutorialStepData> steps;
+}
+
+public class TutorialConfigData
+{
+    public List<TutorialConfig> tutorials;
+}
 
 public class TutorialPanel : PanelBase
 {
     Material _mat;
+    RectTransform _maskRect;
     static readonly int HoleCenter = Shader.PropertyToID("_HoleCenter");
     static readonly int HoleSize = Shader.PropertyToID("_HoleSize");
-    RectTransform target;
 
-    // 洞口与目标的边距
     public Vector2 holePadding = Vector2.one * 20f;
 
-    // 提示文本
     public RectTransform tutorialText;
     private CanvasGroup _textCG;
     public RectTransform highlightBorder;
     private CanvasGroup _borderCG;
 
     private float screenWidth = 1920;
-    private float screenHeight = 1080; // 你自己填真实高度
+    private float screenHeight = 1080;
 
-    void Start()
+    // 分步相关
+    TutorialConfig _currentTutorial;
+    RectTransform[] _stepTargets;
+    int _currentStep;
+    TextMeshProUGUI _titleText;
+    TextMeshProUGUI _contentText;
+    CanvasGroup _promptCG;
+
+    protected override void Awake()
     {
-        _mat = GetControl<Image>("Image_Mask").material;
-        target = GetControl<Button>("Button_test").GetComponent<RectTransform>();
+        base.Awake();
+        Image mask = GetControl<Image>("Image_Mask");
+        _mat = mask.material;
+        _maskRect = mask.rectTransform;
 
         _textCG = tutorialText.GetComponent<CanvasGroup>();
         _borderCG = highlightBorder.GetComponent<CanvasGroup>();
         _borderCG.alpha = 0;
         _textCG.alpha = 0;
+
+        _titleText = GetControl<TextMeshProUGUI>("Text (TMP)_IntroTitle");
+        _contentText = GetControl<TextMeshProUGUI>("Text (TMP)_IntroContent");
+
+        TextMeshProUGUI prompt = GetControl<TextMeshProUGUI>("Text (TMP)_Prompt");
+        _promptCG = prompt.GetComponent<CanvasGroup>();
+        if (_promptCG == null)
+            _promptCG = prompt.gameObject.AddComponent<CanvasGroup>();
+
         HideHole();
+    }
+
+    void OnDestroy()
+    {
+        _promptCG?.DOKill();
+    }
+
+    void Update()
+    {
+        if (_currentTutorial != null && Input.anyKeyDown)
+            AdvanceStep();
     }
 
     void HideHole()
@@ -41,93 +88,113 @@ public class TutorialPanel : PanelBase
         _mat.SetVector(HoleSize, Vector2.zero);
         _borderCG.DOFade(0, 0.2f);
         _textCG.DOFade(0, 0.2f);
-
-
     }
 
-    // 移动高亮洞 + 自动计算文本安全位置
+    /// <summary>
+    /// 外部调用。传入教程类型和目标控件（按步骤顺序）。
+    /// </summary>
+    public void ShowTutorial(E_TutorialType tutorialType, params RectTransform[] targets)
+    {
+        TutorialConfigData config = JsonConvert.DeserializeObject<TutorialConfigData>(
+            Resources.Load<TextAsset>("Tutorial/TutorialSteps").text);
+        _currentTutorial = config.tutorials.Find(t => t.type == tutorialType.ToString());
+        if (_currentTutorial == null || _currentTutorial.steps.Count == 0)
+        {
+            Debug.LogWarning($"教程 {tutorialType} 无配置");
+            return;
+        }
+        _stepTargets = targets;
+        _currentStep = -1;
+        AdvanceStep();
+    }
+
+    void AdvanceStep()
+    {
+        _currentStep++;
+        if (_currentStep >= _currentTutorial.steps.Count)
+        {
+            CloseTutorial();
+            return;
+        }
+
+        var step = _currentTutorial.steps[_currentStep];
+        _titleText.text = step.title;
+        _contentText.text = step.content;
+
+        if (_stepTargets != null && _currentStep < _stepTargets.Length)
+            DoMoveHole(_stepTargets[_currentStep]);
+
+        // 最后一步不闪，前面步骤闪
+        bool isLast = _currentStep >= _currentTutorial.steps.Count - 1;
+        _promptCG.gameObject.SetActive(!isLast);
+        if (!isLast)
+            StartPromptFlash();
+    }
+
+    void StartPromptFlash()
+    {
+        _promptCG.DOKill();
+        _promptCG.alpha = 1;
+        _promptCG.DOFade(0.2f, 0.6f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+    }
+
+    void CloseTutorial()
+    {
+        _currentTutorial = null;
+        _stepTargets = null;
+        _promptCG.DOKill();
+        _promptCG.gameObject.SetActive(false);
+        HideHole();
+        UIManager.Instance.RemovePanel<TutorialPanel>();
+    }
+
     public void DoMoveHole(RectTransform target, float duration = 0.3f)
     {
-        Vector2 center = target.anchoredPosition;
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, target.position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_maskRect, screenPoint, null, out Vector2 center);
         Vector2 size = target.sizeDelta + holePadding;
 
-        // 高亮洞动画（原有逻辑）
         _mat.DOVector(center, HoleCenter, duration).SetEase(Ease.OutQuad);
         _mat.DOVector(size, HoleSize, duration).SetEase(Ease.OutQuad);
 
-        // 文本同步动画（原有逻辑）
         Vector2 textPos = GetSafeTextPosition(center, size);
         tutorialText.gameObject.SetActive(true);
         tutorialText.DOAnchorPos(textPos, duration);
         _textCG.DOFade(1, duration);
 
-        // ==============================================
-        // 边框同步动画（关键代码）
-        // ==============================================
         highlightBorder.gameObject.SetActive(true);
-        highlightBorder.DOAnchorPos(center, duration); // 位置和洞中心完全同步
-        highlightBorder.DOSizeDelta(size, duration);  // 大小和洞完全同步
-        _borderCG.DOFade(1, duration);                // 淡入同步
+        highlightBorder.DOAnchorPos(center, duration);
+        highlightBorder.DOSizeDelta(size, duration);
+        _borderCG.DOFade(1, duration);
     }
 
-    // ==============================================
-    // 🔥 核心：自动计算不超屏的文本位置
-    // ==============================================
     private Vector2 GetSafeTextPosition(Vector2 holeCenter, Vector2 holeSize)
     {
-        // 高亮框半宽、半高
         float halfW = holeSize.x / 2f;
         float halfH = holeSize.y / 2f;
 
-        // 高亮框 左上角 & 右上角（anchoredPosition 坐标系，中心为原点）
         Vector2 holeTopLeft = holeCenter + new Vector2(-halfW, halfH);
         Vector2 holeTopRight = holeCenter + new Vector2(halfW, halfH);
 
-        // 文本自身尺寸
         float textW = tutorialText.sizeDelta.x;
-        float textH = tutorialText.sizeDelta.y;
-
-        // 边距
         float margin = 20f;
 
-        // 最终位置
         Vector2 finalPos;
-
-        // ======================
-        // 吸附规则：
-        // 文本 左上角 → 吸附 高亮框 右上角
-        // 文本 右上角 → 吸附 高亮框 左上角
-        // ======================
-
-        // 先尝试：文本左上角 吸附 高亮框右上角
         float candidateXRight = holeTopRight.x + margin;
         float textRightEdge = candidateXRight + textW;
 
-        // 如果右边不超屏 → 放右边
         if (textRightEdge <= screenWidth / 2f)
         {
             finalPos = new Vector2(candidateXRight, holeTopRight.y);
-            // 文本轴心设为 左上角 (0,1)
             tutorialText.pivot = new Vector2(0, 1);
         }
         else
         {
-            // 放不下 → 文本右上角 吸附 高亮框左上角
             float candidateXLeft = holeTopLeft.x - margin;
             finalPos = new Vector2(candidateXLeft, holeTopLeft.y);
-            // 文本轴心设为 右上角 (1,1)
             tutorialText.pivot = new Vector2(1, 1);
         }
 
-        // 垂直位置保持和高亮框顶部平齐
         return finalPos;
-    }
-
-    protected override void ButtonOnClick(string buttonName)
-    {
-        if (buttonName == "Button_test")
-        {
-            DoMoveHole(target);
-        }
     }
 }

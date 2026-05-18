@@ -4,6 +4,7 @@ using System.IO;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class StoryPanel : PanelBase
@@ -21,6 +22,8 @@ public class StoryPanel : PanelBase
     int maxLastLineIndex;
     int currentPage;
     int maxPage;
+    bool _continueShown;
+    bool _wasDragging;
 
     void Start()
     {
@@ -29,6 +32,20 @@ public class StoryPanel : PanelBase
         // 得到滑动框
         scrollRect = GetControl<ScrollRect>("Scroll View_Story");
         content = scrollRect.content;
+        // 点击剧情区域推进（拖拽时不触发）
+        EventTrigger storyTrigger = scrollRect.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry beginDrag = new EventTrigger.Entry();
+        beginDrag.eventID = EventTriggerType.BeginDrag;
+        beginDrag.callback.AddListener((data) => _wasDragging = true);
+        storyTrigger.triggers.Add(beginDrag);
+        EventTrigger.Entry clickEntry = new EventTrigger.Entry();
+        clickEntry.eventID = EventTriggerType.PointerClick;
+        clickEntry.callback.AddListener((data) =>
+        {
+            if (_wasDragging) { _wasDragging = false; return; }
+            NextLine();
+        });
+        storyTrigger.triggers.Add(clickEntry);
         // 得到故事段
         storySegment = StoryManager.Instance.storySegment;
         // 生成进度字典
@@ -45,11 +62,8 @@ public class StoryPanel : PanelBase
     }
     void Update()
     {
-        // 按空格继续
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+        if (Input.anyKeyDown && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1) && !Input.GetMouseButtonDown(2))
             NextLine();
-        }
     }
     void OnDestroy()
     {
@@ -113,7 +127,7 @@ public class StoryPanel : PanelBase
         // 如果看到最后一页最后一句，就显示继续按钮
         if (currentPage == maxPage && currentLineIndex == maxLastLineIndex)
         {
-            ShowContinueButton();
+            if (!_continueShown) ShowContinueButton();
             return;
         }
         if (currentLineIndex == maxCurrentLineIndex)
@@ -197,6 +211,7 @@ public class StoryPanel : PanelBase
     }
     void ShowContinueButton()
     {
+        _continueShown = true;
         CanvasGroup canvasGroup = GetControl<Button>("Button_Continue").GetComponent<CanvasGroup>();
 
         canvasGroup.DOFade(1f, 0.3f).OnComplete(() =>

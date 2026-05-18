@@ -1039,7 +1039,15 @@ public class BattlePanel : PanelBase
             case "Button_Wish_SmoothAndSteady": SkillManager.ExcuteSkills(10); break;
             #endregion
             #region Other
-            case "Button_Explanation": EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied); break;
+            case "Button_Explanation":
+                UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
+                UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorial(
+                    E_TutorialType.None,
+                    GetControl<Image>("None1").rectTransform,
+                    GetControl<Image>("None2").rectTransform,
+                    null
+                );
+                break;
             case "Button_Settings": UIManager.Instance.CreatPanel<SettingsPanel>(E_UILayer.Top); break;
             case "Button_ReplayLevel":
                 ProgressManager.Instance.intoNewLevel(level);
