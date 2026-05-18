@@ -22,6 +22,7 @@ enum E_EntityEvent_5
     Analysis,
     WhyAreTheirFacesSoRepulsive,
     TheChildWhoMadeAPromiseToMe,
+    TheSoundOfFriction
 }
 
 public class EntityEvent_5_01 : OptionBase
@@ -1385,6 +1386,75 @@ public class EntityEvent_5_18 : OptionBase
                 {
                     part5_1.isHpLocked = false;
                 }
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
+                DiceManager.Instance.ConsumeValidSelectedDice();
+            }
+            else
+            {
+                DiceManager.Instance.ClearSelected();
+                EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
+            }
+            LastTriggerSuccess = result;
+
+        }
+    }
+}
+public class EntityEvent_5_19 : OptionBase
+{
+    #region OptionBase属性
+
+    public override int LevelID { get; protected set; } = 5;
+    public override int OptionID { get; protected set; } = 19;
+    public override string OptionName { get; protected set; } = "摩擦的声音";
+
+    public override string OptionDescription { get; protected set; } = "?";
+
+    public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
+    public override int fatherID { get; protected set; } = 5;
+
+    public override DiceCondition[] DiceCost
+    {
+        get
+        {
+            return new DiceCondition[]
+            {
+                new DiceCondition(E_DiceType.Action, 3, E_CompareType.Less),
+            };
+        }
+    }
+    #endregion
+
+    #region 本身属性
+
+    E_EntityEvent_5 entityEvent_5Type = E_EntityEvent_5.TheSoundOfFriction;
+
+    #endregion
+    public override void TriggerOption(OptionContext optionContext = null)
+    {
+        if (IsVisible)
+        {
+            bool result = IsSpecialConditionsHave
+                ? EventManager.Instance.IsSpecialConditionsMet(specialConditions)
+                : true;
+            if (IsUseDiceCombo == true)
+            {
+                result &= IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(ComboType)
+                    : true;
+            }
+            else
+            {
+                result &= IsDiceConditionsHave
+                    ? DiceManager.Instance.IsSelectionValid(DiceCost)
+                    : true;
+            }
+
+            if (result)
+            {
+                DiceManager.Instance.AddDice(E_DiceType.Action);
+                DiceManager.Instance.AddDice(E_DiceType.Action);
+                ProgressManager.Instance.AddTimeProgress(-2);
+                ProgressManager.Instance.TryGetEntity().AddBuff(E_BuffType.Desire,-2);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
             }

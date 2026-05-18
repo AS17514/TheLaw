@@ -158,7 +158,8 @@ public class EventManager : ManagerBase<EventManager>
                 new EntityEvent_5_15(),//破碎地发光
                 new EntityEvent_5_16(),//分析
                 new EntityEvent_5_17(),//为什么他们的面容如此可憎呢？
-                new EntityEvent_5_18(),//那个和我许下承诺的孩
+                new EntityEvent_5_18(),//那个和我许下承诺的女孩
+                new EntityEvent_5_19(),//摩擦的声音
                 
             }
         },
@@ -347,7 +348,8 @@ public class EventManager : ManagerBase<EventManager>
                     new EntityEvent_5_15(), //破碎地发光
                     new EntityEvent_5_16(), //分析
                     new EntityEvent_5_17(), //为什么他们的面容如此可憎呢？
-                    new EntityEvent_5_18(), //那个和我许下承诺的孩
+                    new EntityEvent_5_18(), //那个和我许下承诺的女孩
+                    new EntityEvent_5_19(),//摩擦的声音
 
 
                 });
