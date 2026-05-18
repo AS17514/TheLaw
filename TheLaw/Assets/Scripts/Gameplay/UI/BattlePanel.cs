@@ -920,7 +920,7 @@ public class BattlePanel : PanelBase
         {
             GetControl<Toggle>("Toggle_EntityPart0").interactable = false;
             GetControl<TextMeshProUGUI>("Text (TMP)_EntityPart0Name").text = "<color=grey>本体</color>";
-            GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = "住";
+            GetControl<TextMeshProUGUI>("Text (TMP)_EntityName").text = "陈列室";
             Slider slider = GetControl<Slider>("Slider_EntityHP");
             slider.maxValue = 1;
             slider.value = 0;
