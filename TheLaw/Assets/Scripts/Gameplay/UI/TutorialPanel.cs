@@ -11,11 +11,14 @@ public class TutorialPanel : PanelBase
     static readonly int HoleSize = Shader.PropertyToID("_HoleSize");
     RectTransform target;
 
+    // 洞口与目标的边距
+    public Vector2 holePadding = Vector2.one * 20f;
+
     // 提示文本
     public RectTransform tutorialText;
     private CanvasGroup _textCG;
-    public RectTransform highlightBorder; // 新加：边框对象
-    private CanvasGroup _borderCG; // 新加：边框的CanvasGroup
+    public RectTransform highlightBorder;
+    private CanvasGroup _borderCG;
 
     private float screenWidth = 1920;
     private float screenHeight = 1080; // 你自己填真实高度
@@ -46,7 +49,7 @@ public class TutorialPanel : PanelBase
     public void DoMoveHole(RectTransform target, float duration = 0.3f)
     {
         Vector2 center = target.anchoredPosition;
-        Vector2 size = target.sizeDelta + Vector2.one * 20;
+        Vector2 size = target.sizeDelta + holePadding;
 
         // 高亮洞动画（原有逻辑）
         _mat.DOVector(center, HoleCenter, duration).SetEase(Ease.OutQuad);
