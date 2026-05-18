@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 /// <summary>
 /// 怎么，打不中吗（指找不着bug）
@@ -578,12 +579,13 @@ public class BattlePanel : PanelBase
             {
                 switch (item.gameObject.name)
                 {
-                    case "Name": item.text = entityTips.events[index][0]; break;
-                    case "Description": item.text = entityTips.events[index][1]; break;
+                    case "EventName": item.text = entityTips.events[index][0]; break;
+                    case "Description": item.text = entityTips.events[index][4]; break;
+                    case "FlavorText": item.text = entityTips.events[index][1]; break;
                 }
             }
             // 设置光标移上去显示的需求
-            RegisterTooltip<Button>(eventObj.GetComponentInChildren<Button>(), "需求", entityTips.events[index][2]);
+            RegisterTooltip<Button>(eventObj.GetComponentInChildren<Button>(), "", entityTips.events[index][2]);
             // 拿到骰子滑动列表，准备装骰子
             Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;
             // 如果有需求的骰子列表
@@ -599,7 +601,7 @@ public class BattlePanel : PanelBase
                 }
             }
             // 如果需求骰子是combo类型，添加对应骰子
-            if (option.IsUseDiceCombo)
+            else if (option.IsUseDiceCombo)
             {
                 switch (option.ComboType)
                 {
@@ -610,6 +612,11 @@ public class BattlePanel : PanelBase
                     case E_ComboType.Quadruple: Instantiate(resources["Event_QuadrupleDice"], content); break;
                     case E_ComboType.SingleWild: Instantiate(resources["Event_SingleWildDice"], content); break;
                 }
+            }
+            // 没有骰子需求，删除滑动框省空间
+            else
+            {
+                Destroy(eventObj.GetComponent<ScrollRect>().gameObject);
             }
             // 给事件加点击委托
             Button eventButton = eventObj.GetComponentInChildren<Button>();
@@ -644,6 +651,8 @@ public class BattlePanel : PanelBase
                     seq.Append(cg.DOFade(0, 1f));
                     seq.OnComplete(() => Destroy(flashTip));
                 }
+                // 清除选中
+                EventSystem.current.SetSelectedGameObject(null);
             });
             index++;
         }
@@ -659,24 +668,28 @@ public class BattlePanel : PanelBase
                 Button btn4 = GetControl<Button>("Button_Wish_SmoothAndSteady");
                 btn4.interactable = true;
                 btn4.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[3][0];
+                btn4.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
                 RegisterTooltip<Button>("Button_Wish_SmoothAndSteady", playerTips.wishes[3][0], playerTips.wishes[3][1]);
                 goto case 4;
             case 4:
                 Button btn3 = GetControl<Button>("Button_Wish_Infinite");
                 btn3.interactable = true;
                 btn3.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[2][0];
+                btn3.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
                 RegisterTooltip<Button>("Button_Wish_Infinite", playerTips.wishes[2][0], playerTips.wishes[2][1]);
                 goto case 3;
             case 3:
                 Button btn2 = GetControl<Button>("Button_Wish_Vibrancy");
                 btn2.interactable = true;
                 btn2.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[1][0];
+                btn2.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
                 RegisterTooltip<Button>("Button_Wish_Vibrancy", playerTips.wishes[1][0], playerTips.wishes[1][1]);
                 goto case 2;
             case 2:
                 Button btn1 = GetControl<Button>("Button_Wish_Abundance");
                 btn1.interactable = true;
                 btn1.GetComponentInChildren<TextMeshProUGUI>().text = playerTips.wishes[0][0];
+                btn1.GetComponentInChildren<TextMeshProUGUI>().alpha = 1f;
                 RegisterTooltip<Button>("Button_Wish_Abundance", playerTips.wishes[0][0], playerTips.wishes[0][1]);
                 break;
         }
@@ -685,7 +698,11 @@ public class BattlePanel : PanelBase
     void LockWish(object obj = null)
     {
         Button[] buttons = GetControl<Image>("Wish").GetComponentsInChildren<Button>();
-        foreach (Button item in buttons) item.interactable = false;
+        foreach (Button item in buttons)
+        {
+            item.interactable = false;
+            item.GetComponentInChildren<TextMeshProUGUI>().alpha = 0.5f;
+        }
     }
     #endregion
 
@@ -863,6 +880,7 @@ public class BattlePanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_TimeDicePerPhase").text = ProgressManager.Instance.phaseDice.ToString();
         #endregion
         #region 许愿
+        LockWish();
         UnlockedWish();
         #endregion
         #region 玩家/骰面板
