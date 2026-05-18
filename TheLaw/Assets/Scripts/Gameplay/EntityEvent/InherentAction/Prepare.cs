@@ -87,6 +87,15 @@ public class Prepare : OptionBase
                     ? DiceManager.Instance.IsSelectionValid(DiceCost)
                     : true;
             }
+
+            if (DiceManager.Instance.selectedDice.Count == 1)
+            {
+                foreach (var dice in DiceManager.Instance.selectedDice)
+                {
+                    if (dice.type is E_DiceType.Wild)
+                        result = false;
+                }
+            }
             if (result && optionContext is PrepareOptionContext)
             {
                 ExecuteLogic?.Invoke(null);
