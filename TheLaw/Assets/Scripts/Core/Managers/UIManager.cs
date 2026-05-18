@@ -123,8 +123,6 @@ public class UIManager : ManagerMonoBase<UIManager>
     /// <returns></returns>
     public void ChangePanel<T, K>(E_UILayer layer = E_UILayer.Middle, bool showLoading = true) where T : PanelBase where K : PanelBase
     {
-        AudioManager.Instance.StopBGM();
-
         if (showLoading)
             CreatPanel<LoadingPanel>(E_UILayer.Loading);
 
@@ -137,24 +135,33 @@ public class UIManager : ManagerMonoBase<UIManager>
         if (showLoading)
             yield return new WaitForSecondsRealtime(0.6f);
 
+        E_BGM? oldBGM = GetPanel<T>()?.BGMType;
+
         bool removed = false;
         RemovePanel<T>(onDestroyed: () => removed = true, animate: false);
         while (!removed)
             yield return null;
         CreatPanel<K>(layer);
 
+        E_BGM? newBGM = GetPanel<K>()?.BGMType;
+
+        if (oldBGM != null && oldBGM == newBGM)
+            AudioManager.Instance.FadeOutThenPauseBGM();
+        else
+            AudioManager.Instance.StopBGM();
+
         if (showLoading)
         {
-            // loading强制等待的时间（至少）
-            yield return new WaitForSecondsRealtime(0f);
+            yield return new WaitForSecondsRealtime(3f);
             RemovePanel<LoadingPanel>();
         }
 
-        // Loading移除后播放新面板的BGM
-        var newPanel = GetPanel<K>();
-        if (newPanel?.BGMType != null)
+        if (newBGM != null)
         {
-            AudioManager.Instance.PlayBGM(newPanel.BGMType.Value);
+            if (oldBGM == newBGM)
+                AudioManager.Instance.FadeInResumeBGM();
+            else
+                AudioManager.Instance.PlayBGM(newBGM.Value);
         }
     }
     /// <summary>

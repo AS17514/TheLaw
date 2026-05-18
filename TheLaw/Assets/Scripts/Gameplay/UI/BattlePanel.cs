@@ -107,6 +107,8 @@ public class BattlePanel : PanelBase
     // 资源加载
     Dictionary<string, GameObject> resources = new Dictionary<string, GameObject>();
     Dictionary<string, Sprite> spriteResources = new Dictionary<string, Sprite>();
+    // 安全获取风味文本
+    static string F(List<string> item) => item.Count > 2 ? item[2] : "";
 
     void Start()
     {
@@ -340,7 +342,7 @@ public class BattlePanel : PanelBase
                 GameObject buff = Instantiate(resources["Buff"], content);
                 buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
-                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1]);
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), playerTips.buffs[level - 1][(int)item.Key][0], playerTips.buffs[level - 1][(int)item.Key][1], F(playerTips.buffs[level - 1][(int)item.Key]));
             }
         }
     }
@@ -352,46 +354,51 @@ public class BattlePanel : PanelBase
         E_IntentType actionType = StateManager.Instance.UI_currentExecutableAction;
         TextMeshProUGUI action = GetControl<TextMeshProUGUI>("Text (TMP)_EntityAction");
         // 设置行动名，注册光标覆盖事件
-        action.text = entityActionTips.actions[(int)actionType][0];
-        RegisterTooltip<TextMeshProUGUI>(action, entityActionTips.actions[(int)actionType][0], entityActionTips.actions[(int)actionType][1]);
+        var actData = entityActionTips.actions[(int)actionType];
+        action.text = actData[0];
+        RegisterTooltip<TextMeshProUGUI>(action, actData[0], actData[1], F(actData));
     }
 
     void UpdateEntityWish(object obj = null)
     {
         E_DesireType wishType = StateManager.Instance.UI_currentExecutableDesire;
         TextMeshProUGUI wish = GetControl<TextMeshProUGUI>("Text (TMP)_EntityWish");
-        // 设置许愿名，注册光标覆盖事件
-        wish.text = entityDesireTips.wishes[(int)wishType][0];
-        RegisterTooltip<TextMeshProUGUI>(wish, entityDesireTips.wishes[(int)wishType][0], entityDesireTips.wishes[(int)wishType][1]);
+        var wishData = entityDesireTips.wishes[(int)wishType];
+        wish.text = wishData[0];
+        RegisterTooltip<TextMeshProUGUI>(wish, wishData[0], wishData[1], F(wishData));
     }
 
     void UpdateEntityState(object obj = null)
     {
         Enum state = StateManager.Instance.currentState;
         TextMeshProUGUI entityState = GetControl<TextMeshProUGUI>("Text (TMP)_EntityState");
-        // 设置状态名，注册光标覆盖事件
 
         switch (level)
         {
             case 1:
-                entityState.text = entityTips.states[(int)(E_StateType_1)state][0];
-                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_1)state][0], entityTips.states[(int)(E_StateType_1)state][1]);
+                var s1 = entityTips.states[(int)(E_StateType_1)state];
+                entityState.text = s1[0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, s1[0], s1[1], F(s1));
                 break;
             case 2:
-                entityState.text = entityTips.states[(int)(E_StateType_2)state][0];
-                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_2)state][0], entityTips.states[(int)(E_StateType_2)state][1]);
+                var s2 = entityTips.states[(int)(E_StateType_2)state];
+                entityState.text = s2[0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, s2[0], s2[1], F(s2));
                 break;
             case 3:
-                entityState.text = entityTips.states[(int)(E_StateType_3)state][0];
-                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_3)state][0], entityTips.states[(int)(E_StateType_3)state][1]);
+                var s3 = entityTips.states[(int)(E_StateType_3)state];
+                entityState.text = s3[0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, s3[0], s3[1], F(s3));
                 break;
             case 4:
-                entityState.text = entityTips.states[(int)(E_StateType_4)state][0];
-                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_4)state][0], entityTips.states[(int)(E_StateType_4)state][1]);
+                var s4 = entityTips.states[(int)(E_StateType_4)state];
+                entityState.text = s4[0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, s4[0], s4[1], F(s4));
                 break;
             case 5:
-                entityState.text = entityTips.states[(int)(E_StateType_5)state][0];
-                RegisterTooltip<TextMeshProUGUI>(entityState, entityTips.states[(int)(E_StateType_5)state][0], entityTips.states[(int)(E_StateType_5)state][1]);
+                var s5 = entityTips.states[(int)(E_StateType_5)state];
+                entityState.text = s5[0];
+                RegisterTooltip<TextMeshProUGUI>(entityState, s5[0], s5[1], F(s5));
                 break;
         }
     }
@@ -409,7 +416,7 @@ public class BattlePanel : PanelBase
                 GameObject buff = Instantiate(resources["Buff"], content);
                 buff.GetComponentInChildren<Image>().sprite = GetBuffSprite(item.Key);
                 buff.GetComponentInChildren<TextMeshProUGUI>().text = item.Value.ToString();
-                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1]);
+                RegisterTooltip<Image>(buff.GetComponentInChildren<Image>(), entityTips.buffs[(int)item.Key][0], entityTips.buffs[(int)item.Key][1], F(entityTips.buffs[(int)item.Key]));
             }
         }
     }
@@ -456,30 +463,22 @@ public class BattlePanel : PanelBase
                 }
                 // tooltip 下标：Part4_1(mappedIndex=1) → parts[0]，所以用 mappedIndex-1
                 int tipIndex = mappedIndex - 1;
+                var pData4 = entityPartTips.parts[tipIndex];
 
-                // ─── 状态A：已发现 + 未破坏 + 可攻击 ───
                 if (part_.IsVisible && !part_.isDestroyed && part_.IsCouldBeAttacked())
                 {
                     SetPartValues(index, part_, true);
-                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}",
-                        entityPartTips.parts[tipIndex][0],
-                        entityPartTips.parts[tipIndex][1]);
+                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", pData4[0], pData4[1], F(pData4));
                 }
-                // ─── 状态B：已发现 + 未破坏 + 不可攻击 ───
                 else if (!part_.isDestroyed && !part_.IsCouldBeAttacked())
                 {
                     SetPartValues(index, part_, false);
-                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}",
-                        entityPartTips.parts[tipIndex][0],
-                        entityPartTips.parts[tipIndex][1]);
+                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", pData4[0], pData4[1], F(pData4));
                 }
-                // ─── 状态C：已发现 + 已破坏 ───
                 else if (part_.IsVisible && part_.isDestroyed)
                 {
                     SetPartValues(index, part_, false, " (已破坏)");
-                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}",
-                        entityPartTips.parts[tipIndex][0],
-                        entityPartTips.parts[tipIndex][1]);
+                    RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", pData4[0], pData4[1], F(pData4));
                 }
                 // ─── 兜底：未发现 ───
                 else
@@ -496,23 +495,21 @@ public class BattlePanel : PanelBase
             SetPartUnknown(index);
             return;
         }
+        var pData = entityPartTips.parts[index - 1];
         if (part.IsVisible && !part.isDestroyed && part.IsCouldBeAttacked())
         {
-            // 发现部位，部位可攻击且没被破坏
             SetPartValues(index, part, true);
-            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
+            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", pData[0], pData[1], F(pData));
         }
         else if (!part.isDestroyed && !part.IsCouldBeAttacked())
         {
-            // 发现部位，部位没被破坏但是不可攻击
             SetPartValues(index, part, false);
-            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
+            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", pData[0], pData[1], F(pData));
         }
         else if (part.IsVisible && part.isDestroyed)
         {
-            // 发现部位，已经被破坏
             SetPartValues(index, part, false, " (已破坏)");
-            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", entityPartTips.parts[index - 1][0], entityPartTips.parts[index - 1][1]);
+            RegisterTooltip<Toggle>($"Toggle_EntityPart{index}", pData[0], pData[1], F(pData));
         }
         else
         {
@@ -585,6 +582,7 @@ public class BattlePanel : PanelBase
                 }
             }
             // 设置光标移上去显示的需求
+            string eventFlavor = entityTips.events[index].Count > 1 ? entityTips.events[index][1] : "";
             RegisterTooltip<Button>(eventObj.GetComponentInChildren<Button>(), "", entityTips.events[index][2]);
             // 拿到骰子滑动列表，准备装骰子
             Transform content = eventObj.GetComponentInChildren<ScrollRect>().content;

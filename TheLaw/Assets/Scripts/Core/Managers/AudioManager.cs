@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -52,9 +53,12 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     public float BGMVolume = 0.5f;
     public float SFXVolume = 0.5f;
     // BGM暂停状态标记，防止未暂停时调用Resume导致从头播放
+    private Tween _bgmFadeTween;
     private bool _isBgmPaused;
     private bool _isSFXPaused;//玩家死亡时使用
     private bool _isSFXDeathPaused;
+    // 同一时间只允许播放一个的音效
+    HashSet<E_SFX> _uniqueSFX = new HashSet<E_SFX> { E_SFX.LevelSelectClick };
     // 初始化音频列表
     List<AudioSource> audios = new List<AudioSource>();
 
@@ -188,6 +192,35 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         _isBgmPaused = false;
     }
     /// <summary>
+    /// 渐出后暂停BGM（同曲切换用）
+    /// </summary>
+    public void FadeOutThenPauseBGM(float duration = 0.5f)
+    {
+        if (bgmComponent == null || !bgmComponent.isPlaying) return;
+        _bgmFadeTween?.Kill();
+        _bgmFadeTween = DOTween.To(() => bgmComponent.volume, v => bgmComponent.volume = v, 0, duration)
+            .OnComplete(() =>
+            {
+                bgmComponent.Pause();
+                _isBgmPaused = true;
+            });
+    }
+    /// <summary>
+    /// 渐入恢复BGM（同曲切换用）
+    /// </summary>
+    public void FadeInResumeBGM(float duration = 0.5f)
+    {
+        if (bgmComponent == null) return;
+        _bgmFadeTween?.Kill();
+        if (_isBgmPaused)
+        {
+            bgmComponent.volume = 0;
+            bgmComponent.UnPause();
+            _isBgmPaused = false;
+        }
+        _bgmFadeTween = DOTween.To(() => bgmComponent.volume, v => bgmComponent.volume = v, BGMVolume, duration);
+    }
+    /// <summary>
     /// 设置bgm音量并实时更新音量大小
     /// </summary>
     /// <param name="volume">音量大小</param>
@@ -223,6 +256,19 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     public void PlaySFX(E_SFX sfx, bool isLoop)
     {
         if (sfx is not E_SFX.PlayerDie&&_isSFXPaused)return;
+        // 同类型唯一：停止正在播放的旧实例
+        if (_uniqueSFX.Contains(sfx))
+        {
+            for (int i = audios.Count - 1; i >= 0; i--)
+            {
+                if (audios[i] != null && audios[i].clip == sfxs[sfx])
+                {
+                    audios[i].Stop();
+                    Destroy(audios[i]);
+                    audios.RemoveAt(i);
+                }
+            }
+        }
         AudioSource audio = sfxPlayer.AddComponent<AudioSource>();
         audios.Add(audio);
         audio.clip = sfxs[sfx];

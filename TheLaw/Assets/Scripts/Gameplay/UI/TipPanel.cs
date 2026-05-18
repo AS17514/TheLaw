@@ -12,6 +12,7 @@ public class TipPanel : PanelBase
     public Vector2 baseOffset = new Vector2(10, 10);
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI descText;
+    [SerializeField] private TextMeshProUGUI flavorText;
     private RectTransform _selfRect;
     private RectTransform _canvasRect;
     private Canvas _parentCanvas;
@@ -49,7 +50,7 @@ public class TipPanel : PanelBase
         // 鼠标在左半屏，轴心设为 0 (左边缘)；在右半屏，轴心设为 1 (右边缘)
         float pX = normX < 0.62f ? 0f : 1f;
         // 鼠标在下半屏，轴心设为 0 (下边缘)；在上半屏，轴心设为 1 (上边缘)
-        float pY = normY < 0.8f ? 0f : 1f;
+        float pY = normY < 0.5f ? 0f : 1f;
 
         // 这一步让“对应的角”变成了面板的坐标原点
         _selfRect.pivot = new Vector2(pX, pY);
@@ -69,16 +70,19 @@ public class TipPanel : PanelBase
         }
     }
 
-    public void ShowTooltip(string title, string desc)
+    public void ShowTooltip(string title, string desc, string flavor = "")
     {
         if (titleText != null) titleText.text = title;
         if (descText != null) descText.text = desc;
+        if (flavorText != null)
+        {
+            flavorText.text = flavor;
+            flavorText.gameObject.SetActive(!string.IsNullOrEmpty(flavor));
+        }
 
-        // 强制 UI 重新计算宽高，防止 Pivot 切换时因宽高未更新导致的跳动
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(_selfRect);
 
-        // 立即执行一次位置修正
         FollowMouseSmartAlignment();
 
         canvasGroup.DOKill();
@@ -88,6 +92,6 @@ public class TipPanel : PanelBase
     public void HideTooltip()
     {
         canvasGroup.DOKill();
-        canvasGroup.DOFade(0, 0.05f);
+        canvasGroup.alpha = 0;
     }
 }

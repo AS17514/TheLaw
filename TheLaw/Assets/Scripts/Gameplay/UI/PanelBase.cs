@@ -175,13 +175,46 @@ public abstract class PanelBase : MonoBehaviour
         EventTrigger trigger = control.GetComponent<EventTrigger>();
         if (trigger == null) trigger = control.gameObject.AddComponent<EventTrigger>();
 
-        // 鼠标进入 → 显示双文本
         AddEvent(trigger, EventTriggerType.PointerEnter, (d) =>
         {
             TipPanel.Instance.ShowTooltip(title, desc);
         });
 
-        // 鼠标离开 → 隐藏
+        AddEvent(trigger, EventTriggerType.PointerExit, (d) =>
+        {
+            TipPanel.Instance.HideTooltip();
+        });
+    }
+    protected void RegisterTooltip<T>(string controlName, string title, string desc, string flavor) where T : UIBehaviour
+    {
+        T control = GetControl<T>(controlName);
+        if (control == null) return;
+
+        EventTrigger trigger = control.GetComponent<EventTrigger>();
+        if (trigger == null) trigger = control.gameObject.AddComponent<EventTrigger>();
+
+        AddEvent(trigger, EventTriggerType.PointerEnter, (d) =>
+        {
+            TipPanel.Instance.ShowTooltip(title, desc, flavor);
+        });
+
+        AddEvent(trigger, EventTriggerType.PointerExit, (d) =>
+        {
+            TipPanel.Instance.HideTooltip();
+        });
+    }
+    protected void RegisterTooltip<T>(T control, string title, string desc, string flavor) where T : UIBehaviour
+    {
+        if (control == null) return;
+
+        EventTrigger trigger = control.GetComponent<EventTrigger>();
+        if (trigger == null) trigger = control.gameObject.AddComponent<EventTrigger>();
+
+        AddEvent(trigger, EventTriggerType.PointerEnter, (d) =>
+        {
+            TipPanel.Instance.ShowTooltip(title, desc, flavor);
+        });
+
         AddEvent(trigger, EventTriggerType.PointerExit, (d) =>
         {
             TipPanel.Instance.HideTooltip();
