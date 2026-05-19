@@ -1127,8 +1127,14 @@ public class EntityEvent_2_13 : OptionBase
                         entity2.AddBuff(E_BuffType.Desire, -1);
                     }
                     ProgressManager.Instance.player.AddBuff(E_BuffType.Desire, 1);
+                    if (ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters) < 2)
+                    {
+                        ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, -ProgressManager.Instance.player.GetBuff(E_BuffType.Tatters));
+                    }
+                    else
+                        ProgressManager.Instance.player.AddBuff(E_BuffType.Tatters, -2);
                 }
-
+                
                 DiceManager.Instance.ConsumeValidSelectedDice(); //消耗骰子
             }
             else
