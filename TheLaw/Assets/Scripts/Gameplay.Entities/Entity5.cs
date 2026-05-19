@@ -142,6 +142,7 @@ public class Entity5 : Entity
     }
     public void unbalance_Action_Assemble()
     {
+        ProgressManager.Instance.nowEntities[1].maxHp += 3;
         ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 3,
             ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
@@ -178,6 +179,7 @@ public class Entity5 : Entity
     }
     public void throwupthem_Action_WishesAreEndless()
     {
+        ProgressManager.Instance.nowEntities[1].maxHp += ProgressManager.Instance.player.hp + 1;
         ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.player.hp + 1,
             ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
@@ -189,6 +191,7 @@ public class Entity5 : Entity
 
     public void equipoise_Desire_TheirWishes()
     {
+        ProgressManager.Instance.nowEntities[1].maxHp += 5;
         ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 5,
             ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
@@ -196,7 +199,8 @@ public class Entity5 : Entity
 
     public void unbalance_Desire_Food()
     {
-        ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 5,
+        ProgressManager.Instance.nowEntities[1].maxHp += 3;
+        ProgressManager.Instance.nowEntities[1].hp = Math.Clamp(ProgressManager.Instance.nowEntities[1].hp + 3,
             ProgressManager.Instance.nowEntities[1].hp, ProgressManager.Instance.nowEntities[1].maxHp);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
         ProgressManager.Instance.player.BeAttacked(Math.Abs(ProgressManager.Instance.player.hp - ProgressManager.Instance.nowEntities[1].hp));
