@@ -25,13 +25,15 @@ public class Part5_1 : Part
             atk--;
         if(isHpLocked&&atk>=hp)
         {
-            base.BeAttacked(hp - 1);
+            TakeDamage( hp - 1);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
             owner.AddBuff(E_BuffType.Desire, 1-hp);
             StateManager.Instance.ChangeState(E_StateType_5.throwupthem);
         }
         else
         {
-            base.BeAttacked(atk);
+            TakeDamage( atk);
+            EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
             owner.AddBuff(E_BuffType.Desire, atk);
         }
     }
