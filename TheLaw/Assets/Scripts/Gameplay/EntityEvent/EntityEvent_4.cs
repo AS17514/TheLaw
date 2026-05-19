@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Events;
 
 enum E_EntityEvent_4
@@ -194,6 +195,9 @@ public class EntityEvent_4_04 : OptionBase
     protected override void ExecuteLogicImpl(object info=null)
     {
         ProgressManager.Instance.TryGetEntity().AddBuff(E_BuffType.Desire,-1);
+        ProgressManager.Instance.player.hp = Math.Clamp(ProgressManager.Instance.player.hp + 3,
+            ProgressManager.Instance.player.hp, ProgressManager.Instance.player.maxHp);
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_PlayerHP);
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         DiceManager.Instance.ConsumeValidSelectedDice();
     }

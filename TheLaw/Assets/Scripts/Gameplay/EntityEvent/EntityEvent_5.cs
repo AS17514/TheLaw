@@ -1036,20 +1036,19 @@ public class EntityEvent_5_14 : OptionBase
     {
         get
         {
+            bool result = false;
             if (StateManager.Instance.currentState is E_StateType_5.equipoise
                && EventManager.Instance.optionPool[E_OptionType.Level5_Option][12] is EntityEvent_5_13 e13)
             {
                 if (e13.IsItUse)
-                    return true;
-                else
-                {
-                    return false;
-                }
+                    result = true;
+                
             }
-            else
+            if (ProgressManager.Instance.TryGetPart(1, out Part part)&& part.isDestroyed)
             {
-                return false;
+                result = true;
             }
+            return result;
         }
     }
     public override bool IsDiceConditionsHave { get; protected set; } = true;

@@ -186,7 +186,7 @@ public class Entity4 : Entity
             ProgressManager.Instance.TryGetPart(i, out Part part);
             if (!part.isDestroyed) continue;
             part.isDestroyed = false;
-            part.hp=Math.Clamp(2*GetBuff(E_BuffType.Desire),1,part.maxHp);
+            part.hp=Math.Clamp(GetBuff(E_BuffType.Desire)+3,1,part.maxHp);
             if(GetBuff(E_BuffType.Desire) <=1)
             {
                 AddBuff(E_BuffType.Desire, 2);

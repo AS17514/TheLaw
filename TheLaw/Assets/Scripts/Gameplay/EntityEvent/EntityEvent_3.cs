@@ -167,7 +167,7 @@ public class EntityEvent_3_02 : OptionBase
     public override int LevelID { get; protected set; } = 3;
     public override int OptionID { get; protected set; } = 2;
     public override string OptionName { get; protected set; } = "拥抱";
-    public override string OptionDescription { get; protected set; } = "应对成功时，若双方“欲望”差值<=4，获得胜利";
+    public override string OptionDescription { get; protected set; } = "应对成功时，若双方“欲望”差值<4，获得胜利";
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level3_Option;
 
     public override bool IsUseDiceCombo { get; protected set; } = true;
@@ -211,7 +211,7 @@ public class EntityEvent_3_02 : OptionBase
                 if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
                 {
                     if (Math.Abs(e3.GetBuff(E_BuffType.Desire) -
-                                 ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)) <= 4)
+                                 ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)) < 4)
                     {
                         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
                     }

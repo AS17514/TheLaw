@@ -96,7 +96,7 @@ public class Entity2 : Entity
         #endregion
 
         // 最后进行数值初始化
-        InitEntity(7, 6);
+        InitEntity(7, 1);
     }
 
     #region 行动

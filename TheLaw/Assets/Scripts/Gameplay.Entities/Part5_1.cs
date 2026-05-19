@@ -40,6 +40,7 @@ public class Part5_1 : Part
     {
         DiceManager.Instance.AddDice(E_DiceType.Wild);
         base.Die();
+        EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ public class Part3_2 : Part
     {
         partName = "宇航服";
         id = 2;
-        maxHp = 9;
+        maxHp = 6;
         hp = maxHp;
     }
 

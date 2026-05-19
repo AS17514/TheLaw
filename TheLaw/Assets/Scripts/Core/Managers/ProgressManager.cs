@@ -300,7 +300,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
 
         entity1.ManualInit();
 
-        Init(5, 5, 4);
+        Init(6, 6, 4);
 
         DiceManager.Instance.AddTimeDice(4);
         Debug.Log("initLevel1执行1次，AddTimeDice执行1次");

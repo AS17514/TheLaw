@@ -1071,7 +1071,7 @@ public class EntityEvent_2_13 : OptionBase
     public override int OptionID { get; protected set; } = 13;
     public override string OptionName { get; protected set; } = "中伤";
 
-    public override string OptionDescription { get; protected set; } = "消耗一个“破布”,对象的“欲望”-1，自己“欲望”+1";
+    public override string OptionDescription { get; protected set; } = "消耗两个“破布”,对象的“欲望”-1，自己“欲望”+1";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level2_Option;
 
@@ -1135,7 +1135,7 @@ public class EntityEvent_2_13 : OptionBase
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                        }
+            }
             LastTriggerSuccess = result;
 
         }

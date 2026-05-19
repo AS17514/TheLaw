@@ -384,9 +384,9 @@ public class Entity3 : Entity
         if (ProgressManager.Instance.nowEntities[0] is Entity3 e3)
         {
             e3.AddBuff(E_BuffType.Desire, 6);
-            if (Mathf.Abs(e3.GetBuff(E_BuffType.Desire) - ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)) >= 6)
+            if (Mathf.Abs(e3.GetBuff(E_BuffType.Desire) - ProgressManager.Instance.player.GetBuff(E_BuffType.Desire)) > 6)
             {
-                // 若此次许愿后对象与玩家的“欲望”差值>=6，获得胜利
+                // 若此次许愿后对象与玩家的“欲望”差值>6，获得胜利
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityDied);
             }
         }
