@@ -99,44 +99,44 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         {
             if (nowEntities[0] is Entity5 entity5)
             {
-                player.RemoveLevel5Buff();
-                bool isStzteChange = false;
-                switch (entity5.playerState1)
-                {
-                    case 1:
-                        player.AddBuff(E_BuffType.Up, 1);
-                        isStzteChange = true;
-                        break;
-                    case 0:
-                        player.AddBuff(E_BuffType.Down, 1);
-                        isStzteChange = true;
-                        break;
-                    case -1:
-                        break;
-                }
-
-                switch (entity5.playerState2)
-                {
-                    case 1:
-                        player.AddBuff(E_BuffType.Left, 1);
-                        isStzteChange = true;
-                        break;
-                    case 0:
-                        player.AddBuff(E_BuffType.Right, 1);
-                        isStzteChange = true;
-                        break;
-                    case -1:
-                        break;
-                }
-
-                if (isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.unbalance)
-                {
-                    StateManager.Instance.ChangeState(E_StateType_5.unbalance);
-                }
-                if (!isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.equipoise)
-                {
-                    StateManager.Instance.ChangeState(E_StateType_5.equipoise);
-                }
+                // player.RemoveLevel5Buff();
+                // bool isStzteChange = false;
+                // switch (entity5.playerState1)
+                // {
+                //     case 1:
+                //         player.AddBuff(E_BuffType.Up, 1);
+                //         isStzteChange = true;
+                //         break;
+                //     case 0:
+                //         player.AddBuff(E_BuffType.Down, 1);
+                //         isStzteChange = true;
+                //         break;
+                //     case -1:
+                //         break;
+                // }
+                //
+                // switch (entity5.playerState2)
+                // {
+                //     case 1:
+                //         player.AddBuff(E_BuffType.Left, 1);
+                //         isStzteChange = true;
+                //         break;
+                //     case 0:
+                //         player.AddBuff(E_BuffType.Right, 1);
+                //         isStzteChange = true;
+                //         break;
+                //     case -1:
+                //         break;
+                // }
+                //
+                // if (isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.unbalance)
+                // {
+                //     StateManager.Instance.ChangeState(E_StateType_5.unbalance);
+                // }
+                // if (!isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.equipoise)
+                // {
+                //     StateManager.Instance.ChangeState(E_StateType_5.equipoise);
+                // }
                 if (entity5.IsPlayerFree)
                 {
                     entity5.IsPlayerFree = false;
