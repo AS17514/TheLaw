@@ -32,8 +32,12 @@ public class Entity5 : Entity
         StateManager.Instance.RegisterStateData(
             E_StateType_5.unbalance,
             new ActionNode[] {
-                new ActionNode(E_IntentType.Entity5_Oscillation, unbalance_Action_Oscillation),
-                new ActionNode(E_IntentType.Entity5_Assemble, unbalance_Action_Assemble),
+                new ActionNode(E_IntentType.Entity5_Oscillation, () => { unbalance_Action_Oscillation();
+                    equipoise_Action_Equipoise();
+                }),
+                new ActionNode(E_IntentType.Entity5_Assemble, () => { unbalance_Action_Assemble();
+                    equipoise_Action_Equipoise();
+                }),
             },
             new DesireNode[]
             {
@@ -71,8 +75,8 @@ public class Entity5 : Entity
 
     #region 行动
 
-    public int playerState1 = 1;
-    public int playerState2 = 1;
+    public int playerState1 = -1;
+    public int playerState2 = -1;
     public void equipoise_Action_Equipoise()
     {
         if (ProgressManager.Instance.nowEntities[1].hp > ProgressManager.Instance.player.hp)
@@ -80,18 +84,26 @@ public class Entity5 : Entity
             ProgressManager.Instance.player.RemoveLevel5Buff();
             playerState1 = 1;//上
         }
-        else
+        else if(ProgressManager.Instance.nowEntities[1].hp < ProgressManager.Instance.player.hp)
         {
             playerState1 = 0;//下
+        }
+        else
+        {
+            playerState1 = -1;
         }
 
         if (buffs[E_BuffType.Desire] < 0)
         {
             playerState2 = 1;//左
         }
-        else
+        else if(buffs[E_BuffType.Desire] > 0)
         {
             playerState2 = 0;//右
+        }
+        else
+        {
+            playerState2 = -1;
         }
     }
 

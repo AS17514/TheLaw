@@ -37,17 +37,22 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
         }
-
+        if (ProgressManager.Instance.level == 5 && newState is E_StateType_5.equipoise)
+        {
+            ProgressManager.Instance.SetCurrentTimeProgress(1);
+            ProgressManager.Instance.SetmaxPhaseDice(1);
+        }
         if (ProgressManager.Instance.level == 5 &&
             (newState is E_StateType_5.throwupthem || newState is E_StateType_5.unbalance))
         {
             ProgressManager.Instance.SetCurrentTimeProgress(8);
             ProgressManager.Instance.SetmaxPhaseDice(3);
         }
+        
         #endregion
         
         // 确保字典里有这个状态，并且新状态和当前状态不一样
-        else if (stateActions.ContainsKey(newState) && (currentState == null || !currentState.Equals(newState)))
+        if (stateActions.ContainsKey(newState) && (currentState == null || !currentState.Equals(newState)))
         {
             currentState = newState;
             currentActionIndex = 0; // 重置行为队列
@@ -145,6 +150,51 @@ public class StateManager : ManagerBase<StateManager>
                     if (e12.IsItuse && !e13.IsItuse)
                         e13.IsVisible = true;
                 }
+            }
+        }
+        if (ProgressManager.Instance.level == 5)
+        {
+            if (ProgressManager.Instance.nowEntities[0] is Entity5 entity5)
+            {
+                ProgressManager.Instance.player.RemoveLevel5Buff();
+                bool isStzteChange = false;
+                switch (entity5.playerState1)
+                {
+                    case 1:
+                        ProgressManager.Instance.player.AddBuff(E_BuffType.Up, 1);
+                        isStzteChange = true;
+                        break;
+                    case 0:
+                        ProgressManager.Instance.player.AddBuff(E_BuffType.Down, 1);
+                        isStzteChange = true;
+                        break;
+                    case -1:
+                        break;
+                }
+
+                switch (entity5.playerState2)
+                {
+                    case 1:
+                        ProgressManager.Instance.player.AddBuff(E_BuffType.Left, 1);
+                        isStzteChange = true;
+                        break;
+                    case 0:
+                        ProgressManager.Instance.player.AddBuff(E_BuffType.Right, 1);
+                        isStzteChange = true;
+                        break;
+                    case -1:
+                        break;
+                }
+
+                if (isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.unbalance)
+                {
+                    StateManager.Instance.ChangeState(E_StateType_5.unbalance);
+                }
+                if (!isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.equipoise)
+                {
+                    StateManager.Instance.ChangeState(E_StateType_5.equipoise);
+                }
+                
             }
         }
     }
