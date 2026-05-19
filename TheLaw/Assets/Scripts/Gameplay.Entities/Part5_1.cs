@@ -8,7 +8,7 @@ public class Part5_1 : Part
     {
         partName = "他人";
         id = 1;
-        maxHp = 10;
+        maxHp = 20;
         hp = maxHp;
     }
 
