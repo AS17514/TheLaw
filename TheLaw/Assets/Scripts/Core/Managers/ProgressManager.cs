@@ -111,6 +111,8 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                         player.AddBuff(E_BuffType.Down, 1);
                         isStzteChange = true;
                         break;
+                    case -1:
+                        break;
                 }
 
                 switch (entity5.playerState2)
@@ -123,11 +125,17 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
                         player.AddBuff(E_BuffType.Right, 1);
                         isStzteChange = true;
                         break;
+                    case -1:
+                        break;
                 }
 
                 if (isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.unbalance)
                 {
                     StateManager.Instance.ChangeState(E_StateType_5.unbalance);
+                }
+                if (!isStzteChange&& StateManager.Instance.currentState is not E_StateType_5.equipoise)
+                {
+                    StateManager.Instance.ChangeState(E_StateType_5.equipoise);
                 }
                 if (entity5.IsPlayerFree)
                 {
@@ -202,7 +210,7 @@ public class ProgressManager : ManagerMonoBase<ProgressManager>
         int i = 0;
         if (player.GetBuff(E_BuffType.Right) > 0)//玩家消耗时间骰时时间进度额外-1
             i = 1;
-        timeProgress = Math.Clamp(timeProgress + add+ProgressManager.Instance.TryGetEntity().GetTimeProgressModifier() - i, 0, this.currentTimeProgress);
+        timeProgress = Math.Clamp(timeProgress + add+ProgressManager.Instance.TryGetEntity().GetTimeProgressModifier() + i, 0, this.currentTimeProgress);
         if (timeProgress == currentTimeProgress)
         {
             StateManager.Instance.ExecuteCurrentAction();
