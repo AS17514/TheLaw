@@ -94,6 +94,14 @@ public class StoryPanel : PanelBase
         GetControl<TextMeshProUGUI>("Text (TMP)_CurrentPage").text = "1";
         GetControl<TextMeshProUGUI>("Text (TMP)_MaxPage").text = storySegment.pages.Count.ToString();
         // 初始图
+        int seg = StoryManager.Instance.segment;
+        Sprite storySprite = Resources.Load<Sprite>($"UI/StoryPanel/{seg}");
+        if (storySprite != null)
+        {
+            Image img = GetControl<Image>("Image_Image");
+            img.sprite = storySprite;
+            img.SetNativeSize();
+        }
     }
     void CreatStoryLine(int pageIndex, int lineIndex)
     {

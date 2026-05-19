@@ -738,6 +738,7 @@ public class BattlePanel : PanelBase
 
     void OnUpdatePlayerDied(object obj)
     {
+        TipPanel.Instance.HideTooltip();
         AudioManager.Instance.StopAllSFX();
         AudioManager.Instance.PlaySFX(E_SFX.PlayerDie, false);
         UIManager.Instance.ChangePanel<BattlePanel, DiePanel>(showLoading: false);
@@ -865,6 +866,9 @@ public class BattlePanel : PanelBase
 
     void Init()
     {
+        // 加载当前关卡实体图像
+        if (spriteResources.TryGetValue($"Entity_{level}", out Sprite entitySprite))
+            GetControl<Image>("Image_Entity").sprite = entitySprite;
         #region 进度
         // 时间段，似乎需要+1
         GetControl<TextMeshProUGUI>("Text (TMP)_Phase").text = (ProgressManager.Instance.phase + 1).ToString();

@@ -15,7 +15,7 @@ public class LevelSelectPanel : PanelBase
         base.Awake();
         InitEvent();
         nowLevel = JsonManager.Instance.LoadDataByType(E_SaveDataType.LevelProgress);
-        unknown = Resources.Load<Sprite>("Prefabs/UI/SelectLevel/Image_Unknown");
+        unknown = Resources.Load<Sprite>("UI/SelectLevelPanel/Image_Unknown");
         print(nowLevel);
         // 默认选中当前最新进度
         selectedLevel = nowLevel;
@@ -65,19 +65,19 @@ public class LevelSelectPanel : PanelBase
                 tmp.text = "开端";
                 break;
             case 1:
-                tmp.text = "食";
+                tmp.text = "杂食盛宴";
                 break;
             case 2:
-                tmp.text = "衣";
+                tmp.text = "衣色";
                 break;
             case 3:
-                tmp.text = "行";
+                tmp.text = "自由器";
                 break;
             case 4:
-                tmp.text = "住";
+                tmp.text = "内容物";
                 break;
             case 5:
-                tmp.text = "天平";
+                tmp.text = "“愿望”的“代价”";
                 break;
             default:
                 break;
