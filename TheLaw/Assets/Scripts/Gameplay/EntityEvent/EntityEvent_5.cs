@@ -1054,7 +1054,7 @@ public class EntityEvent_5_14 : OptionBase
     public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
 
-    public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.SingleWild;
 
     #endregion
 
@@ -1091,12 +1091,14 @@ public class EntityEvent_5_14 : OptionBase
                 IsItUse = true;
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
+                
+                
             }
             else
             {
                 DiceManager.Instance.ClearSelected();
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_IsConditionNotMet);
-                        }
+            }
             LastTriggerSuccess = result;
 
         }
@@ -1113,6 +1115,7 @@ public class EntityEvent_5_15 : OptionBase
     public override string OptionDescription { get; protected set; } = "获得胜利";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level5_Option;
+    public override int fatherID { get; protected set; } = 14;
 
     public override bool IsVisible
     {
@@ -1122,6 +1125,11 @@ public class EntityEvent_5_15 : OptionBase
                && EventManager.Instance.optionPool[E_OptionType.Level5_Option][13] is EntityEvent_5_14 e14)
             {
                 if (e14.IsItUse)
+                    return true;
+            }
+            if (EventManager.Instance.optionPool[E_OptionType.Level5_Option][13] is EntityEvent_5_14 e14_2 &&ProgressManager.Instance.TryGetPart(1, out Part part)&& part.isDestroyed)
+            {
+                if (e14_2.IsItUse)
                     return true;
                 else
                 {
@@ -1138,7 +1146,7 @@ public class EntityEvent_5_15 : OptionBase
     public override bool IsDiceConditionsHave { get; protected set; } = true;
     public override bool IsUseDiceCombo { get; protected set; } = true;
 
-    public override E_ComboType ComboType { get; protected set; } = E_ComboType.TripleMind;
+    public override E_ComboType ComboType { get; protected set; } = E_ComboType.SingleWild;
     #endregion
 
     #region 本身属性
