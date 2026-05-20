@@ -213,31 +213,17 @@ public class TutorialPanel : PanelBase
 
     private Vector2 GetSafeTextPosition(Vector2 holeCenter, Vector2 holeSize)
     {
-        float halfW = holeSize.x / 2f;
-        float halfH = holeSize.y / 2f;
+        float hw = holeSize.x / 2f;
+        float hh = holeSize.y / 2f;
+        float m = 20f;
+        float rightThird = screenWidth / 6f;
 
-        Vector2 holeTopLeft = holeCenter + new Vector2(-halfW, halfH);
-        Vector2 holeTopRight = holeCenter + new Vector2(halfW, halfH);
+        float px = holeCenter.x > rightThird ? 1f : 0f;
+        float py = holeCenter.y > 0 ? 1f : 0f;
+        float ax = px == 0 ? holeCenter.x + hw + m : holeCenter.x - hw - m;
+        float ay = py == 1 ? holeCenter.y + hh + m : holeCenter.y - hh - m;
 
-        float textW = tutorialText.sizeDelta.x;
-        float margin = 20f;
-
-        Vector2 finalPos;
-        float candidateXRight = holeTopRight.x + margin;
-        float textRightEdge = candidateXRight + textW;
-
-        if (textRightEdge <= screenWidth / 2f)
-        {
-            finalPos = new Vector2(candidateXRight, holeTopRight.y);
-            tutorialText.pivot = new Vector2(0, 1);
-        }
-        else
-        {
-            float candidateXLeft = holeTopLeft.x - margin;
-            finalPos = new Vector2(candidateXLeft, holeTopLeft.y);
-            tutorialText.pivot = new Vector2(1, 1);
-        }
-
-        return finalPos;
+        tutorialText.pivot = new Vector2(px, py);
+        return new Vector2(ax, ay);
     }
 }

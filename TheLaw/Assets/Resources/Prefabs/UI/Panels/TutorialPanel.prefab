@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a1ac435f270a947b1599974cc3f475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePadding: {x: 50, y: 50}
+  holePadding: {x: 25, y: 25}
   tutorialText: {fileID: 7411641904483848233}
   highlightBorder: {fileID: 3291858440431682674}
 --- !u!1 &4517178332828073095
