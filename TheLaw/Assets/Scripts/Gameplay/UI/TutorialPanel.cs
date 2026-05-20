@@ -211,19 +211,84 @@ public class TutorialPanel : PanelBase
         _borderCG.DOFade(1, duration);
     }
 
+    // 检查这个文本框在指定位置和 Pivot 下，是否会超出屏幕
+    bool TextFits(Vector2 anchor, Vector2 pivot, Vector2 size)
+    {
+        float hsw = screenWidth / 2f;
+        float hsh = screenHeight / 2f;
+
+        // 根据锚点和 Pivot 算出文本在 UI 坐标系下的四维绝对边界
+        float L = anchor.x - pivot.x * size.x;
+        float R = L + size.x;
+        float T = anchor.y + (1f - pivot.y) * size.y;
+        float B = T - size.y;
+
+        // 确保全都在屏幕可见范围内
+        return L >= -hsw && R <= hsw && T <= hsh && B >= -hsh;
+    }
+
     private Vector2 GetSafeTextPosition(Vector2 holeCenter, Vector2 holeSize)
     {
         float hw = holeSize.x / 2f;
         float hh = holeSize.y / 2f;
-        float m = 20f;
-        float rightThird = screenWidth / 6f;
+        float m = 30f; // 稍微拉开一点间距，视觉效果更好
 
-        float px = holeCenter.x > rightThird ? 1f : 0f;
-        float py = holeCenter.y > 0 ? 1f : 0f;
-        float ax = px == 0 ? holeCenter.x + hw + m : holeCenter.x - hw - m;
-        float ay = py == 1 ? holeCenter.y + hh + m : holeCenter.y - hh - m;
+        // 核心：强制触发 TMP 和 Layout 立即重建，确保拿到的 sizeDelta 是当前文本的最准尺寸
+        _titleText.ForceMeshUpdate();
+        _contentText.ForceMeshUpdate();
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(tutorialText);
+        Vector2 sz = tutorialText.sizeDelta;
 
-        tutorialText.pivot = new Vector2(px, py);
-        return new Vector2(ax, ay);
+        // 策略：预设 4 个最佳放置位置（上下左右）
+        // 每个策略包含：文本框的 Pivot, 应当处于的 Anchor 坐标
+        var strategies = new List<(Vector2 pivot, Vector2 anchor)>()
+        {
+            // 1. 优先放上方 (靠左或靠右，取决于洞在哪侧，防止挡住内容)
+            (new Vector2(holeCenter.x > 0 ? 1f : 0f, 0f), new Vector2(holeCenter.x > 0 ? holeCenter.x + hw : holeCenter.x - hw, holeCenter.y + hh + m)),
+            // 2. 其次放下方
+            (new Vector2(holeCenter.x > 0 ? 1f : 0f, 1f), new Vector2(holeCenter.x > 0 ? holeCenter.x + hw : holeCenter.x - hw, holeCenter.y - hh - m)),
+            // 3. 放左侧 (右对齐)
+            (new Vector2(1f, 0.5f), new Vector2(holeCenter.x - hw - m, holeCenter.y)),
+            // 4. 放右侧 (左对齐)
+            (new Vector2(0f, 0.5f), new Vector2(holeCenter.x + hw + m, holeCenter.y))
+        };
+
+        // 轮询策略，哪个能完全塞进屏幕就用哪个
+        foreach (var strategy in strategies)
+        {
+            if (TextFits(strategy.anchor, strategy.pivot, sz))
+            {
+                tutorialText.pivot = strategy.pivot;
+                return strategy.anchor;
+            }
+        }
+
+        // =================【极端情况兜底】=================
+        // 如果上下左右都塞不下（比如高亮框极大），说明屏幕空间不够了。
+        // 强制把文本塞进屏幕四角空余最大的地方，并做严格的 Clamp 限制，绝不穿帮。
+        Vector2 backupPivot = new Vector2(holeCenter.x > 0 ? 1f : 0f, holeCenter.y > 0 ? 1f : 0f);
+        tutorialText.pivot = backupPivot;
+
+        Vector2 fallbackPos;
+        // 如果洞偏右，文本放左边；洞偏上，文本放下边
+        fallbackPos.x = holeCenter.x > 0 ? holeCenter.x - hw - m : holeCenter.x + hw + m;
+        fallbackPos.y = holeCenter.y > 0 ? holeCenter.y - hh - m : holeCenter.y + hh + m;
+
+        float hsw = screenWidth / 2f;
+        float hsh = screenHeight / 2f;
+
+        // 严格根据当前 Pivot 计算 Clamp 范围，防止瞎偏移
+        if (backupPivot.x == 0f) // 左对齐
+            fallbackPos.x = Mathf.Clamp(fallbackPos.x, -hsw, hsw - sz.x);
+        else // 右对齐
+            fallbackPos.x = Mathf.Clamp(fallbackPos.x, -hsw + sz.x, hsw);
+
+        if (backupPivot.y == 0f) // 下对齐
+            fallbackPos.y = Mathf.Clamp(fallbackPos.y, -hsh, hsh - sz.y);
+        else // 上对齐
+            fallbackPos.y = Mathf.Clamp(fallbackPos.y, -hsh + sz.y, hsh);
+
+        return fallbackPos;
     }
 }
