@@ -1452,7 +1452,12 @@ public class EntityEvent_5_19 : OptionBase
             {
                 DiceManager.Instance.AddDice(E_DiceType.Action);
                 DiceManager.Instance.AddDice(E_DiceType.Action);
-                ProgressManager.Instance.AddTimeProgress(-2);
+                if (ProgressManager.Instance.player.GetBuff(E_BuffType.Right) > 0)//玩家消耗时间骰时时间进度额外-1
+                    ProgressManager.Instance.AddTimeProgress(-3);
+                else
+                {
+                    ProgressManager.Instance.AddTimeProgress(-2);
+                }
                 ProgressManager.Instance.TryGetEntity().AddBuff(E_BuffType.Desire,-2);
                 EventCenter.Instance.EventTrigger(E_EventType.UI_Update_Events);
                 DiceManager.Instance.ConsumeValidSelectedDice();
