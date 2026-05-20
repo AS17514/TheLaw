@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum E_TutorialType
 {
+    OptionNull,
     None,
     Gamebigen,
     MeetDodge,       // 第一次遇到闪避选项（怪物骰子池介绍）level1

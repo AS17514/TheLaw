@@ -71,11 +71,9 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
             
-            if ( isTutorialPanelReady&& TutorialManager.Instance.IsNeedTutorialAboutStateChange())
+            if ( isTutorialPanelReady&& !JsonManager.Instance.IsTutorialTriggered(E_TutorialType.Changestate))
             {
-                UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
-                UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorialByNaming(E_TutorialType.Changestate,
-                    UIManager.Instance.GetPanel<BattlePanel>());
+                TutorialManager.Instance.CheckAndTriggerTutorial(E_TutorialType.Changestate);
             }
             if (!isTutorialPanelReady)
             {

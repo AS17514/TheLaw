@@ -29,7 +29,7 @@ public abstract class OptionBase
     public virtual int sonID { get; protected set; }
     public virtual bool IsResponseOption { get; } = false;//专门用来进行应对选项有关的判断。
     // 新增：该选项绑定的新手引导类型（默认为 None，表示没有引导）
-    public virtual E_TutorialType BindTutorial { get; } = E_TutorialType.None;
+    public virtual E_TutorialType BindTutorial { get; } = E_TutorialType.OptionNull;
     #endregion
 
     #region 震撼亚洲的新框架的代码部分喵

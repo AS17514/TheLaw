@@ -34,14 +34,14 @@ public class TutorialManager : ManagerBase<TutorialManager>
             if (option == null) continue;
 
             // 原有触发条件不变，仅替换存储检查逻辑
-            if (option.BindTutorial != E_TutorialType.None && option.IsVisible == true)
+            if (option.BindTutorial != E_TutorialType.OptionNull && option.IsVisible == true)
             {
                 CheckAndTriggerTutorial(option.BindTutorial);
             }
         }
     }
 
-    private void CheckAndTriggerTutorial(E_TutorialType tutorialType)
+    public void CheckAndTriggerTutorial(E_TutorialType tutorialType)
     {
         // 调用JsonManager检查触发状态
         if (!JsonManager.Instance.IsTutorialTriggered(tutorialType))
@@ -50,7 +50,13 @@ public class TutorialManager : ManagerBase<TutorialManager>
             JsonManager.Instance.SetTutorialTriggered(tutorialType);
 
             // 触发教程弹窗
-            EventCenter.Instance.EventTrigger(E_EventType.UI_ShowTutorial, tutorialType);
+            // UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
+            if (UIManager.Instance.GetPanel<TutorialPanel>() == null)
+            {
+                UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
+            }
+            UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorialByNaming(tutorialType,
+                UIManager.Instance.GetPanel<BattlePanel>());
             Debug.Log($"[Tutorial] 触发新手引导: {tutorialType}");
         }
     }
@@ -62,30 +68,5 @@ public class TutorialManager : ManagerBase<TutorialManager>
     {
         JsonManager.Instance.ResetAllTutorialData();
     }
-
-    private bool isNeedTutorialAboutStateChange = true;
-
-    public bool IsNeedTutorialAboutStateChange()
-    {
-        if(isNeedTutorialAboutStateChange)
-        {
-            isNeedTutorialAboutStateChange = false;
-            return true;
-        }
-        else
-            return false;
-    }
     
-    private bool isNeedTutorialAboutPartAppear = true;
-
-    public bool IsNeedTutorialAboutPartAppear()
-    {
-        if(isNeedTutorialAboutPartAppear)
-        {
-            isNeedTutorialAboutPartAppear = false;
-            return true;
-        }
-        else
-            return false;
-    }
 }

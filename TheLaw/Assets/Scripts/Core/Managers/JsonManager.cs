@@ -134,7 +134,7 @@ public class JsonManager : ManagerBase<JsonManager>
     }
     public bool IsTutorialTriggered(E_TutorialType tutorialType)
     {
-        if (tutorialType == E_TutorialType.None) return true;
+        if (tutorialType == E_TutorialType.OptionNull) return true;
 
         string key = tutorialType.ToString();
         TutorialSaveData tutorialData = Load<TutorialSaveData>(tutorialSavePath);
@@ -149,7 +149,7 @@ public class JsonManager : ManagerBase<JsonManager>
     }
     public void SetTutorialTriggered(E_TutorialType tutorialType)
     {
-        if (tutorialType == E_TutorialType.None) return;
+        if (tutorialType == E_TutorialType.OptionNull) return;
 
         string key = tutorialType.ToString();
         TutorialSaveData tutorialData = Load<TutorialSaveData>(tutorialSavePath);

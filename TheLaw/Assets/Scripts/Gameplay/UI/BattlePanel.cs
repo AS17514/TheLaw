@@ -118,6 +118,24 @@ public class BattlePanel : PanelBase
         InitEvents();
         Init();
         InitTipsRegist();
+
+
+        switch (ProgressManager.Instance.level)
+        {
+            case 1:
+                if (!JsonManager.Instance.IsTutorialTriggered(E_TutorialType.None))
+                {
+                    TutorialManager.Instance.CheckAndTriggerTutorial(E_TutorialType.None);
+                }
+                break;
+            case 2:
+                if (!JsonManager.Instance.IsTutorialTriggered(E_TutorialType.Level2begin))
+                {
+                    TutorialManager.Instance.CheckAndTriggerTutorial(E_TutorialType.Level2begin);
+                }
+                break;
+        }
+        
     }
 
     void LoadAllResources()
