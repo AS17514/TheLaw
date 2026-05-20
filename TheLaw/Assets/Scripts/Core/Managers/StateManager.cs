@@ -16,6 +16,9 @@ public class StateManager : ManagerBase<StateManager>
     public int currentDesireIndex = 0;
     private DesireNode currentExecutableDesire;
     public E_DesireType UI_currentExecutableDesire { get { return currentExecutableDesire.Desire; } }//开放给UI用的，获取当前愿望的属性
+    
+    private bool isTutorialPanelReady = false;
+    
     public void ChangeState(System.Enum newState)
     {
         #region Level5特殊逻辑
@@ -67,6 +70,17 @@ public class StateManager : ManagerBase<StateManager>
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityState);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityWish);
             EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityAction);
+            
+            if ( isTutorialPanelReady&& TutorialManager.Instance.IsNeedTutorialAboutStateChange())
+            {
+                UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
+                UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorialByNaming(E_TutorialType.Changestate,
+                    UIManager.Instance.GetPanel<BattlePanel>());
+            }
+            if (!isTutorialPanelReady)
+            {
+                isTutorialPanelReady = true;
+            }
         }
 
         #region Level2特殊逻辑

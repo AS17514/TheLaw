@@ -54,5 +54,12 @@ public class Part : CharacterBase
             entity.parts.Add(newPart);
         }
         EventCenter.Instance.EventTrigger(E_EventType.UI_Update_EntityPart);
+        
+        if (TutorialManager.Instance.IsNeedTutorialAboutPartAppear())
+        {
+            UIManager.Instance.CreatPanel<TutorialPanel>(E_UILayer.Top);
+            UIManager.Instance.GetPanel<TutorialPanel>().ShowTutorialByNaming(E_TutorialType.PartAppear,
+                UIManager.Instance.GetPanel<BattlePanel>());
+        }
     }
 }

@@ -62,4 +62,30 @@ public class TutorialManager : ManagerBase<TutorialManager>
     {
         JsonManager.Instance.ResetAllTutorialData();
     }
+
+    private bool isNeedTutorialAboutStateChange = true;
+
+    public bool IsNeedTutorialAboutStateChange()
+    {
+        if(isNeedTutorialAboutStateChange)
+        {
+            isNeedTutorialAboutStateChange = false;
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    private bool isNeedTutorialAboutPartAppear = true;
+
+    public bool IsNeedTutorialAboutPartAppear()
+    {
+        if(isNeedTutorialAboutPartAppear)
+        {
+            isNeedTutorialAboutPartAppear = false;
+            return true;
+        }
+        else
+            return false;
+    }
 }
