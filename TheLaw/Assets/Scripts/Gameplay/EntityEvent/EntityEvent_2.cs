@@ -579,6 +579,7 @@ public class EntityEvent_2_07 : OptionBase
     public override string OptionDescription { get; protected set; } = "？";
 
     public override E_OptionType OptionType { get; protected set; } = E_OptionType.Level2_Option;
+    public override int fatherID { get; protected set; } = 6;
 
     public override DiceCondition[] DiceCost
     {
