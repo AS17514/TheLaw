@@ -285,6 +285,10 @@ public abstract class PanelBase : MonoBehaviour
     /// 面板对应的BGM，null表示无BGM。子类override返回自己的BGM类型。
     /// </summary>
     public virtual E_BGM? BGMType => null;
+    /// <summary>
+    /// same-panel reopen 时是否从头播放 BGM 而非恢复暂停
+    /// </summary>
+    public virtual bool RestartBGMOnReopen => false;
     #endregion
     #region 其他方法
     /// <summary>

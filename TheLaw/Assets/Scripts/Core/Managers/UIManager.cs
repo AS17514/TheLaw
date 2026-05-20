@@ -146,7 +146,12 @@ public class UIManager : ManagerMonoBase<UIManager>
         E_BGM? newBGM = GetPanel<K>()?.BGMType;
 
         if (oldBGM != null && oldBGM == newBGM)
-            AudioManager.Instance.FadeOutThenPauseBGM();
+        {
+            if (GetPanel<K>()?.RestartBGMOnReopen == true)
+                AudioManager.Instance.FadeOutThenStopBGM();
+            else
+                AudioManager.Instance.FadeOutThenPauseBGM();
+        }
         else
             AudioManager.Instance.StopBGM();
 
@@ -159,7 +164,12 @@ public class UIManager : ManagerMonoBase<UIManager>
         if (newBGM != null)
         {
             if (oldBGM == newBGM)
-                AudioManager.Instance.FadeInResumeBGM();
+            {
+                if (GetPanel<K>()?.RestartBGMOnReopen == true)
+                    AudioManager.Instance.PlayBGMWithFadeIn(newBGM.Value);
+                else
+                    AudioManager.Instance.FadeInResumeBGM();
+            }
             else
                 AudioManager.Instance.PlayBGM(newBGM.Value);
         }

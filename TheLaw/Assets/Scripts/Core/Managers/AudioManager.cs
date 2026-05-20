@@ -55,6 +55,8 @@ public class AudioManager : ManagerMonoBase<AudioManager>
     // BGM暂停状态标记，防止未暂停时调用Resume导致从头播放
     private Tween _bgmFadeTween;
     private bool _isBgmPaused;
+    private E_BGM? _currentBGMType;
+    public E_BGM? LastPausedBGMType { get; private set; }
     private bool _isSFXPaused;//玩家死亡时使用
     private bool _isSFXDeathPaused;
     // 同一时间只允许播放一个的音效
@@ -149,6 +151,7 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         {
             return;
         }
+        _currentBGMType = bgm;
         _isBgmPaused = false;
         bgmComponent.clip = bgms[bgm];
         bgmComponent.loop = isLoop;
@@ -164,6 +167,7 @@ public class AudioManager : ManagerMonoBase<AudioManager>
         {
             return;
         }
+        LastPausedBGMType = _currentBGMType;
         bgmComponent.Pause();
         _isBgmPaused = true;
     }
@@ -218,6 +222,35 @@ public class AudioManager : ManagerMonoBase<AudioManager>
             bgmComponent.UnPause();
             _isBgmPaused = false;
         }
+        _bgmFadeTween = DOTween.To(() => bgmComponent.volume, v => bgmComponent.volume = v, BGMVolume, duration);
+    }
+    /// <summary>
+    /// 渐出后停止BGM（重开面板用）
+    /// </summary>
+    public void FadeOutThenStopBGM(float duration = 0.5f)
+    {
+        if (bgmComponent == null || !bgmComponent.isPlaying) return;
+        _bgmFadeTween?.Kill();
+        _bgmFadeTween = DOTween.To(() => bgmComponent.volume, v => bgmComponent.volume = v, 0, duration)
+            .OnComplete(() =>
+            {
+                bgmComponent.Stop();
+                _isBgmPaused = false;
+            });
+    }
+    /// <summary>
+    /// 渐入播放BGM（重开面板用）
+    /// </summary>
+    public void PlayBGMWithFadeIn(E_BGM bgm, bool isLoop = true, float duration = 0.5f)
+    {
+        if (bgmComponent == null) return;
+        _bgmFadeTween?.Kill();
+        _currentBGMType = bgm;
+        _isBgmPaused = false;
+        bgmComponent.clip = bgms[bgm];
+        bgmComponent.loop = isLoop;
+        bgmComponent.volume = 0;
+        bgmComponent.Play();
         _bgmFadeTween = DOTween.To(() => bgmComponent.volume, v => bgmComponent.volume = v, BGMVolume, duration);
     }
     /// <summary>

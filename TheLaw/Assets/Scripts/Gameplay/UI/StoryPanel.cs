@@ -289,7 +289,7 @@ public class StoryPanel : PanelBase
                         UIManager.Instance.ChangePanel<StoryPanel, LevelSelectPanel>();
                         break;
                     case "BackToBattle":
-                        AudioManager.Instance.ResumeBGM();
+                        AudioManager.Instance.PlayBGM(AudioManager.Instance.LastPausedBGMType ?? E_BGM.Battle);
                         UIManager.Instance.RemovePanel<StoryPanel>();
                         break;
                     case "End":

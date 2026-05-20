@@ -52,6 +52,7 @@ public class EntityPartTips
 public class BattlePanel : PanelBase
 {
     public override E_BGM? BGMType => E_BGM.Battle;
+    public override bool RestartBGMOnReopen => true;
 
     //  记录一下选中骰列表
     List<DiceBase> selectedDiceList = DiceManager.Instance.selectedDice;
